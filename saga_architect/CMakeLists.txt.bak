@@ -15,11 +15,12 @@ include_directories(${DEPS_DIR})
 # For scaffolding, we'll assume it's in deps/nlohmann
 
 # Add main executable
-# NOTE: VoronoiGen.cpp, AutoPopulate.cpp, and Exporter.cpp are #included
-# directly from main.cpp for this prototype build, so they are NOT listed
-# as separate source files here to avoid duplicate symbol errors.
 add_executable(saga_architect
     ${SRC_DIR}/main.cpp
+    ${SRC_DIR}/core/Types.h
+    ${SRC_DIR}/map/VoronoiGen.cpp
+    ${SRC_DIR}/simulation/AutoPopulate.cpp
+    ${SRC_DIR}/io/Exporter.cpp
 )
 
 # Target-specific settings

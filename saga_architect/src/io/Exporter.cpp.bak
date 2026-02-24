@@ -3,6 +3,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 
+
 using json = nlohmann::json;
 
 /**
@@ -56,18 +57,15 @@ public:
       jCells.push_back({{"cell_id", cell.id},
                         {"coord", {cell.x, cell.y}},
                         {"elevation", cell.elevation},
-                        {"temperature", cell.temperature},
-                        {"moisture", cell.moisture},
                         {"biome", cell.biome_tag},
                         {"faction_owner", cell.faction_owner},
                         {"has_river", cell.has_river},
                         {"settlement", cell.settlement_name},
-                        {"available_resources", cell.available_resources},
-                        {"local_lifeforms", cell.local_lifeforms}});
+                        {"available_resources", cell.available_resources}});
     }
     j["macro_map"] = jCells;
 
-    // Road Network
+    // Road Network (Sample data for scaffold)
     j["road_network"] = json::array();
 
     // Write to file

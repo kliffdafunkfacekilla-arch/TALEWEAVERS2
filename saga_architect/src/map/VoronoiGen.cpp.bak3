@@ -1,0 +1,140 @@
+#include "core/Types.h"
+#include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <queue>
+#include <random>
+#include <vector>
+
+
+// Include stb_image for PNG reading
+#define STB_IMAGE_IMPLEMENTATION
+#include "../stb_image.h"
+
+class VoronoiGen {
+public:
+  std::vector<VoronoiCell> cells;
+
+  void GenerateBaseMap(int cellCount) {
+    std::cout << "Generating " << cellCount << " Voronoi cells..." << std::endl;
+    cells.resize(cellCount);
+
+    for (int i = 0; i < cellCount; ++i) {
+      cells[i].id = i;
+      // Map coordinates currently assumed to be 0 to 1000
+      cells[i].x = static_cast<float>(rand() % 1000);
+      cells[i].y = static_cast<float>(rand() % 1000);
+      cells[i].elevation = 0.2f;
+      cells[i].temperature = 20.0f;
+      cells[i].moisture = 0.5f;
+      cells[i].has_river = false;
+    }
+  }
+
+  // The Photo Importer — reads a grayscale PNG and maps pixel brightness to
+  // elevation
+  void ImportHeightmap(const std::string &filename) {
+    std::cout << "[INFO] Importing Map Data from " << filename << "..."
+              << std::endl;
+
+    int width, height, channels;
+    // Load the image forcing 1 channel (Grayscale)
+    unsigned char *img =
+        stbi_load(filename.c_str(), &width, &height, &channels, 1);
+
+    if (img == NULL) {
+      std::cerr << "[ERROR] Could not load " << filename
+                << ". Falling back to Tectonic simulation.\n";
+      SimulateTectonics(12);
+      return;
+    }
+
+    // Loop through all generated Voronoi hexes
+    for (auto &cell : cells) {
+      // Convert the hex's world coordinate (0-1000) into a pixel coordinate on
+      // the image
+      int px = static_cast<int>((cell.x / 1000.0f) * width);
+      int py = static_cast<int>((cell.y / 1000.0f) * height);
+
+      // Clamp values to ensure we don't read outside the image bounds
+      px = std::max(0, std::min(px, width - 1));
+      py = std::max(0, std::min(py, height - 1));
+
+      // Extract the pixel's brightness (0 = Black, 255 = White)
+      unsigned char pixel_val = img[py * width + px];
+
+      // Convert brightness to our Engine's Elevation scale (0.0 to 1.0)
+      cell.elevation = pixel_val / 255.0f;
+    }
+
+    stbi_image_free(img);
+    std::cout << "[INFO] Heightmap applied. Tectonics bypassed.\n";
+  }
+
+  void SimulateTectonics(int plateCount) {
+    std::cout << "Simulating " << plateCount << " tectonic plates..."
+              << std::endl;
+    if (cells.empty())
+      return;
+
+    std::vector<int> plate_assignments(cells.size(), -1);
+    std::queue<int> frontier;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, cells.size() - 1);
+
+    for (int i = 0; i < plateCount; ++i) {
+      int seed = dis(gen);
+      plate_assignments[seed] = i;
+      frontier.push(seed);
+    }
+
+    while (!frontier.empty()) {
+      int current = frontier.front();
+      frontier.pop();
+      int my_plate = plate_assignments[current];
+
+      for (int neighbor_id : cells[current].neighbors) {
+        if (plate_assignments[neighbor_id] == -1) {
+          plate_assignments[neighbor_id] = my_plate;
+          frontier.push(neighbor_id);
+        } else if (plate_assignments[neighbor_id] != my_plate) {
+          bool is_convergent = (rand() % 100) > 40;
+          if (is_convergent) {
+            cells[current].elevation =
+                std::min(1.0f, cells[current].elevation + 0.4f);
+            cells[neighbor_id].elevation =
+                std::min(1.0f, cells[neighbor_id].elevation + 0.4f);
+          } else {
+            cells[current].elevation =
+                std::max(0.0f, cells[current].elevation - 0.3f);
+            cells[neighbor_id].elevation =
+                std::max(0.0f, cells[neighbor_id].elevation - 0.3f);
+          }
+        }
+      }
+    }
+  }
+
+  void AssignBiomes(const std::vector<BiomeDef> &biomeDefs) {
+    std::cout << "Assigning biomes based on temp/moisture..." << std::endl;
+    for (auto &cell : cells) {
+      float latitude = std::abs(cell.y - 500.0f) / 500.0f;
+      cell.temperature = 40.0f - (latitude * 40.0f) - (cell.elevation * 15.0f);
+
+      cell.biome_tag = "WASTELAND";
+      for (const auto &def : biomeDefs) {
+        if (cell.temperature >= def.temp_range.first &&
+            cell.temperature <= def.temp_range.second &&
+            cell.moisture >= def.rain_range.first &&
+            cell.moisture <= def.rain_range.second) {
+          cell.biome_tag = def.name;
+          break;
+        }
+      }
+      if (cell.elevation <= 0.05f) {
+        cell.biome_tag = "OCEAN";
+      }
+    }
+  }
+};

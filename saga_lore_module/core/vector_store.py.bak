@@ -3,14 +3,9 @@ from chromadb.utils import embedding_functions
 from typing import List, Dict, Optional
 import os
 import shutil
-from pathlib import Path
-
-# Step up to the root project directory and find the master data folder
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DATA_DIR = BASE_DIR / "data"
 
 class LoreVaultDB:
-    def __init__(self, db_path=str(DATA_DIR / "lore" / ".chroma")):
+    def __init__(self, db_path="./data/.chroma"):
         """
         Initialize persistent local storage with local sentence-transformers.
         """

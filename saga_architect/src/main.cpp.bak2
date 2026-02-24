@@ -1,0 +1,74 @@
+#include "core/Types.h"
+#include <iostream>
+#include <string>
+#include <vector>
+
+
+// We include the cpp files directly here for a quick, standalone compile
+// without needing complex header management in this prototype.
+#include "io/Exporter.cpp"
+#include "map/VoronoiGen.cpp"
+#include "simulation/AutoPopulate.cpp"
+
+
+int main() {
+  std::cout << "==========================================\n";
+  std::cout << "  T.A.L.E.W.E.A.V.E.R. World Architect    \n";
+  std::cout << "==========================================\n";
+
+  // 1. Define the Laws of Physics (Biomes)
+  std::vector<BiomeDef> biomeRules = {
+      {"DEEP_TUNDRA", {-50.0f, -5.0f}, {0.0f, 1.0f}, {}},
+      {"TEMPERATE_FOREST", {5.0f, 25.0f}, {0.4f, 1.0f}, {}},
+      {"ARID_DESERT", {25.0f, 50.0f}, {0.0f, 0.2f}, {}},
+      {"TROPICAL_SWAMP", {20.0f, 40.0f}, {0.7f, 1.0f}, {}}};
+
+  // 2. Define the Factions
+  std::vector<Faction> factions = {
+      {"Northern_Horde",
+       {"Northern_Horde", true, false, false, true, true},
+       0.9f,
+       0.5f,
+       {"Iron"},
+       {"Iron"},
+       {"Magic_Dust"}},
+      {"Iron_Empire",
+       {"Iron_Empire", false, true, true, false, true},
+       0.5f,
+       0.7f,
+       {"Aetherium"},
+       {"Aetherium"},
+       {"Wood"}},
+      {"Sun_Cult",
+       {"Sun_Cult", true, false, false, false, false},
+       0.8f,
+       0.3f,
+       {"Magic_Dust"},
+       {"Magic_Dust"},
+       {"Iron"}}};
+
+  // 3. Initialize the Engines
+  VoronoiGen physicalEngine;
+  AutoPopulate civEngine;
+
+  // 4. EXECUTE THE PIPELINE
+  std::cout << "\n[PHASE 1] Building Physical Planet...\n";
+  physicalEngine.GenerateBaseMap(2000); // Create 2000 hexes/cells
+  physicalEngine.SimulateTectonics(12); // Smash 12 tectonic plates together
+  physicalEngine.AssignBiomes(biomeRules);
+
+  std::cout << "\n[PHASE 2] Simulating Civilization...\n";
+  civEngine.PopulateSettlements(physicalEngine.cells, factions);
+  civEngine.GenerateRoads(physicalEngine.cells);
+  civEngine.MarkBorders(physicalEngine.cells);
+
+  // 5. Export to JSON via the existing MasterExporter
+  std::cout << "\n[PHASE 3] Packaging Data...\n";
+  std::string outputPath = "Saga_Master_World.json";
+  MasterExporter::ExportWorld(outputPath, "Aethelgard", physicalEngine.cells,
+                              factions);
+
+  std::cout << "\nSUCCESS: World generation complete. Saved to " << outputPath
+            << "\n";
+  return 0;
+}

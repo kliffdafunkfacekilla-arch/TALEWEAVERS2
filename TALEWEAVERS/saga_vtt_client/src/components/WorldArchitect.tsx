@@ -1,0 +1,351 @@
+import React, { useState, useEffect } from 'react';
+import { useGameStore } from '../store/useGameStore';
+import { MapRenderer } from './MapRenderer';
+
+interface WorldArchitectProps {
+    onBack: () => void;
+}
+
+export const WorldArchitect: React.FC<WorldArchitectProps> = ({ onBack }) => {
+    // --- GLOBAL STATE ---
+    const setWorldData = useGameStore((s) => s.setWorldData);
+    const worldData = useGameStore((s) => s.worldData);
+    const selectedHex = useGameStore((s) => s.selectedHex);
+
+    // --- LOCAL UI STATE ---
+    const [activeTab, setActiveTab] = useState<'GEOGRAPHY' | 'CLIMATE' | 'CALENDAR' | 'FACTIONS'>('GEOGRAPHY');
+    const [isGenerating, setIsGenerating] = useState(false);
+
+    // --- GEOGRAPHY STATE ---
+    const [hexCount, setHexCount] = useState<number>(2500);
+    const [plateCount, setPlateCount] = useState<number>(15);
+
+    // --- CLIMATE STATE ---
+    const [rainMultiplier, setRainMultiplier] = useState<number>(1.0);
+    const [equatorTemp, setEquatorTemp] = useState<number>(35);
+
+    // --- CALENDAR STATE ---
+    const [era, setEra] = useState("The Age of Awakening");
+    const [startYear, setStartYear] = useState(1024);
+    const [months, setMonths] = useState([
+        { name: "The Ashen Month", days: 50 },
+        { name: "The Quickening", days: 12 }
+    ]);
+    const [moons, setMoons] = useState([
+        { name: "Luna", orbit_type: "STABLE", cycle_days: 28, cycle_min: 0, cycle_max: 0 },
+        { name: "The Eye of Chaos", orbit_type: "ERRATIC", cycle_days: 0, cycle_min: 12, cycle_max: 50 }
+    ]);
+
+    // --- FACTIONS STATE ---
+    const [availableFactions, setAvailableFactions] = useState<any[]>([]);
+    const [selectedFactions, setSelectedFactions] = useState<string[]>([]);
+
+    // Fetch factions from Lore Vault on mount
+    useEffect(() => {
+        const fetchLore = async () => {
+            try {
+                // In production, this hits Port 8001 Vector Database
+                // For now, mock the Lore Vault returning formatted faction data:
+                const mockLoreDB = [
+                    { name: "The_Rot_Coven", aggression: 0.9, will_fight: true, loved_resources: ["Bones"], hated_resources: ["Iron"] },
+                    { name: "Iron_Empire", aggression: 0.5, will_fight: true, loved_resources: ["Iron"], hated_resources: ["Wood"] },
+                    { name: "Sun_Cult", aggression: 0.1, will_fight: false, loved_resources: ["Aetherium"], hated_resources: ["Bones"] }
+                ];
+                setAvailableFactions(mockLoreDB);
+            } catch (e) {
+                console.error("Failed to reach Lore Vault.");
+            }
+        };
+        fetchLore();
+    }, []);
+
+    const toggleFaction = (factionName: string) => {
+        setSelectedFactions(prev =>
+            prev.includes(factionName) ? prev.filter(f => f !== factionName) : [...prev, factionName]
+        );
+    };
+
+    // --- HANDLERS ---
+    const handleGenerate = async () => {
+        setIsGenerating(true);
+
+        // Filter full faction objects based on what the user checked
+        const finalFactions = availableFactions.filter(f => selectedFactions.includes(f.name));
+
+        const payload = {
+            world_settings: {
+                num_hexes: hexCount,
+                tectonic_plates: plateCount,
+                heightmap_image: ""
+            },
+            time_rules: {
+                era_name: era,
+                starting_year: startYear,
+                months: months,
+                moons: moons,
+                seasons: [
+                    { name: "Deep Winter", temp_mod: -20.0 },
+                    { name: "Scorching Summer", temp_mod: 15.0 }
+                ]
+            },
+            climate: {
+                north_pole: [-60.0, -10.0],
+                equator: [20.0, equatorTemp],
+                south_pole: [-70.0, -20.0],
+                rainfall_multiplier: rainMultiplier,
+                wind_bands: ["SW", "W", "NE", "E", "SE", "W", "NW"]
+            },
+            biomes: [
+                { name: "DEEP_TUNDRA", min_temp: -80.0, max_temp: -5.0, min_rain: 0.0, max_rain: 1.0 },
+                { name: "SCORCHED_DESERT", min_temp: 30.0, max_temp: 60.0, min_rain: 0.0, max_rain: 0.3 },
+                { name: "LUSH_JUNGLE", min_temp: 20.0, max_temp: 50.0, min_rain: 0.7, max_rain: 1.0 }
+            ],
+            flora_fauna: [
+                {
+                    name: "Frost Troll", type: "FAUNA", is_aggressive: true,
+                    min_temp: -80.0, max_temp: 0.0, allowed_biomes: ["DEEP_TUNDRA"], spawn_chance: 0.05
+                },
+                {
+                    name: "Sand Cactus", type: "FLORA", is_aggressive: false,
+                    min_temp: 35.0, max_temp: 80.0, allowed_biomes: ["SCORCHED_DESERT"], spawn_chance: 0.40
+                },
+                {
+                    name: "Dire Wolf", type: "FAUNA", is_aggressive: true,
+                    min_temp: -10.0, max_temp: 30.0, allowed_biomes: ["ANY"], spawn_chance: 0.15
+                }
+            ],
+            factions: finalFactions
+        };
+
+        try {
+            const response = await fetch("http://localhost:8002/api/world/generate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) throw new Error("C++ Engine Error");
+            const result = await response.json();
+
+            setWorldData(result.world_data);
+            console.log("[VTT] God Engine Simulation Complete. Saved to Zustand.");
+        } catch (error) {
+            console.error("Simulation Failed:", error);
+            alert("Failed to reach Python Wrapper on Port 8002.");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
+    const addMoon = () => setMoons([...moons, { name: "New Moon", orbit_type: "STABLE", cycle_days: 30, cycle_min: 10, cycle_max: 40 }]);
+    const updateMoon = (index: number, field: string, value: any) => {
+        const newMoons = [...moons];
+        newMoons[index] = { ...newMoons[index], [field]: value };
+        setMoons(newMoons);
+    };
+
+    return (
+        <div className="w-full h-full flex bg-zinc-950 text-white font-sans overflow-hidden">
+
+            {/* LEFT PANEL: The God Engine Tools */}
+            <div className="w-96 bg-zinc-900/90 border-r border-zinc-800 flex flex-col shadow-2xl z-10">
+
+                {/* Header */}
+                <div className="p-6 border-b border-zinc-800">
+                    <button onClick={onBack} className="text-[10px] text-zinc-500 hover:text-white mb-4 uppercase tracking-widest font-bold">
+                        ← Return to Menu
+                    </button>
+                    <h1 className="text-2xl font-bold tracking-widest text-zinc-100 uppercase">World Architect</h1>
+                </div>
+
+                {/* Tab Navigation */}
+                <div className="flex border-b border-zinc-800 bg-zinc-950">
+                    {['GEOGRAPHY', 'CLIMATE', 'CALENDAR', 'FACTIONS'].map(tab => (
+                        <button
+                            key={tab} onClick={() => setActiveTab(tab as any)}
+                            className={`flex-1 py-3 text-[9px] font-bold uppercase tracking-widest transition-colors ${activeTab === tab ? 'text-amber-500 border-b-2 border-amber-500 bg-zinc-900' : 'text-zinc-600 hover:text-zinc-400'}`}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Dynamic Settings Area */}
+                <div className="p-6 flex flex-col gap-6 overflow-y-auto flex-grow">
+
+                    {/* GEOGRAPHY TAB */}
+                    {activeTab === 'GEOGRAPHY' && (
+                        <div>
+                            <h3 className="text-xs font-bold text-amber-500 uppercase mb-4 tracking-wider">Tectonic Rules</h3>
+                            <label className="text-xs text-zinc-400">Map Resolution: {hexCount} Hexes</label>
+                            <input type="range" min="500" max="10000" step="100" value={hexCount} onChange={(e) => setHexCount(Number(e.target.value))} className="w-full accent-amber-500 mb-4" />
+
+                            <label className="text-xs text-zinc-400">Tectonic Plates: {plateCount}</label>
+                            <input type="range" min="5" max="50" step="1" value={plateCount} onChange={(e) => setPlateCount(Number(e.target.value))} className="w-full accent-amber-500" />
+                        </div>
+                    )}
+
+                    {/* CLIMATE TAB */}
+                    {activeTab === 'CLIMATE' && (
+                        <div>
+                            <h3 className="text-xs font-bold text-blue-500 uppercase mb-4 tracking-wider">Atmospheric Rules</h3>
+                            <label className="text-xs text-zinc-400">Global Rainfall (x{rainMultiplier})</label>
+                            <input type="range" min="0" max="2" step="0.1" value={rainMultiplier} onChange={(e) => setRainMultiplier(Number(e.target.value))} className="w-full accent-blue-500 mb-4" />
+                        </div>
+                    )}
+
+                    {/* CALENDAR TAB */}
+                    {activeTab === 'CALENDAR' && (
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xs font-bold text-purple-500 uppercase mb-2 tracking-wider">Celestial Bodies</h3>
+
+                            {moons.map((moon, i) => (
+                                <div key={i} className="bg-zinc-950 border border-zinc-800 p-3 rounded flex flex-col gap-2">
+                                    <input
+                                        type="text" value={moon.name} onChange={(e) => updateMoon(i, 'name', e.target.value)}
+                                        className="bg-transparent text-sm font-bold text-white outline-none border-b border-zinc-700 pb-1"
+                                    />
+                                    <div className="flex justify-between items-center mt-1">
+                                        <span className="text-[10px] text-zinc-500 uppercase">Orbit Type</span>
+                                        <select
+                                            value={moon.orbit_type} onChange={(e) => updateMoon(i, 'orbit_type', e.target.value)}
+                                            className="bg-zinc-900 text-xs text-purple-400 border border-zinc-700 outline-none p-1"
+                                        >
+                                            <option value="STABLE">Stable</option>
+                                            <option value="ERRATIC">Erratic</option>
+                                        </select>
+                                    </div>
+
+                                    {moon.orbit_type === 'STABLE' ? (
+                                        <div className="flex justify-between items-center mt-1">
+                                            <span className="text-[10px] text-zinc-500 uppercase">Cycle (Days)</span>
+                                            <input type="number" value={moon.cycle_days} onChange={(e) => updateMoon(i, 'cycle_days', Number(e.target.value))} className="w-16 bg-zinc-900 border border-zinc-700 text-xs text-center text-white" />
+                                        </div>
+                                    ) : (
+                                        <div className="flex justify-between items-center mt-1 gap-2">
+                                            <span className="text-[10px] text-zinc-500 uppercase w-full">Cycle Min/Max</span>
+                                            <input type="number" value={moon.cycle_min} onChange={(e) => updateMoon(i, 'cycle_min', Number(e.target.value))} className="w-12 bg-zinc-900 border border-zinc-700 text-xs text-center text-red-400" />
+                                            <span className="text-zinc-600">-</span>
+                                            <input type="number" value={moon.cycle_max} onChange={(e) => updateMoon(i, 'cycle_max', Number(e.target.value))} className="w-12 bg-zinc-900 border border-zinc-700 text-xs text-center text-red-400" />
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                            <button onClick={addMoon} className="text-xs text-purple-500 border border-purple-900/50 hover:bg-purple-900/20 py-2 border-dashed uppercase tracking-wider">+ Add Moon</button>
+                        </div>
+                    )}
+
+                    {/* FACTIONS TAB */}
+                    {activeTab === 'FACTIONS' && (
+                        <div>
+                            <h3 className="text-xs font-bold text-red-500 uppercase mb-4 tracking-wider">Lore Vault Injector</h3>
+                            <p className="text-[10px] text-zinc-500 mb-4">Select cultures to drop into the physical simulation. Cities will be placed near optimal water and resources.</p>
+
+                            <div className="flex flex-col gap-2">
+                                {availableFactions.map(faction => (
+                                    <label key={faction.name} className="flex items-center gap-3 p-3 bg-zinc-950 border border-zinc-800 cursor-pointer hover:border-zinc-600">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedFactions.includes(faction.name)}
+                                            onChange={() => toggleFaction(faction.name)}
+                                            className="accent-red-600 w-4 h-4"
+                                        />
+                                        <div>
+                                            <span className="text-xs font-bold text-white block">{faction.name.replaceAll('_', ' ')}</span>
+                                            <span className="text-[10px] text-zinc-500 uppercase">Aggression: {faction.aggression}</span>
+                                        </div>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                </div>
+
+                {/* Generate Button */}
+                <div className="mt-auto p-6 border-t border-zinc-800 bg-zinc-950">
+                    <button
+                        onClick={handleGenerate}
+                        disabled={isGenerating}
+                        className={`w-full py-4 font-bold uppercase tracking-[0.2em] transition-all ${isGenerating ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed' : 'bg-amber-600 hover:bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.3)]'}`}
+                    >
+                        {isGenerating ? 'Simulating...' : 'Commence Simulation'}
+                    </button>
+                </div>
+            </div>
+
+            {/* CENTER: The Map Canvas */}
+            <div className="flex-grow relative bg-[#050505] overflow-hidden">
+
+                {/* The PixiJS WebGL Context */}
+                <MapRenderer />
+
+                {/* Status Overlay — shown when no world exists yet */}
+                {!worldData && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-800 pointer-events-none z-10">
+                        <div className="w-96 h-96 border border-zinc-800 rounded-full flex items-center justify-center border-dashed">
+                            <span className="font-mono text-sm tracking-widest text-zinc-600">[ AWAITING GENERATION ]</span>
+                        </div>
+                    </div>
+                )}
+
+                {/* INTERACTIVE INSPECTOR HUD — shown when a hex is clicked */}
+                {selectedHex && (
+                    <div className="absolute top-6 right-6 w-72 bg-zinc-900/95 border border-amber-900/50 p-5 shadow-2xl backdrop-blur-md z-20">
+                        <h4 className="text-sm font-bold text-amber-500 uppercase tracking-widest mb-3 border-b border-zinc-800 pb-2 flex justify-between">
+                            <span>Hex #{selectedHex.cell_id}</span>
+                            <span className="text-zinc-500">[{Math.round(selectedHex.coord[0])}, {Math.round(selectedHex.coord[1])}]</span>
+                        </h4>
+
+                        <ul className="text-xs font-mono space-y-2">
+                            <li className="flex justify-between">
+                                <span className="text-zinc-500">Biome</span>
+                                <span className="text-white font-bold">{selectedHex.biome.replaceAll('_', ' ')}</span>
+                            </li>
+                            <li className="flex justify-between">
+                                <span className="text-zinc-500">Elevation</span>
+                                <span className="text-white">{(selectedHex.elevation * 100).toFixed(1)}%</span>
+                            </li>
+                            <li className="flex justify-between">
+                                <span className="text-zinc-500">Temperature</span>
+                                <span className="text-red-400">{selectedHex.temperature.toFixed(1)}°C</span>
+                            </li>
+                            <li className="flex justify-between">
+                                <span className="text-zinc-500">Moisture</span>
+                                <span className="text-blue-400">{(selectedHex.moisture * 100).toFixed(0)}%</span>
+                            </li>
+                        </ul>
+
+                        {/* Political & Biological Data */}
+                        <div className="mt-4 pt-3 border-t border-zinc-800 space-y-3">
+                            {selectedHex.faction_owner ? (
+                                <div>
+                                    <span className="text-[10px] text-zinc-500 uppercase block mb-1">Territory</span>
+                                    <span className="text-xs font-bold text-red-400">{selectedHex.faction_owner.replaceAll('_', ' ')}</span>
+                                    {selectedHex.settlement && (
+                                        <span className="text-[10px] text-zinc-400 block mt-1">⮑ City: {selectedHex.settlement}</span>
+                                    )}
+                                </div>
+                            ) : (
+                                <span className="text-[10px] text-zinc-600 uppercase italic">Unclaimed Wilderness</span>
+                            )}
+
+                            {selectedHex.local_lifeforms?.length > 0 && (
+                                <div>
+                                    <span className="text-[10px] text-zinc-500 uppercase block mb-1">Detected Fauna/Flora</span>
+                                    <div className="flex flex-wrap gap-1">
+                                        {selectedHex.local_lifeforms.map((lifeform, idx) => (
+                                            <span key={idx} className="px-2 py-1 bg-zinc-950 border border-zinc-800 text-[10px] text-green-400">
+                                                {lifeform}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
+
+        </div>
+    );
+};

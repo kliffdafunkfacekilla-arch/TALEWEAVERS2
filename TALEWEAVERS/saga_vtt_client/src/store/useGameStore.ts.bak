@@ -92,10 +92,6 @@ export interface ClientGameState {
     setWorldData: (data: WorldData) => void;
     clearWorld: () => void;
 
-    // Hex Inspector
-    selectedHex: HexCell | null;
-    setSelectedHex: (hex: HexCell | null) => void;
-
     // Campaign State (Module 8 integration)
     activeCampaignId: string | null;
     setCampaignId: (id: string) => void;
@@ -146,11 +142,10 @@ export interface ClientGameState {
 
 // ── Mock Data for Visual Development ──────────────────────────────────
 const MOCK_STATE: Omit<ClientGameState,
-    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex'
+    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId'
 > = {
     currentScreen: 'PLAYER',
     worldData: null,
-    selectedHex: null,
     activeCampaignId: null,
     ui_locked: false,
     characterName: 'Kael Thornwood',
@@ -214,9 +209,6 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     setWorldData: (data) => set({ worldData: data }),
     clearWorld: () => set({ worldData: null }),
 
-    // Hex Inspector
-    setSelectedHex: (hex) => set({ selectedHex: hex }),
-
     // Campaign
     setCampaignId: (id) => set({ activeCampaignId: id }),
 
@@ -224,11 +216,14 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
         const state = get();
         if (state.ui_locked) return;
 
+        // Lock the UI immediately
         set({ ui_locked: true });
 
+        // Log the outgoing action
         const payload = { action, burn, target };
         console.log('[VTT] Action sent:', JSON.stringify(payload));
 
+        // Add a system message showing the action
         set((s) => ({
             chat_log: [
                 ...s.chat_log,
@@ -236,6 +231,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
             ],
         }));
 
+        // Simulate backend response after 2 seconds
         setTimeout(() => {
             set((s) => ({
                 ui_locked: false,

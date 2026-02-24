@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 
+
 // 1. TIME & CALENDAR
 struct Moon {
   std::string name;
@@ -42,14 +43,18 @@ struct ClimateRules {
   std::vector<std::string> wind_bands; // 7 strings: N, NE, E, SE, S, SW, W, NW
 };
 
-// 3. FLORA & FAUNA (Ecosystem Entities)
+// 3. FLORA & FAUNA
 struct Lifeform {
   std::string name;
-  std::string type;                        // "FLORA" or "FAUNA"
-  std::vector<std::string> allowed_biomes; // e.g., ["DEEP_TUNDRA", "ANY"]
-  std::pair<float, float> temp_range;      // Survives between these temps
-  float spawn_chance;                      // 0.01 (Rare) to 1.0 (Everywhere)
-  bool is_aggressive;
+  bool is_plant; // false = animal
+  std::pair<float, float> temp_limits;
+  std::pair<float, float> moisture_limits;
+  std::string food_resource_needed;
+  float growth_rate;
+  float aggression;
+  bool is_tamable;
+  bool is_farmable;
+  std::vector<std::string> resource_outputs; // e.g., ["Meat", "Pelt"]
 };
 
 // 4. CULTURE & FACTIONS
@@ -88,7 +93,4 @@ struct VoronoiCell {
   bool has_river;
   std::map<std::string, std::string>
       available_resources; // e.g., {"Iron": "infinite", "Wood": "450"}
-
-  // The creatures and plants that successfully spawned here
-  std::vector<std::string> local_lifeforms;
 };

@@ -1,44 +1,29 @@
-from core.schemas import ClashResolution
+import random
+from core.schemas import ClashResolution, ClashRequest
 
+# A gritty list of visceral consequences for hitting 0 HP.
+# The GM App's AI Narrator will read these and describe the gore natively.
+BODY_TRAUMA_DB = [
+    "1 Major Body Injury (Shattered Ribs)",
+    "1 Major Body Injury (Severed Artery)",
+    "1 Major Body Injury (Crushed Joint)",
+    "1 Major Body Injury (Punctured Lung)",
+    "1 Major Body Injury (Concussive Trauma)"
+]
 
-# Dual-Track Injury thresholds
-# If a combatant hits 0 HP, they're incapacitated. 
-# The injury applier converts hp_change values into descriptive injury slots.
-
-_MINOR_THRESHOLD = -5
-_MODERATE_THRESHOLD = -10
-_SEVERE_THRESHOLD = -15
-
-
-def apply_injuries(resolution: ClashResolution) -> ClashResolution:
+def apply_injuries(res: ClashResolution, req: ClashRequest) -> ClashResolution:
     """
-    Post-clash injury assessment.
-    
-    If a character drops to 0 HP during the Clash, this script intercepts the
-    result and translates raw HP numbers into Dual-Track Injury slots for the
-    GM App to display.
-
-    Injury levels:
-        0 to -4   → "Minor Injury"
-        -5 to -9  → "Moderate Injury"
-        -10 to -14 → "Severe Injury"
-        -15+      → "Critical Injury — possibly incapacitated"
+    Intercepts the Clash damage and checks if either combatant dropped to 0 HP.
+    If they do, it triggers the Dual-Track Trauma system.
     """
-    if resolution.defender_hp_change < 0:
-        resolution.defender_injury_applied = _classify_injury(resolution.defender_hp_change)
+    # 1. Check Defender
+    if res.defender_hp_change < 0:
+        if req.defender.current_hp + res.defender_hp_change <= 0:
+            res.defender_injury_applied = random.choice(BODY_TRAUMA_DB)
 
-    if resolution.attacker_hp_change < 0:
-        resolution.attacker_injury_applied = _classify_injury(resolution.attacker_hp_change)
+    # 2. Check Attacker (In case of a REVERSAL margin where the defender counters)
+    if res.attacker_hp_change < 0:
+        if req.attacker.current_hp + res.attacker_hp_change <= 0:
+            res.attacker_injury_applied = random.choice(BODY_TRAUMA_DB)
 
-    return resolution
-
-
-def _classify_injury(hp_change: int) -> str:
-    if hp_change >= _MINOR_THRESHOLD:
-        return "Minor Injury"
-    elif hp_change >= _MODERATE_THRESHOLD:
-        return "Moderate Injury"
-    elif hp_change >= _SEVERE_THRESHOLD:
-        return "Severe Injury"
-    else:
-        return "Critical Injury — combatant possibly incapacitated"
+    return res

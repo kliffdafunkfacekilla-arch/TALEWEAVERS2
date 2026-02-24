@@ -6,21 +6,11 @@ import { ResourceOrbs } from './components/bottom_console/ResourceOrbs';
 import { BioMatrix } from './components/right_panel/BioMatrix';
 import { InjurySlots } from './components/right_panel/InjurySlots';
 import { QuestTracker } from './components/hud/QuestTracker';
-import { WorldArchitect } from './components/WorldArchitect';
-import { useGameStore } from './store/useGameStore';
 import './App.css';
 
 export default function App() {
-  const currentScreen = useGameStore((s) => s.currentScreen);
-  const setScreen = useGameStore((s) => s.setScreen);
   const [isBioMatrixOpen, setBioMatrixOpen] = useState(false);
 
-  // ─── Screen Router ───────────────────────────────────────
-  if (currentScreen === 'WORLD_BUILDER') {
-    return <WorldArchitect onBack={() => setScreen('PLAYER')} />;
-  }
-
-  // ─── Default: Player VTT Interface ───────────────────────
   return (
     <div className="w-screen h-screen overflow-hidden bg-zinc-950 text-white flex flex-col font-sans select-none">
 
@@ -67,14 +57,6 @@ export default function App() {
           onClick={() => setBioMatrixOpen(!isBioMatrixOpen)}
         >
           {isBioMatrixOpen ? '✕ Close' : '☰ Matrix'}
-        </button>
-
-        {/* World Architect Shortcut */}
-        <button
-          className="absolute top-3 left-[calc(20rem+1rem)] xl:left-[calc(24rem+1rem)] z-40 bg-amber-800/80 backdrop-blur-sm px-3 py-1.5 rounded-lg hover:bg-amber-700 text-xs font-bold uppercase tracking-wider text-amber-200 hover:text-white transition-all duration-200 border border-amber-700/50"
-          onClick={() => setScreen('WORLD_BUILDER')}
-        >
-          ⚙ Architect
         </button>
       </div>
 

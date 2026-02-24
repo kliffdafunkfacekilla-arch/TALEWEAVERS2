@@ -6,6 +6,7 @@
 #include <random>
 #include <vector>
 
+
 class AutoPopulate {
 public:
   std::vector<int> city_nodes;
@@ -21,10 +22,12 @@ public:
     std::uniform_int_distribution<> fac_dis(0, factions.size() - 1);
 
     for (auto &cell : cells) {
+      // The Blueprint Rules: Coastal or river, elevation < 0.4, temp > 0
       bool is_habitable = (cell.elevation > 0.05f && cell.elevation < 0.4f &&
                            cell.temperature > 0.0f);
-      bool has_water = (cell.has_river || cell.elevation < 0.1f);
+      bool has_water = (cell.has_river || cell.elevation < 0.1f); // Near coast
 
+      // 2% chance to spawn a city in any valid hex
       if (is_habitable && has_water && (rand() % 100 < 2)) {
         const Faction &owner = factions[fac_dis(gen)];
         cell.settlement_name =
@@ -43,15 +46,18 @@ public:
     if (city_nodes.size() < 2)
       return;
 
+    // Connect each city to the next one in the list to form a trade route
     for (size_t i = 0; i < city_nodes.size() - 1; ++i) {
       int start_id = city_nodes[i];
       int goal_id = city_nodes[i + 1];
+
       RunAStar(cells, start_id, goal_id);
     }
   }
 
   void MarkBorders(std::vector<VoronoiCell> &cells) {
     std::cout << "Marking faction borders..." << std::endl;
+    // Expand faction territory 1 hex outward from cities
     for (int city_id : city_nodes) {
       std::string owner = cells[city_id].faction_owner;
       for (int neighbor_id : cells[city_id].neighbors) {
@@ -60,53 +66,6 @@ public:
         }
       }
     }
-  }
-
-  // Ecosystem Populator — tests biological survival conditions per hex
-  void PopulateEcosystem(std::vector<VoronoiCell> &cells,
-                         const std::vector<Lifeform> &lifeforms) {
-    std::cout << "[INFO] Seeding Flora and Fauna...\n";
-    if (lifeforms.empty())
-      return;
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> chance(0.0f, 1.0f);
-
-    int total_spawned = 0;
-
-    for (auto &cell : cells) {
-      // Oceans are ignored unless you add an "AQUATIC" flag later
-      if (cell.elevation <= 0.05f)
-        continue;
-
-      for (const auto &lf : lifeforms) {
-        // 1. Biological Temp Check
-        if (cell.temperature < lf.temp_range.first ||
-            cell.temperature > lf.temp_range.second) {
-          continue; // Too hot or too cold!
-        }
-
-        // 2. Biome Check
-        bool valid_biome = false;
-        for (const auto &b : lf.allowed_biomes) {
-          if (b == "ANY" || b == cell.biome_tag) {
-            valid_biome = true;
-            break;
-          }
-        }
-        if (!valid_biome)
-          continue;
-
-        // 3. RNG Spawn Check (Did it successfully grow here?)
-        if (chance(gen) <= lf.spawn_chance) {
-          cell.local_lifeforms.push_back(lf.name);
-          total_spawned++;
-        }
-      }
-    }
-    std::cout << "[INFO] Ecosystem stabilized. " << total_spawned
-              << " lifeform populations spawned.\n";
   }
 
 private:
@@ -137,14 +96,18 @@ private:
       openSet.pop();
 
       if (current == goal) {
+        // Path found! In a full implementation, you would backtrack 'cameFrom'
+        // and save the road edges to your road_network JSON array.
         return;
       }
 
       for (int neighbor : cells[current].neighbors) {
+        // Core Blueprint Rule: Cost = 1.0 + elevation_difference * 10
         float el_diff =
             std::abs(cells[current].elevation - cells[neighbor].elevation);
         float step_cost = 1.0f + (el_diff * 10.0f);
 
+        // Mountains are too steep to build roads over
         if (cells[neighbor].elevation > 0.8f)
           step_cost += 100.0f;
 
@@ -162,6 +125,7 @@ private:
   }
 
   float Heuristic(const VoronoiCell &a, const VoronoiCell &b) {
+    // Euclidean distance
     return std::sqrt(std::pow(a.x - b.x, 2) + std::pow(a.y - b.y, 2));
   }
 };

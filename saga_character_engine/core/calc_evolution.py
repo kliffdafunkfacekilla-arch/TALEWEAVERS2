@@ -1,63 +1,60 @@
+import json
+from pathlib import Path
 from .schemas import CoreAttributes, BiologicalEvolutions
 from typing import List, Dict
 
-# This would ideally be loaded from the JSON files in data/species_matrices/
-# For now, we implement a mock registry based on the blueprint examples.
-EVOLUTION_REGISTRY = {
-    "skin_slot": {
-        "Cactus Spines": {
-            "stats": {"reflexes": 1, "awareness": 1},
-            "passives": [
-                {
-                    "name": "Needle Burst",
-                    "type": "Reaction",
-                    "effect": "When hit by melee, explode spines. 5ft radius piercing dmg."
-                }
-            ]
-        }
-    },
-    "body_slot": {
-        "IronBark": {
-            "stats": {"fortitude": 2},
-            "passives": [
-                {
-                    "name": "Hardened Shell",
-                    "type": "Passive",
-                    "effect": "Reduce all incoming physical damage by 1."
-                }
-            ]
-        }
-    }
-}
+# Safely point to the master data folder
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+DATA_DIR = BASE_DIR / "data"
+
+def load_evolution_matrix() -> List[Dict]:
+    """Loads the real Evolution_Matrix.json from the master database."""
+    matrix_path = DATA_DIR / "Evolution_Matrix.json"
+    if matrix_path.exists():
+        with open(matrix_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    print(f"[WARNING] Could not find {matrix_path}. Using empty matrix.")
+    return []
 
 def apply_biology(base_stats: CoreAttributes, evolutions: BiologicalEvolutions) -> Dict:
     """
-    Merges biological slot choices with base attributes and returns granted passives.
+    Scans the actual Evolution Matrix for the player's 6 chosen slots,
+    merges the biological stats with base attributes, and grants passives.
     """
-    # Work on a copy of stats to avoid modifying the input directly if needed, 
-    # but Pydantic models are passed by reference. Let's mutate it as per the request flow.
     granted_passives = []
+    matrix_db = load_evolution_matrix()
     
-    slots = [
-        ("head_slot", evolutions.head_slot),
-        ("body_slot", evolutions.body_slot),
-        ("arms_slot", evolutions.arms_slot),
-        ("legs_slot", evolutions.legs_slot),
-        ("skin_slot", evolutions.skin_slot),
-        ("special_slot", evolutions.special_slot),
+    # Map the schema slots to the player's choices
+    chosen_traits = [
+        evolutions.head_slot,
+        evolutions.body_slot,
+        evolutions.arms_slot,
+        evolutions.legs_slot,
+        evolutions.skin_slot,
+        evolutions.special_slot,
     ]
     
-    for slot_name, choice in slots:
-        if slot_name in EVOLUTION_REGISTRY and choice in EVOLUTION_REGISTRY[slot_name]:
-            data = EVOLUTION_REGISTRY[slot_name][choice]
+    # Loop through the database. If a trait matches a player's choice, apply it.
+    for trait in matrix_db:
+        trait_name = trait.get("name", "")
+        
+        if trait_name in chosen_traits and trait_name != "Standard":
+            # 1. Apply stat bonuses (e.g., {"fortitude": 2})
+            for stat, bonus in trait.get("stats", {}).items():
+                if hasattr(base_stats, stat):
+                    current_val = getattr(base_stats, stat)
+                    setattr(base_stats, stat, current_val + bonus)
             
-            # Apply stat bonuses
-            for stat, bonus in data.get("stats", {}).items():
-                current_val = getattr(base_stats, stat)
-                setattr(base_stats, stat, current_val + bonus)
-            
-            # Add passive skills
-            granted_passives.extend(data.get("passives", []))
+            # 2. Add passive skills or abilities linked to this evolution
+            if "passives" in trait:
+                granted_passives.extend(trait["passives"])
+            elif "effect" in trait:
+                # Fallback if the JSON uses flat effects instead of lists
+                granted_passives.append({
+                    "name": trait_name,
+                    "type": trait.get("type", "Biological Passive"),
+                    "effect": trait["effect"]
+                })
             
     return {
         "updated_stats": base_stats,

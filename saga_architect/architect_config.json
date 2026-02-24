@@ -1,0 +1,55 @@
+{
+    "world_settings": {
+        "num_hexes": 2500,
+        "tectonic_plates": 15,
+        "heightmap_image": ""
+    },
+    "climate": {
+        "north_pole": [
+            -60.0,
+            -10.0
+        ],
+        "equator": [
+            20.0,
+            45.0
+        ],
+        "south_pole": [
+            -70.0,
+            -20.0
+        ],
+        "rainfall_multiplier": 1.0,
+        "wind_bands": [
+            "SW",
+            "W",
+            "NE",
+            "E",
+            "SE",
+            "W",
+            "NW"
+        ]
+    },
+    "biomes": [
+        {
+            "name": "DEEP_TUNDRA",
+            "min_temp": -80.0,
+            "max_temp": -5.0,
+            "min_rain": 0.0,
+            "max_rain": 1.0
+        },
+        {
+            "name": "SCORCHED_DESERT",
+            "min_temp": 30.0,
+            "max_temp": 60.0,
+            "min_rain": 0.0,
+            "max_rain": 0.3
+        },
+        {
+            "name": "LUSH_JUNGLE",
+            "min_temp": 20.0,
+            "max_temp": 50.0,
+            "min_rain": 0.7,
+            "max_rain": 1.0
+        }
+    ],
+    "factions": []
+}

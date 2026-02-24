@@ -1,9 +1,9 @@
+import json
 import random
 import uuid
-from fastapi import FastAPI, Query
-from typing import List, Optional
+from pathlib import Path
+from fastapi import FastAPI, Query, HTTPException
 
-# Changed to direct import for easier standalone execution
 try:
     from schemas import (
         EncounterType, CombatEncounter, SocialEncounter, HazardEncounter,
@@ -17,118 +17,155 @@ except ImportError:
 
 app = FastAPI(title="TALEWEAVERS Encounter & Obstacle Engine")
 
-# Mock data for generation
-ENEMIES = {
-    "Forest": ["Goblin Scout", "Giant Spider", "Dire Wolf", "Owlbear"],
-    "Dungeon": ["Skeleton", "Zombie", "Orc Warrior", "Dark Cultist"],
-    "Urban": ["Street Thug", "Pickpocket", "Corrupt Guard", "Assassin"],
-    "Desert": ["Sand Raider", "Scorpion", "Mummy", "Fire Elemental"]
-}
+# ==========================================
+# FILE LOADING LOGIC (The Real Data)
+# ==========================================
+# This safely navigates up one folder to find your master 'data' directory
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "data"
 
-NPCS = ["Traveling Merchant", "Wounded Soldier", "Hermit Sage", "Excited Bard"]
+def load_game_data(filename: str):
+    """Safely loads a JSON file from the master data folder."""
+    file_path = DATA_DIR / filename
+    if not file_path.exists():
+        print(f"[WARNING] Missing database file: {file_path}")
+        return [] # Return empty list if the file hasn't been built yet
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
-HAZARDS = {
-    "Forest": ["Hidden Pit Trap", "Poisonous Brambles", "Falling Tree"],
-    "Dungeon": ["Spike Trap", "Acid Pool", "Collapsing Ceiling"],
-    "Urban": ["Loose Roof Tiles", "Sewer Gas", "Crowded Stampede"],
-    "Desert": ["Quick Sand", "Heat Mirage", "Dust Storm"]
-}
+# Load the databases into memory when the server boots
+ENEMY_DB = load_game_data("Enemy_Builder.json")
+# You can create these JSON files later to expand the other encounter types!
+QUEST_DB = load_game_data("Quest_Templates.json") 
+ITEM_DB = load_game_data("Item_Builder.json")
 
-PUZZLES = ["Riddle of the Sphinx", "Ancient Gear Mechanism", "Color-Coded Orbs", "Sun-Tracking Mirror"]
-
-LORE_SNIPPETS = [
-    "A rusted plaque speaks of an empire lost to time.",
-    "Faded murals depict a war between gods and mortals.",
-    "A diary entry mentions a treasure hidden 'where the sun never shines'."
-]
+# ==========================================
+# THE ENGINE ROUTER
+# ==========================================
 
 @app.get("/generate-encounter", response_model=Encounter)
 async def generate_encounter(
-    biome: str = Query(..., description="The biome where the encounter occurs"),
+    biome: str = Query(..., description="The biome where the encounter occurs, e.g., 'Tundra', 'Forest'"),
     threat_level: int = Query(..., ge=1, le=10, description="Threat level from 1 to 10")
 ):
-    # Determine encounter type randomly
+    # Roll the procedural dice for the encounter type
     encounter_type = random.choice(list(EncounterType))
+    encounter_id = f"ENC_{str(uuid.uuid4())[:8].upper()}"
     
-    encounter_id = str(uuid.uuid4())[:8]
-    
+    # ---------------------------------------------------------
+    # 1. COMBAT (Now wired to your actual Enemy_Builder.json)
+    # ---------------------------------------------------------
     if encounter_type == EncounterType.COMBAT:
-        biome_enemies = ENEMIES.get(biome, ENEMIES["Forest"])
-        num_enemies = random.randint(1, threat_level + 1)
-        enemies = [{"name": random.choice(biome_enemies), "level": threat_level} for _ in range(num_enemies)]
+        if not ENEMY_DB:
+            raise HTTPException(status_code=500, detail="Enemy_Builder.json is missing or empty.")
+
+        # Filter real enemies by checking if the requested biome is in their string/list
+        # (This handles both formats: "biomes": "Forest, Swamp" OR "biomes": ["Forest", "Swamp"])
+        valid_enemies = []
+        for enemy in ENEMY_DB:
+            # Assuming your JSON has a "biomes", "habitat", or "tags" field
+            tags = str(enemy.get("biomes", "")) + str(enemy.get("habitat", "")) + str(enemy.get("tags", ""))
+            if biome.lower() in tags.lower():
+                valid_enemies.append(enemy)
+
+        # Fallback if no enemies match the biome exactly
+        if not valid_enemies:
+            valid_enemies = ENEMY_DB 
+
+        # Generate the combat squad
+        num_enemies = random.randint(1, max(1, threat_level // 2))
+        squad = []
+        for _ in range(num_enemies):
+            chosen = random.choice(valid_enemies)
+            squad.append({
+                "name": chosen.get("name", "Unknown Entity"),
+                "level": chosen.get("level", threat_level),
+                "hp": chosen.get("base_hp", 10),
+                "stats": chosen.get("stats", {})
+            })
         
         return CombatEncounter(
             id=encounter_id,
-            name=f"Ambush in the {biome}",
-            description=f"A group of hostile entities has spotted you.",
+            name=f"Hostile Contact in the {biome}",
+            description=f"You have been ambushed by a squad of {squad[0]['name']}s.",
             threat_level=threat_level,
-            enemies=enemies
+            enemies=squad
         )
     
+    # ---------------------------------------------------------
+    # 2. SOCIAL (Currently using generic placeholders until NPC_Builder is made)
+    # ---------------------------------------------------------
     elif encounter_type == EncounterType.SOCIAL:
-        npc = random.choice(NPCS)
+        # FUTURE UPGRADE: ENEMY_DB = load_game_data("NPC_Builder.json")
         return SocialEncounter(
             id=encounter_id,
-            name=f"Meeting with {npc}",
-            description=f"You encounter a {npc} who seems to have something to say.",
+            name="Wandering Traveler",
+            description="You spot a figure resting off the side of the path.",
             threat_level=threat_level,
-            target_npc=npc,
-            composure=threat_level * 2,
-            social_stakes="Information regarding the local area"
+            target_npc="Suspicious Scavenger",
+            composure=threat_level * 3,
+            social_stakes="They are hoarding D-Dust and Aetherium."
         )
     
+    # ---------------------------------------------------------
+    # 3. HAZARD (Traps & Environments)
+    # ---------------------------------------------------------
     elif encounter_type == EncounterType.HAZARD:
-        biome_hazards = HAZARDS.get(biome, HAZARDS["Forest"])
-        hazard = random.choice(biome_hazards)
         return HazardEncounter(
             id=encounter_id,
-            name=hazard,
-            description=f"The environment itself poses a threat: {hazard}.",
+            name=f"{biome} Environmental Anomaly",
+            description=f"The {biome} itself turns against you. Proceed with caution.",
             threat_level=threat_level,
-            hazard_type="Environmental",
-            bypass_condition="Requires a successful Agility or Perception check",
-            damage_type="Physical / Elemental"
+            hazard_type="Terrain/Weather",
+            bypass_condition="Requires Mobility or Awareness check.",
+            damage_type="True Damage"
         )
     
+    # ---------------------------------------------------------
+    # 4. PUZZLE
+    # ---------------------------------------------------------
     elif encounter_type == EncounterType.PUZZLE:
-        puzzle = random.choice(PUZZLES)
         return PuzzleEncounter(
             id=encounter_id,
-            name=puzzle,
-            description=f"A {puzzle} blocks your path.",
+            name="Ancient Mechanism",
+            description="A strange obstacle blocks the path forward.",
             threat_level=threat_level,
-            mechanism="Magic / Mechanical",
+            mechanism="Logical / Magical",
             difficulty_class=10 + threat_level,
-            reward_hint="A small hidden compartment or passage"
+            reward_hint="A hidden cache of resources."
         )
     
+    # ---------------------------------------------------------
+    # 5. DISCOVERY (Loot & Lore)
+    # ---------------------------------------------------------
     elif encounter_type == EncounterType.DISCOVERY:
+        # If the Item_Builder exists, pick a real item ID!
+        loot_id = "UNKNOWN_ITEM"
+        if ITEM_DB:
+            loot_id = random.choice(ITEM_DB).get("id", "UNKNOWN_ITEM")
+
         return DiscoveryEncounter(
             id=encounter_id,
-            name="Ancient Remains",
-            description="You find something of interest in the wreckage.",
+            name="Forgotten Cache",
+            description="You uncover something buried in the dirt.",
             threat_level=threat_level,
-            lore_snippet=random.choice(LORE_SNIPPETS),
-            hidden_item_id=f"ITEM_{random.randint(100, 999)}"
+            lore_snippet="The insignia of a dead faction is stamped on the side.",
+            hidden_item_id=loot_id
         )
     
+    # ---------------------------------------------------------
+    # 6. DILEMMA
+    # ---------------------------------------------------------
     elif encounter_type == EncounterType.DILEMMA:
         return DilemmaEncounter(
             id=encounter_id,
-            name="Difficult Choice",
-            description="You are faced with a moral or tactical dilemma.",
+            name="Hard Choice",
+            description="A situation requiring a sacrifice.",
             threat_level=threat_level,
             choices=[
-                Choice(
-                    choice="Help the desperate soul",
-                    cost={"stamina": 10},
-                    reward={"reputation": 5}
-                ),
-                Choice(
-                    choice="Keep moving and ignore them",
-                    cost={},
-                    reward={"time_saved": "Moderate"}
-                )
+                Choice(choice="Intervene and risk injury", cost={"stamina": 2}, reward={"wealth": 10}),
+                Choice(choice="Walk away", cost={"composure": -1}, reward={})
             ]
         )
 

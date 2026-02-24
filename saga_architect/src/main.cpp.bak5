@@ -5,9 +5,11 @@
 #include <string>
 #include <vector>
 
+
 #include "io/Exporter.cpp"
 #include "map/VoronoiGen.cpp"
 #include "simulation/AutoPopulate.cpp"
+
 
 using json = nlohmann::json;
 
@@ -76,24 +78,7 @@ int main() {
     climate.wind_bands.push_back(band);
   }
 
-  // 5. PARSE FLORA & FAUNA
-  std::vector<Lifeform> ecosystem;
-  if (config.contains("flora_fauna")) {
-    for (const auto &lf : config["flora_fauna"]) {
-      Lifeform l;
-      l.name = lf["name"];
-      l.type = lf["type"];
-      l.spawn_chance = lf["spawn_chance"];
-      l.temp_range = {lf["min_temp"], lf["max_temp"]};
-      l.is_aggressive = lf.value("is_aggressive", false);
-      for (const auto &b : lf["allowed_biomes"]) {
-        l.allowed_biomes.push_back(b);
-      }
-      ecosystem.push_back(l);
-    }
-  }
-
-  // 6. INITIALIZE ENGINES
+  // 5. INITIALIZE ENGINES
   VoronoiGen physicalEngine;
   AutoPopulate civEngine;
 
@@ -101,6 +86,7 @@ int main() {
             << " hexes)...\n";
   physicalEngine.GenerateBaseMap(num_hexes);
 
+  // Branching Logic: Photo import OR tectonic simulation
   if (!heightmap_file.empty()) {
     physicalEngine.ImportHeightmap(heightmap_file);
   } else {
@@ -109,18 +95,17 @@ int main() {
     physicalEngine.SimulateTectonics(tectonic_plates);
   }
 
+  // Run the Climate Simulator before assigning biomes
   physicalEngine.SimulateClimate(climate);
   physicalEngine.AssignBiomes(biomeRules);
 
-  std::cout << "\n[PHASE 2] Simulating Civilization & Ecosystem...\n";
+  std::cout << "\n[PHASE 2] Simulating Civilization (" << factions.size()
+            << " factions)...\n";
   civEngine.PopulateSettlements(physicalEngine.cells, factions);
   civEngine.GenerateRoads(physicalEngine.cells);
   civEngine.MarkBorders(physicalEngine.cells);
 
-  // Drop the animals and plants into the world!
-  civEngine.PopulateEcosystem(physicalEngine.cells, ecosystem);
-
-  // 7. Export to JSON
+  // 6. Export to JSON via the existing MasterExporter
   std::cout << "\n[PHASE 3] Packaging Data...\n";
   std::string outputPath = "Saga_Master_World.json";
   MasterExporter::ExportWorld(outputPath, "Aethelgard", physicalEngine.cells,
@@ -132,7 +117,6 @@ int main() {
   std::cout << "  Factions: " << factions.size() << "\n";
   std::cout << "  Biomes: " << biomeRules.size() << "\n";
   std::cout << "  Cities: " << civEngine.city_nodes.size() << "\n";
-  std::cout << "  Lifeforms Defined: " << ecosystem.size() << "\n";
   std::cout << "  Wind Bands: " << climate.wind_bands.size() << "\n";
   std::cout << "  Rainfall: x" << climate.rainfall_multiplier << "\n";
   if (!heightmap_file.empty()) {
