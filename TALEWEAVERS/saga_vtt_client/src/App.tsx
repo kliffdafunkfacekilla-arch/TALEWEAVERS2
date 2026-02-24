@@ -1,35 +1,79 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { PixiBattlemap } from './components/map/PixiBattlemap';
+import { DirectorLog } from './components/left_panel/DirectorLog';
+import { ActionDeck } from './components/bottom_console/ActionDeck';
+import { ResourceOrbs } from './components/bottom_console/ResourceOrbs';
+import { BioMatrix } from './components/right_panel/BioMatrix';
+import { InjurySlots } from './components/right_panel/InjurySlots';
+import { QuestTracker } from './components/hud/QuestTracker';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [isBioMatrixOpen, setBioMatrixOpen] = useState(false);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="w-screen h-screen overflow-hidden bg-zinc-950 text-white flex flex-col font-sans select-none">
 
-export default App
+      {/* ═══ TOP / MIDDLE SECTION ═══ */}
+      <div className="flex-grow flex relative min-h-0">
+
+        {/* LEFT: Director's Log (Fixed width, translucent) */}
+        <div className="w-80 xl:w-96 bg-zinc-900/90 border-r border-zinc-800 flex flex-col z-10 flex-shrink-0">
+          <DirectorLog />
+        </div>
+
+        {/* CENTER: The Map (Fills all remaining space) */}
+        <div className="flex-grow relative bg-black min-w-0">
+          <PixiBattlemap />
+
+          {/* FLOATING TOP-RIGHT: Quest Tracker HUD */}
+          <div className="absolute top-4 right-4 z-20 pointer-events-none">
+            <QuestTracker />
+          </div>
+        </div>
+
+        {/* RIGHT DRAWER: Bio-Matrix (Slides in/out) */}
+        <div className={`
+          bg-zinc-900/95 border-l border-zinc-800 shadow-2xl z-30
+          overflow-y-auto flex-shrink-0 transition-all duration-300 ease-in-out
+          ${isBioMatrixOpen ? 'w-72 xl:w-80 p-4 opacity-100' : 'w-0 p-0 opacity-0 overflow-hidden'}
+        `}>
+          <div className={`${isBioMatrixOpen ? '' : 'invisible'}`}>
+            <BioMatrix />
+            <InjurySlots />
+          </div>
+        </div>
+
+        {/* Toggle Drawer Button */}
+        <button
+          className={`
+            absolute top-3 z-40 bg-zinc-800/90 backdrop-blur-sm 
+            px-3 py-1.5 rounded-lg hover:bg-zinc-700 
+            text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-zinc-200
+            transition-all duration-200 border border-zinc-700/50
+            ${isBioMatrixOpen ? 'right-[calc(18rem+1rem)]  xl:right-[calc(20rem+1rem)]' : 'right-4'}
+          `}
+          style={{ transition: 'right 300ms ease-in-out, background-color 200ms, color 200ms' }}
+          onClick={() => setBioMatrixOpen(!isBioMatrixOpen)}
+        >
+          {isBioMatrixOpen ? '✕ Close' : '☰ Matrix'}
+        </button>
+      </div>
+
+      {/* ═══ BOTTOM SECTION: Action Console ═══ */}
+      <div className="h-44 bg-zinc-950 border-t border-zinc-800 z-20 flex justify-center items-center shadow-[0_-10px_40px_rgba(0,0,0,0.5)] flex-shrink-0">
+        <div className="flex items-end gap-6 w-full max-w-7xl px-6 h-full">
+          {/* Resource Orbs (Left Side) */}
+          <div className="flex items-end pb-4 flex-shrink-0">
+            <ResourceOrbs />
+          </div>
+
+          {/* Action Deck (fills remaining) */}
+          <div className="flex-grow h-full">
+            <ActionDeck />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
