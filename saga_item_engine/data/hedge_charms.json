@@ -1,0 +1,23 @@
+[
+    {
+        "id": "VIGOR_SALTS",
+        "name": "Vigor Salts",
+        "category": "CONSUMABLE",
+        "weight": 0.1,
+        "base_value_aetherium": 15,
+        "effect_type": "HEAL",
+        "effect_math": "Regain 1d4 Stamina",
+        "is_unstable": false
+    },
+    {
+        "id": "CINDER_POT",
+        "name": "Cinder-Pot",
+        "category": "CONSUMABLE",
+        "weight": 0.5,
+        "base_value_aetherium": 35,
+        "effect_type": "DAMAGE",
+        "effect_math": "2d6 Fire Dmg 10ft radius",
+        "resist_save": "Reflex Half",
+        "is_unstable": true
+    }
+]

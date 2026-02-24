@@ -1,0 +1,20 @@
+Testing MOVE action to [10, 15] (Ambush Trigger)...
+Status: 200
+{
+  "ai_narration_html": "<div>SUDDENLY! \n        [DIRECTOR OVERRIDE: \n        The player stepped into Hex [10, 15]. \n        This is the location of the 'Bandit Ambush' quest trigger.\n        Ignore the player's intended movement. \n        Narrate 3 Wolf Cultists dropping from the trees, weapons drawn.\n        Demand they hand over their Aetherium coins.]\n        \n[SYSTEM: Moving to [10, 15].]</div>",
+  "system_log": "[SYSTEM: Moving to [10, 15].]",
+  "ui_refresh_required": true,
+  "vtt_commands": [
+    "LOCK_UI",
+    "SPAWN_ENEMIES:Wolf_Cultist:3:coords_[10, 15]"
+  ]
+}
+
+Testing ATTACK action...
+Status: 200
+{
+  "ai_narration_html": "<div>The GM narrates: I strike with my axe! [SYSTEM: Clash Result: Scrape. Damage: 4]</div>",
+  "system_log": "[SYSTEM: Clash Result: Scrape. Damage: 4]",
+  "ui_refresh_required": true,
+  "vtt_commands": []
+}

@@ -1,0 +1,12 @@
+[
+    {
+        "id": "LEATHER_TUNIC",
+        "name": "Leather Tunic",
+        "category": "ARMOR",
+        "weight": 5.0,
+        "base_value_aetherium": 20,
+        "defense_bonus": 2,
+        "stamina_lock": 1,
+        "focus_lock": 0
+    }
+]

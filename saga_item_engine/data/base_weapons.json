@@ -1,0 +1,13 @@
+[
+    {
+        "id": "IRON_SWORD",
+        "name": "Iron Sword",
+        "category": "WEAPON",
+        "weight": 3.0,
+        "base_value_aetherium": 50,
+        "damage_dice": "1d8",
+        "damage_type": "Slashing",
+        "lead_stat_required": "Might",
+        "traits": ["Versatile"]
+    }
+]
