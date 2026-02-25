@@ -7,17 +7,17 @@ import { BioMatrix } from './components/right_panel/BioMatrix';
 import { InjurySlots } from './components/right_panel/InjurySlots';
 import { QuestTracker } from './components/hud/QuestTracker';
 import { WorldArchitect } from './components/WorldArchitect';
+import { useGameStore } from './store/useGameStore';
 import './App.css';
 
-type Screen = 'PLAYER' | 'WORLD_BUILDER';
-
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>('PLAYER');
+  const currentScreen = useGameStore((s) => s.currentScreen);
+  const setScreen = useGameStore((s) => s.setScreen);
   const [isBioMatrixOpen, setBioMatrixOpen] = useState(false);
 
   // ─── Screen Router ───────────────────────────────────────
   if (currentScreen === 'WORLD_BUILDER') {
-    return <WorldArchitect onBack={() => setCurrentScreen('PLAYER')} />;
+    return <WorldArchitect onBack={() => setScreen('PLAYER')} />;
   }
 
   // ─── Default: Player VTT Interface ───────────────────────
@@ -72,7 +72,7 @@ export default function App() {
         {/* World Architect Shortcut */}
         <button
           className="absolute top-3 left-[calc(20rem+1rem)] xl:left-[calc(24rem+1rem)] z-40 bg-amber-800/80 backdrop-blur-sm px-3 py-1.5 rounded-lg hover:bg-amber-700 text-xs font-bold uppercase tracking-wider text-amber-200 hover:text-white transition-all duration-200 border border-amber-700/50"
-          onClick={() => setCurrentScreen('WORLD_BUILDER')}
+          onClick={() => setScreen('WORLD_BUILDER')}
         >
           ⚙ Architect
         </button>

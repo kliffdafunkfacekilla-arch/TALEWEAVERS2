@@ -170,11 +170,11 @@ export interface ClientGameState {
     setUiLocked: (locked: boolean) => void;
 }
 
-// ── Mock Data for Visual Development ──────────────────────────────────
-const MOCK_STATE: Omit<ClientGameState,
+// ── Initial State ─────────────────────────────────────────────────────
+const INITIAL_STATE: Omit<ClientGameState,
     'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget'
 > = {
-    currentScreen: 'PLAYER',
+    currentScreen: 'MAIN_MENU',
     worldData: null,
     selectedHex: null,
     activeCampaignId: null,
@@ -191,10 +191,10 @@ const MOCK_STATE: Omit<ClientGameState,
     characterName: 'Kael Thornwood',
 
     vitals: {
-        hp: { current: 18, max: 24 },
-        stamina: { current: 8, max: 12 },
-        focus: { current: 6, max: 9 },
-        composure: { current: 10, max: 14 },
+        hp: { current: 20, max: 20 },
+        stamina: { current: 12, max: 12 },
+        focus: { current: 9, max: 9 },
+        composure: { current: 14, max: 14 },
     },
 
     attributes: {
@@ -203,17 +203,11 @@ const MOCK_STATE: Omit<ClientGameState,
     },
 
     injuries: {
-        body: ['Fractured Rib'],
+        body: [],
         mind: [],
     },
 
-    chat_log: [
-        { sender: 'SYSTEM', text: 'Campaign loaded: "The Shattered Wastes"' },
-        { sender: 'AI_DIRECTOR', text: 'The wind howls across the broken plains. Ahead, a cluster of twisted trees marks the old waystation. Something moves in the shadows between the trunks.' },
-        { sender: 'PLAYER', text: 'I draw my blade and advance cautiously toward the treeline.' },
-        { sender: 'AI_DIRECTOR', text: 'A low growl rumbles from behind a collapsed stone wall. Two pairs of amber eyes glow in the darkness. The pack wolves have found you.' },
-        { sender: 'SYSTEM', text: '⚔️ Encounter initiated — 2× Ashland Wolves' },
-    ],
+    chat_log: [],
 
     skills: ['Assault', 'Coercion', 'Mobility', 'Precise Shot', 'Endure', 'Deceive'],
 
@@ -226,7 +220,7 @@ const MOCK_STATE: Omit<ClientGameState,
     selectedTokenId: null,
 
     quests: [
-        { id: 'q1', title: 'Reach the Waystation', completed: true },
+        { id: 'q1', title: 'Reach the Waystation', completed: false },
         { id: 'q2', title: 'Survive the wolf ambush', completed: false },
         { id: 'q3', title: 'Find the hidden cache', completed: false },
     ],
@@ -240,7 +234,7 @@ const MOCK_STATE: Omit<ClientGameState,
 
 // ── Store ─────────────────────────────────────────────────────────────
 export const useGameStore = create<ClientGameState>((set, get) => ({
-    ...MOCK_STATE,
+    ...INITIAL_STATE,
 
     // Navigation
     setScreen: (screen) => set({ currentScreen: screen }),
