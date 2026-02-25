@@ -24,7 +24,25 @@ async def resolve_mechanics_node(state: GameState):
         return {"math_log": f"[SYSTEM: {result['item_name']} consumed. {result['effect']} applied.]"}
     
     elif action == "ATTACK":
-        result = await api_gateway.resolve_clash(state["player_id"], target)
+        # Build CombatantState dicts from the real player_vitals
+        vitals = state.get("player_vitals", {})
+        attacker_data = {
+            "name": state["player_id"],
+            "current_hp": vitals.get("current_hp", 20),
+            "attack_or_defense_pool": vitals.get("stamina", 5) + state.get("stamina_burned", 0),
+            "weapon_damage_dice": "1d8",
+            "stamina_burned": state.get("stamina_burned", 0),
+            "focus_burned": 0
+        }
+        defender_data = {
+            "name": target,
+            "current_hp": 15,
+            "attack_or_defense_pool": 4,
+            "weapon_damage_dice": "1d6",
+            "stamina_burned": 0,
+            "focus_burned": 0
+        }
+        result = await api_gateway.resolve_clash(attacker_data, defender_data)
         injury_text = f" Injury: {result['injury']}" if result.get("injury") else ""
         return {"math_log": f"[SYSTEM: Clash Result: {result['margin']}. Damage: {result['dmg']}.{injury_text}]"}
     

@@ -56,17 +56,12 @@ export interface CharacterSheet {
 export interface LoadoutItem {
     id: string;
     name: string;
-    type: 'MELEE' | 'RANGED' | 'MAGIC' | 'CONSUMABLE' | 'MOBILITY' | 'SOCIAL' | 'UTILITY';
+    type: 'MELEE' | 'RANGED' | 'MAGIC' | 'CONSUMABLE' | 'MOBILITY';
     target: 'SELF' | 'ADJACENT' | 'RANGED';
     range: number;
     stamina_cost: number;
     dice: string;
     desc: string;
-    // Skill check fields (for MOBILITY/SOCIAL/UTILITY routed to Port 8006)
-    lead_stat?: string;
-    trail_stat?: string;
-    skill_rank?: number;
-    target_dc?: number;
 }
 
 // --- Player VTT Types ---
@@ -90,7 +85,6 @@ export interface CoreAttributes {
     willpower: number;
     awareness: number;
     intuition: number;
-    [key: string]: number;
 }
 
 export interface Injuries {
@@ -217,12 +211,11 @@ export interface ClientGameState {
     selectToken: (id: string | null) => void;
     toggleQuestComplete: (id: string) => void;
     setUiLocked: (locked: boolean) => void;
-    addInjury: (track: 'body' | 'mind', injuryName: string) => void;
 }
 
 // ── Initial State ─────────────────────────────────────────────────────
 const INITIAL_STATE: Omit<ClientGameState,
-    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet' | 'setClientLoadout' | 'addInjury'
+    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet' | 'setClientLoadout'
 > = {
     currentScreen: 'MAIN_MENU',
     worldData: null,
@@ -334,17 +327,6 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
             },
         }
     })),
-
-    // Dual-Track Injury System — permanently scar the character
-    addInjury: (track, injuryName) => set((state) => {
-        if (state.injuries[track].length >= 4) return state;
-        return {
-            injuries: {
-                ...state.injuries,
-                [track]: [...state.injuries[track], injuryName]
-            }
-        };
-    }),
 
     sendAction: (action: string, burn: number, target: string) => {
         const state = get();

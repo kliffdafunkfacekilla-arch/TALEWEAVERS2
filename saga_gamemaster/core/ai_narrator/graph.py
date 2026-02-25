@@ -5,6 +5,23 @@ import asyncio
 
 api_gateway = SAGA_API_Gateway()
 
+# ── Initialize Local AI Brain via Ollama ──
+# Change "llama3" to whatever model you have downloaded (e.g., "mistral", "phi3", "gemma")
+try:
+    from langchain_community.llms import Ollama
+    local_llm = Ollama(model="llama3")
+    OLLAMA_AVAILABLE = True
+    print("[NARRATOR] Ollama LLM initialized (model: llama3)")
+except ImportError:
+    local_llm = None
+    OLLAMA_AVAILABLE = False
+    print("[NARRATOR] langchain-community not installed. Falling back to prompt echo.")
+except Exception as e:
+    local_llm = None
+    OLLAMA_AVAILABLE = False
+    print(f"[NARRATOR] Ollama initialization failed: {e}. Falling back to prompt echo.")
+
+
 async def fetch_context_node(state: GameState):
     campaign_data = await api_gateway.get_campaign_state(state["player_id"])
     char_data = await api_gateway.get_character(state["player_id"])
@@ -76,9 +93,12 @@ async def director_node(state: GameState):
     return {"director_override": None, "vtt_commands": []}
 
 async def narrator_node(state: GameState):
-    # This is the exact prompt structure that prevents the AI from hallucinating rules.
+    """Node 3: The True AI Director — powered by local Ollama LLM."""
+    print("[GRAPH] Node 3: Generating Narration...")
+    
+    # Build the ironclad prompt that prevents the AI from hallucinating rules
     prompt = f"""
-    You are the gritty, tactical Game Master of the T.A.L.E.W.E.A.V.E.R. Engine.
+    You are the Game Master of the S.A.G.A. Engine, a gritty, dark-fantasy survival game.
     
     --- HIDDEN WORLD STATE ---
     Location: {state['current_location']}
@@ -92,14 +112,21 @@ async def narrator_node(state: GameState):
     if state.get("director_override"):
         prompt += f"\n\n{state['director_override']}\nWrite the narration in 2 sentences."
     else:
-        prompt += f"\n\nPlayer Action: '{state['raw_chat_text']}'\nWrite 2 sentences of narration describing the Mechanical Truth."
+        prompt += f"\n\nPlayer Action: '{state['raw_chat_text']}'\nWrite exactly 2 to 3 sentences of visceral, gritty narration describing the outcome of the player's action based strictly on the Mechanical Truth above. Do not mention stats, dice, or the math log directly in your response. Describe the physical, in-world result."
 
-    # In production, you will call LangChain here:
-    # response = await llm.ainvoke(prompt)
-    # narrative = response.content
-    
-    # For testing the pipeline immediately without an OpenAI key:
-    narrative = f"[AI LLM PROMPT GENERATED]:\n{prompt}"
+    # Try the real Ollama LLM first, fall back to prompt echo
+    if OLLAMA_AVAILABLE and local_llm is not None:
+        try:
+            print("[GRAPH] Firing prompt to Ollama...")
+            response = local_llm.invoke(prompt)
+            narrative = response.strip()
+            print(f"[GRAPH] Ollama response received ({len(narrative)} chars)")
+        except Exception as e:
+            print(f"[OLLAMA ERROR] Failed to reach local AI: {e}")
+            narrative = "[SYSTEM ERR] The AI Director (Ollama) is offline or the model name is incorrect. Ensure Ollama is running."
+    else:
+        # Fallback: echo the prompt so the pipeline still works without Ollama
+        narrative = f"[AI LLM PROMPT GENERATED]:\n{prompt}"
         
     return {"ai_narration": narrative}
 

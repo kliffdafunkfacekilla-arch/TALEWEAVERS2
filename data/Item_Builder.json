@@ -1,0 +1,83 @@
+[
+    {
+        "id": "wpn_rusted_cleaver",
+        "name": "Rusted Cleaver",
+        "category": "WEAPON",
+        "weight": 3.5,
+        "base_value_aetherium": 5,
+        "damage_dice": "1d8",
+        "damage_type": "Piercing",
+        "lead_stat_required": "Might",
+        "traits": [
+            "Heavy"
+        ]
+    },
+    {
+        "id": "wpn_bone_dagger",
+        "name": "Bone Dagger",
+        "category": "WEAPON",
+        "weight": 1.0,
+        "base_value_aetherium": 3,
+        "damage_dice": "1d4",
+        "damage_type": "Piercing",
+        "lead_stat_required": "Finesse",
+        "traits": [
+            "Light",
+            "Concealable"
+        ]
+    },
+    {
+        "id": "csm_ddust",
+        "name": "D-Dust Stim",
+        "category": "CONSUMABLE",
+        "weight": 0.1,
+        "base_value_aetherium": 8,
+        "effect_type": "HEAL",
+        "effect_math": "Regain 1d4+2 Health",
+        "resist_save": null,
+        "is_unstable": true
+    },
+    {
+        "id": "csm_stamina_tea",
+        "name": "Iron Root Tea",
+        "category": "CONSUMABLE",
+        "weight": 0.2,
+        "base_value_aetherium": 5,
+        "effect_type": "HEAL",
+        "effect_math": "Regain 1d6 Stamina",
+        "resist_save": null,
+        "is_unstable": false
+    },
+    {
+        "id": "csm_focus_salve",
+        "name": "Mindweave Salve",
+        "category": "CONSUMABLE",
+        "weight": 0.2,
+        "base_value_aetherium": 12,
+        "effect_type": "HEAL",
+        "effect_math": "Regain 1d4 Focus",
+        "resist_save": null,
+        "is_unstable": false
+    },
+    {
+        "id": "csm_fire_flask",
+        "name": "Molotov Flask",
+        "category": "CONSUMABLE",
+        "weight": 0.5,
+        "base_value_aetherium": 10,
+        "effect_type": "DAMAGE",
+        "effect_math": "2d6 Fire Dmg 10ft radius",
+        "resist_save": "Reflex Half",
+        "is_unstable": true
+    },
+    {
+        "id": "arm_leather_vest",
+        "name": "Scavenger's Leather",
+        "category": "ARMOR",
+        "weight": 6.0,
+        "base_value_aetherium": 15,
+        "defense_bonus": 1,
+        "stamina_lock": 0,
+        "focus_lock": 0
+    }
+]

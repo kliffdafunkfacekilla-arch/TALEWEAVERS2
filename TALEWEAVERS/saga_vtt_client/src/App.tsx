@@ -8,6 +8,7 @@ import { InjurySlots } from './components/right_panel/InjurySlots';
 import { QuestTracker } from './components/hud/QuestTracker';
 import { WorldArchitect } from './components/WorldArchitect';
 import { useGameStore } from './store/useGameStore';
+import type { LoadoutItem } from './store/useGameStore';
 import './App.css';
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
   const addChatMessage = useGameStore((s) => s.addChatMessage);
   const setPlayerVitals = useGameStore((s) => s.setPlayerVitals);
   const setCharacterSheet = useGameStore((s) => s.setCharacterSheet);
+  const setClientLoadout = useGameStore((s) => s.setClientLoadout);
   const [isBioMatrixOpen, setBioMatrixOpen] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
 
@@ -26,6 +28,15 @@ export default function App() {
     try {
       // ── STEP 1: Build Character via Port 8003 ──
       console.log("[VTT] Requesting True Character Sheet from Port 8003...");
+
+      // Starting equipment + skills. Item IDs must exist in data/Item_Builder.json
+      const STARTING_LOADOUT: LoadoutItem[] = [
+        { id: 'wpn_rusted_cleaver', name: 'Rusted Cleaver', type: 'MELEE', target: 'ADJACENT', range: 1, stamina_cost: 1, dice: '1d8', desc: 'A heavy, brutal swing.' },
+        { id: 'sk_snap_dodge', name: 'Snap Dodge', type: 'MOBILITY', target: 'SELF', range: 0, stamina_cost: 2, dice: 'None', desc: 'Evade an incoming blow. (Reflexes + Awareness)', lead_stat: 'reflexes', trail_stat: 'awareness', skill_rank: 2, target_dc: 15 },
+        { id: 'sk_intimidate', name: 'Intimidate', type: 'SOCIAL', target: 'RANGED', range: 3, stamina_cost: 1, dice: 'None', desc: 'Break their composure. (Might + Charm)', lead_stat: 'might', trail_stat: 'charm', skill_rank: 1, target_dc: 12 },
+        { id: 'csm_ddust', name: 'D-Dust Stim', type: 'CONSUMABLE', target: 'SELF', range: 0, stamina_cost: 0, dice: '+HP', desc: 'A raw injection of healing dust. Unstable.' },
+        { id: 'csm_stamina_tea', name: 'Iron Root Tea', type: 'CONSUMABLE', target: 'SELF', range: 0, stamina_cost: 0, dice: '+STM', desc: 'Bitter tea that restores endurance.' },
+      ];
 
       const buildRequest = {
         name: "Scavenger_01",
@@ -39,7 +50,7 @@ export default function App() {
           legs_slot: "Standard", skin_slot: "Standard", special_slot: "None"
         },
         selected_powers: [],
-        equipped_loadout: {}
+        equipped_loadout: { "main_hand": "wpn_rusted_cleaver", "consumable_1": "csm_ddust", "consumable_2": "csm_stamina_tea" }
       };
 
       const charRes = await fetch('http://localhost:8003/api/rules/character/calculate', {
@@ -50,16 +61,11 @@ export default function App() {
 
       if (!charRes.ok) {
         console.warn("[VTT] Character Engine offline. Using fallback vitals.");
-        // Fallback: proceed without Character Engine
         setPlayerVitals({ current_hp: 20, max_hp: 20, current_stamina: 12, max_stamina: 12, current_focus: 9, max_focus: 9, current_composure: 14, max_composure: 14 });
       } else {
         const compiledSheet = await charRes.json();
         console.log("[VTT] Character Sheet compiled:", compiledSheet.name);
-
-        // Save the full sheet
         setCharacterSheet(compiledSheet);
-
-        // Initialize vitals to max (fresh character)
         setPlayerVitals({
           current_hp: compiledSheet.vitals.max_hp,
           max_hp: compiledSheet.vitals.max_hp,
@@ -72,7 +78,11 @@ export default function App() {
         });
       }
 
-      // ── STEP 2: Start Campaign via Port 8000 ──
+      // ── STEP 2: Set the client-side loadout for the Action Deck ──
+      setClientLoadout(STARTING_LOADOUT);
+      console.log("[VTT] Loadout equipped:", STARTING_LOADOUT.map(i => i.name).join(', '));
+
+      // ── STEP 3: Start Campaign via Port 8000 ──
       console.log("[VTT] Connecting to Game Master on Port 8000...");
       const campaignRes = await fetch('http://localhost:8000/api/campaign/start', {
         method: 'POST',
@@ -90,13 +100,13 @@ export default function App() {
       setCampaignId(campData.campaign_id);
       console.log(`[VTT] Campaign ${campData.campaign_id} initialized.`);
 
-      // ── STEP 3: AI Director introduction ──
+      // ── STEP 4: AI Director introduction ──
       addChatMessage({
         sender: 'AI_DIRECTOR',
         text: 'The biting cold of the Deep Tundra pierces your armor. You stand in Hex #402. What do you do?'
       });
 
-      // ── STEP 4: Transition to gameplay ──
+      // ── STEP 5: Transition to gameplay ──
       setScreen('PLAYER');
 
     } catch (err) {
