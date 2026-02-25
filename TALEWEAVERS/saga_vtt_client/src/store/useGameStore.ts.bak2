@@ -82,22 +82,6 @@ export interface InventorySlot {
     itemName: string | null;
 }
 
-// --- Tactical Encounter Types ---
-export interface EncounterToken {
-    id: string;
-    name: string;
-    x: number;
-    y: number;
-    color: number;
-    isPlayer: boolean;
-}
-
-export interface ActiveEncounter {
-    gridWidth: number;
-    gridHeight: number;
-    tokens: EncounterToken[];
-}
-
 export interface ClientGameState {
     // Navigation
     currentScreen: string;
@@ -116,15 +100,6 @@ export interface ClientGameState {
     activeCampaignId: string | null;
     setCampaignId: (id: string) => void;
 
-    // Tactical Encounter
-    activeEncounter: ActiveEncounter | null;
-    setActiveEncounter: (encounter: ActiveEncounter | null) => void;
-    moveToken: (id: string, newX: number, newY: number) => void;
-
-    // Targeting (the token you are aiming at on the grid)
-    selectedTargetId: string | null;
-    setTarget: (id: string | null) => void;
-
     // UI Lock — when true, disable all action buttons (Director is narrating)
     ui_locked: boolean;
 
@@ -138,7 +113,6 @@ export interface ClientGameState {
         focus: ResourcePool;
         composure: ResourcePool;
     };
-    setPlayerVitals: (apiVitals: Record<string, number>) => void;
 
     // 12 Core Attributes
     attributes: CoreAttributes;
@@ -152,7 +126,7 @@ export interface ClientGameState {
     // Available Skills for the Action Deck
     skills: string[];
 
-    // Map Tokens (overworld tokens for non-tactical view)
+    // Map Tokens
     map_tokens: MapToken[];
     selectedTokenId: string | null;
 
@@ -172,21 +146,12 @@ export interface ClientGameState {
 
 // ── Mock Data for Visual Development ──────────────────────────────────
 const MOCK_STATE: Omit<ClientGameState,
-    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget'
+    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex'
 > = {
     currentScreen: 'PLAYER',
     worldData: null,
     selectedHex: null,
     activeCampaignId: null,
-    activeEncounter: {
-        gridWidth: 15,
-        gridHeight: 10,
-        tokens: [
-            { id: 'player_1', name: 'Scavenger', x: 2, y: 5, color: 0x3B82F6, isPlayer: true },
-            { id: 'enemy_1', name: 'Frost Troll', x: 8, y: 5, color: 0xEF4444, isPlayer: false }
-        ]
-    },
-    selectedTargetId: null,
     ui_locked: false,
     characterName: 'Kael Thornwood',
 
@@ -254,35 +219,6 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
 
     // Campaign
     setCampaignId: (id) => set({ activeCampaignId: id }),
-
-    // Tactical Encounter
-    setActiveEncounter: (encounter) => set({ activeEncounter: encounter }),
-    moveToken: (id, newX, newY) => set((state) => {
-        if (!state.activeEncounter) return state;
-        const updatedTokens = state.activeEncounter.tokens.map(t =>
-            t.id === id ? { ...t, x: newX, y: newY } : t
-        );
-        return { activeEncounter: { ...state.activeEncounter, tokens: updatedTokens } };
-    }),
-
-    // Targeting
-    setTarget: (id) => set({ selectedTargetId: id }),
-
-    // Vitals — maps the API response to our pools
-    setPlayerVitals: (apiVitals) => set((state) => ({
-        vitals: {
-            hp: {
-                current: apiVitals.current_hp ?? state.vitals.hp.current,
-                max: apiVitals.max_hp ?? state.vitals.hp.max,
-            },
-            stamina: {
-                current: apiVitals.stamina ?? state.vitals.stamina.current,
-                max: apiVitals.max_stamina ?? state.vitals.stamina.max,
-            },
-            focus: state.vitals.focus,
-            composure: state.vitals.composure,
-        }
-    })),
 
     sendAction: (action: string, burn: number, target: string) => {
         const state = get();

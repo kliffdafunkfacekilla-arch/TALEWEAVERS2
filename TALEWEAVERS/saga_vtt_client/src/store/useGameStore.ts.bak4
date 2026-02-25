@@ -121,10 +121,6 @@ export interface ClientGameState {
     setActiveEncounter: (encounter: ActiveEncounter | null) => void;
     moveToken: (id: string, newX: number, newY: number) => void;
 
-    // Targeting (the token you are aiming at on the grid)
-    selectedTargetId: string | null;
-    setTarget: (id: string | null) => void;
-
     // UI Lock — when true, disable all action buttons (Director is narrating)
     ui_locked: boolean;
 
@@ -138,6 +134,7 @@ export interface ClientGameState {
         focus: ResourcePool;
         composure: ResourcePool;
     };
+    // Update vitals from the Game Master API response
     setPlayerVitals: (apiVitals: Record<string, number>) => void;
 
     // 12 Core Attributes
@@ -172,7 +169,7 @@ export interface ClientGameState {
 
 // ── Mock Data for Visual Development ──────────────────────────────────
 const MOCK_STATE: Omit<ClientGameState,
-    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget'
+    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals'
 > = {
     currentScreen: 'PLAYER',
     worldData: null,
@@ -183,10 +180,9 @@ const MOCK_STATE: Omit<ClientGameState,
         gridHeight: 10,
         tokens: [
             { id: 'player_1', name: 'Scavenger', x: 2, y: 5, color: 0x3B82F6, isPlayer: true },
-            { id: 'enemy_1', name: 'Frost Troll', x: 8, y: 5, color: 0xEF4444, isPlayer: false }
+            { id: 'enemy_1', name: 'Frost Troll', x: 10, y: 5, color: 0xEF4444, isPlayer: false }
         ]
     },
-    selectedTargetId: null,
     ui_locked: false,
     characterName: 'Kael Thornwood',
 
@@ -265,10 +261,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
         return { activeEncounter: { ...state.activeEncounter, tokens: updatedTokens } };
     }),
 
-    // Targeting
-    setTarget: (id) => set({ selectedTargetId: id }),
-
-    // Vitals — maps the API response to our pools
+    // Vitals — maps the API response (current_hp, max_hp, stamina, max_stamina) to our pools
     setPlayerVitals: (apiVitals) => set((state) => ({
         vitals: {
             hp: {

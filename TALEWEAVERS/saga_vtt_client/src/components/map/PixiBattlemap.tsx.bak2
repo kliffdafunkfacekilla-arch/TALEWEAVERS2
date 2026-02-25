@@ -10,7 +10,8 @@ export function PixiBattlemap() {
     const cameraRef = useRef<Container | null>(null);
 
     const activeEncounter = useGameStore((s) => s.activeEncounter);
-    const selectedTargetId = useGameStore((s) => s.selectedTargetId);
+    const selectedTokenId = useGameStore((s) => s.selectedTokenId);
+    const selectToken = useGameStore((s) => s.selectToken);
 
     const draw = useCallback(() => {
         const app = appRef.current;
@@ -37,7 +38,7 @@ export function PixiBattlemap() {
             }
         }
 
-        // ── Grid Click: Move Player Token + Clear Target ──
+        // ── Grid Click: Move Player Token ──
         gridGraphics.eventMode = 'static';
         gridGraphics.hitArea = new Rectangle(0, 0, GRID_W * TILE_SIZE, GRID_H * TILE_SIZE);
         gridGraphics.cursor = 'crosshair';
@@ -46,68 +47,44 @@ export function PixiBattlemap() {
             const localPos = gridGraphics.toLocal(e.global);
             const gridX = Math.floor(localPos.x / TILE_SIZE);
             const gridY = Math.floor(localPos.y / TILE_SIZE);
+
+            // Clamp to grid bounds
             if (gridX < 0 || gridX >= GRID_W || gridY < 0 || gridY >= GRID_H) return;
 
-            // Check if clicking on an enemy token → target it
+            // Check if clicking on an existing token (select it)
             const currentEncounter = useGameStore.getState().activeEncounter;
             if (!currentEncounter) return;
 
             const clickedToken = currentEncounter.tokens.find(t => t.x === gridX && t.y === gridY);
-            if (clickedToken && !clickedToken.isPlayer) {
-                // Target the enemy
-                const currentTarget = useGameStore.getState().selectedTargetId;
-                useGameStore.getState().setTarget(clickedToken.id === currentTarget ? null : clickedToken.id);
-                console.log(`[VTT] Targeted: ${clickedToken.name} at [${gridX}, ${gridY}]`);
+            if (clickedToken) {
+                selectToken(clickedToken.id === selectedTokenId ? null : clickedToken.id);
+                console.log(`[VTT] Selected: ${clickedToken.name} at [${gridX}, ${gridY}]`);
                 return;
             }
 
-            // Move player + clear target
+            // Move the player token to the clicked square
             useGameStore.getState().moveToken('player_1', gridX, gridY);
-            useGameStore.getState().setTarget(null);
             console.log(`[VTT] Player moved to Grid [${gridX}, ${gridY}]`);
         });
 
         camera.addChild(gridGraphics);
 
         // ── 2. Draw Tokens ──
-        let playerCenterX = 0;
-        let playerCenterY = 0;
-        let targetCenterX = 0;
-        let targetCenterY = 0;
-
         activeEncounter.tokens.forEach((token) => {
             const tokenGroup = new Container();
             tokenGroup.x = token.x * TILE_SIZE;
             tokenGroup.y = token.y * TILE_SIZE;
 
-            const centerX = tokenGroup.x + TILE_SIZE / 2;
-            const centerY = tokenGroup.y + TILE_SIZE / 2;
-
-            if (token.isPlayer) {
-                playerCenterX = centerX;
-                playerCenterY = centerY;
-            }
-
-            const isTargeted = token.id === selectedTargetId;
-            if (isTargeted) {
-                targetCenterX = centerX;
-                targetCenterY = centerY;
-            }
-
+            // Token circle
             const circle = new Graphics();
+            const isSelected = token.id === selectedTokenId;
 
-            // Targeting reticle (red square around targeted enemy)
-            if (isTargeted) {
-                circle.rect(2, 2, TILE_SIZE - 4, TILE_SIZE - 4);
-                circle.stroke({ width: 3, color: 0xFF0000, alpha: 0.8 });
-            }
-
-            // Selection ring for player
-            if (token.isPlayer) {
+            // Selection glow ring
+            if (isSelected) {
                 circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2 - 2);
-                circle.fill({ color: token.color, alpha: 0.1 });
+                circle.fill({ color: token.color, alpha: 0.15 });
                 circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2 - 2);
-                circle.stroke({ width: 2, color: 0x3B82F6, alpha: 0.6 });
+                circle.stroke({ width: 3, color: 0xfbbf24 });
             }
 
             // Token body
@@ -138,7 +115,7 @@ export function PixiBattlemap() {
                 style: new TextStyle({
                     fontFamily: 'monospace',
                     fontSize: 9,
-                    fill: isTargeted ? 0xff6666 : 0xaaaaaa,
+                    fill: 0xaaaaaa,
                     align: 'center',
                 }),
             });
@@ -150,44 +127,11 @@ export function PixiBattlemap() {
             camera.addChild(tokenGroup);
         });
 
-        // ── 3. Laser Sight Line (player → target) ──
-        if (selectedTargetId) {
-            const laserLine = new Graphics();
-            laserLine.moveTo(playerCenterX, playerCenterY);
-            laserLine.lineTo(targetCenterX, targetCenterY);
-            laserLine.stroke({ width: 2, color: 0xFF0000, alpha: 0.4 });
-
-            // Distance label at midpoint
-            const player = activeEncounter.tokens.find(t => t.isPlayer);
-            const target = activeEncounter.tokens.find(t => t.id === selectedTargetId);
-            if (player && target) {
-                const dist = Math.max(Math.abs(player.x - target.x), Math.abs(player.y - target.y));
-                const midX = (playerCenterX + targetCenterX) / 2;
-                const midY = (playerCenterY + targetCenterY) / 2;
-
-                const distLabel = new Text({
-                    text: `${dist} sq`,
-                    style: new TextStyle({
-                        fontFamily: 'monospace',
-                        fontSize: 11,
-                        fontWeight: 'bold',
-                        fill: 0xFF4444,
-                    }),
-                });
-                distLabel.anchor.set(0.5);
-                distLabel.x = midX;
-                distLabel.y = midY - 10;
-                camera.addChild(distLabel);
-            }
-
-            camera.addChild(laserLine);
-        }
-
         // Center grid in view
         camera.x = (app.screen.width - (GRID_W * TILE_SIZE)) / 2;
         camera.y = (app.screen.height - (GRID_H * TILE_SIZE)) / 2;
 
-    }, [activeEncounter, selectedTargetId]);
+    }, [activeEncounter, selectedTokenId, selectToken]);
 
     useEffect(() => {
         const el = containerRef.current;
@@ -197,7 +141,7 @@ export function PixiBattlemap() {
         const app = new Application();
 
         app.init({
-            background: 0x0a0a0a,
+            background: 0x0f0f0f,
             resizeTo: el,
             antialias: true,
             resolution: window.devicePixelRatio || 1,
@@ -234,7 +178,7 @@ export function PixiBattlemap() {
     return (
         <div
             ref={containerRef}
-            className="w-full h-full shadow-[inset_0_0_50px_rgba(0,0,0,0.8)]"
+            className="w-full h-full"
             style={{ touchAction: 'none' }}
         />
     );
