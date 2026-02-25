@@ -2,16 +2,20 @@ import { create } from 'zustand';
 
 // ── Type Definitions ──────────────────────────────────────────────────
 
-// --- World Architect Types (C++ JSON Output) ---
+// --- World Architect Types (Matches C++ VoronoiCell output exactly) ---
 export interface HexCell {
-    cell_id: number;
-    coord: [number, number];
+    id: number;
+    x: number;
+    y: number;
+    neighbors: number[];
     elevation: number;
     temperature: number;
     moisture: number;
-    biome: string;
+    wind_dx: number;
+    wind_dy: number;
+    biome_tag: string;
     faction_owner: string;
-    settlement: string;
+    settlement_name: string;
     has_river: boolean;
     available_resources: Record<string, string>;
     local_lifeforms: string[];
@@ -27,6 +31,25 @@ export interface WorldData {
     factions: any;
     macro_map: HexCell[];
     road_network: any[];
+}
+
+// --- Character Sheet (Matches CompiledCharacterSheet from Port 8003) ---
+export interface CharacterSheet {
+    name: string;
+    attributes: CoreAttributes;
+    vitals: {
+        max_hp: number;
+        max_stamina: number;
+        max_composure: number;
+        max_focus: number;
+        body_injuries: string[];
+        mind_injuries: string[];
+    };
+    evolutions: any;
+    passives: { name: string; effect: string }[];
+    powers: string[];
+    loadout: Record<string, string>;
+    holding_fees: { stamina: number; focus: number };
 }
 
 // --- Player VTT Types ---
@@ -116,6 +139,10 @@ export interface ClientGameState {
     activeCampaignId: string | null;
     setCampaignId: (id: string) => void;
 
+    // Character Sheet (Module 3 — Port 8003 output)
+    characterSheet: CharacterSheet | null;
+    setCharacterSheet: (sheet: CharacterSheet) => void;
+
     // Tactical Encounter
     activeEncounter: ActiveEncounter | null;
     setActiveEncounter: (encounter: ActiveEncounter | null) => void;
@@ -172,20 +199,14 @@ export interface ClientGameState {
 
 // ── Initial State ─────────────────────────────────────────────────────
 const INITIAL_STATE: Omit<ClientGameState,
-    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget'
+    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet'
 > = {
     currentScreen: 'MAIN_MENU',
     worldData: null,
     selectedHex: null,
     activeCampaignId: null,
-    activeEncounter: {
-        gridWidth: 15,
-        gridHeight: 10,
-        tokens: [
-            { id: 'player_1', name: 'Scavenger', x: 2, y: 5, color: 0x3B82F6, isPlayer: true },
-            { id: 'enemy_1', name: 'Frost Troll', x: 8, y: 5, color: 0xEF4444, isPlayer: false }
-        ]
-    },
+    characterSheet: null,
+    activeEncounter: null,
     selectedTargetId: null,
     ui_locked: false,
     characterName: 'Kael Thornwood',
@@ -249,6 +270,9 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     // Campaign
     setCampaignId: (id) => set({ activeCampaignId: id }),
 
+    // Character Sheet (from Port 8003)
+    setCharacterSheet: (sheet) => set({ characterSheet: sheet, characterName: sheet.name }),
+
     // Tactical Encounter
     setActiveEncounter: (encounter) => set({ activeEncounter: encounter }),
     moveToken: (id, newX, newY) => set((state) => {
@@ -262,7 +286,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     // Targeting
     setTarget: (id) => set({ selectedTargetId: id }),
 
-    // Vitals — maps the API response to our pools
+    // Vitals — maps API response to all 4 pools
     setPlayerVitals: (apiVitals) => set((state) => ({
         vitals: {
             hp: {
@@ -270,11 +294,17 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
                 max: apiVitals.max_hp ?? state.vitals.hp.max,
             },
             stamina: {
-                current: apiVitals.stamina ?? state.vitals.stamina.current,
+                current: apiVitals.current_stamina ?? apiVitals.stamina ?? state.vitals.stamina.current,
                 max: apiVitals.max_stamina ?? state.vitals.stamina.max,
             },
-            focus: state.vitals.focus,
-            composure: state.vitals.composure,
+            focus: {
+                current: apiVitals.current_focus ?? state.vitals.focus.current,
+                max: apiVitals.max_focus ?? state.vitals.focus.max,
+            },
+            composure: {
+                current: apiVitals.current_composure ?? state.vitals.composure.current,
+                max: apiVitals.max_composure ?? state.vitals.composure.max,
+            },
         }
     })),
 

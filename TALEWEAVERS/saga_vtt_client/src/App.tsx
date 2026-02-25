@@ -16,6 +16,7 @@ export default function App() {
   const setCampaignId = useGameStore((s) => s.setCampaignId);
   const addChatMessage = useGameStore((s) => s.addChatMessage);
   const setPlayerVitals = useGameStore((s) => s.setPlayerVitals);
+  const setCharacterSheet = useGameStore((s) => s.setCharacterSheet);
   const [isBioMatrixOpen, setBioMatrixOpen] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
 
@@ -23,10 +24,57 @@ export default function App() {
   const handleEnterCampaign = async () => {
     setIsStarting(true);
     try {
-      console.log("[VTT] Requesting new campaign from Game Master...");
+      // ── STEP 1: Build Character via Port 8003 ──
+      console.log("[VTT] Requesting True Character Sheet from Port 8003...");
 
-      // 1. Ask the real Python Game Master to create a session
-      const res = await fetch('http://localhost:8000/api/campaign/start', {
+      const buildRequest = {
+        name: "Scavenger_01",
+        base_attributes: {
+          might: 3, endurance: 4, vitality: 5, fortitude: 3, reflexes: 4, finesse: 2,
+          knowledge: 2, logic: 2, charm: 1, willpower: 3, awareness: 4, intuition: 3
+        },
+        evolutions: {
+          species_base: "HUMAN",
+          head_slot: "Standard", body_slot: "Standard", arms_slot: "Standard",
+          legs_slot: "Standard", skin_slot: "Standard", special_slot: "None"
+        },
+        selected_powers: [],
+        equipped_loadout: {}
+      };
+
+      const charRes = await fetch('http://localhost:8003/api/rules/character/calculate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(buildRequest)
+      });
+
+      if (!charRes.ok) {
+        console.warn("[VTT] Character Engine offline. Using fallback vitals.");
+        // Fallback: proceed without Character Engine
+        setPlayerVitals({ current_hp: 20, max_hp: 20, current_stamina: 12, max_stamina: 12, current_focus: 9, max_focus: 9, current_composure: 14, max_composure: 14 });
+      } else {
+        const compiledSheet = await charRes.json();
+        console.log("[VTT] Character Sheet compiled:", compiledSheet.name);
+
+        // Save the full sheet
+        setCharacterSheet(compiledSheet);
+
+        // Initialize vitals to max (fresh character)
+        setPlayerVitals({
+          current_hp: compiledSheet.vitals.max_hp,
+          max_hp: compiledSheet.vitals.max_hp,
+          current_stamina: compiledSheet.vitals.max_stamina,
+          max_stamina: compiledSheet.vitals.max_stamina,
+          current_focus: compiledSheet.vitals.max_focus,
+          max_focus: compiledSheet.vitals.max_focus,
+          current_composure: compiledSheet.vitals.max_composure,
+          max_composure: compiledSheet.vitals.max_composure,
+        });
+      }
+
+      // ── STEP 2: Start Campaign via Port 8000 ──
+      console.log("[VTT] Connecting to Game Master on Port 8000...");
+      const campaignRes = await fetch('http://localhost:8000/api/campaign/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -36,24 +84,19 @@ export default function App() {
         })
       });
 
-      if (!res.ok) throw new Error("Game Master API failed.");
+      if (!campaignRes.ok) throw new Error("Game Master API failed.");
 
-      const data = await res.json();
+      const campData = await campaignRes.json();
+      setCampaignId(campData.campaign_id);
+      console.log(`[VTT] Campaign ${campData.campaign_id} initialized.`);
 
-      // 2. Save the REAL campaign ID to global memory
-      setCampaignId(data.campaign_id);
-      console.log(`[VTT] Campaign ${data.campaign_id} initialized.`);
-
-      // 3. Set starting vitals from the campaign state
-      setPlayerVitals({ current_hp: 20, max_hp: 20, stamina: 12, max_stamina: 12 });
-
-      // 4. The AI Director introduces the scene
+      // ── STEP 3: AI Director introduction ──
       addChatMessage({
         sender: 'AI_DIRECTOR',
-        text: 'The biting cold of the Deep Tundra pierces your armor. You stand in Hex #402. A Frost Troll roars in the distance. What do you do?'
+        text: 'The biting cold of the Deep Tundra pierces your armor. You stand in Hex #402. What do you do?'
       });
 
-      // 5. Transition to the gameplay screen
+      // ── STEP 4: Transition to gameplay ──
       setScreen('PLAYER');
 
     } catch (err) {

@@ -12,6 +12,74 @@ export function PixiBattlemap() {
     const activeEncounter = useGameStore((s) => s.activeEncounter);
     const selectedTargetId = useGameStore((s) => s.selectedTargetId);
 
+    // ── REAL ENCOUNTER FETCH (PORT 8004) ──
+    useEffect(() => {
+        const fetchRealEncounter = async () => {
+            // Only fetch if we don't already have an active encounter
+            if (activeEncounter) return;
+
+            try {
+                // Read the current biome from the selected hex, or use a default
+                const currentBiome = useGameStore.getState().selectedHex?.biome_tag || "Tundra";
+
+                console.log(`[VTT] Requesting encounter for biome: ${currentBiome}`);
+                const res = await fetch(`http://localhost:8004/generate-encounter?biome=${currentBiome}&threat_level=4`);
+
+                if (!res.ok) throw new Error("Encounter Engine offline.");
+                const data = await res.json();
+
+                // Always spawn the Player Token
+                const dynamicTokens = [
+                    { id: 'player_1', name: 'Scavenger', x: 2, y: 5, color: 0x3B82F6, isPlayer: true }
+                ];
+
+                // If this is a COMBAT encounter, spawn enemy tokens from the response
+                if (data.type === "COMBAT" && data.enemies && Array.isArray(data.enemies)) {
+                    data.enemies.forEach((enemy: any, index: number) => {
+                        dynamicTokens.push({
+                            id: `enemy_${index}`,
+                            name: enemy.name,
+                            x: 8 + (index * 2),
+                            y: 3 + index,
+                            color: 0xEF4444,
+                            isPlayer: false
+                        });
+                    });
+                }
+
+                // Save to Zustand
+                useGameStore.getState().setActiveEncounter({
+                    gridWidth: 15,
+                    gridHeight: 10,
+                    tokens: dynamicTokens
+                });
+
+                // Post encounter description to Director Log
+                useGameStore.getState().addChatMessage({
+                    sender: 'SYSTEM',
+                    text: `ENCOUNTER: ${data.name}. ${data.description}`
+                });
+
+                console.log(`[VTT] Encounter loaded: ${data.name} (${data.type})`);
+
+            } catch (err) {
+                console.warn("Encounter Engine (Port 8004) unavailable. Loading fallback.", err);
+
+                // Fallback: spawn a basic encounter without the server
+                useGameStore.getState().setActiveEncounter({
+                    gridWidth: 15,
+                    gridHeight: 10,
+                    tokens: [
+                        { id: 'player_1', name: 'Scavenger', x: 2, y: 5, color: 0x3B82F6, isPlayer: true },
+                        { id: 'enemy_1', name: 'Unknown Entity', x: 8, y: 5, color: 0xEF4444, isPlayer: false }
+                    ]
+                });
+            }
+        };
+
+        fetchRealEncounter();
+    }, [activeEncounter]);
+
     const draw = useCallback(() => {
         const app = appRef.current;
         const camera = cameraRef.current;

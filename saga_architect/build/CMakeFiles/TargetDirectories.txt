@@ -1,0 +1,3 @@
+C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/saga_architect.dir
+C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/ZERO_CHECK.dir

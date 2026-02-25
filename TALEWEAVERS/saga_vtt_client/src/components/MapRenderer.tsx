@@ -41,9 +41,9 @@ export function MapRenderer() {
         camera.addChild(graphics);
 
         worldData.macro_map.forEach((cell: HexCell) => {
-            const cx = cell.coord[0];
-            const cy = cell.coord[1];
-            const color = getBiomeColor(cell.biome, cell.elevation);
+            const cx = cell.x;
+            const cy = cell.y;
+            const color = getBiomeColor(cell.biome_tag, cell.elevation);
 
             // Draw hexagon polygon (radius ~12px)
             const size = 12;
@@ -67,7 +67,7 @@ export function MapRenderer() {
             }
 
             // Red dot for settlements
-            if (cell.settlement) {
+            if (cell.settlement_name) {
                 graphics.circle(cx, cy, 4);
                 graphics.fill(0xFF0000);
             }
@@ -135,7 +135,7 @@ export function MapRenderer() {
 
                         // Voronoi nearest-neighbor: find closest hex center
                         currentWorldData.macro_map.forEach((cell: HexCell) => {
-                            const dist = Math.hypot(cell.coord[0] - localClick.x, cell.coord[1] - localClick.y);
+                            const dist = Math.hypot(cell.x - localClick.x, cell.y - localClick.y);
                             if (dist < minDistance) {
                                 minDistance = dist;
                                 closestCell = cell;
