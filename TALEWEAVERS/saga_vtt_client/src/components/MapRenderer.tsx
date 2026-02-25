@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { Application, Graphics, Container } from 'pixi.js';
-import { useGameStore, HexCell } from '../store/useGameStore';
+import { useGameStore } from '../store/useGameStore';
+import type { HexCell } from '../store/useGameStore';
 
 // --- COLOR MAPPING ---
 const getBiomeColor = (biome: string, elevation: number): number => {

@@ -22,6 +22,7 @@ export function MapRenderer() {
     const appRef = useRef<Application | null>(null);
     const cameraRef = useRef<Container | null>(null);
     const worldData = useGameStore((s) => s.worldData);
+    const setSelectedHex = useGameStore((s) => s.setSelectedHex);
 
     const draw = useCallback(() => {
         const app = appRef.current;
@@ -102,18 +103,51 @@ export function MapRenderer() {
             app.stage.addChild(camera);
             cameraRef.current = camera;
 
-            // Drag to pan
+            // Interactivity setup
             app.stage.eventMode = 'static';
             app.stage.hitArea = { contains: () => true };
 
             let isDragging = false;
             let dragStart = { x: 0, y: 0 };
+            let clickStart = { x: 0, y: 0 };
 
             app.stage.on('pointerdown', (e) => {
                 isDragging = true;
                 dragStart = { x: e.global.x - camera.x, y: e.global.y - camera.y };
+                clickStart = { x: e.global.x, y: e.global.y };
             });
-            app.stage.on('pointerup', () => (isDragging = false));
+
+            app.stage.on('pointerup', (e) => {
+                isDragging = false;
+
+                // If mouse moved less than 5px, it was a CLICK not a DRAG
+                const distMoved = Math.hypot(e.global.x - clickStart.x, e.global.y - clickStart.y);
+
+                if (distMoved < 5) {
+                    const currentWorldData = useGameStore.getState().worldData;
+                    if (currentWorldData && currentWorldData.macro_map) {
+                        // Convert screen coords to world coords (accounting for zoom and pan)
+                        const localClick = camera.toLocal(e.global);
+
+                        let closestCell: HexCell | null = null;
+                        let minDistance = Infinity;
+
+                        // Voronoi nearest-neighbor: find closest hex center
+                        currentWorldData.macro_map.forEach((cell: HexCell) => {
+                            const dist = Math.hypot(cell.coord[0] - localClick.x, cell.coord[1] - localClick.y);
+                            if (dist < minDistance) {
+                                minDistance = dist;
+                                closestCell = cell;
+                            }
+                        });
+
+                        if (closestCell) {
+                            useGameStore.getState().setSelectedHex(closestCell);
+                        }
+                    }
+                }
+            });
+
             app.stage.on('pointerupoutside', () => (isDragging = false));
             app.stage.on('pointermove', (e) => {
                 if (isDragging) {
