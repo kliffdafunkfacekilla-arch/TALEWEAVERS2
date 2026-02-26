@@ -10,31 +10,156 @@ class AutoPopulate {
 public:
   std::vector<int> city_nodes;
 
-  void PopulateSettlements(std::vector<VoronoiCell> &cells,
-                           const std::vector<Faction> &factions) {
-    std::cout << "Spawning cities on optimal cells..." << std::endl;
-    if (factions.empty())
-      return;
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> fac_dis(0, factions.size() - 1);
-
+  // Helper to evaluate how "good" a hex is for humanoids/cultures to live
+  void CalculateHabitability(std::vector<VoronoiCell> &cells) {
     for (auto &cell : cells) {
-      bool is_habitable = (cell.elevation > 0.05f && cell.elevation < 0.4f &&
-                           cell.temperature > 0.0f);
-      bool has_water = (cell.has_river || cell.elevation < 0.1f);
+      if (cell.elevation <= 0.2f) { // It's an ocean. You can't live underwater.
+        cell.habitability = 0.0f;
+        continue;
+      }
 
-      if (is_habitable && has_water && (rand() % 100 < 2)) {
-        const Faction &owner = factions[fac_dis(gen)];
-        cell.settlement_name =
-            owner.name + "_Settlement_" + std::to_string(cell.id);
-        cell.faction_owner = owner.name;
-        city_nodes.push_back(cell.id);
+      float hab = 0.0f;
+
+      // 1. Temperature Preference (Ideal is around 15C to 25C)
+      float temp_diff = std::abs(cell.temperature - 20.0f);
+      if (temp_diff < 20.0f)
+        hab += (20.0f - temp_diff) * 2.0f;
+
+      // 2. Moisture/Rain Preference (Needs water, but not drowned)
+      if (cell.moisture > 0.1f)
+        hab += cell.moisture * 30.0f;
+
+      // 3. Elevation Preference (Flatland is easier to farm than high peaks)
+      if (cell.elevation < 0.6f)
+        hab += (0.6f - cell.elevation) * 40.0f;
+
+      // 4. Azgaar's Coastal/River bonus
+      bool has_water = false;
+      for (int n_idx : cell.neighbors) {
+        if (cells[n_idx].elevation <= 0.2f || cells[n_idx].moisture > 0.8f) {
+          has_water = true;
+          break;
+        }
+      }
+      if (has_water)
+        hab += 40.0f;
+
+      // Penalize extreme biomes heavily
+      if (cell.biome_tag == "SCORCHED_DESERT" ||
+          cell.biome_tag == "DEEP_TUNDRA") {
+        hab *= 0.1f;
+      }
+
+      cell.habitability = std::max(0.0f, hab);
+    }
+  }
+
+  // The Dijkstra Node for pathfinding
+  struct ExpansionNode {
+    int cell_idx;
+    float cost;
+    int faction_id;
+
+    // Min-heap operator (lowest cost first)
+    bool operator>(const ExpansionNode &other) const {
+      return cost > other.cost;
+    }
+  };
+
+  void PopulateFactions(std::vector<VoronoiCell> &cells,
+                        const std::vector<Faction> &factions) {
+    std::cout << "[AZGAAR PORT] Calculating Habitability & Organic Borders..."
+              << std::endl;
+
+    CalculateHabitability(cells);
+
+    std::priority_queue<ExpansionNode, std::vector<ExpansionNode>,
+                        std::greater<ExpansionNode>>
+        frontier;
+
+    // STEP 1: Find best starting locations (Capitals) for each faction
+    for (size_t f = 0; f < factions.size(); ++f) {
+      int best_cell = -1;
+      float max_hab = -1.0f;
+
+      for (size_t i = 0; i < cells.size(); ++i) {
+        if (cells[i].faction_owner.empty() && cells[i].habitability > max_hab) {
+
+          // Ensure capitals don't spawn right next to each other
+          bool too_close = false;
+          for (int n : cells[i].neighbors) {
+            if (!cells[n].faction_owner.empty())
+              too_close = true;
+          }
+
+          if (!too_close) {
+            max_hab = cells[i].habitability;
+            best_cell = i;
+          }
+        }
+      }
+
+      if (best_cell != -1) {
+        cells[best_cell].faction_owner = factions[f].name;
+        cells[best_cell].is_city = true; // Mark as Capital Burg
+        cells[best_cell].settlement_name = factions[f].name + "_Capital";
+        city_nodes.push_back(best_cell);
+
+        // Add to expansion queue (Cost 0, because we start here)
+        frontier.push({best_cell, 0.0f, (int)f});
       }
     }
-    std::cout << "Spawned " << city_nodes.size() << " settlements."
-              << std::endl;
+
+    // STEP 2: Cost-based Territorial Expansion (Azgaar's Dijkstra Flood-Fill)
+    while (!frontier.empty()) {
+      ExpansionNode current = frontier.top();
+      frontier.pop();
+
+      int curr_idx = current.cell_idx;
+      const Faction &curr_faction = factions[current.faction_id];
+
+      for (int neighbor_idx : cells[curr_idx].neighbors) {
+        VoronoiCell &neighbor = cells[neighbor_idx];
+
+        // Stop at Oceans or already claimed land
+        if (neighbor.elevation <= 0.2f || !neighbor.faction_owner.empty()) {
+          continue;
+        }
+
+        // Calculate cost to physically enter this hex
+        float enter_cost = 10.0f; // Base flatland cost
+
+        // Mountains act as natural barriers (Cost skyrockets)
+        if (neighbor.elevation > 0.6f)
+          enter_cost += 100.0f;
+
+        // Extreme biomes act as natural barriers
+        if (neighbor.habitability < 10.0f)
+          enter_cost += 50.0f;
+
+        // DYNAMIC CULTURE BEHAVIOR: Does this faction natively prefer a
+        // specific biome?
+        if (curr_faction.name == "The_Rot_Coven" &&
+            neighbor.biome_tag == "MUSHROOM_SWAMP") {
+          enter_cost *= 0.2f; // Swamp costs them almost nothing to traverse
+        } else if (curr_faction.name == "Iron_Empire" &&
+                   neighbor.elevation > 0.5f) {
+          enter_cost *= 0.5f; // They like hills/mountains for mining
+        }
+
+        float new_cost = current.cost + enter_cost;
+
+        // Maximum Expansion Range: Multiplied by the Faction's Aggression
+        // slider!
+        float max_expansion = curr_faction.aggression * 800.0f;
+
+        if (new_cost < max_expansion) {
+          neighbor.faction_owner = curr_faction.name;
+          frontier.push({neighbor_idx, new_cost, current.faction_id});
+        }
+      }
+    }
+    std::cout << "[AZGAAR PORT] Societal Expansion Complete." << std::endl;
   }
 
   // A* Pathfinding implementation for roads
@@ -47,18 +172,6 @@ public:
       int start_id = city_nodes[i];
       int goal_id = city_nodes[i + 1];
       RunAStar(cells, start_id, goal_id);
-    }
-  }
-
-  void MarkBorders(std::vector<VoronoiCell> &cells) {
-    std::cout << "Marking faction borders..." << std::endl;
-    for (int city_id : city_nodes) {
-      std::string owner = cells[city_id].faction_owner;
-      for (int neighbor_id : cells[city_id].neighbors) {
-        if (cells[neighbor_id].faction_owner.empty()) {
-          cells[neighbor_id].faction_owner = owner;
-        }
-      }
     }
   }
 
@@ -87,7 +200,13 @@ public:
           continue; // Too hot or too cold!
         }
 
-        // 2. Biome Check
+        // 2. Biological Moisture Check
+        if (cell.moisture < lf.moisture_range.first ||
+            cell.moisture > lf.moisture_range.second) {
+          continue; // Too dry or too flooded!
+        }
+
+        // 3. Biome Check
         bool valid_biome = false;
         for (const auto &b : lf.allowed_biomes) {
           if (b == "ANY" || b == cell.biome_tag) {
@@ -107,6 +226,83 @@ public:
     }
     std::cout << "[INFO] Ecosystem stabilized. " << total_spawned
               << " lifeform populations spawned.\n";
+  }
+
+  void PopulateResourcesAndWildlife(std::vector<VoronoiCell> &grid) {
+    std::cout << "[S.A.G.A. PORT] Seeding Minerals, Flora, and Fauna..." << std::endl;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+
+    for (auto &cell : grid) {
+      if (cell.elevation <= 0.2f) {
+        // Ocean Resources
+        if (dist(gen) < 0.3f)
+          cell.local_resources.push_back("Salt");
+        if (dist(gen) < 0.1f)
+          cell.local_fauna.push_back("Abyssal_Leviathan");
+        continue;
+      }
+
+      // --- 1. GEOLOGICAL MINERALS (Based on Tectonics) ---
+      if (cell.elevation > 0.8f) { // High Mountains
+        if (dist(gen) < 0.40f)
+          cell.local_resources.push_back("Iron_Ore");
+        if (dist(gen) < 0.20f)
+          cell.local_resources.push_back("Obsidian");
+      } else if (cell.elevation > 0.6f) { // Hills
+        if (dist(gen) < 0.15f)
+          cell.local_resources.push_back("Iron_Ore");
+        if (dist(gen) < 0.30f)
+          cell.local_resources.push_back("Coal");
+      }
+
+      // --- 2. BIOME SPECIFIC LOOT & FLORA ---
+      if (cell.biome_tag == "MUSHROOM_SWAMP") {
+        if (dist(gen) < 0.60f)
+          cell.local_resources.push_back("Rot_Gas");
+        if (dist(gen) < 0.30f)
+          cell.local_resources.push_back("Ancient_Bones");
+        if (dist(gen) < 0.80f)
+          cell.local_flora.push_back("D-Dust_Spores");
+        if (dist(gen) < 0.50f)
+          cell.local_flora.push_back("Glow_Fungus");
+        cell.threat_level += 1;
+      } else if (cell.biome_tag == "SCORCHED_DESERT") {
+        if (dist(gen) < 0.50f)
+          cell.local_resources.push_back("Sand_Silica");
+        if (dist(gen) < 0.20f)
+          cell.local_resources.push_back("Ancient_Bones");
+      } else if (cell.biome_tag == "LUSH_JUNGLE") {
+        if (dist(gen) < 0.40f)
+          cell.local_flora.push_back("Blood_Root");
+        if (dist(gen) < 0.50f)
+          cell.local_flora.push_back("Iron_Wood");
+      }
+
+      // --- 3. DYNAMIC WILDLIFE (Based on Climate Math) ---
+      if (cell.temperature < -20.0f) { // Deep Cold
+        if (dist(gen) < 0.10f)
+          cell.local_fauna.push_back("Frost_Troll");
+        if (dist(gen) < 0.20f)
+          cell.local_fauna.push_back("Ice_Crawler");
+        cell.threat_level += 2; // Trolls make the hex lethal
+      } else if (cell.biome_tag == "SCORCHED_DESERT" && dist(gen) < 0.05f) {
+        cell.local_fauna.push_back("Sand_Wurm");
+        cell.threat_level += 3;
+      }
+
+      // General scavengers follow habitability (where things die)
+      if (cell.habitability > 20.0f) {
+        if (dist(gen) < 0.50f)
+          cell.local_fauna.push_back("Wild_Game");
+        if (dist(gen) < 0.15f)
+          cell.local_fauna.push_back("Scavenger_Pack");
+      }
+    }
+
+    std::cout << "[S.A.G.A. PORT] Ecosystem generation complete." << std::endl;
   }
 
 private:

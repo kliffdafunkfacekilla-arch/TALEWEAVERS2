@@ -40,7 +40,7 @@ export function MapRenderer() {
         const graphics = new Graphics();
         camera.addChild(graphics);
 
-        worldData.macro_map.forEach((cell: HexCell) => {
+        worldData.macro_map.forEach((cell: any) => {
             const cx = cell.x;
             const cy = cell.y;
             const color = getBiomeColor(cell.biome_tag, cell.elevation);
@@ -172,21 +172,157 @@ export function MapRenderer() {
             cancelled = true;
             if (appRef.current) {
                 appRef.current.destroy(true);
-                appRef.current = null;
-                cameraRef.current = null;
+            });
+
+    containerRef.current.appendChild(app.view as unknown as HTMLElement);
+    appRef.current = app;
+
+    const viewport = new Viewport({
+        screenWidth: containerRef.current.clientWidth,
+        screenHeight: containerRef.current.clientHeight,
+        worldWidth: 2000,
+        worldHeight: 2000,
+        events: app.renderer.events
+    });
+
+    app.stage.addChild(viewport);
+    viewport.drag().pinch().wheel().decelerate();
+
+    const mapGraphics = new PIXI.Graphics();
+    viewport.addChild(mapGraphics);
+
+    // --- THE AZGAAR DRAG-PAINTING MATH ---
+    let isPainting = false;
+    let lastPaintedId = -1;
+
+    viewport.eventMode = 'static';
+    viewport.hitArea = new PIXI.Rectangle(-5000, -5000, 10000, 10000); // Massive hit area
+
+    const handleInteraction = (e: any) => {
+        const state = useGameStore.getState();
+        if (!state.worldData) return;
+
+        // 1. Get exact mouse coordinates inside the zoomable viewport
+        const localPos = viewport.toLocal(e.global);
+
+        // 2. Find the nearest hex via simple O(N) distance check (Lightning fast in JS)
+        let minDist = Infinity;
+        let nearestId = -1;
+
+        for (let i = 0; i < state.worldData.macro_map.length; i++) {
+            const cell = state.worldData.macro_map[i];
+            const dx = cell.x - localPos.x;
+            const dy = cell.y - localPos.y;
+            const dist = dx * dx + dy * dy;
+
+            if (dist < minDist) {
+                minDist = dist;
+                nearestId = i;
             }
-        };
-    }, []);
+        }
 
-    useEffect(() => {
-        draw();
-    }, [draw]);
+        // 3. Either Inspect it or Paint it!
+        if (nearestId !== -1) {
+            if (state.editMode === 'NONE') {
+                setSelectedHex(state.worldData.macro_map[nearestId]);
+            } else if (isPainting && nearestId !== lastPaintedId && state.activeBrush !== '') {
+                lastPaintedId = nearestId;
+                editHex(nearestId, state.editMode, state.activeBrush);
+            }
+        }
+    };
 
-    return (
-        <div
-            ref={containerRef}
-            className="w-full h-full"
-            style={{ touchAction: 'none' }}
-        />
-    );
-}
+    viewport.on('pointerdown', (e) => {
+        if (e.button === 0) { // Left click only
+            isPainting = true;
+            lastPaintedId = -1;
+            viewport.pausePlugin('drag'); // Stop map from panning while we paint
+            handleInteraction(e);
+        }
+    });
+
+    viewport.on('pointerup', () => { isPainting = false; viewport.resumePlugin('drag'); });
+    viewport.on('pointerupoutside', () => { isPainting = false; viewport.resumePlugin('drag'); });
+
+    viewport.on('pointermove', (e) => {
+        if (isPainting) handleInteraction(e);
+    });
+
+    // --- RENDER LOOP ---
+    const draw = () => {
+        mapGraphics.clear();
+        const currentData = useGameStore.getState().worldData;
+        if (!currentData) return;
+
+        currentData.macro_map.forEach((cell: any) => {
+            const cx = cell.x;
+            const cy = cell.y;
+            const color = getBiomeColor(cell.biome_tag, cell.elevation);
+
+            const size = 12;
+            const points: number[] = [];
+            for (let a = 0; a < 6; a++) {
+                const angle = (Math.PI / 3) * a;
+                points.push(cx + size * Math.cos(angle));
+                points.push(cy + size * Math.sin(angle));
+            }
+
+            // 1. Draw Biome
+            mapGraphics.beginFill(color);
+            mapGraphics.drawPolygon(points);
+            mapGraphics.endFill();
+
+            // 2. Draw Borders (If Faction Owned)
+            if (cell.faction_owner) {
+                mapGraphics.lineStyle(2, cell.faction_owner === 'The_Rot_Coven' ? 0x991b1b : 0x1d4ed8, 0.8);
+                mapGraphics.drawPolygon(points);
+            }
+
+            // 3. Draw Resource Indicators
+            if (cell.local_resources && cell.local_resources.length > 0) {
+                mapGraphics.beginFill(0x3b82f6); // Blue dot for resources
+                mapGraphics.drawCircle(cx, cy - 4, 3);
+                mapGraphics.endFill();
+            }
+
+            // 4. Draw Fauna Indicators
+            if (cell.local_fauna && cell.local_fauna.length > 0) {
+                mapGraphics.beginFill(0xef4444); // Red dot for fauna
+                mapGraphics.drawCircle(cx - 4, cy + 4, 2);
+                mapGraphics.endFill();
+            }
+
+            // 5. Draw Flora Indicators
+            if (cell.local_flora && cell.local_flora.length > 0) {
+                mapGraphics.beginFill(0x22c55e); // Green dot for flora
+                mapGraphics.drawCircle(cx + 4, cy + 4, 2);
+                mapGraphics.endFill();
+            }
+
+            // 6. Draw City Indicator
+            if (cell.is_city) {
+                mapGraphics.beginFill(0xffffff);
+                mapGraphics.drawCircle(cx, cy, 4);
+                mapGraphics.endFill();
+            }
+        });
+    };
+
+    // Subscribe to Zustand so map re-draws the instant you paint a hex
+    const unsubscribe = useGameStore.subscribe((state, prevState) => {
+        if (state.worldData !== prevState.worldData) {
+            draw();
+        }
+    });
+
+    // Initial Draw
+    draw();
+
+    return () => {
+        unsubscribe();
+        app.destroy(true, { children: true });
+    };
+}, [setSelectedHex, editHex]); // Include new dependencies
+
+return <div ref={containerRef} className="w-full h-full" />;
+};

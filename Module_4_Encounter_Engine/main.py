@@ -3,7 +3,7 @@ import random
 import uuid
 from pathlib import Path
 from fastapi import FastAPI, Query, HTTPException
-
+from fastapi.middleware.cors import CORSMiddleware
 try:
     from schemas import (
         EncounterType, CombatEncounter, SocialEncounter, HazardEncounter,
@@ -17,6 +17,13 @@ except ImportError:
 
 app = FastAPI(title="TALEWEAVERS Encounter & Obstacle Engine")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # ==========================================
 # FILE LOADING LOGIC (The Real Data)
 # ==========================================

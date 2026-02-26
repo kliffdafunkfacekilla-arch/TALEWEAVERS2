@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from core.schemas import ClashRequest, ClashResolution
 from core.clash_calculator import resolve_clash
 from core.injury_applier import apply_injuries
@@ -7,6 +8,14 @@ app = FastAPI(
     title="S.A.G.A. Clash Engine",
     description="Blueprint 07 — The Rules Manager. Stateless, no-database calculator for contested combat.  There is no Armor Class here.",
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 

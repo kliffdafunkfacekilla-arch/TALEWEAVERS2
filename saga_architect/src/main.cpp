@@ -8,6 +8,7 @@
 #include "io/Exporter.cpp"
 #include "map/VoronoiGen.cpp"
 #include "simulation/AutoPopulate.cpp"
+#include "simulation/ResourcePopulator.cpp"
 
 using json = nlohmann::json;
 
@@ -50,10 +51,23 @@ int main() {
     fac.culture.will_mine = f.value("will_mine", false);
     fac.culture.will_hunt = f.value("will_hunt", false);
     fac.culture.will_trade = f.value("will_trade", false);
-    for (const auto &res : f["loved_resources"])
+    fac.culture.base_trade_value = f.value("base_trade_value", 1.0f);
+    for (const auto &bld : f.value("building_preferences", json::array())) {
+      fac.culture.building_preferences.push_back(bld);
+    }
+    for (const auto &res : f.value("loved_resources", json::array())) {
       fac.loved_resources.push_back(res);
-    for (const auto &res : f["hated_resources"])
+    }
+    for (const auto &res : f.value("hated_resources", json::array())) {
       fac.hated_resources.push_back(res);
+    }
+    for (const auto &res : f.value("required_resources", json::array())) {
+      fac.required_resources.push_back(res);
+    }
+    for (const auto &bio : f.value("preferred_biomes", json::array())) {
+      fac.preferred_biomes.push_back(bio);
+    }
+    fac.expansion_rate = f.value("expansion_rate", 0.5f);
     factions.push_back(fac);
   }
 
@@ -85,9 +99,21 @@ int main() {
       l.type = lf["type"];
       l.spawn_chance = lf["spawn_chance"];
       l.temp_range = {lf["min_temp"], lf["max_temp"]};
+
+      // New biological parameters with defaults for backwards compatibility
+      l.moisture_range = {lf.value("min_water", 0.0f),
+                          lf.value("max_water", 1.0f)};
       l.is_aggressive = lf.value("is_aggressive", false);
-      for (const auto &b : lf["allowed_biomes"]) {
+      l.is_farmable = lf.value("is_farmable", false);
+      l.is_tameable = lf.value("is_tameable", false);
+      l.farm_yield_resource = lf.value("farm_yield_resource", "");
+      l.farm_yield_amount = lf.value("farm_yield_amount", 0.0f);
+
+      for (const auto &b : lf.value("allowed_biomes", json::array())) {
         l.allowed_biomes.push_back(b);
+      }
+      for (const auto &food : lf.value("diet", json::array())) {
+        l.diet.push_back(food);
       }
       ecosystem.push_back(l);
     }
@@ -113,12 +139,14 @@ int main() {
   physicalEngine.AssignBiomes(biomeRules);
 
   std::cout << "\n[PHASE 2] Simulating Civilization & Ecosystem...\n";
-  civEngine.PopulateSettlements(physicalEngine.cells, factions);
+  civEngine.PopulateFactions(physicalEngine.cells, factions);
   civEngine.GenerateRoads(physicalEngine.cells);
-  civEngine.MarkBorders(physicalEngine.cells);
 
   // Drop the animals and plants into the world!
   civEngine.PopulateEcosystem(physicalEngine.cells, ecosystem);
+
+  // Scatter Architect Palette (Resources, specific Flora/Fauna rules)
+  civEngine.PopulateResourcesAndWildlife(physicalEngine.cells);
 
   // 7. Export to JSON
   std::cout << "\n[PHASE 3] Packaging Data...\n";

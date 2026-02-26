@@ -38,32 +38,51 @@ public:
     // Factions
     json jFactions = json::object();
     for (const auto &faction : factions) {
-      jFactions[faction.name] = {{"aggression", faction.aggression},
-                                 {"behaviors",
-                                  {{"fight", faction.culture.will_fight},
-                                   {"farm", faction.culture.will_farm},
-                                   {"mine", faction.culture.will_mine},
-                                   {"hunt", faction.culture.will_hunt},
-                                   {"trade", faction.culture.will_trade}}},
-                                 {"loved_resources", faction.loved_resources},
-                                 {"hated_resources", faction.hated_resources}};
+      json bldPrefs = json::array();
+      for (const auto &b : faction.culture.building_preferences)
+        bldPrefs.push_back(b);
+
+      json prefBiomes = json::array();
+      for (const auto &b : faction.preferred_biomes)
+        prefBiomes.push_back(b);
+
+      jFactions[faction.name] = {
+          {"aggression", faction.aggression},
+          {"expansion_rate", faction.expansion_rate},
+          {"behaviors",
+           {{"fight", faction.culture.will_fight},
+            {"farm", faction.culture.will_farm},
+            {"mine", faction.culture.will_mine},
+            {"hunt", faction.culture.will_hunt},
+            {"trade", faction.culture.will_trade},
+            {"base_trade_value", faction.culture.base_trade_value}}},
+          {"building_preferences", bldPrefs},
+          {"loved_resources", faction.loved_resources},
+          {"hated_resources", faction.hated_resources},
+          {"required_resources", faction.required_resources},
+          {"preferred_biomes", prefBiomes}};
     }
     j["factions"] = jFactions;
 
     // Macro Map
     json jCells = json::array();
     for (const auto &cell : cells) {
-      jCells.push_back({{"cell_id", cell.id},
-                        {"coord", {cell.x, cell.y}},
-                        {"elevation", cell.elevation},
-                        {"temperature", cell.temperature},
-                        {"moisture", cell.moisture},
-                        {"biome", cell.biome_tag},
-                        {"faction_owner", cell.faction_owner},
-                        {"has_river", cell.has_river},
-                        {"settlement", cell.settlement_name},
-                        {"available_resources", cell.available_resources},
-                        {"local_lifeforms", cell.local_lifeforms}});
+      json cell_json;
+      cell_json["cell_id"] = cell.id;
+      cell_json["coord"] = {cell.x, cell.y};
+      cell_json["elevation"] = cell.elevation;
+      cell_json["temperature"] = cell.temperature;
+      cell_json["moisture"] = cell.moisture;
+      cell_json["biome"] = cell.biome_tag;
+      cell_json["faction_owner"] = cell.faction_owner;
+      cell_json["has_river"] = cell.has_river;
+      cell_json["settlement"] = cell.settlement_name;
+      cell_json["available_resources"] = cell.available_resources;
+      cell_json["local_resources"] = cell.local_resources;
+      cell_json["local_fauna"] = cell.local_fauna;
+      cell_json["local_flora"] = cell.local_flora;
+      cell_json["threat_level"] = cell.threat_level;
+      jCells.push_back(cell_json);
     }
     j["macro_map"] = jCells;
 

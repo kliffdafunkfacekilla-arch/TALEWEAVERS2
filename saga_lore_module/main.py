@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from core.schemas import IngestRequest, IngestResponse, SearchRequest, SearchResponse
 from core.vault_parser import parse_vault
 from core.vector_store import LoreVaultDB
@@ -8,7 +9,13 @@ import os
 
 app = FastAPI(title="S.A.G.A. Lore Vault API", description="Module 1: Lore Database")
 
-# Global DB instance
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)# Global DB instance
 db = LoreVaultDB()
 
 @app.post("/api/lore/ingest", response_model=IngestResponse)

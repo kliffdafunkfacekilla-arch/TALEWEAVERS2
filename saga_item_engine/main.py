@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
 from core.economy_engine import calculate_d_dust_rate
@@ -7,6 +8,13 @@ from core.data_loader import load_item_by_id
 
 app = FastAPI(title="T.A.L.E.W.E.A.V.E.R. Item Foundry", version="1.0.0")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 class EconomyRequest(BaseModel):
     base_rate: float = 10.0
     chaos_level: int = 1

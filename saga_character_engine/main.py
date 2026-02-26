@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from core.schemas import CharacterBuildRequest, CompiledCharacterSheet, DerivedVitals
 from core.calc_vitals import calculate_pools
 from core.calc_evolution import apply_biology
@@ -7,6 +8,13 @@ import uvicorn
 
 app = FastAPI(title="T.A.L.E.W.E.A.V.E.R. Character Rules Engine", version="1.0.0")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "module": "Character Rules Engine", "port": 8003}

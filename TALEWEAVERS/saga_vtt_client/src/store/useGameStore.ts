@@ -8,17 +8,25 @@ export interface HexCell {
     x: number;
     y: number;
     neighbors: number[];
+    // --- AZGAAR TOPOLOGY & CLIMATE ---
     elevation: number;
     temperature: number;
     moisture: number;
     wind_dx: number;
     wind_dy: number;
     biome_tag: string;
+
+    // --- S.A.G.A. CULTURAL ENGINE ---
     faction_owner: string;
     settlement_name: string;
     has_river: boolean;
-    available_resources: Record<string, string>;
-    local_lifeforms: string[];
+
+    // --- THE FINER DETAILS (Architect's Palette) ---
+    available_resources: Record<string, string>; // Legacy
+    local_resources: string[];
+    local_fauna: string[];
+    local_flora: string[];
+    threat_level: number;
 }
 
 export interface WorldData {
@@ -153,6 +161,9 @@ export interface ClientGameState {
     selectedHex: HexCell | null;
     setSelectedHex: (hex: HexCell | null) => void;
 
+    // The Architect's Palette: Edit Brush Logic
+    editHex: (hexId: number, editMode: string, brushValue: string) => void;
+
     // Campaign State (Module 8 integration)
     activeCampaignId: string | null;
     setCampaignId: (id: string) => void;
@@ -222,7 +233,7 @@ export interface ClientGameState {
 
 // ── Initial State ─────────────────────────────────────────────────────
 const INITIAL_STATE: Omit<ClientGameState,
-    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet' | 'setClientLoadout' | 'addInjury'
+    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'editHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet' | 'setClientLoadout' | 'addInjury'
 > = {
     currentScreen: 'MAIN_MENU',
     worldData: null,
@@ -290,6 +301,54 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
 
     // Hex Inspector
     setSelectedHex: (hex) => set({ selectedHex: hex }),
+
+    // The Architect's Palette Logic
+    editHex: (hexId: number, editMode: string, brushValue: string) => set((state) => {
+        if (!state.worldData) return state;
+
+        const updatedMap = [...state.worldData.macro_map];
+        const cell = { ...updatedMap[hexId] };
+
+        // Initialize missing arrays (just in case)
+        if (!cell.local_resources) cell.local_resources = [];
+        if (!cell.local_fauna) cell.local_fauna = [];
+        if (!cell.local_flora) cell.local_flora = [];
+
+        if (editMode === 'BIOME') {
+            cell.biome_tag = brushValue;
+        }
+        else if (editMode === 'FACTION') {
+            cell.faction_owner = brushValue;
+        }
+        else if (editMode === 'RESOURCE') {
+            if (!cell.local_resources.includes(brushValue)) {
+                cell.local_resources.push(brushValue);
+            } else {
+                cell.local_resources = cell.local_resources.filter(r => r !== brushValue);
+            }
+        }
+        else if (editMode === 'FAUNA') {
+            if (!cell.local_fauna.includes(brushValue)) {
+                cell.local_fauna.push(brushValue);
+            } else {
+                cell.local_fauna = cell.local_fauna.filter(r => r !== brushValue);
+            }
+        }
+        else if (editMode === 'FLORA') {
+            if (!cell.local_flora.includes(brushValue)) {
+                cell.local_flora.push(brushValue);
+            } else {
+                cell.local_flora = cell.local_flora.filter(r => r !== brushValue);
+            }
+        }
+
+        updatedMap[hexId] = cell;
+
+        return {
+            worldData: { ...state.worldData, macro_map: updatedMap },
+            selectedHex: state.selectedHex?.id === hexId ? cell : state.selectedHex // Also update the inspector if we're looking at it
+        };
+    }),
 
     // Campaign
     setCampaignId: (id) => set({ activeCampaignId: id }),

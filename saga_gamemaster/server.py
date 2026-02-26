@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from saga_gamemaster.core.vtt_schemas import PlayerAction, VTTUpdate
-from saga_gamemaster.core.database import get_session, init_db
-from saga_gamemaster.core.ai_narrator.graph import create_director_graph
-from saga_gamemaster.core.ai_narrator.state import GameState
+from core.vtt_schemas import PlayerAction, VTTUpdate
+from core.database import get_session, init_db
+from core.ai_narrator.graph import create_director_graph
+from core.ai_narrator.state import GameState
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional

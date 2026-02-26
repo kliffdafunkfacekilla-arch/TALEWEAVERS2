@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Optional
-from core.schemas import CampaignRoadmap
+from core.schemas import CampaignRoadmap, QuestNode
 from core.weaver import generate_roadmap
 
 app = FastAPI(title="S.A.G.A. Campaign Weaver", version="1.0.0")

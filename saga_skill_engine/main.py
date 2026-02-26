@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from core.schemas import SkillCheckRequest, SkillCheckResult
 from core.dice_roller import roll_d20
 from core.pip_calculator import check_for_pips
@@ -7,6 +8,14 @@ app = FastAPI(
     title="S.A.G.A. Skill Engine",
     description="Blueprint 06 — The Fate Engine. Stateless, dice-rolling calculator for all non-combat friction.",
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 

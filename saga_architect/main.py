@@ -25,9 +25,9 @@ class GenerateRequest(BaseModel):
     time_rules: Optional[Dict[str, Any]] = None
     flora_fauna: Optional[List[Dict[str, Any]]] = None
 
-@app.post("/api/world/generate")
-async def generate_world(req: GenerateRequest):
-    print("[API] Received generation parameters from VTT...")
+# Shared execution function
+async def run_cpp_engine(req: GenerateRequest, phase: str):
+    print(f"[API] Running phase: {phase}...")
     
     # 1. Write the payload to architect_config.json so C++ can read it
     config_path = "architect_config.json"
@@ -36,17 +36,16 @@ async def generate_world(req: GenerateRequest):
         
     print("[API] Wrote architect_config.json. Booting C++ Engine...")
     
-    # 2. Determine the correct executable path (Windows vs Mac/Linux)
-    executable = "./build/SagaArchitect"
-    if os.path.exists("./build/Debug/SagaArchitect.exe"):
-        executable = "./build/Debug/SagaArchitect.exe" # Visual Studio CMake output
-    elif os.path.exists("./build/SagaArchitect.exe"):
-         executable = "./build/SagaArchitect.exe"
+    # 2. Determine the correct executable path
+    executable = "./build/saga_architect"
+    if os.path.exists("./build/Debug/saga_architect.exe"):
+        executable = "./build/Debug/saga_architect.exe"
+    elif os.path.exists("./build/saga_architect.exe"):
+         executable = "./build/saga_architect.exe"
 
-    # 3. Pull the trigger on the C++ Engine
+    # 3. Pull the trigger on the C++ Engine with the phase argument
     try:
-        # This physically runs the C++ app in the background and waits for it to finish
-        result = subprocess.run([executable], capture_output=True, text=True, check=True)
+        result = subprocess.run([executable, "--phase", phase], capture_output=True, text=True, check=True)
         print(f"[C++ ENGINE]:\n{result.stdout}")
     except subprocess.CalledProcessError as e:
         print(f"[C++ ERROR]:\n{e.stderr}")
@@ -54,7 +53,7 @@ async def generate_world(req: GenerateRequest):
     except FileNotFoundError:
         raise HTTPException(status_code=500, detail=f"Could not find C++ executable at {executable}. Did you compile it?")
 
-    # 4. Read the mathematically perfect output and send it back to React
+    # 4. Read the output and send it back to React
     output_path = "Saga_Master_World.json"
     if not os.path.exists(output_path):
         raise HTTPException(status_code=500, detail="Generation failed: Saga_Master_World.json is missing.")
@@ -62,8 +61,24 @@ async def generate_world(req: GenerateRequest):
     with open(output_path, "r", encoding="utf-8") as f:
         world_data = json.load(f)
         
-    print(f"[API] Success. Returning {len(world_data.get('macro_map', []))} hexes to VTT.")
-    return {"status": "SUCCESS", "world_data": world_data}
+    print(f"[API] {phase} Success. Returning data to VTT.")
+    return {"status": "SUCCESS", "phase": phase, "world_data": world_data}
+
+@app.post("/api/world/generate")
+async def generate_full(req: GenerateRequest):
+    return await run_cpp_engine(req, "all")
+
+@app.post("/api/world/generate/tectonics")
+async def generate_tectonics(req: GenerateRequest):
+    return await run_cpp_engine(req, "tectonics")
+
+@app.post("/api/world/generate/climate")
+async def generate_climate(req: GenerateRequest):
+    return await run_cpp_engine(req, "climate")
+
+@app.post("/api/world/generate/cultures")
+async def generate_cultures(req: GenerateRequest):
+    return await run_cpp_engine(req, "cultures")
 
 if __name__ == "__main__":
     import uvicorn

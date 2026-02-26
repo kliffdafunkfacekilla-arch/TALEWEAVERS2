@@ -1,0 +1,10 @@
+^C:\USERS\KRAZY\DOCUMENTS\GITHUB\TALEWEAVERS\SAGA_ARCHITECT\BUILD\CMAKEFILES\A33578E9F9A05D588453613BD42EDBDF\GENERATE.STAMP.RULE
+setlocal
+C:\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -SC:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect -BC:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/SAGA_Architect.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
