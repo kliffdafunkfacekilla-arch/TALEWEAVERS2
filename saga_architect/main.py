@@ -60,6 +60,41 @@ async def run_cpp_engine(req: GenerateRequest, phase: str):
         
     with open(output_path, "r", encoding="utf-8") as f:
         world_data = json.load(f)
+
+    # 4.5. Translate C++ JSON schema to React Typescript Schema
+    if "macro_map" in world_data:
+        for cell in world_data["macro_map"]:
+            # Coordinate mapping
+            if "coord" in cell and len(cell["coord"]) == 2:
+                cell["x"] = cell["coord"][0]
+                cell["y"] = cell["coord"][1]
+            
+            # ID mapping
+            if "cell_id" in cell:
+                cell["id"] = cell["cell_id"]
+                
+            # Biome tag mapping
+            if "biome" in cell:
+                cell["biome_tag"] = cell["biome"]
+                
+            # Resource and Lifeform mappings
+            # Ensure they exist as arrays for the VTT UI to paint
+            if "local_resources" not in cell:
+                cell["local_resources"] = []
+            if "local_fauna" not in cell:
+                cell["local_fauna"] = []
+            if "local_flora" not in cell:
+                cell["local_flora"] = []
+                
+            # If the C++ engine spat out available_resources dict, convert to list
+            if "available_resources" in cell and isinstance(cell["available_resources"], dict):
+                cell["local_resources"].extend(list(cell["available_resources"].keys()))
+                
+            # If the C++ engine spat out local_lifeforms, dump them into fauna for now
+            if "local_lifeforms" in cell and isinstance(cell["local_lifeforms"], list):
+                 for lf in cell["local_lifeforms"]:
+                     if lf not in cell["local_fauna"]:
+                         cell["local_fauna"].append(lf)
         
     print(f"[API] {phase} Success. Returning data to VTT.")
     return {"status": "SUCCESS", "phase": phase, "world_data": world_data}

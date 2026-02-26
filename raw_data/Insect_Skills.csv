@@ -1,0 +1,57 @@
+Body Part,Skill Name,Type,Effect Description
+Jumping Legs,Power Leap,Action,Jump up to 30ft horizontally or 15ft vertically without a running start.
+Jumping Legs,Kick Off,Reaction,"When an enemy moves within 5ft, you can jump 10ft away without provoking an attack."
+Extra Limbs,Multi-Task,Bonus,"Use an object, reload a weapon, or open a door while keeping your main hands full."
+Extra Limbs,Stability,Passive,You have Advantage on saving throws against being knocked Prone or Shoved.
+Flat Body,Compression,Passive,You can squeeze through gaps as small as 1 inch wide without slowing down.
+Flat Body,Low Profile,Reaction,"When targeted by a ranged attack, flatten yourself to the ground to impose Disadvantage."
+Striped Abdomen,Warning,Passive,You have Advantage on Intimidation checks (biological warning signals).
+Striped Abdomen,Flash,Reaction,"When attacked, flare your colors. The attacker must save (Will) or choose a new target."
+Shovel Legs,Burrow,Action,You gain a Burrow speed of 15ft through loose soil or sand.
+Shovel Legs,Entrench,Action,Dig a foxhole in 1 round. You gain Half-Cover while standing in that spot.
+Color Change,Active Camo,Action,Turn Invisible until you move or attack by matching the background perfectly.
+Color Change,Ambush,Passive,"If you attack a target that hasn't seen you, you deal extra damage equal to your Level."
+Large Pincers,Crush,Action,"Make a Grapple attempt. If successful, the target takes Bludgeoning damage immediately."
+Large Pincers,Sever,Reaction,"When an enemy misses you with a weapon, attempt to Disarm them (catch the blade)."
+Thick Plates,Heavy Chitin,Passive,Your base Armor Class is 13 + Dexterity modifier (max +2).
+Thick Plates,Deflect,Reaction,Reduce damage from a non-magical slashing or piercing attack by half.
+Bladed Arms,Scythe Sweep,Action,Make one attack roll against two adjacent enemies within your reach.
+Bladed Arms,Parry,Reaction,Gain +2 AC against one melee attack by blocking with your blades.
+Barb Stinger,Impale,Action,"Make a piercing attack. On hit, leave the stinger in; target takes damage every turn until removed."
+Barb Stinger,Desperation,Reaction,"If you drop to 0 HP, make one immediate Stinger attack before falling."
+Toxic Fangs,Envenom,Bonus,Coat your next bite attack with poison. Target must save or be Poisoned for 1 minute.
+Toxic Fangs,Necrosis,Passive,Damage dealt by your fangs cannot be healed by non-magical means for 1 hour.
+Serrated Grip,Wall Walk,Passive,You can walk on walls and ceilings at full speed.
+Serrated Grip,Latch,Reaction,Advantage on checks to avoid being Disarmed or dropping an item.
+Antennae,Tremorsense,Passive,You can detect the location of any moving creature on the ground within 30ft.
+Antennae,Scent Trail,Utility,You can track a creature by pheromones or scent with Advantage on Survival checks.
+Blank Stare,Unreadable,Passive,You are immune to Insight checks; creatures cannot determine your emotions or next move.
+Blank Stare,Unnerving,Action,"Stare at a target. They must save (Will) or hesitate, losing their Reaction for the round."
+Pheromone Plumes,Rally,Action,Release a scent cloud. Allies within 10ft gain Temporary HP equal to your Proficiency Bonus.
+Pheromone Plumes,Confusion,Action,Release a cloud. Enemies within 10ft must save or attack a random target next turn.
+Needle Limbs,Pierce Armor,Action,Make an attack that ignores the target's Armor Class bonus from shields or heavy armor.
+Needle Limbs,Pinpoint,Passive,Your critical hit range is 19-20 on piercing attacks.
+Spiracles,Air Bubble,Passive,"You can trap air in your shell, allowing you to function underwater for 1 hour."
+Spiracles,Purge,Reaction,Advantage on saving throws against inhaled gases or Cloudkill effects.
+Waxy Shell,Insulation,Passive,You have Resistance to Acid damage and cannot be dissolved by slimes.
+Waxy Shell,Slippery,Reaction,Advantage on checks to escape a Grapple or Web trap.
+Earthy Claws,Mold Earth,Utility,You can turn a 5ft square of ground into Difficult Terrain (rubble) as an Action.
+Earthy Claws,Anchor,Passive,You cannot be moved against your will while standing on natural earth/stone.
+Faceted Eyes,Omni-Vision,Passive,You can see in all directions at once. You cannot be Flanked.
+Faceted Eyes,Reflex Dodge,Reaction,You gain +2 to Reflex saves against Area of Effect spells (you see it coming).
+Spiked Knees,Knee Strike,Bonus,"If you have a target Grappled, deal Piercing damage to them automatically."
+Spiked Knees,Vault,Reaction,"When an enemy misses you, you can jump over them to the opposite side (flanking position)."
+Spinnerets,Web Shot,Action,Fire a sticky net (30ft). Target must save (Dex) or be Restrained.
+Spinnerets,Silk Rope,Utility,Produce up to 50ft of silk rope per day. It is strong enough to hold your weight.
+Resisting Chitin,Spell Shield,Reaction,Gain Advantage on a Saving Throw against a magical spell or effect.
+Resisting Chitin,Hardened,Passive,"You have Resistance to one damage type (Fire, Cold, or Lightning) chosen at creation."
+Skill Name,Required Body Part,Effect,
+Nat_Weapon,Mandibles / Claws,Unarmed deals 1d6 Slash/Pierce.,
+Stinger,Barb Stinger,Unarmed injects Poison (DC 12).,
+Warn_Color,Bright Pattern,Biter takes 1 Poison Dmg.,
+Pheromones,Glands / Plumes,Leave scent trail for allies.,
+Vibration,Antennae,Detect moving targets 15ft if Blind.,
+Climber,Serrated Legs,Climb Speed = Walk Speed.,
+Jumper,Jumping Legs,Jump distance tripled.,
+Motion_Track,Compound Eyes,Cannot be Flanked.,
+Filter,Spiracles,Immune to Nausea/Sickened condition.,

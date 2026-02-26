@@ -21,6 +21,9 @@ class EncounterBase(BaseModel):
     description: str
     type: EncounterType
     threat_level: int
+    grid: List[List[str]] = Field(default_factory=list) # EMPTY, TREE, ROCK, WATER, SNOW
+    grid_width: int = 15
+    grid_height: int = 10
 
 class CombatEncounter(EncounterBase):
     type: EncounterType = EncounterType.COMBAT

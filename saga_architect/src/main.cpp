@@ -90,6 +90,29 @@ int main() {
     climate.wind_bands.push_back(band);
   }
 
+  // 4b. PARSE HEIGHTMAP STEPS
+  std::vector<HeightmapStep> heightmap_steps;
+  if (config.contains("heightmap_steps")) {
+    for (const auto &s : config["heightmap_steps"]) {
+      HeightmapStep hstep;
+      hstep.tool = s.value("tool", "Hill");
+      hstep.count = s.value("count", 1);
+      hstep.height = s.value("height", 0.5f);
+
+      if (s.contains("range_x") && s["range_x"].size() == 2) {
+        hstep.range_x = {s["range_x"][0], s["range_x"][1]};
+      } else {
+        hstep.range_x = {0.0f, 1.0f};
+      }
+      if (s.contains("range_y") && s["range_y"].size() == 2) {
+        hstep.range_y = {s["range_y"][0], s["range_y"][1]};
+      } else {
+        hstep.range_y = {0.0f, 1.0f};
+      }
+      heightmap_steps.push_back(hstep);
+    }
+  }
+
   // 5. PARSE FLORA & FAUNA
   std::vector<Lifeform> ecosystem;
   if (config.contains("flora_fauna")) {
@@ -129,6 +152,10 @@ int main() {
 
   if (!heightmap_file.empty()) {
     physicalEngine.ImportHeightmap(heightmap_file);
+  } else if (!heightmap_steps.empty()) {
+    std::cout << "  Using procedural heightmap brushes ("
+              << heightmap_steps.size() << " steps)...\n";
+    physicalEngine.ApplyHeightmapSteps(heightmap_steps);
   } else {
     std::cout << "  Using tectonic simulation (" << tectonic_plates
               << " plates)...\n";
@@ -146,7 +173,7 @@ int main() {
   civEngine.PopulateEcosystem(physicalEngine.cells, ecosystem);
 
   // Scatter Architect Palette (Resources, specific Flora/Fauna rules)
-  civEngine.PopulateResourcesAndWildlife(physicalEngine.cells);
+  civEngine.PopulateResourcesAndWildlife(physicalEngine.cells, biomeRules);
 
   // 7. Export to JSON
   std::cout << "\n[PHASE 3] Packaging Data...\n";

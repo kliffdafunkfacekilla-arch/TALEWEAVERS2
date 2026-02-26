@@ -1,0 +1,54 @@
+Body Part,Skill Name,Type,Effect Description
+Mossy Skin,Photosynth,Short Rest,"If you rest in direct sunlight, you regain maximum Hit Points possible for your dice roll."
+Mossy Skin,Dampen,Passive,You are constantly moist. You have Resistance to Fire damage.
+Tendril Fingers,Entangle,Action,"Cast a vine to Entangle a target 30ft away. Deal 1d6 Bludgeoning damage. If successful, they are Restrained."
+Tendril Fingers,Climb,Passive,You gain a Climb Speed equal to your Walk Speed.
+Mushroom Cap,Spore Cloud,Action,"Release a cloud adjacent to you. Enemies take 1d6 Poison damage and must save (Con) or be Poisoned for 1 minute."
+Mushroom Cap,Umbrella,Reaction,"Shield yourself or an adjacent ally from rain, falling debris, or overhead acid attacks."
+Sharp Thorns,Spike Armor,Passive,Creatures that hit you with unarmed strikes or Grapple you take 1d4 Piercing damage.
+Sharp Thorns,Latch,Reaction,Advantage on checks to maintain a Grapple (the thorns hook into the enemy).
+Closing Foliage,Snap Trap,Action,"Make a bite attack. If it hits, the target is automatically Grappled."
+Closing Foliage,Digest,Bonus,Deal Acid damage to a creature you currently have Grappled.
+Adaptive Leaves,Camouflage,Action,Change leaf color to match the season/terrain. Gain Advantage on Stealth checks.
+Adaptive Leaves,Weatherproof,Passive,You ignore penalties from extreme heat or extreme cold environments.
+Thorns,Deterrent,Passive,You have Advantage on Intimidation checks (you look painful to touch).
+Thorns,Barricade,Action,Lock your limbs together to create a wall of spikes. You provide Three-Quarters Cover to allies behind you.
+IronBark,Hardwood,Passive,Your base Armor Class is 14 + Dexterity modifier (max +2).
+IronBark,Rooted,Reaction,Advantage on saving throws to resist being Shoved or knocked Prone.
+Razor Leaves,Leaf Storm,Action,"Fire a volley of sharp leaves in a 15ft cone. Deal 3d6 Slashing damage (Dex save for half)."
+Razor Leaves,Serrated,Passive,Your unarmed strikes deal Slashing damage instead of Bludgeoning.
+Cactus Spines,Needle Burst,Reaction,"When hit by melee, explode spines outward. Attackers within 5ft take Piercing damage."
+Cactus Spines,Water Store,Passive,You can survive for 7 days without water.
+Toxic Sap,Poison Coat,Bonus,Coat a weapon or your hands in sap. Your next attack deals extra Poison damage.
+Toxic Sap,Splatter,Reaction,"When you take Slashing damage, your blood sprays. Attacker must save (Dex) or take Acid damage."
+Wide Roots,Tremorsense,Passive,You can detect the location of moving creatures on the ground within 20ft.
+Wide Roots,Stability,Passive,You are immune to being pushed or pulled against your will while on soil.
+Flower Head,Allure,Action,Release a pleasant scent. Humanoids must save (Will) or be Charmed (Passive/Non-hostile) for 1 minute.
+Flower Head,Solar Beam,Action,"Absorb light and fire a dazzling beam. Range 60ft. Deal 2d8 Radiant damage and Target must save or be Blinded."
+Root Ball,Earth Glide,Action,Sink into the earth and move through soil/dirt (Burrow speed 15ft).
+Root Ball,Bludgeon,Action,Use your heavy base to slam a prone enemy. Deal critical damage.
+Whistling Branches,Scream,Action,Let the wind pass through you to create a terrifying shriek. Enemies save vs Fear.
+Whistling Branches,Signal,Utility,Communicate with allies over long distances (1 mile) using wind sounds.
+Gnarled Face,Ancient Visage,Passive,You have Advantage on Insight and History checks (you look wise and old).
+Gnarled Face,Knotty Skin,Passive,You are immune to Critical Hits; knots deflect the blow to non-vital wood.
+Fluff Blooms,Drift,Reaction,"When falling, deploy seeds/fluff to float down safely (Feather Fall)."
+Fluff Blooms,Obscure,Action,Shake loose a cloud of white fluff. Creates a Heavily Obscured area (fog cloud) for 1 round.
+Irritating Sap,Itch,Action,Touch attack. Target gets a rash and has Disadvantage on Concentration checks.
+Irritating Sap,Bad Taste,Passive,Any creature that bites you must make a Con save or spend their next action retching (Stunned).
+Long Stem,Reach,Passive,Your melee reach increases by 5ft.
+Long Stem,Sway,Reaction,Gain +2 AC against a Ranged Attack by bending your flexible body out of the way.
+Stalk Hairs,Trigger,Passive,You cannot be Surprised. You feel air displacement before a hit connects.
+Stalk Hairs,Sticky,Passive,Advantage on checks to climb or hold onto objects (Velcro-like grip).
+Pine Needles,Evergreen,Passive,You remain conscious and active even in magical sleep or freezing temperatures.
+Pine Needles,Carpet,Action,Shake off needles to cover the floor. The area becomes Difficult Terrain and deals 1 damage per 5ft moved.
+Fruit Blooms,Goodberry,Action,Grow a magical fruit. Eating it restores 1d4 HP (Max 3 per day).
+Fruit Blooms,Bait,Utility,Grow a delicious-smelling fruit to lure hungry beasts into a trap.
+Pine Cones,Seed Grenade,Action,"Throw a cone. It explodes on impact, dealing Bludgeoning damage in a 5ft radius."
+Pine Cones,Scaly Armor,Passive,You have Resistance to Piercing damage (overlapping wooden scales).
+Skill Name,Required Body Part,Effect,
+Stable,Roots,Advantage vs Knock Prone.,
+Grounding,Wide Roots,Sense tremors 30ft.,
+Siege_Fist,Heavy Bough,Double Unarmed Dmg to objects.,
+Thorns,Spines,Grappler takes 1d4 damage (derived from Warn_Color).,
+Photosynth,Leaves,Go 1 week without food (Renamed from Storage).,
+Hard_Kill,Wood Heart,Advantage on Death Saves.,

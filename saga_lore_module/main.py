@@ -66,6 +66,43 @@ async def search_lore(request: SearchRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/lore/entities")
+async def get_world_entities():
+    """
+    Fetches all categorized entities (Factions, Resources, Flora/Fauna) 
+    so the React VTT can populate its World Builder editors.
+    """
+    try:
+        # Get all documents in the DB
+        results = db.collection.get(include=["metadatas"])
+        
+        factions = []
+        resources = []
+        wildlife = []
+        
+        if results and results["ids"]:
+            for idx, meta in enumerate(results["metadatas"]):
+                cat = str(meta.get("category", ""))
+                title = str(meta.get("title", ""))
+                
+                entity = {"id": results["ids"][idx], "title": title, "category": cat}
+                
+                # Sort them into their buckets based on our LoreCategory Enums
+                if "FACTION" in cat:
+                    factions.append(entity)
+                elif "RESOURCE" in cat:
+                    resources.append(entity)
+                elif "ANIMAL" in cat or "PLANT" in cat:
+                    wildlife.append(entity)
+                    
+        return {
+            "factions": factions,
+            "resources": resources,
+            "wildlife": wildlife
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "module": "Lore Vault", "port": 8001}

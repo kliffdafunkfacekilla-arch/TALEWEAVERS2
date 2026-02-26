@@ -1,0 +1,54 @@
+STEP,Category,Option Name,Stat 1,Stat 2,Body Part,Mechanic / Trait
+1_SIZE,SIZE 1,Tiny,"+2 Reflex, +1 Finesse","-2 Might, -1 Vitality",Small Frame,Squeeze: Move through 4-inch gaps. +Advantage on Stealth.
+1_SIZE,SIZE 2,Small,+1 Reflex,-1 Might,Light Frame,Lightweight: Trigger no pressure plates. Fall damage halved.
+1_SIZE,SIZE 3,Medium,None,None,Balanced Frame,Standard: No penalties. Can use standard gear.
+1_SIZE,SIZE 4,Large,+1 Might,-1 Reflex,Heavy Frame,Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures.
+1_SIZE,SIZE 5,Huge,"+2 Might, +1 Vitality","-2 Reflex, -1 Finesse",Siege Frame,Siege: Deal double damage to structures. You occupy a 10ft x 10ft space.
+2_BIO,ANCESTRY,The Tree,Knowledge,Vitality,Arboreal Anatomy,"Includes: Hard Bark (AC), Branch-Arms, Root-Legs, Photosynthesis."
+2_BIO,ANCESTRY,The Flower,Finesse,Might,Floral Anatomy,"Includes: Petal-Hair, Pollen Glands, Scent, Soft Stem."
+2_BIO,ANCESTRY,The Vine,Endurance,Willpower,Creeper Anatomy,"Includes: Flexible Body, Thorns, Grasping Tendrils, No Bones."
+2_BIO,ANCESTRY,The Shrub,Reflexes,Intuition,Bush Anatomy,"Includes: Leafy Camouflage, Berry Growth, Dense Twigs."
+2_BIO,ANCESTRY,The Cactus,Endurance,Fortitude,Succulent Anatomy,"Includes: Water Storage, Needle-Skin, Heat Resist, Waxy Hide."
+2_BIO,ANCESTRY,The Mushroom,Charm,Finesse,Fungal Anatomy,"Includes: Spore Cap, Mycelial Network (Telepathy), No Eyes."
+2_BIO,ANCESTRY,The Moss,Endurance,Awareness,Bryophyte Anatomy,"Includes: Carpet-Like Skin, Clinging Rhizoids, Spore Capsules."
+2_BIO,ANCESTRY,The Fern,Willpower,Logic,Pteridophyte Anatomy,"Includes: Frond Leaves, Fiddleheads, Rhizome Roots."
+3_HEAD,SENSES,Solar,Reflexes,Knowledge,Photosensors,Passive: Sun-Fed (Regain 1 SP per hour in sunlight. No need to eat).
+3_HEAD,SENSES,Tremor,Willpower,Might,Root-Nerves,Passive: Ground-Sense (Detect footsteps within 30ft. Cannot be Surprised).
+3_HEAD,SENSES,Pheromone,Knowledge,Endurance,Scent-Glands,Passive: Empathy (Communicate emotions via scent. Advantage on Insight).
+3_HEAD,SENSES,Network,Finesse,Willpower,Mycelium-Brain,Active: Hive-Mind (Share senses with willing allies within 60ft).
+3_HEAD,SENSES,Heat,Charm,Intuition,Thermal-Pits,Passive: Infra-Red (See heat sources through walls/darkness).
+3_HEAD,SENSES,Taste,Logic,Awareness,Chemo-Receptors,Passive: Analyzer (Identify potions/poisons by touch instantly).
+3_HEAD,SENSES,Lure,Knowledge,Intuition,Sweet-Nectar,Active: Entice (Target must Wis Save or move closer to you).
+3_HEAD,SENSES,Hygro,Vitality,Knowledge,Moisture-Sense,Passive: Dowsing (Detect water sources within 1 mile).
+4_ARMS,ARMS,Boughs,Reflexes,Charm,Heavy Branches,Active: Slam (Melee Attack. High Dmg + Knockback).
+4_ARMS,ARMS,Vines,Charm,Finesse,Whip-Limbs,Active: Lash (Reach 10ft. Trip or Disarm target).
+4_ARMS,ARMS,Thorns,Logic,Knowledge,Needle-Fingers,Active: Pierce (Melee Unarmed. Ignores Light Armor).
+4_ARMS,ARMS,Spores,Finesse,Logic,Puff-Ball Hands,"Active: Dust (Cone Spray. Poison, Sleep, or Hallucinate)."
+4_ARMS,ARMS,Traps,Vitality,Might,Fly-Trap Jaws,"Active: Snap (Grapple. If successful, swallow hand/weapon for auto-dmg)."
+4_ARMS,ARMS,Sap,Endurance,Charm,Sticky Palms,Passive: Adhesive (Advantage on Grapple. Climb without checks).
+4_ARMS,ARMS,Needles,Willpower,Fortitude,Cactus-Spines,Active: Barrage (Ranged Attack. Fire volley of needles).
+4_ARMS,ARMS,Roots,Fortitude,Willpower,Root-Fists,Active: Entangle (Hit restrains target).
+5_LEGS,LEGS,Root-Walk,Might,Willpower,Stump-Roots,Passive: Anchor (Cannot be Knocked Prone. Speed -5ft).
+5_LEGS,LEGS,Slither,Vitality,Endurance,Vine-Mass,Passive: Creeper (Ignore Difficult Terrain. Climb Speed = Walk Speed).
+5_LEGS,LEGS,Drift,Logic,Reflexes,Spore-Cloud,Active: Float (Hover 5ft off ground. Slow fall).
+5_LEGS,LEGS,Tumble,Intuition,Fortitude,Roll-Cage,Active: Roll-Out (Move 2x Speed in straight line. Must stop to act).
+5_LEGS,LEGS,Mycelium,Might,Might,Sub-Surface,Active: Shift (Bonus Action. Teleport 15ft via ground network).
+5_LEGS,LEGS,Strider,Awareness,Charm,Stalk-Legs,Passive: Marsh-Walk (Move over water/mud without sinking).
+5_LEGS,LEGS,Burrow,Endurance,Finesse,Drill-Roots,Active: Dig (Burrow Speed = Half Walk Speed).
+5_LEGS,LEGS,Climb,Awareness,Charm,Tendrils,Passive: Spider-Climb (Walk on walls/ceilings).
+6_BODY,BODY,Bark,Awareness,Willpower,Iron-Wood,Passive: Hardwood (+3 Natural AC. Vulnerable to Fire).
+6_BODY,BODY,Rubber,Awareness,Might,Fungal-Flesh,Passive: Bounce (Resistance to Bludgeoning. Immune to Crit Hits).
+6_BODY,BODY,Thorn,Awareness,Vitality,Spiked-Skin,Passive: Barbed (Grapplers/Melee attackers take 1d4 Pierce).
+6_BODY,BODY,Moss,Vitality,Fortitude,Soft-Moss,Passive: Dampener (Silent Movement. Resistance to Fire).
+6_BODY,BODY,Waxy,Charm,Willpower,Cuticle-Layer,Passive: Sealed (Immune to dehydration. Resistance to Acid).
+6_BODY,BODY,Vascular,Charm,Awareness,Hydraulic-Vines,Active: Pump (Bonus Action. Increase Reach by 5ft for 1 turn).
+6_BODY,BODY,Hollow,Endurance,Willpower,Reed-Structure,Passive: Lightweight (Float on water. Advantage to Jump).
+6_BODY,BODY,Hardy,Might,Endurance,Cork-Skin,Passive: Temperature-Proof (Resist Cold/Fire/Weather).
+7_SPEC,SPECIAL,Regrow,Fortitude,Awareness,Rapid-Cell,Active: Photosynthesis (Heal 25% HP in sunlight over 1 min).
+7_SPEC,SPECIAL,Toxic,Fortitude,Fortitude,Poison-Sap,Passive: Bad-Blood (Melee attackers making contact are Poisoned).
+7_SPEC,SPECIAL,Fruit,Logic,Knowledge,Goodberry,Active: Harvest (Produce 1d4 healing berries per Long Rest).
+7_SPEC,SPECIAL,Sleep,Intuition,Charm,Pollen-Cloud,Active: Drowse (20ft Radius. Con Save or Sleep).
+7_SPEC,SPECIAL,Shriek,Charm,Vitality,Mandrake-Root,Active: Scream (AOE Psychic Damage/Stun).
+7_SPEC,SPECIAL,Entangle,Logic,Might,Root-Burst,Active: Overgrowth (Restrain all enemies within 10ft radius).
+7_SPEC,SPECIAL,Clone,Willpower,Willpower,Fungal-Spore,"Passive: Rebirth (If killed, a clone grows from your corpse in 1 week)."
+7_SPEC,SPECIAL,Symbiosis,Might,Vitality,Pollen-Link,Active: Bolster (Ally gains temp HP or advantage).

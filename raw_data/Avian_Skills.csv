@@ -1,0 +1,56 @@
+Body Part,Skill Name,Type,Effect Description
+Hooked Beak,Tear Flesh,Action,"Make a bite attack. If it hits, the target takes extra Bleed damage equal to your Proficiency Bonus."
+Hooked Beak,Grip,Passive,You have Advantage on checks to maintain a grapple on a target you have bitten.
+Chisel Beak,Sunder,Action,Strike an object or armor. Reduce the target's Armor Class (AC) by 1 until repaired.
+Chisel Beak,Bore,Utility,You can drill a small hole through wood or stone (1 inch/minute) to spy or create a peephole.
+Black Plumage,Omen,Action,Fluff your feathers and stare. Target must save (Willpower) or be Frightened (Bad Luck omen).
+Black Plumage,Shadow Blend,Passive,Advantage on Stealth checks when in Dim Light or Darkness.
+Sharp Eyes,Spot Weakness,Bonus,Analyze a target. Your next attack against them scores a Critical Hit on a roll of 19 or 20.
+Sharp Eyes,Telescopic,Passive,You suffer no penalties on Perception checks due to distance. You can read lips from 100ft.
+Wide Wings,Gust,Action,Flap powerfully to create a 15ft line of wind. Creatures must save (Strength) or be pushed back 10ft.
+Wide Wings,Soar,Passive,You can fly for hours without exhaustion if you are high enough to catch thermals.
+Mottled Feathers,Static Camo,Action,Press yourself against tree bark or stone. You become Invisible as long as you do not move.
+Mottled Feathers,Blur,Reaction,"When targeted by a ranged attack, shake your feathers to distort your outline, imposing Disadvantage on the hit."
+Large Syrinx,Mimicry,Action,"Perfectly imitate a voice or sound you have heard (e.g., a baby crying, a guard captain's order)."
+Large Syrinx,Dual Tone,Passive,"You can produce two distinct sounds at once (e.g., speaking while whistling a signal)."
+Oily Feathers,Waterproof,Passive,You are immune to the soaked condition and resist Cold damage from water.
+Oily Feathers,Slick Escape,Reaction,Advantage on checks to escape a Grapple or bindings (ropes/nets).
+Large Talons,Snatch,Action,Fly by a target smaller than you. You can Grapple them and continue moving without provoking Opportunity Attacks.
+Large Talons,Crush,Bonus,"If you have a target Grappled, deal Bludgeoning damage equal to your Strength modifier."
+Sharp Beak,Precision Peck,Action,"Make an attack against a specific body part (eyes/hands) with a -2 penalty. On hit, apply a debuff (Blind/Disarm)."
+Sharp Beak,Shell Cracker,Passive,Your bite attacks ignore Resistance provided by natural armor or chitin.
+Throat Muscles,Project Voice,Action,"Your voice carries clearly over loud noises (storms, battle) up to 300ft."
+Throat Muscles,Gullet Storage,Utility,You can swallow an item up to the size of a potion bottle and hold it safely in your crop.
+Barrel Chest,Deep Breath,Passive,You can hold your breath for 15 minutes (high altitude adaptation).
+Barrel Chest,Resonance,Action,Hum a low frequency. Allies touching you recover from the Frightened condition.
+Tail Fan,Display,Action,Spread your tail. Creatures in a 15ft cone must save (Charisma) or be Charmed or Intimidated.
+Tail Fan,Air Brake,Reaction,"When falling or flying too fast, spread your tail to stop instantly or take 0 falling damage."
+Forward Stance,Charge,Action,Move at least 20ft straight toward a target and attack. Deal +2 damage on a hit.
+Forward Stance,Aggressor,Passive,You gain a +2 bonus to Initiative rolls.
+Vocal Tones,Inspire,Bonus,Sing a chord to give one ally a d6 Inspiration Die to use on their next roll.
+Vocal Tones,Harmony,Passive,Advantage on Persuasion checks when speaking to intelligent creatures.
+Wide Eyes,Night Vision,Passive,You can see in Dim Light as if it were Bright Light.
+Wide Eyes,Vigilant,Reaction,You cannot be Surprised while you are awake.
+Webbed Feet,Surface Dash,Action,You can run across the surface of water for one turn without sinking.
+Webbed Feet,Paddle,Passive,You gain a Swim Speed equal to your Walk Speed.
+Barbed Throat,No Escape,Passive,"If you swallow a creature (Small or Tiny), they cannot escape your stomach."
+Barbed Throat,Regurgitate,Action,Expel stomach contents as a projectile weapon (Acid damage) or to feed an ally (Transfer HP).
+Head Crest,Signal,Bonus,Raise/Lower crest to send a silent coded message to allies within sight.
+Head Crest,Sense Current,Passive,You automatically detect changes in air pressure (incoming storms or invisible flying enemies).
+Large Pupils,Allure,Reaction,"When a humanoid attacks you, use ""Cute Eyes."" They must make a Will save or deal half damage."
+Large Pupils,Light Sensitivity,Passive,"You have Superior Darkvision (120ft), but Disadvantage on attacks in direct bright sunlight."
+Bobbing Head,Stabilize,Passive,You suffer no penalties to Perception or Ranged Attacks while moving at full speed.
+Bobbing Head,Rhythm,Action,Entrancing movement. A target watching you has Disadvantage on Wisdom saves until you stop.
+Foot Talons,Rake,Action,"Make a kick attack. If the target is Prone, this attack deals Critical Damage."
+Foot Talons,Perch,Passive,You can sleep comfortably on narrow branches or ropes without falling.
+Light Build,Lift Off,Reaction,"When an enemy moves within 5ft of you, you can fly 10ft away without provoking an attack."
+Light Build,Fragile Speed,Passive,"Your Fly speed increases by +10ft, but your max carrying capacity is halved."
+Skill Name,Required Body Part,Effect,
+Safe_Fall,Feathers / Wings,Reduce fall damage by 20ft.,
+Mimicry,Large Syrinx,Replicate any voice/sound heard.,
+Signal,Throat Muscles,Message allies up to 1 mile away.,
+Telescopic,Sharp Eyes,No Range Penalty (Renamed from Geometry).,
+Dive,Light Build,#ERROR!,
+Bleed,Hooked Beak,Critical Hits cause 1d4 Bleed dmg.,
+Vigilant,Wide Eyes,No penalties from lack of sleep/surprise.,
+Grip,Talons,Advantage to resist being Shoved/Moved.,

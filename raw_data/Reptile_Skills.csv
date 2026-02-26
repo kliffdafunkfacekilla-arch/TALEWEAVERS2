@@ -1,0 +1,57 @@
+Body Part,Skill Name,Type,Effect Description
+Heavy Shell,Withdraw,Action,Pull your limbs and head inside your shell to gain +5 AC until the start of your next turn.
+Heavy Shell,Bulwark,Passive,You are immune to Critical Hits; attacks striking your shell become normal hits.
+Sticky Toe Pads,Wall Crawler,Passive,You can walk on vertical surfaces and ceilings without needing to make ability checks.
+Sticky Toe Pads,Grip,Reaction,Advantage on saving throws to resist being disarmed or knocked off a surface.
+Forked Tongue,Taste the Air,Action,"Detect the presence of poisons, magic, or fresh blood within 60ft by tasting scent particles."
+Forked Tongue,Tracker,Passive,You gain Advantage on Survival checks to track a creature you have smelled before.
+Long Jaw,Snap,Action,Make a bite attack with Reach (10ft range).
+Long Jaw,Drag,Bonus,"If you have a creature Grappled in your mouth, you can move them up to 10ft without a check."
+Webbed Claws,Mud Slinger,Action,Kick up mud or sand into an adjacent enemy's face. They are Blinded until they wipe it off (Action).
+Webbed Claws,Swimmer,Passive,You gain a Swim Speed equal to your Walk Speed.
+Shifting Scales,Active Camo,Action,"Change your skin color to match the environment, gaining Advantage on Stealth checks."
+Shifting Scales,Flash,Reaction,"When hit by a spell attack, shift colors to reflect the energy, gaining Resistance to that damage type for the hit."
+Tail Rattle,Warning Shake,Action,Rattle loudly. Enemies within 15ft must save (Willpower) or be Frightened for 1 round.
+Tail Rattle,Lure,Bonus,"Shake softly to mimic an insect buzz, distracting a target to give an ally Advantage on their next attack."
+Bony Knobs,Spiked Armor,Passive,Your natural Armor Class increases by +1.
+Bony Knobs,Headbutt,Bonus,"Make an unarmed strike with your head. If it hits, the target is shoved back 5ft."
+Hooked Claws,Latch On,Action,Jump onto a creature larger than you and attach. You move with them and have Advantage on attacks against them.
+Hooked Claws,Dig In,Passive,You cannot be moved against your will (Shoved/Pulled) while you are conscious and on solid ground.
+Heavy Tail,Tail Sweep,Action,Spin in a circle. All creatures within 5ft must save (Reflex) or be knocked Prone.
+Heavy Tail,Counter-Balance,Passive,You have Advantage on Acrobatics checks to maintain balance on narrow ledges.
+Retractable Fangs,Venom Injection,Bonus,"If you hit with a bite, inject venom. Target takes 1d6 Poison damage."
+Retractable Fangs,Concealed,Passive,You appear unarmed even when inspected. You have Advantage on Deception checks regarding your threat level.
+Curved Teeth,No Escape,Passive,Enemies have Disadvantage on checks to escape your Grapple (teeth hook inwards).
+Curved Teeth,Rend,Action,"Bite a target. If they are already bleeding or below half HP, deal double damage."
+Head Crest,Frill Display,Action,Flair your crest. Make an Intimidation check against a target's Insight to stun them with fear.
+Head Crest,Thermoregulation,Passive,You recover from Exhaustion twice as fast during a Short Rest by regulating heat through your crest.
+Vertical Pupils,Hypnotic Gaze,Action,Lock eyes with a target. They are Charmed by you until you or your allies attack them.
+Vertical Pupils,Night Vision,Passive,You can see in Dim Light as if it were Bright Light.
+Throat Pouch,Booming Call,Action,"Amplify your voice to be heard up to 1 mile away, or to deal Thunder damage in a 10ft cone."
+Throat Pouch,Breath Holder,Passive,You can hold your breath for up to 1 hour.
+Heavy Eyelids,Nictitating Membrane,Passive,"You are immune to being Blinded by sand, dust, or bright light."
+Heavy Eyelids,Feign Torpor,Action,Enter a state that perfectly mimics a statue or dead body. Perception checks to spot life have Disadvantage.
+Heat Pits,Thermal Sight,Action,"Detect living creatures within 30ft even through darkness, fog, or invisibility."
+Heat Pits,Cold Sense,Passive,You automatically detect sudden drops in temperature or the presence of undead (cold bodies).
+Neck Gills,Amphibious,Passive,You can breathe air and water.
+Neck Gills,Filter Feeder,Reaction,Advantage on saving throws against inhaled poisons or gas clouds.
+Back Fins,Hydrodynamics,Passive,"While swimming, you can Dash as a Bonus Action."
+Back Fins,Stabilizer,Reaction,"When hit by a water-based attack or current, you remain upright and are not pushed."
+Long Tongue,Lash,Action,Make a Grapple attempt or disarm attempt against a target 10ft away.
+Long Tongue,Sticky Trap,Reaction,Snatch a small projectile (arrow/rock) out of the air to reduce damage to 0.
+Angular Eyes,Peripheral Sight,Passive,You can see 180 degrees. You cannot be Flanked.
+Angular Eyes,Focus,Bonus,Analyze a target. Your next attack against them has +2 Accuracy.
+Glider Fins,Glide,Reaction,"When falling, you can move 2ft horizontally for every 1ft you fall."
+Glider Fins,Slow Fall,Passive,You take no damage from falls of 30ft or less.
+Metallic Scales,Reflection,Reaction,"When hit by a Radiant or Light-based attack, reduce damage by half."
+Metallic Scales,Dazzle,Action,Reflect light into an enemy's eyes. They must save or be Blinded for 1 turn.
+Skill Name,Required Body Part,Effect,
+Nat_Armor,Heavy Shell / Scales,Base AC is 12 + Def Stat.,
+Tail_Club,Heavy Tail,Unarmed Dmg + Shove Bonus Action.,
+Lash,Long Tongue,#ERROR!,
+Regen_Minor,Regenerating Tail,Regain 1 HP after Short Rest.,
+Wall_Walk,Sticky Pads,Move on vertical surfaces.,
+Lock,Curved Teeth,You cannot be disarmed or forced to drop (Jaw lock).,
+Latch,Hooked Claws,Automatically Grapple target on Hit.,
+Heat_Sense,Heat Pits,Detect invisible/hidden foes 10ft (renamed from Third_Eye).,
+Warmth,Frill / Crest,Recover from exhaustion faster (Thermoregulation).,

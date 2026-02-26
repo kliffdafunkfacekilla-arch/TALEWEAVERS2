@@ -7,6 +7,7 @@ import { BioMatrix } from './components/right_panel/BioMatrix';
 import { InjurySlots } from './components/right_panel/InjurySlots';
 import { QuestTracker } from './components/hud/QuestTracker';
 import { WorldArchitect } from './components/WorldArchitect';
+import { CharacterSheet } from './components/CharacterSheet';
 import { useGameStore } from './store/useGameStore';
 import type { LoadoutItem } from './store/useGameStore';
 import './App.css';
@@ -134,6 +135,13 @@ export default function App() {
           </button>
 
           <button
+            onClick={() => setScreen('CHARACTER_BUILDER')}
+            className="w-72 px-6 py-4 border border-zinc-700 text-yellow-500 hover:border-yellow-500 hover:bg-yellow-900/10 uppercase tracking-widest transition-all text-sm font-bold"
+          >
+            Origin Forge
+          </button>
+
+          <button
             onClick={handleEnterCampaign}
             disabled={isStarting}
             className="w-72 px-6 py-4 border border-red-700 bg-red-900/20 text-red-400 hover:bg-red-900/50 hover:text-red-300 uppercase tracking-widest transition-all font-bold shadow-[0_0_15px_rgba(220,38,38,0.2)] text-sm disabled:opacity-50 disabled:cursor-not-allowed"
@@ -152,6 +160,21 @@ export default function App() {
   // ─── WORLD BUILDER ──────────────────────────────────────────────────
   if (currentScreen === 'WORLD_BUILDER') {
     return <WorldArchitect onBack={() => setScreen('MAIN_MENU')} />;
+  }
+
+  // ─── CHARACTER BUILDER ──────────────────────────────────────────────
+  if (currentScreen === 'CHARACTER_BUILDER') {
+    return (
+      <div className="relative w-screen h-screen">
+        <CharacterSheet />
+        <button
+          onClick={() => setScreen('MAIN_MENU')}
+          className="absolute top-4 left-4 z-50 bg-black/50 hover:bg-black border border-zinc-700 px-4 py-2 text-xs font-bold uppercase text-zinc-400 hover:text-white transition-all"
+        >
+          ← Exit Forge
+        </button>
+      </div>
+    );
   }
 
   // ─── GAMEPLAY: 5-Panel VTT Interface ────────────────────────────────

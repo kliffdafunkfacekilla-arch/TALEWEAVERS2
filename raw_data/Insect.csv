@@ -1,0 +1,54 @@
+STEP,Category,Option Name,Stat 1,Stat 2,Body Part,Mechanic / Trait
+1_SIZE,SIZE 1,Tiny,"+2 Reflex, +1 Finesse","-2 Might, -1 Vitality",Small Frame,Squeeze: Move through 4-inch gaps. +Advantage on Stealth.
+1_SIZE,SIZE 2,Small,+1 Reflex,-1 Might,Light Frame,Lightweight: Trigger no pressure plates. Fall damage halved.
+1_SIZE,SIZE 3,Medium,None,None,Balanced Frame,Standard: No penalties. Can use standard gear.
+1_SIZE,SIZE 4,Large,+1 Might,-1 Reflex,Heavy Frame,Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures.
+1_SIZE,SIZE 5,Huge,"+2 Might, +1 Vitality","-2 Reflex, -1 Finesse",Siege Frame,Siege: Deal double damage to structures. You occupy a 10ft x 10ft space.
+2_BIO,ANCESTRY,The Beetle,Logic,Might,Coleoptera Anatomy,"Includes: Hard Elytra (Wing Cases), Mandibles, 6 Legs, Antennae."
+2_BIO,ANCESTRY,The Mantis,Fortitude,Intuition,Mantodea Anatomy,"Includes: Raptorial Forelegs, Triangular Head, Wings, 4 Walking Legs."
+2_BIO,ANCESTRY,The Spider,Awareness,Charm,Arachnid Anatomy,"Includes: 8 Legs, Spinnerets (Silk), Pedipalps, Multiple Eyes."
+2_BIO,ANCESTRY,The Ant,Finesse,Willpower,Formicidae Anatomy,"Includes: Crushing Mandibles, Antennae, Hive-Mind Link, 6 Legs."
+2_BIO,ANCESTRY,The Dragonfly,Endurance,Might,Odonata Anatomy,"Includes: 4 Wings (Hover), 360° Vision, Grasping Legs, Long Tail."
+2_BIO,ANCESTRY,The Scorpion,Willpower,Fortitude,Scorpiones Anatomy,"Includes: Pincers, Telson (Stinger Tail), 8 Legs, Exoskeleton."
+2_BIO,ANCESTRY,The Moth,Knowledge,Reflexes,Lepidoptera Anatomy,"Includes: Powdered Wings (Flight), Plumose Antennae, Proboscis."
+2_BIO,ANCESTRY,The Centipede,Vitality,Fortitude,Myriapod Anatomy,"Includes: Segmented Body, Many Legs (Speed), Venom Fangs."
+3_HEAD,SENSES,Compound,Fortitude,Logic,Faceted Eyes,Passive: Mosaic (Cannot be Flanked. +2 Initiative).
+3_HEAD,SENSES,Antennae,Awareness,Willpower,Feelers,Passive: Air-Currents (Detect invisible movement within 10ft).
+3_HEAD,SENSES,Ocelli,Fortitude,Willpower,Light Sensors,"Passive: Twitch (Reaction. If a light source moves, gain +2 AC)."
+3_HEAD,SENSES,Pheromone,Charm,Awareness,Chemical Receptors,Passive: Hive-Speak (Communicate silently with own species 100ft).
+3_HEAD,SENSES,Mandible,Fortitude,Finesse,Serrated Jaws,Active: Crunch (Melee Bite. Ignores Hardness of objects).
+3_HEAD,SENSES,Proboscis,Knowledge,Intuition,Needle Mouth,Active: Drain (Grapple. Heal 1d4 HP per turn while holding target).
+3_HEAD,SENSES,Luminescent,Fortitude,Might,Biolum-Glands,Active: Flash-Bang (Cone of Light. Blindness or Signaling).
+3_HEAD,SENSES,Parasite,Fortitude,Reflexes,Ovipositor,Active: Implant (Inject egg/tracker. You know location of target always).
+4_ARMS,ARMS,Scythes,Vitality,Awareness,Raptorial Blades,Active: Snatch-Strike (Reach Attack. Pull target 5ft closer).
+4_ARMS,ARMS,Pincers,Fortitude,Might,Crushing Claws,Active: Vice-Grip (Grapple. Target is Restrained and cannot speak).
+4_ARMS,ARMS,Silk-Weaver,Awareness,Endurance,Spinneret Wrists,Active: Tangle (Ranged Web. Target Speed is 0).
+4_ARMS,ARMS,Spears,Finesse,Fortitude,Barbed Forelegs,Active: Impale (Crit deals x3 Damage instead of x2).
+4_ARMS,ARMS,Shields,Logic,Willpower,Flat-Plate Arms,Passive: Phalanx (+2 AC against Melee Attacks).
+4_ARMS,ARMS,Swarm,Awareness,Might,Tiny Claws,Passive: Latch (Advantage on Climbing and hanging on giant foes).
+4_ARMS,ARMS,Digger,Might,Awareness,Spade Limbs,Active: Burrow (Create tunnel. Collapse it behind you).
+4_ARMS,ARMS,Needles,Reflexes,Knowledge,Hypodermic Spurs,Active: Inject (Apply Toxin. Con Save or Sleep).
+5_LEGS,LEGS,Skitter,Fortitude,Willpower,Multi-Legs,Passive: Wall-Crawler (Climb Speed = Run Speed. No check needed).
+5_LEGS,LEGS,Hopper,Logic,Fortitude,Hydraulic Knees,Active: Launch (Jump 30ft vertically or horizontally).
+5_LEGS,LEGS,Anchor,Endurance,Fortitude,Hooked Tarsi,Passive: Unshakeable (Immune to Knockback and Prone).
+5_LEGS,LEGS,Strider,Might,Awareness,Surface Tension,Passive: Water-Walk (Run across liquid surfaces).
+5_LEGS,LEGS,Hover,Might,Awareness,Buzzing Wings,Active: Dart (Fly speed 30ft. Must land at end of turn).
+5_LEGS,LEGS,Silent,Reflexes,Fortitude,Soft-Hairs,Passive: Creep (0 Sound on webs or leaves. No vibration).
+5_LEGS,LEGS,Dasher,Awareness,Might,Rhythmic Gait,Active: Scuttle (Dash as Bonus Action).
+5_LEGS,LEGS,Amphibious,Intuition,Finesse,Paddle Hairs,Passive: Diver (Swim Speed = Walk Speed. Breathe Water).
+6_BODY,BODY,Chitin,Awareness,Fortitude,Hard Shell,Passive: Exoskeleton (AC = 13 + Dex. Cannot wear standard armor).
+6_BODY,BODY,Camouflage,Willpower,Charm,Stick-Bug Shape,Passive: Mimicry (Look like a branch/stone when still).
+6_BODY,BODY,Toxic,Willpower,Endurance,Warning Colors,Passive: Bad-Blood (Melee attackers take Poison dmg).
+6_BODY,BODY,Spined,Vitality,Might,Thorax Spines,Passive: Barbed-Wire (Grapplers take 1d4 Slash dmg per turn).
+6_BODY,BODY,Hairy,Awareness,Willpower,Sensory Bristles,Passive: Radar (Cannot be Surprised by Invisible foes).
+6_BODY,BODY,Glow,Fortitude,Might,Abdominal Light,Active: Lure (Target must make Wis save or move toward you).
+6_BODY,BODY,Flat,Intuition,Awareness,Compressed Thorax,Passive: Squeeze (Fit through 1-inch gaps).
+6_BODY,BODY,Regen,Fortitude,Might,Molting Hormones,"Active: Molt (Short Rest: Regain full HP, lose AC bonus for 1 hour)."
+7_SPEC,SPECIAL,Stinger,Awareness,Might,Abdominal Spur,Active: Envenom (Bonus Action attack. Paralyze or Necrotic dmg).
+7_SPEC,SPECIAL,Web-Shot,Logic,Reflexes,Rear Spinnerets,Active: Net-Trap (Create 10ft area of Difficult Terrain/Stickiness).
+7_SPEC,SPECIAL,Hive,Vitality,Fortitude,Pheromone Cloud,Active: Command (Allies within 30ft gain +2 To Hit).
+7_SPEC,SPECIAL,Bombardier,Willpower,Intuition,Chemical Chamber,Active: Blast (10ft Cone of Boiling Acid. Fire/Acid dmg).
+7_SPEC,SPECIAL,Flight,Fortitude,Knowledge,Elytra/Wings,Passive: True-Flight (Fly Speed = Walk Speed. Hover capable).
+7_SPEC,SPECIAL,Sonic,Finesse,Charm,Stridulation Legs,Active: Chirp (AOE Deafness or Sonic Dmg).
+7_SPEC,SPECIAL,Swarm,Awareness,Might,Brood Sac,Active: Spawn (Create 1d4 Tiny Minions that distract enemies).
+7_SPEC,SPECIAL,Parasite,Willpower,Might,Mind-Spore,Passive: Rider (Attach to Large foe. They provide you Cover).

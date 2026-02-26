@@ -27,9 +27,19 @@ def parse_vault(vault_path: str) -> List[Dict]:
                     if not content:
                         continue
                         
-                    category = post.get("category")
-                    if not category or category not in LoreCategory.__members__:
-                        category = categorize_text(content)
+                    # Be forgiving: Check if user wrote 'category' or 'type' in their Markdown
+                    raw_category = post.get("category") or post.get("type")
+                    category = None
+                    
+                    # Try to map their string to our strict Enum
+                    if raw_category:
+                        raw_upper = str(raw_category).upper().replace(" ", "_")
+                        if raw_upper in LoreCategory.__members__:
+                            category = LoreCategory[raw_upper]
+                            
+                    # If no valid frontmatter exists, use our new smart categorizer and pass the file path!
+                    if not category:
+                        category = categorize_text(content, str(file_path))
                         
                     documents.append({
                         "id": str(file_path.relative_to(vault_root)),

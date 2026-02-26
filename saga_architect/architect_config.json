@@ -6,18 +6,18 @@
   },
   "climate": {
     "north_pole": [
-      -11,
-      10
+      -60,
+      -20
     ],
     "equator": [
       20,
       45
     ],
     "south_pole": [
-      -12,
-      7
+      -70,
+      -30
     ],
-    "rainfall_multiplier": 2,
+    "rainfall_multiplier": 1,
     "wind_bands": [
       "E",
       "NE",
@@ -62,15 +62,28 @@
     {
       "name": "The_Rot_Coven",
       "aggression": 0.9,
+      "expansion_rate": 0.6,
       "will_fight": true,
       "will_farm": false,
       "will_mine": true,
+      "will_hunt": true,
+      "will_trade": false,
+      "base_trade_value": 0.5,
       "loved_resources": [
         "Bones",
         "Swamp_Gas"
       ],
       "hated_resources": [
         "Iron"
+      ],
+      "required_resources": [
+        "Swamp_Gas"
+      ],
+      "preferred_biomes": [
+        "MUSHROOM_SWAMP"
+      ],
+      "building_preferences": [
+        "Bone_Hut"
       ]
     }
   ],
@@ -79,33 +92,40 @@
       "name": "Frost Troll",
       "type": "FAUNA",
       "is_aggressive": true,
+      "is_farmable": false,
+      "is_tameable": false,
+      "farm_yield_resource": "Hide",
+      "farm_yield_amount": 10,
       "min_temp": -80,
       "max_temp": 0,
+      "min_water": 0,
+      "max_water": 1,
       "spawn_chance": 0.05,
       "allowed_biomes": [
         "DEEP_TUNDRA"
+      ],
+      "diet": [
+        "Meat"
       ]
     },
     {
       "name": "Sand Cactus",
       "type": "FLORA",
       "is_aggressive": false,
+      "is_farmable": true,
+      "is_tameable": false,
+      "farm_yield_resource": "Water",
+      "farm_yield_amount": 50,
       "min_temp": 30,
       "max_temp": 80,
+      "min_water": 0,
+      "max_water": 0.3,
       "spawn_chance": 0.4,
       "allowed_biomes": [
         "SCORCHED_DESERT"
-      ]
-    },
-    {
-      "name": "New Creature",
-      "type": "FAUNA",
-      "is_aggressive": false,
-      "min_temp": 0,
-      "max_temp": 30,
-      "spawn_chance": 0.1,
-      "allowed_biomes": [
-        "ANY"
+      ],
+      "diet": [
+        "Sunlight"
       ]
     }
   ]

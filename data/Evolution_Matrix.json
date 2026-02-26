@@ -1,0 +1,4718 @@
+[
+    {
+        "name": "Small Frame",
+        "species": "Plant",
+        "stats": {
+            "+2 reflex, +1 finesse": 1,
+            "-2 might, -1 vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Small Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Squeeze: Move through 4-inch gaps. +Advantage on Stealth."
+            }
+        ]
+    },
+    {
+        "name": "Light Frame",
+        "species": "Plant",
+        "stats": {
+            "+1 reflex": 1,
+            "-1 might": 1
+        },
+        "passives": [
+            {
+                "name": "Light Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Lightweight: Trigger no pressure plates. Fall damage halved."
+            }
+        ]
+    },
+    {
+        "name": "Balanced Frame",
+        "species": "Plant",
+        "stats": {},
+        "passives": [
+            {
+                "name": "Balanced Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Standard: No penalties. Can use standard gear."
+            }
+        ]
+    },
+    {
+        "name": "Heavy Frame",
+        "species": "Plant",
+        "stats": {
+            "+1 might": 1,
+            "-1 reflex": 1
+        },
+        "passives": [
+            {
+                "name": "Heavy Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures."
+            }
+        ]
+    },
+    {
+        "name": "Siege Frame",
+        "species": "Plant",
+        "stats": {
+            "+2 might, +1 vitality": 1,
+            "-2 reflex, -1 finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Siege Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space."
+            }
+        ]
+    },
+    {
+        "name": "Arboreal Anatomy",
+        "species": "Plant",
+        "stats": {
+            "knowledge": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Arboreal Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Hard Bark (AC), Branch-Arms, Root-Legs, Photosynthesis."
+            }
+        ]
+    },
+    {
+        "name": "Floral Anatomy",
+        "species": "Plant",
+        "stats": {
+            "finesse": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Floral Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Petal-Hair, Pollen Glands, Scent, Soft Stem."
+            }
+        ]
+    },
+    {
+        "name": "Creeper Anatomy",
+        "species": "Plant",
+        "stats": {
+            "endurance": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Creeper Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Flexible Body, Thorns, Grasping Tendrils, No Bones."
+            }
+        ]
+    },
+    {
+        "name": "Bush Anatomy",
+        "species": "Plant",
+        "stats": {
+            "reflexes": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Bush Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Leafy Camouflage, Berry Growth, Dense Twigs."
+            }
+        ]
+    },
+    {
+        "name": "Succulent Anatomy",
+        "species": "Plant",
+        "stats": {
+            "endurance": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Succulent Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Water Storage, Needle-Skin, Heat Resist, Waxy Hide."
+            }
+        ]
+    },
+    {
+        "name": "Fungal Anatomy",
+        "species": "Plant",
+        "stats": {
+            "charm": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Fungal Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Spore Cap, Mycelial Network (Telepathy), No Eyes."
+            }
+        ]
+    },
+    {
+        "name": "Bryophyte Anatomy",
+        "species": "Plant",
+        "stats": {
+            "endurance": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Bryophyte Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Carpet-Like Skin, Clinging Rhizoids, Spore Capsules."
+            }
+        ]
+    },
+    {
+        "name": "Pteridophyte Anatomy",
+        "species": "Plant",
+        "stats": {
+            "willpower": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Pteridophyte Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Frond Leaves, Fiddleheads, Rhizome Roots."
+            }
+        ]
+    },
+    {
+        "name": "Photosensors",
+        "species": "Plant",
+        "stats": {
+            "reflexes": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Photosensors Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Sun-Fed (Regain 1 SP per hour in sunlight. No need to eat)."
+            }
+        ]
+    },
+    {
+        "name": "Root-Nerves",
+        "species": "Plant",
+        "stats": {
+            "willpower": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Root-Nerves Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Ground-Sense (Detect footsteps within 30ft. Cannot be Surprised)."
+            }
+        ]
+    },
+    {
+        "name": "Scent-Glands",
+        "species": "Plant",
+        "stats": {
+            "knowledge": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Scent-Glands Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Empathy (Communicate emotions via scent. Advantage on Insight)."
+            }
+        ]
+    },
+    {
+        "name": "Mycelium-Brain",
+        "species": "Plant",
+        "stats": {
+            "finesse": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Mycelium-Brain Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Hive-Mind (Share senses with willing allies within 60ft)."
+            }
+        ]
+    },
+    {
+        "name": "Thermal-Pits",
+        "species": "Plant",
+        "stats": {
+            "charm": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Thermal-Pits Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Infra-Red (See heat sources through walls/darkness)."
+            }
+        ]
+    },
+    {
+        "name": "Chemo-Receptors",
+        "species": "Plant",
+        "stats": {
+            "logic": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Chemo-Receptors Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Analyzer (Identify potions/poisons by touch instantly)."
+            }
+        ]
+    },
+    {
+        "name": "Sweet-Nectar",
+        "species": "Plant",
+        "stats": {
+            "knowledge": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Sweet-Nectar Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Entice (Target must Wis Save or move closer to you)."
+            }
+        ]
+    },
+    {
+        "name": "Moisture-Sense",
+        "species": "Plant",
+        "stats": {
+            "vitality": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Moisture-Sense Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Dowsing (Detect water sources within 1 mile)."
+            }
+        ]
+    },
+    {
+        "name": "Heavy Branches",
+        "species": "Plant",
+        "stats": {
+            "reflexes": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Heavy Branches Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Slam (Melee Attack. High Dmg + Knockback)."
+            }
+        ]
+    },
+    {
+        "name": "Whip-Limbs",
+        "species": "Plant",
+        "stats": {
+            "charm": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Whip-Limbs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Lash (Reach 10ft. Trip or Disarm target)."
+            }
+        ]
+    },
+    {
+        "name": "Needle-Fingers",
+        "species": "Plant",
+        "stats": {
+            "logic": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Needle-Fingers Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Pierce (Melee Unarmed. Ignores Light Armor)."
+            }
+        ]
+    },
+    {
+        "name": "Puff-Ball Hands",
+        "species": "Plant",
+        "stats": {
+            "finesse": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Puff-Ball Hands Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Dust (Cone Spray. Poison, Sleep, or Hallucinate)."
+            }
+        ]
+    },
+    {
+        "name": "Fly-Trap Jaws",
+        "species": "Plant",
+        "stats": {
+            "vitality": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Fly-Trap Jaws Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Snap (Grapple. If successful, swallow hand/weapon for auto-dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Sticky Palms",
+        "species": "Plant",
+        "stats": {
+            "endurance": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Sticky Palms Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Adhesive (Advantage on Grapple. Climb without checks)."
+            }
+        ]
+    },
+    {
+        "name": "Cactus-Spines",
+        "species": "Plant",
+        "stats": {
+            "willpower": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Cactus-Spines Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Barrage (Ranged Attack. Fire volley of needles)."
+            }
+        ]
+    },
+    {
+        "name": "Root-Fists",
+        "species": "Plant",
+        "stats": {
+            "fortitude": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Root-Fists Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Entangle (Hit restrains target)."
+            }
+        ]
+    },
+    {
+        "name": "Stump-Roots",
+        "species": "Plant",
+        "stats": {
+            "might": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Stump-Roots Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Anchor (Cannot be Knocked Prone. Speed -5ft)."
+            }
+        ]
+    },
+    {
+        "name": "Vine-Mass",
+        "species": "Plant",
+        "stats": {
+            "vitality": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Vine-Mass Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Creeper (Ignore Difficult Terrain. Climb Speed = Walk Speed)."
+            }
+        ]
+    },
+    {
+        "name": "Spore-Cloud",
+        "species": "Plant",
+        "stats": {
+            "logic": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Spore-Cloud Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Float (Hover 5ft off ground. Slow fall)."
+            }
+        ]
+    },
+    {
+        "name": "Roll-Cage",
+        "species": "Plant",
+        "stats": {
+            "intuition": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Roll-Cage Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Roll-Out (Move 2x Speed in straight line. Must stop to act)."
+            }
+        ]
+    },
+    {
+        "name": "Sub-Surface",
+        "species": "Plant",
+        "stats": {
+            "might": 2
+        },
+        "passives": [
+            {
+                "name": "Sub-Surface Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Shift (Bonus Action. Teleport 15ft via ground network)."
+            }
+        ]
+    },
+    {
+        "name": "Stalk-Legs",
+        "species": "Plant",
+        "stats": {
+            "awareness": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Stalk-Legs Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Marsh-Walk (Move over water/mud without sinking)."
+            }
+        ]
+    },
+    {
+        "name": "Drill-Roots",
+        "species": "Plant",
+        "stats": {
+            "endurance": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Drill-Roots Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Dig (Burrow Speed = Half Walk Speed)."
+            }
+        ]
+    },
+    {
+        "name": "Tendrils",
+        "species": "Plant",
+        "stats": {
+            "awareness": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Tendrils Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Spider-Climb (Walk on walls/ceilings)."
+            }
+        ]
+    },
+    {
+        "name": "Iron-Wood",
+        "species": "Plant",
+        "stats": {
+            "awareness": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Iron-Wood Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Hardwood (+3 Natural AC. Vulnerable to Fire)."
+            }
+        ]
+    },
+    {
+        "name": "Fungal-Flesh",
+        "species": "Plant",
+        "stats": {
+            "awareness": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Fungal-Flesh Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Bounce (Resistance to Bludgeoning. Immune to Crit Hits)."
+            }
+        ]
+    },
+    {
+        "name": "Spiked-Skin",
+        "species": "Plant",
+        "stats": {
+            "awareness": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Spiked-Skin Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Barbed (Grapplers/Melee attackers take 1d4 Pierce)."
+            }
+        ]
+    },
+    {
+        "name": "Soft-Moss",
+        "species": "Plant",
+        "stats": {
+            "vitality": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Soft-Moss Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Dampener (Silent Movement. Resistance to Fire)."
+            }
+        ]
+    },
+    {
+        "name": "Cuticle-Layer",
+        "species": "Plant",
+        "stats": {
+            "charm": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Cuticle-Layer Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Sealed (Immune to dehydration. Resistance to Acid)."
+            }
+        ]
+    },
+    {
+        "name": "Hydraulic-Vines",
+        "species": "Plant",
+        "stats": {
+            "charm": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Hydraulic-Vines Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Pump (Bonus Action. Increase Reach by 5ft for 1 turn)."
+            }
+        ]
+    },
+    {
+        "name": "Reed-Structure",
+        "species": "Plant",
+        "stats": {
+            "endurance": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Reed-Structure Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Lightweight (Float on water. Advantage to Jump)."
+            }
+        ]
+    },
+    {
+        "name": "Cork-Skin",
+        "species": "Plant",
+        "stats": {
+            "might": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Cork-Skin Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Temperature-Proof (Resist Cold/Fire/Weather)."
+            }
+        ]
+    },
+    {
+        "name": "Rapid-Cell",
+        "species": "Plant",
+        "stats": {
+            "fortitude": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Rapid-Cell Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Photosynthesis (Heal 25% HP in sunlight over 1 min)."
+            }
+        ]
+    },
+    {
+        "name": "Poison-Sap",
+        "species": "Plant",
+        "stats": {
+            "fortitude": 2
+        },
+        "passives": [
+            {
+                "name": "Poison-Sap Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Bad-Blood (Melee attackers making contact are Poisoned)."
+            }
+        ]
+    },
+    {
+        "name": "Goodberry",
+        "species": "Plant",
+        "stats": {
+            "logic": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Goodberry Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Harvest (Produce 1d4 healing berries per Long Rest)."
+            }
+        ]
+    },
+    {
+        "name": "Pollen-Cloud",
+        "species": "Plant",
+        "stats": {
+            "intuition": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Pollen-Cloud Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Drowse (20ft Radius. Con Save or Sleep)."
+            }
+        ]
+    },
+    {
+        "name": "Mandrake-Root",
+        "species": "Plant",
+        "stats": {
+            "charm": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Mandrake-Root Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Scream (AOE Psychic Damage/Stun)."
+            }
+        ]
+    },
+    {
+        "name": "Root-Burst",
+        "species": "Plant",
+        "stats": {
+            "logic": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Root-Burst Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Overgrowth (Restrain all enemies within 10ft radius)."
+            }
+        ]
+    },
+    {
+        "name": "Fungal-Spore",
+        "species": "Plant",
+        "stats": {
+            "willpower": 2
+        },
+        "passives": [
+            {
+                "name": "Fungal-Spore Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Rebirth (If killed, a clone grows from your corpse in 1 week)."
+            }
+        ]
+    },
+    {
+        "name": "Pollen-Link",
+        "species": "Plant",
+        "stats": {
+            "might": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Pollen-Link Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Bolster (Ally gains temp HP or advantage)."
+            }
+        ]
+    },
+    {
+        "name": "Small Frame",
+        "species": "Avian",
+        "stats": {
+            "+2 reflex, +1 finesse": 1,
+            "-2 might, -1 vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Small Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Squeeze: Move through 4-inch gaps. +Advantage on Stealth."
+            }
+        ]
+    },
+    {
+        "name": "Light Frame",
+        "species": "Avian",
+        "stats": {
+            "+1 reflex": 1,
+            "-1 might": 1
+        },
+        "passives": [
+            {
+                "name": "Light Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Lightweight: Trigger no pressure plates. Fall damage halved."
+            }
+        ]
+    },
+    {
+        "name": "Balanced Frame",
+        "species": "Avian",
+        "stats": {},
+        "passives": [
+            {
+                "name": "Balanced Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Standard: No penalties. Can use standard gear."
+            }
+        ]
+    },
+    {
+        "name": "Heavy Frame",
+        "species": "Avian",
+        "stats": {
+            "+1 might": 1,
+            "-1 reflex": 1
+        },
+        "passives": [
+            {
+                "name": "Heavy Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures."
+            }
+        ]
+    },
+    {
+        "name": "Siege Frame",
+        "species": "Avian",
+        "stats": {
+            "+2 might, +1 vitality": 1,
+            "-2 reflex, -1 finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Siege Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space."
+            }
+        ]
+    },
+    {
+        "name": "Accipiter Anatomy",
+        "species": "Avian",
+        "stats": {
+            "awareness": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Accipiter Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Hooked Beak, Talons, Broad Wings, Hunter Eyes."
+            }
+        ]
+    },
+    {
+        "name": "Corvus Anatomy",
+        "species": "Avian",
+        "stats": {
+            "intuition": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Corvus Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Tool-Using Beak, Dexterous Feet, Voice Mimicry, Black Plumage."
+            }
+        ]
+    },
+    {
+        "name": "Strigiform Anatomy",
+        "species": "Avian",
+        "stats": {
+            "knowledge": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Strigiform Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Silent Feathers, Night-Eyes, Swivel Neck (270\u00b0), Talons."
+            }
+        ]
+    },
+    {
+        "name": "Psittacine Anatomy",
+        "species": "Avian",
+        "stats": {
+            "reflexes": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Psittacine Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Crushing Beak, Zygodactyl Feet (Climb), Vocal Mimicry."
+            }
+        ]
+    },
+    {
+        "name": "Waterfowl Anatomy",
+        "species": "Avian",
+        "stats": {
+            "awareness": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Waterfowl Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Long Neck, Webbed Feet, Waterproof Feathers, Blunt Beak."
+            }
+        ]
+    },
+    {
+        "name": "Ratite Anatomy",
+        "species": "Avian",
+        "stats": {
+            "logic": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Ratite Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Vestigial Wings (No Flight), Powerful Legs, Kick-Claw."
+            }
+        ]
+    },
+    {
+        "name": "Spheniscid Anatomy",
+        "species": "Avian",
+        "stats": {
+            "reflexes": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Spheniscid Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Flipper-Wings (Swim), Blubber Layer, Upright Stance."
+            }
+        ]
+    },
+    {
+        "name": "Wading Anatomy",
+        "species": "Avian",
+        "stats": {
+            "fortitude": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Wading Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Spear Beak, Stilt Legs, S-Curve Neck, Broad Wings."
+            }
+        ]
+    },
+    {
+        "name": "Magnifying Lens",
+        "species": "Avian",
+        "stats": {
+            "vitality": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Magnifying Lens Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Eagle-Eye (See fine detail from 1 mile away. +5 Perception)."
+            }
+        ]
+    },
+    {
+        "name": "Tubular Eyes",
+        "species": "Avian",
+        "stats": {
+            "logic": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Tubular Eyes Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Low-Light (Darkvision 120ft, but Disadvantage in bright sun)."
+            }
+        ]
+    },
+    {
+        "name": "Magneto-Receptors",
+        "species": "Avian",
+        "stats": {
+            "awareness": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Magneto-Receptors Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Compass (Never lost. Detect metal within 10ft)."
+            }
+        ]
+    },
+    {
+        "name": "Lateral Eyes",
+        "species": "Avian",
+        "stats": {
+            "intuition": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Lateral Eyes Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: 360-View (Cannot be Flanked. +2 Initiative)."
+            }
+        ]
+    },
+    {
+        "name": "Olfactory Bulb",
+        "species": "Avian",
+        "stats": {
+            "finesse": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Olfactory Bulb Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Scavenger-Scent (Smell decay/blood from 1 mile away)."
+            }
+        ]
+    },
+    {
+        "name": "Gyro-Head",
+        "species": "Avian",
+        "stats": {
+            "knowledge": 2
+        },
+        "passives": [
+            {
+                "name": "Gyro-Head Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Lock-On (Move at full speed while keeping Aim on a target)."
+            }
+        ]
+    },
+    {
+        "name": "Facial Disk",
+        "species": "Avian",
+        "stats": {
+            "awareness": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Facial Disk Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Pinpoint (Hearing-based Blindsight 30ft)."
+            }
+        ]
+    },
+    {
+        "name": "Crest Display",
+        "species": "Avian",
+        "stats": {
+            "reflexes": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Crest Display Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Startle (Flare crest. Target within 10ft loses Reaction)."
+            }
+        ]
+    },
+    {
+        "name": "Spurred Wrists",
+        "species": "Avian",
+        "stats": {
+            "knowledge": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Spurred Wrists Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Wing-Slash (Melee Attack. Deal Slashing + Bleed)."
+            }
+        ]
+    },
+    {
+        "name": "Heavy Pinions",
+        "species": "Avian",
+        "stats": {
+            "vitality": 2
+        },
+        "passives": [
+            {
+                "name": "Heavy Pinions Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Gust (Cone Attack. Knock targets Prone with wind/impact)."
+            }
+        ]
+    },
+    {
+        "name": "Bone-Wings",
+        "species": "Avian",
+        "stats": {
+            "awareness": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Bone-Wings Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Mantle (Use Wings as Shield. +2 AC against Ranged Attacks)."
+            }
+        ]
+    },
+    {
+        "name": "Clawed Digits",
+        "species": "Avian",
+        "stats": {
+            "reflexes": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Clawed Digits Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Manipulate (Archaeopteryx claws allow item use while flying)."
+            }
+        ]
+    },
+    {
+        "name": "Swept Wings",
+        "species": "Avian",
+        "stats": {
+            "knowledge": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Swept Wings Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Stoop (Dive Attack. +1d6 Dmg for every 10ft fallen)."
+            }
+        ]
+    },
+    {
+        "name": "Serrated Fringes",
+        "species": "Avian",
+        "stats": {
+            "endurance": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Serrated Fringes Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Owl-Flight (Flight makes 0 sound. Advantage on Stealth)."
+            }
+        ]
+    },
+    {
+        "name": "Strong Shoulders",
+        "species": "Avian",
+        "stats": {
+            "willpower": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Strong Shoulders Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Vertical-Takeoff (Launch into air without running start)."
+            }
+        ]
+    },
+    {
+        "name": "Flipper-Wings",
+        "species": "Avian",
+        "stats": {
+            "vitality": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Flipper-Wings Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Hydro-Dynamic (Swim Speed = Fly Speed. Cannot Fly)."
+            }
+        ]
+    },
+    {
+        "name": "Raptor Claws",
+        "species": "Avian",
+        "stats": {
+            "vitality": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Raptor Claws Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Snatch (Grapple Check. On success, restrain target)."
+            }
+        ]
+    },
+    {
+        "name": "Running Struts",
+        "species": "Avian",
+        "stats": {
+            "endurance": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Running Struts Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Dash (Move 3x Speed on ground)."
+            }
+        ]
+    },
+    {
+        "name": "Zygodactyl Toes",
+        "species": "Avian",
+        "stats": {
+            "knowledge": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Zygodactyl Toes Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Tree-Walker (Climb Speed = Walk Speed. Hang upside down)."
+            }
+        ]
+    },
+    {
+        "name": "Stilt Legs",
+        "species": "Avian",
+        "stats": {
+            "might": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Stilt Legs Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Marsh-Walk (Ignore difficult terrain in water/mud/snow)."
+            }
+        ]
+    },
+    {
+        "name": "Cassowary Claw",
+        "species": "Avian",
+        "stats": {
+            "reflexes": 2
+        },
+        "passives": [
+            {
+                "name": "Cassowary Claw Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Eviscerate (Melee Kick. High Dmg + Knockback)."
+            }
+        ]
+    },
+    {
+        "name": "Locking Tendons",
+        "species": "Avian",
+        "stats": {
+            "reflexes": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Locking Tendons Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Vigil (Can sleep while standing/perched without falling)."
+            }
+        ]
+    },
+    {
+        "name": "Webbed Feet",
+        "species": "Avian",
+        "stats": {
+            "intuition": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Surface Dash",
+                "type": "Action",
+                "effect": "You can run across the surface of water for one turn without sinking."
+            },
+            {
+                "name": "Paddle",
+                "type": "Passive",
+                "effect": "You gain a Swim Speed equal to your Walk Speed."
+            }
+        ]
+    },
+    {
+        "name": "Shock Absorbers",
+        "species": "Avian",
+        "stats": {
+            "finesse": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Shock Absorbers Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Cushion (Reduce Fall Damage by half)."
+            }
+        ]
+    },
+    {
+        "name": "Insulating Down",
+        "species": "Avian",
+        "stats": {
+            "reflexes": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Insulating Down Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Cold-Proof (Resistance to Cold. Immune to Weather effects)."
+            }
+        ]
+    },
+    {
+        "name": "Preen Gland",
+        "species": "Avian",
+        "stats": {
+            "fortitude": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Preen Gland Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Waterproof (Cannot be waterlogged. Float automatically)."
+            }
+        ]
+    },
+    {
+        "name": "Keratin Scales",
+        "species": "Avian",
+        "stats": {
+            "awareness": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Keratin Scales Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Hard-Feather (+2 Natural AC. Flight speed -10ft)."
+            }
+        ]
+    },
+    {
+        "name": "Iridescent Plume",
+        "species": "Avian",
+        "stats": {
+            "reflexes": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Iridescent Plume Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Dazzle (Target Disadvantage on Attack rolls due to flash)."
+            }
+        ]
+    },
+    {
+        "name": "Camo-Plumage",
+        "species": "Avian",
+        "stats": {
+            "awareness": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Camo-Plumage Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Blend (+5 Stealth in chosen terrain)."
+            }
+        ]
+    },
+    {
+        "name": "Hollow Bones",
+        "species": "Avian",
+        "stats": {
+            "awareness": 2
+        },
+        "passives": [
+            {
+                "name": "Hollow Bones Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Lift (Advantage on Acrobatics and Fly checks)."
+            }
+        ]
+    },
+    {
+        "name": "Crop Pouch",
+        "species": "Avian",
+        "stats": {
+            "might": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Crop Pouch Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Cache (Store items/food safely in throat pouch)."
+            }
+        ]
+    },
+    {
+        "name": "Thick Skin",
+        "species": "Avian",
+        "stats": {
+            "knowledge": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Thick Skin Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Scarred (Ignore first 2 points of damage from any hit)."
+            }
+        ]
+    },
+    {
+        "name": "Syrinx Box",
+        "species": "Avian",
+        "stats": {
+            "awareness": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Syrinx Box Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Voice-Thief (Perfectly mimic any sound or voice heard)."
+            }
+        ]
+    },
+    {
+        "name": "Song-Throat",
+        "species": "Avian",
+        "stats": {
+            "charm": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Song-Throat Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Bardic-Chirp (Allies within 30ft gain +1d4 to next Save)."
+            }
+        ]
+    },
+    {
+        "name": "Fan Tail",
+        "species": "Avian",
+        "stats": {
+            "logic": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Fan Tail Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Turn-On-Dime (No turn radius limit while flying)."
+            }
+        ]
+    },
+    {
+        "name": "Counter-Tail",
+        "species": "Avian",
+        "stats": {
+            "knowledge": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Counter-Tail Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Wire-Walk (Advantage on Balance. Cannot be knocked Prone)."
+            }
+        ]
+    },
+    {
+        "name": "Hooked Bill",
+        "species": "Avian",
+        "stats": {
+            "finesse": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Hooked Bill Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Tear (Melee Attack. Auto-Crit against Prone targets)."
+            }
+        ]
+    },
+    {
+        "name": "Nut-Cracker Bill",
+        "species": "Avian",
+        "stats": {
+            "reflexes": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Nut-Cracker Bill Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Break (Double damage against objects/armor)."
+            }
+        ]
+    },
+    {
+        "name": "Throat Sac",
+        "species": "Avian",
+        "stats": {
+            "intuition": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Throat Sac Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Scoop (Grapple tiny/small target and hold in mouth)."
+            }
+        ]
+    },
+    {
+        "name": "Boom-Sack",
+        "species": "Avian",
+        "stats": {
+            "reflexes": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Boom-Sack Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Resonate (AOE Thunder Damage in 15ft cone)."
+            }
+        ]
+    },
+    {
+        "name": "Small Frame",
+        "species": "Reptile",
+        "stats": {
+            "+2 reflex, +1 finesse": 1,
+            "-2 might, -1 vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Small Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Squeeze: Move through 4-inch gaps. +Advantage on Stealth."
+            }
+        ]
+    },
+    {
+        "name": "Light Frame",
+        "species": "Reptile",
+        "stats": {
+            "+1 reflex": 1,
+            "-1 might": 1
+        },
+        "passives": [
+            {
+                "name": "Light Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Lightweight: Trigger no pressure plates. Fall damage halved."
+            }
+        ]
+    },
+    {
+        "name": "Balanced Frame",
+        "species": "Reptile",
+        "stats": {},
+        "passives": [
+            {
+                "name": "Balanced Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Standard: No penalties. Can use standard gear."
+            }
+        ]
+    },
+    {
+        "name": "Heavy Frame",
+        "species": "Reptile",
+        "stats": {
+            "+1 might": 1,
+            "-1 reflex": 1
+        },
+        "passives": [
+            {
+                "name": "Heavy Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures."
+            }
+        ]
+    },
+    {
+        "name": "Siege Frame",
+        "species": "Reptile",
+        "stats": {
+            "+2 might, +1 vitality": 1,
+            "-2 reflex, -1 finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Siege Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space."
+            }
+        ]
+    },
+    {
+        "name": "Crocodilian Anatomy",
+        "species": "Reptile",
+        "stats": {
+            "logic": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Crocodilian Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Armor Scales, Hold Breath (30m), Swim Tail, Conical Teeth."
+            }
+        ]
+    },
+    {
+        "name": "Serpentine Anatomy",
+        "species": "Reptile",
+        "stats": {
+            "endurance": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Serpentine Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Fangs (Injection), Hood, No Legs (Slither), Heat Pits."
+            }
+        ]
+    },
+    {
+        "name": "Testudine Anatomy",
+        "species": "Reptile",
+        "stats": {
+            "vitality": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Testudine Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Shell (Partial Cover), Beak, Stub Tail, Plodding Speed."
+            }
+        ]
+    },
+    {
+        "name": "Climbing Anatomy",
+        "species": "Reptile",
+        "stats": {
+            "logic": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Climbing Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Sticky Pads (Climb), Detachable Tail, Night-Pupils."
+            }
+        ]
+    },
+    {
+        "name": "Varanid Anatomy",
+        "species": "Reptile",
+        "stats": {
+            "might": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Varanid Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Forked Tongue (Tracker), Rending Claws, Whip Tail."
+            }
+        ]
+    },
+    {
+        "name": "Arboreal Anatomy",
+        "species": "Reptile",
+        "stats": {
+            "knowledge": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Arboreal Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Independent Eyes, Color-Shift Skin, Zodactyl Feet."
+            }
+        ]
+    },
+    {
+        "name": "Theropod Anatomy",
+        "species": "Reptile",
+        "stats": {
+            "fortitude": 2
+        },
+        "passives": [
+            {
+                "name": "Theropod Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Sickle Talons, Counter-Balance Tail, Proto-Feathers."
+            }
+        ]
+    },
+    {
+        "name": "Display Anatomy",
+        "species": "Reptile",
+        "stats": {
+            "fortitude": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Display Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Dorsal Spines, Throat Dewlap, Whip Tail, Cheek Scales."
+            }
+        ]
+    },
+    {
+        "name": "Pit Organs",
+        "species": "Reptile",
+        "stats": {
+            "logic": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Pit Organs Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Heat-Sight (See living targets through walls/darkness)."
+            }
+        ]
+    },
+    {
+        "name": "Forked Tongue",
+        "species": "Reptile",
+        "stats": {
+            "awareness": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Taste the Air",
+                "type": "Action",
+                "effect": "Detect the presence of poisons, magic, or fresh blood within 60ft by tasting scent particles."
+            },
+            {
+                "name": "Tracker",
+                "type": "Passive",
+                "effect": "You gain Advantage on Survival checks to track a creature you have smelled before."
+            }
+        ]
+    },
+    {
+        "name": "Swivel Eyes",
+        "species": "Reptile",
+        "stats": {
+            "logic": 2
+        },
+        "passives": [
+            {
+                "name": "Swivel Eyes Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Target-Lock (Next attack has Advantage and ignores Cover)."
+            }
+        ]
+    },
+    {
+        "name": "Nictitating Membrane",
+        "species": "Reptile",
+        "stats": {
+            "logic": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Nictitating Membrane Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Clear-Sight (See perfectly underwater and immune to Sandstorms)."
+            }
+        ]
+    },
+    {
+        "name": "Spectacle Hood",
+        "species": "Reptile",
+        "stats": {
+            "intuition": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Spectacle Hood Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Mesmerize (Target makes Will save or is Stunned 1 turn)."
+            }
+        ]
+    },
+    {
+        "name": "Parietal Eye",
+        "species": "Reptile",
+        "stats": {
+            "willpower": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Parietal Eye Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Third Eye (Cannot be Surprised or Flanked)."
+            }
+        ]
+    },
+    {
+        "name": "Locking Jaw",
+        "species": "Reptile",
+        "stats": {
+            "knowledge": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Locking Jaw Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Death-Roll (Grapple. If successful, auto-crit damage)."
+            }
+        ]
+    },
+    {
+        "name": "Venom Glands",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Venom Glands Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Blind (Ranged Attack. Target is Blinded for 1d4 rounds)."
+            }
+        ]
+    },
+    {
+        "name": "Muscular Coils",
+        "species": "Reptile",
+        "stats": {
+            "logic": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Muscular Coils Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Squeeze (Grappled targets take 1d6 Bludgeoning per turn)."
+            }
+        ]
+    },
+    {
+        "name": "Sickle Claws",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Sickle Claws Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Eviscerate (Apply Deep Wound: Healing is halved for target)."
+            }
+        ]
+    },
+    {
+        "name": "Van der Waals Pads",
+        "species": "Reptile",
+        "stats": {
+            "fortitude": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Van der Waals Pads Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Spider-Climb (Walk on ceilings/glass with hands free)."
+            }
+        ]
+    },
+    {
+        "name": "Club-Fists",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Club-Fists Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Smash (Melee Attack. Knock target back 10ft)."
+            }
+        ]
+    },
+    {
+        "name": "Hollow Spurs",
+        "species": "Reptile",
+        "stats": {
+            "knowledge": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Hollow Spurs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Neurotoxin (Melee Hit: Target Speed is 0 for 1 turn)."
+            }
+        ]
+    },
+    {
+        "name": "Spade Claws",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Spade Claws Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Trench (Create Cover/Terrain modifiers instantly)."
+            }
+        ]
+    },
+    {
+        "name": "Rib-Wings",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Rib-Wings Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Draco-Glide (Negate fall damage. 3:1 Travel ratio)."
+            }
+        ]
+    },
+    {
+        "name": "Change-Skin",
+        "species": "Reptile",
+        "stats": {
+            "logic": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Change-Skin Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Camo-Strike (Turn Invisible for 1 turn, attack breaks it)."
+            }
+        ]
+    },
+    {
+        "name": "Bipedal Hips",
+        "species": "Reptile",
+        "stats": {
+            "fortitude": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Bipedal Hips Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Burst (Move 4x Speed, but Lethargic next turn)."
+            }
+        ]
+    },
+    {
+        "name": "Paddle Tail",
+        "species": "Reptile",
+        "stats": {
+            "vitality": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Paddle Tail Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: River-King (Swim Speed = Walk x2. Hold breath 1 hour)."
+            }
+        ]
+    },
+    {
+        "name": "Coiled Muscles",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Coiled Muscles Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Strike-Jump (Jump 20ft instantly as part of an attack)."
+            }
+        ]
+    },
+    {
+        "name": "Grip Talons",
+        "species": "Reptile",
+        "stats": {
+            "might": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Grip Talons Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Rooted (Immune to Shove/Trip/Pull)."
+            }
+        ]
+    },
+    {
+        "name": "Soft Scales",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Soft Scales Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Stalk (No penalty to Stealth for moving at full speed)."
+            }
+        ]
+    },
+    {
+        "name": "Hooked Toes",
+        "species": "Reptile",
+        "stats": {
+            "endurance": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Hooked Toes Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Skitter (Move across vertical surfaces without slowing)."
+            }
+        ]
+    },
+    {
+        "name": "Webbed Fringe",
+        "species": "Reptile",
+        "stats": {
+            "awareness": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Webbed Fringe Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Water-Walk (Run across liquid surfaces if you don't stop)."
+            }
+        ]
+    },
+    {
+        "name": "Desert Scales",
+        "species": "Reptile",
+        "stats": {
+            "intuition": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Desert Scales Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Heat-Sync (Immune to Exhaustion from Heat/Travel)."
+            }
+        ]
+    },
+    {
+        "name": "Osteoderms",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Osteoderms Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Heavy Plate (+3 Natural AC, -5 Speed)."
+            }
+        ]
+    },
+    {
+        "name": "Stem-Cell Biology",
+        "species": "Reptile",
+        "stats": {
+            "endurance": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Stem-Cell Biology Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Shed (Bonus Action. Heal 25% HP, remove all Status Effects)."
+            }
+        ]
+    },
+    {
+        "name": "Color-Shift Scales",
+        "species": "Reptile",
+        "stats": {
+            "fortitude": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Color-Shift Scales Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Active Camo (+5 Stealth if you moved less than 5ft)."
+            }
+        ]
+    },
+    {
+        "name": "Dorsal Spines",
+        "species": "Reptile",
+        "stats": {
+            "willpower": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Dorsal Spines Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Thorns (Grapplers/Melee attackers take 1d4 Pierce)."
+            }
+        ]
+    },
+    {
+        "name": "Solar Scales",
+        "species": "Reptile",
+        "stats": {
+            "intuition": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Solar Scales Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Cold-Blood (Regain 1 SP per hour in direct sunlight)."
+            }
+        ]
+    },
+    {
+        "name": "Mucus Coat",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 2
+        },
+        "passives": [
+            {
+                "name": "Mucus Coat Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Evasion (Take half damage from AOE/Breath attacks)."
+            }
+        ]
+    },
+    {
+        "name": "Layered Scutes",
+        "species": "Reptile",
+        "stats": {
+            "intuition": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Layered Scutes Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Molt (Negate one Critical Hit per day by shedding armor)."
+            }
+        ]
+    },
+    {
+        "name": "Elastic Hide",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Elastic Hide Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Impact (Resistance to Bludgeoning damage)."
+            }
+        ]
+    },
+    {
+        "name": "Prehensile Tail",
+        "species": "Reptile",
+        "stats": {
+            "fortitude": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Prehensile Tail Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Trip (Bonus Action. Knock target Prone at 10ft range)."
+            }
+        ]
+    },
+    {
+        "name": "Tail Rattle",
+        "species": "Reptile",
+        "stats": {
+            "awareness": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Warning Shake",
+                "type": "Action",
+                "effect": "Rattle loudly. Enemies within 15ft must save (Willpower) or be Frightened for 1 round."
+            },
+            {
+                "name": "Lure",
+                "type": "Bonus",
+                "effect": "Shake softly to mimic an insect buzz, distracting a target to give an ally Advantage on their next attack."
+            }
+        ]
+    },
+    {
+        "name": "Neck Frill",
+        "species": "Reptile",
+        "stats": {
+            "knowledge": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Neck Frill Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Flare (Target loses next Action due to shock/startle)."
+            }
+        ]
+    },
+    {
+        "name": "Poison Sacs",
+        "species": "Reptile",
+        "stats": {
+            "willpower": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Poison Sacs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Envenom (Coat weapon. Con Save or Paralyzed)."
+            }
+        ]
+    },
+    {
+        "name": "Autotomy Tail",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Autotomy Tail Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Decoy (Reaction. Drop tail. It wiggles. You turn Invisible)."
+            }
+        ]
+    },
+    {
+        "name": "Throat Gland",
+        "species": "Reptile",
+        "stats": {
+            "intuition": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Throat Gland Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Exhale (15ft Cone of Acid or Fire)."
+            }
+        ]
+    },
+    {
+        "name": "Constrictor Coils",
+        "species": "Reptile",
+        "stats": {
+            "charm": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Constrictor Coils Trait",
+                "type": "Biological Trait",
+                "effect": "Passive:Crush (Advantage on all Grapple Checks)."
+            }
+        ]
+    },
+    {
+        "name": "Seismic Scales",
+        "species": "Reptile",
+        "stats": {
+            "reflexes": 2
+        },
+        "passives": [
+            {
+                "name": "Seismic Scales Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Tremor-Sense (Detect all movement within 60ft)."
+            }
+        ]
+    },
+    {
+        "name": "Small Frame",
+        "species": "Insect",
+        "stats": {
+            "+2 reflex, +1 finesse": 1,
+            "-2 might, -1 vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Small Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Squeeze: Move through 4-inch gaps. +Advantage on Stealth."
+            }
+        ]
+    },
+    {
+        "name": "Light Frame",
+        "species": "Insect",
+        "stats": {
+            "+1 reflex": 1,
+            "-1 might": 1
+        },
+        "passives": [
+            {
+                "name": "Light Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Lightweight: Trigger no pressure plates. Fall damage halved."
+            }
+        ]
+    },
+    {
+        "name": "Balanced Frame",
+        "species": "Insect",
+        "stats": {},
+        "passives": [
+            {
+                "name": "Balanced Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Standard: No penalties. Can use standard gear."
+            }
+        ]
+    },
+    {
+        "name": "Heavy Frame",
+        "species": "Insect",
+        "stats": {
+            "+1 might": 1,
+            "-1 reflex": 1
+        },
+        "passives": [
+            {
+                "name": "Heavy Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures."
+            }
+        ]
+    },
+    {
+        "name": "Siege Frame",
+        "species": "Insect",
+        "stats": {
+            "+2 might, +1 vitality": 1,
+            "-2 reflex, -1 finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Siege Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space."
+            }
+        ]
+    },
+    {
+        "name": "Coleoptera Anatomy",
+        "species": "Insect",
+        "stats": {
+            "logic": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Coleoptera Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Hard Elytra (Wing Cases), Mandibles, 6 Legs, Antennae."
+            }
+        ]
+    },
+    {
+        "name": "Mantodea Anatomy",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Mantodea Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Raptorial Forelegs, Triangular Head, Wings, 4 Walking Legs."
+            }
+        ]
+    },
+    {
+        "name": "Arachnid Anatomy",
+        "species": "Insect",
+        "stats": {
+            "awareness": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Arachnid Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: 8 Legs, Spinnerets (Silk), Pedipalps, Multiple Eyes."
+            }
+        ]
+    },
+    {
+        "name": "Formicidae Anatomy",
+        "species": "Insect",
+        "stats": {
+            "finesse": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Formicidae Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Crushing Mandibles, Antennae, Hive-Mind Link, 6 Legs."
+            }
+        ]
+    },
+    {
+        "name": "Odonata Anatomy",
+        "species": "Insect",
+        "stats": {
+            "endurance": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Odonata Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: 4 Wings (Hover), 360\u00b0 Vision, Grasping Legs, Long Tail."
+            }
+        ]
+    },
+    {
+        "name": "Scorpiones Anatomy",
+        "species": "Insect",
+        "stats": {
+            "willpower": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Scorpiones Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Pincers, Telson (Stinger Tail), 8 Legs, Exoskeleton."
+            }
+        ]
+    },
+    {
+        "name": "Lepidoptera Anatomy",
+        "species": "Insect",
+        "stats": {
+            "knowledge": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Lepidoptera Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Powdered Wings (Flight), Plumose Antennae, Proboscis."
+            }
+        ]
+    },
+    {
+        "name": "Myriapod Anatomy",
+        "species": "Insect",
+        "stats": {
+            "vitality": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Myriapod Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Segmented Body, Many Legs (Speed), Venom Fangs."
+            }
+        ]
+    },
+    {
+        "name": "Faceted Eyes",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Omni-Vision",
+                "type": "Passive",
+                "effect": "You can see in all directions at once. You cannot be Flanked."
+            },
+            {
+                "name": "Reflex Dodge",
+                "type": "Reaction",
+                "effect": "You gain +2 to Reflex saves against Area of Effect spells (you see it coming)."
+            }
+        ]
+    },
+    {
+        "name": "Feelers",
+        "species": "Insect",
+        "stats": {
+            "awareness": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Feelers Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Air-Currents (Detect invisible movement within 10ft)."
+            }
+        ]
+    },
+    {
+        "name": "Light Sensors",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Light Sensors Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Twitch (Reaction. If a light source moves, gain +2 AC)."
+            }
+        ]
+    },
+    {
+        "name": "Chemical Receptors",
+        "species": "Insect",
+        "stats": {
+            "charm": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Chemical Receptors Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Hive-Speak (Communicate silently with own species 100ft)."
+            }
+        ]
+    },
+    {
+        "name": "Serrated Jaws",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Serrated Jaws Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Crunch (Melee Bite. Ignores Hardness of objects)."
+            }
+        ]
+    },
+    {
+        "name": "Needle Mouth",
+        "species": "Insect",
+        "stats": {
+            "knowledge": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Needle Mouth Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Drain (Grapple. Heal 1d4 HP per turn while holding target)."
+            }
+        ]
+    },
+    {
+        "name": "Biolum-Glands",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Biolum-Glands Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Flash-Bang (Cone of Light. Blindness or Signaling)."
+            }
+        ]
+    },
+    {
+        "name": "Ovipositor",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Ovipositor Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Implant (Inject egg/tracker. You know location of target always)."
+            }
+        ]
+    },
+    {
+        "name": "Raptorial Blades",
+        "species": "Insect",
+        "stats": {
+            "vitality": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Raptorial Blades Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Snatch-Strike (Reach Attack. Pull target 5ft closer)."
+            }
+        ]
+    },
+    {
+        "name": "Crushing Claws",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Crushing Claws Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Vice-Grip (Grapple. Target is Restrained and cannot speak)."
+            }
+        ]
+    },
+    {
+        "name": "Spinneret Wrists",
+        "species": "Insect",
+        "stats": {
+            "awareness": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Spinneret Wrists Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Tangle (Ranged Web. Target Speed is 0)."
+            }
+        ]
+    },
+    {
+        "name": "Barbed Forelegs",
+        "species": "Insect",
+        "stats": {
+            "finesse": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Barbed Forelegs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Impale (Crit deals x3 Damage instead of x2)."
+            }
+        ]
+    },
+    {
+        "name": "Flat-Plate Arms",
+        "species": "Insect",
+        "stats": {
+            "logic": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Flat-Plate Arms Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Phalanx (+2 AC against Melee Attacks)."
+            }
+        ]
+    },
+    {
+        "name": "Tiny Claws",
+        "species": "Insect",
+        "stats": {
+            "awareness": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Tiny Claws Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Latch (Advantage on Climbing and hanging on giant foes)."
+            }
+        ]
+    },
+    {
+        "name": "Spade Limbs",
+        "species": "Insect",
+        "stats": {
+            "might": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Spade Limbs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Burrow (Create tunnel. Collapse it behind you)."
+            }
+        ]
+    },
+    {
+        "name": "Hypodermic Spurs",
+        "species": "Insect",
+        "stats": {
+            "reflexes": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Hypodermic Spurs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Inject (Apply Toxin. Con Save or Sleep)."
+            }
+        ]
+    },
+    {
+        "name": "Multi-Legs",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Multi-Legs Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Wall-Crawler (Climb Speed = Run Speed. No check needed)."
+            }
+        ]
+    },
+    {
+        "name": "Hydraulic Knees",
+        "species": "Insect",
+        "stats": {
+            "logic": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Hydraulic Knees Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Launch (Jump 30ft vertically or horizontally)."
+            }
+        ]
+    },
+    {
+        "name": "Hooked Tarsi",
+        "species": "Insect",
+        "stats": {
+            "endurance": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Hooked Tarsi Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Unshakeable (Immune to Knockback and Prone)."
+            }
+        ]
+    },
+    {
+        "name": "Surface Tension",
+        "species": "Insect",
+        "stats": {
+            "might": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Surface Tension Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Water-Walk (Run across liquid surfaces)."
+            }
+        ]
+    },
+    {
+        "name": "Buzzing Wings",
+        "species": "Insect",
+        "stats": {
+            "might": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Buzzing Wings Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Dart (Fly speed 30ft. Must land at end of turn)."
+            }
+        ]
+    },
+    {
+        "name": "Soft-Hairs",
+        "species": "Insect",
+        "stats": {
+            "reflexes": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Soft-Hairs Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Creep (0 Sound on webs or leaves. No vibration)."
+            }
+        ]
+    },
+    {
+        "name": "Rhythmic Gait",
+        "species": "Insect",
+        "stats": {
+            "awareness": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Rhythmic Gait Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Scuttle (Dash as Bonus Action)."
+            }
+        ]
+    },
+    {
+        "name": "Paddle Hairs",
+        "species": "Insect",
+        "stats": {
+            "intuition": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Paddle Hairs Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Diver (Swim Speed = Walk Speed. Breathe Water)."
+            }
+        ]
+    },
+    {
+        "name": "Hard Shell",
+        "species": "Insect",
+        "stats": {
+            "awareness": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Hard Shell Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Exoskeleton (AC = 13 + Dex. Cannot wear standard armor)."
+            }
+        ]
+    },
+    {
+        "name": "Stick-Bug Shape",
+        "species": "Insect",
+        "stats": {
+            "willpower": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Stick-Bug Shape Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Mimicry (Look like a branch/stone when still)."
+            }
+        ]
+    },
+    {
+        "name": "Warning Colors",
+        "species": "Insect",
+        "stats": {
+            "willpower": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Warning Colors Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Bad-Blood (Melee attackers take Poison dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Thorax Spines",
+        "species": "Insect",
+        "stats": {
+            "vitality": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Thorax Spines Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Barbed-Wire (Grapplers take 1d4 Slash dmg per turn)."
+            }
+        ]
+    },
+    {
+        "name": "Sensory Bristles",
+        "species": "Insect",
+        "stats": {
+            "awareness": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Sensory Bristles Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Radar (Cannot be Surprised by Invisible foes)."
+            }
+        ]
+    },
+    {
+        "name": "Abdominal Light",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Abdominal Light Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Lure (Target must make Wis save or move toward you)."
+            }
+        ]
+    },
+    {
+        "name": "Compressed Thorax",
+        "species": "Insect",
+        "stats": {
+            "intuition": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Compressed Thorax Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Squeeze (Fit through 1-inch gaps)."
+            }
+        ]
+    },
+    {
+        "name": "Molting Hormones",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Molting Hormones Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Molt (Short Rest: Regain full HP, lose AC bonus for 1 hour)."
+            }
+        ]
+    },
+    {
+        "name": "Abdominal Spur",
+        "species": "Insect",
+        "stats": {
+            "awareness": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Abdominal Spur Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Envenom (Bonus Action attack. Paralyze or Necrotic dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Rear Spinnerets",
+        "species": "Insect",
+        "stats": {
+            "logic": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Rear Spinnerets Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Net-Trap (Create 10ft area of Difficult Terrain/Stickiness)."
+            }
+        ]
+    },
+    {
+        "name": "Pheromone Cloud",
+        "species": "Insect",
+        "stats": {
+            "vitality": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Pheromone Cloud Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Command (Allies within 30ft gain +2 To Hit)."
+            }
+        ]
+    },
+    {
+        "name": "Chemical Chamber",
+        "species": "Insect",
+        "stats": {
+            "willpower": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Chemical Chamber Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Blast (10ft Cone of Boiling Acid. Fire/Acid dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Elytra/Wings",
+        "species": "Insect",
+        "stats": {
+            "fortitude": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Elytra/Wings Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: True-Flight (Fly Speed = Walk Speed. Hover capable)."
+            }
+        ]
+    },
+    {
+        "name": "Stridulation Legs",
+        "species": "Insect",
+        "stats": {
+            "finesse": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Stridulation Legs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Chirp (AOE Deafness or Sonic Dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Brood Sac",
+        "species": "Insect",
+        "stats": {
+            "awareness": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Brood Sac Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Spawn (Create 1d4 Tiny Minions that distract enemies)."
+            }
+        ]
+    },
+    {
+        "name": "Mind-Spore",
+        "species": "Insect",
+        "stats": {
+            "willpower": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Mind-Spore Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Rider (Attach to Large foe. They provide you Cover)."
+            }
+        ]
+    },
+    {
+        "name": "Small Frame",
+        "species": "Aquatic",
+        "stats": {
+            "+2 reflex, +1 finesse": 1,
+            "-2 might, -1 vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Small Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Squeeze: Move through 4-inch gaps. +Advantage on Stealth."
+            }
+        ]
+    },
+    {
+        "name": "Light Frame",
+        "species": "Aquatic",
+        "stats": {
+            "+1 reflex": 1,
+            "-1 might": 1
+        },
+        "passives": [
+            {
+                "name": "Light Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Lightweight: Trigger no pressure plates. Fall damage halved."
+            }
+        ]
+    },
+    {
+        "name": "Balanced Frame",
+        "species": "Aquatic",
+        "stats": {},
+        "passives": [
+            {
+                "name": "Balanced Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Standard: No penalties. Can use standard gear."
+            }
+        ]
+    },
+    {
+        "name": "Heavy Frame",
+        "species": "Aquatic",
+        "stats": {
+            "+1 might": 1,
+            "-1 reflex": 1
+        },
+        "passives": [
+            {
+                "name": "Heavy Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures."
+            }
+        ]
+    },
+    {
+        "name": "Siege Frame",
+        "species": "Aquatic",
+        "stats": {
+            "+2 might, +1 vitality": 1,
+            "-2 reflex, -1 finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Siege Frame Trait",
+                "type": "Biological Trait",
+                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space."
+            }
+        ]
+    },
+    {
+        "name": "Selachimorpha Anatomy",
+        "species": "Aquatic",
+        "stats": {
+            "endurance": 1,
+            "awareness": 1
+        },
+        "passives": [
+            {
+                "name": "Selachimorpha Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Cartilage Skeleton, Rows of Teeth, Gills/Lung Hybrid."
+            }
+        ]
+    },
+    {
+        "name": "Crustacean Anatomy",
+        "species": "Aquatic",
+        "stats": {
+            "reflexes": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Crustacean Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Hard Carapace (AC), Pincers, Gills, Bipedal/Quad Stance."
+            }
+        ]
+    },
+    {
+        "name": "Cephalopod Anatomy",
+        "species": "Aquatic",
+        "stats": {
+            "willpower": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Cephalopod Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: No Bones (Squeeze), Tentacle-Hair, Ink Sac, Beak."
+            }
+        ]
+    },
+    {
+        "name": "Cetacean Anatomy",
+        "species": "Aquatic",
+        "stats": {
+            "logic": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Cetacean Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Blubber, Blowhole, Sonar, Powerful Build."
+            }
+        ]
+    },
+    {
+        "name": "Batoidea Anatomy",
+        "species": "Aquatic",
+        "stats": {
+            "intuition": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Batoidea Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Flat Torso, Whip Tail, Wing-Fins (Cape-like)."
+            }
+        ]
+    },
+    {
+        "name": "Anguilliform Anatomy",
+        "species": "Aquatic",
+        "stats": {
+            "knowledge": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Anguilliform Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Elongated Limbs, Slippery Skin, Needle Teeth."
+            }
+        ]
+    },
+    {
+        "name": "Cnidarian Anatomy",
+        "species": "Aquatic",
+        "stats": {
+            "intuition": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Cnidarian Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Translucent Skin, Stinging Tendrils, Fluid Motion."
+            }
+        ]
+    },
+    {
+        "name": "Abyssal Anatomy",
+        "species": "Aquatic",
+        "stats": {
+            "might": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Abyssal Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Lure Light, Massive Jaw, Pressure Immune, Black Skin."
+            }
+        ]
+    },
+    {
+        "name": "Melon/Dome",
+        "species": "Aquatic",
+        "stats": {
+            "knowledge": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Melon/Dome Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Ping (Blindsight 60ft in Air or Water. See invisible)."
+            }
+        ]
+    },
+    {
+        "name": "Ampullae Pores",
+        "species": "Aquatic",
+        "stats": {
+            "endurance": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Ampullae Pores Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Bio-Electric (Detect heartbeats/machines within 10ft)."
+            }
+        ]
+    },
+    {
+        "name": "Lateral Line",
+        "species": "Aquatic",
+        "stats": {
+            "logic": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Lateral Line Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Pressure-Sense (Cannot be Surprised. Detect air/water currents)."
+            }
+        ]
+    },
+    {
+        "name": "Large Lenses",
+        "species": "Aquatic",
+        "stats": {
+            "intuition": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Large Lenses Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Abyss-Sight (See perfectly in magical/deep darkness)."
+            }
+        ]
+    },
+    {
+        "name": "Olfactory Nares",
+        "species": "Aquatic",
+        "stats": {
+            "awareness": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Olfactory Nares Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Blood-Scent (Track injured targets from 1 mile away)."
+            }
+        ]
+    },
+    {
+        "name": "Wide-Set Eyes",
+        "species": "Aquatic",
+        "stats": {
+            "charm": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Wide-Set Eyes Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: 360-Vision (Cannot be Flanked. +2 Perception)."
+            }
+        ]
+    },
+    {
+        "name": "Illicium Light",
+        "species": "Aquatic",
+        "stats": {
+            "endurance": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Illicium Light Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Mesmerize (Lure target closer. They lose Reaction)."
+            }
+        ]
+    },
+    {
+        "name": "Parrot-Beak",
+        "species": "Aquatic",
+        "stats": {
+            "reflexes": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Parrot-Beak Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Crunch (Ignore Armor/Shell Hardness on Bite attacks)."
+            }
+        ]
+    },
+    {
+        "name": "Chitin Gauntlets",
+        "species": "Aquatic",
+        "stats": {
+            "reflexes": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Chitin Gauntlets Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Vice (Grapple. Target is Restrained. Auto-Dmg per turn)."
+            }
+        ]
+    },
+    {
+        "name": "Suction Fingers",
+        "species": "Aquatic",
+        "stats": {
+            "logic": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Suction Fingers Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Entangle (Reach 10ft. Grapple with Advantage)."
+            }
+        ]
+    },
+    {
+        "name": "Fin-Spurs",
+        "species": "Aquatic",
+        "stats": {
+            "reflexes": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Fin-Spurs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Slice (Melee Unarmed Attack. High Crit Chance or Bleed)."
+            }
+        ]
+    },
+    {
+        "name": "Bone-Plate Head",
+        "species": "Aquatic",
+        "stats": {
+            "vitality": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Bone-Plate Head Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Batter (Charge Attack. High Dmg + Stun)."
+            }
+        ]
+    },
+    {
+        "name": "Electric Nodes",
+        "species": "Aquatic",
+        "stats": {
+            "finesse": 2
+        },
+        "passives": [
+            {
+                "name": "Shock",
+                "type": "Action",
+                "effect": "Touch attack. Target takes Lightning damage and cannot take Reactions until their next turn."
+            },
+            {
+                "name": "Bio-Sense",
+                "type": "Passive",
+                "effect": "Detect the heartbeat (electricity) of living creatures within 10ft, even through walls."
+            }
+        ]
+    },
+    {
+        "name": "Mucus Webbing",
+        "species": "Aquatic",
+        "stats": {
+            "knowledge": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Mucus Webbing Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Ensnare (Cone spray. Targets slowed/stuck)."
+            }
+        ]
+    },
+    {
+        "name": "Mantis-Club Fists",
+        "species": "Aquatic",
+        "stats": {
+            "knowledge": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Mantis-Club Fists Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Cavitation (Melee Hit. Deals Thunder Dmg + Knockback)."
+            }
+        ]
+    },
+    {
+        "name": "Nematocysts",
+        "species": "Aquatic",
+        "stats": {
+            "fortitude": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Nematocysts Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Touch-Pain (Anyone touching you takes 1d4 Acid/Poison)."
+            }
+        ]
+    },
+    {
+        "name": "Fin-Calves",
+        "species": "Aquatic",
+        "stats": {
+            "endurance": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Fin-Calves Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Hydro-Dash (Move 3x Speed in Water. Normal Speed on Land)."
+            }
+        ]
+    },
+    {
+        "name": "Heavy Boots",
+        "species": "Aquatic",
+        "stats": {
+            "might": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Heavy Boots Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Current-Walker (Ignore Difficult Terrain in Water/Mud)."
+            }
+        ]
+    },
+    {
+        "name": "Armored Greaves",
+        "species": "Aquatic",
+        "stats": {
+            "reflexes": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Armored Greaves Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Stable-Stance (Advantage vs Shove. Full speed sideways)."
+            }
+        ]
+    },
+    {
+        "name": "Gas Bladder",
+        "species": "Aquatic",
+        "stats": {
+            "endurance": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Gas Bladder Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Drift (Float 1ft off ground. Ignore caltrops/liquids)."
+            }
+        ]
+    },
+    {
+        "name": "Reverse-Joints",
+        "species": "Aquatic",
+        "stats": {
+            "logic": 2
+        },
+        "passives": [
+            {
+                "name": "Reverse-Joints Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Breach (Jump distance tripled. Launch from water to land instantly)."
+            }
+        ]
+    },
+    {
+        "name": "Suction Toes",
+        "species": "Aquatic",
+        "stats": {
+            "knowledge": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Suction Toes Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Anchor (Climb walls. Cannot be moved against will)."
+            }
+        ]
+    },
+    {
+        "name": "Soft-Soles",
+        "species": "Aquatic",
+        "stats": {
+            "awareness": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Soft-Soles Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Fluid-Walk (0 Sound on wet surfaces/stone)."
+            }
+        ]
+    },
+    {
+        "name": "Webbed Feet",
+        "species": "Aquatic",
+        "stats": {
+            "fortitude": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Webbed Feet Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Marathon (Swim Speed = Run Speed. Kick is 2x Dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Calcium Plate",
+        "species": "Aquatic",
+        "stats": {
+            "willpower": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Calcium Plate Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Bunker (+4 AC. -10ft Speed. Heavy)."
+            }
+        ]
+    },
+    {
+        "name": "Fat Layer",
+        "species": "Aquatic",
+        "stats": {
+            "awareness": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Fat Layer Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Insulated (Resist Cold. Float automatically)."
+            }
+        ]
+    },
+    {
+        "name": "Mucus Coat",
+        "species": "Aquatic",
+        "stats": {
+            "intuition": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Mucus Coat Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Evasion (Advantage to escape Grapples. Fire Resist)."
+            }
+        ]
+    },
+    {
+        "name": "Chromatophores",
+        "species": "Aquatic",
+        "stats": {
+            "awareness": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Chromatophores Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Shift (Turn Invisible while stationary. +5 Stealth moving)."
+            }
+        ]
+    },
+    {
+        "name": "Urchin Spines",
+        "species": "Aquatic",
+        "stats": {
+            "endurance": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Urchin Spines Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Barbed (Grapplers take 1d4 Pierce Dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Soft Tissue",
+        "species": "Aquatic",
+        "stats": {
+            "charm": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Soft Tissue Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Squish (Immune to Bludgeoning. Fit through tiny gaps)."
+            }
+        ]
+    },
+    {
+        "name": "Pressure Skin",
+        "species": "Aquatic",
+        "stats": {
+            "willpower": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Pressure Skin Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Void-Born (Immune to Pressure and Psychic Damage)."
+            }
+        ]
+    },
+    {
+        "name": "Placoid Scales",
+        "species": "Aquatic",
+        "stats": {
+            "intuition": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Placoid Scales Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Hydro-Skin (+1 Natural AC. Drying out takes 2x longer)."
+            }
+        ]
+    },
+    {
+        "name": "Ink Sac",
+        "species": "Aquatic",
+        "stats": {
+            "willpower": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Ink Sac Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Smokescreen (20ft Cloud. Blindness. Disengage Free)."
+            }
+        ]
+    },
+    {
+        "name": "Starfish DNA",
+        "species": "Aquatic",
+        "stats": {
+            "intuition": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Starfish DNA Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Regrow (Heal limb or massive HP over Short Rest)."
+            }
+        ]
+    },
+    {
+        "name": "Nacre Gland",
+        "species": "Aquatic",
+        "stats": {
+            "vitality": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Nacre Gland Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Luster (Advantage on Social/Barter. Look valuable)."
+            }
+        ]
+    },
+    {
+        "name": "Puffer-Toxin",
+        "species": "Aquatic",
+        "stats": {
+            "willpower": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Puffer-Toxin Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Inflate (Reaction. Enemy hitting you is Poisoned)."
+            }
+        ]
+    },
+    {
+        "name": "Whale-Song",
+        "species": "Aquatic",
+        "stats": {
+            "finesse": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Whale-Song Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Resonate (Buff Allies or Communicate 10 miles)."
+            }
+        ]
+    },
+    {
+        "name": "Ray-Wings",
+        "species": "Aquatic",
+        "stats": {
+            "awareness": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Ray-Wings Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Glider (Negate fall damage. 3:1 Travel ratio)."
+            }
+        ]
+    },
+    {
+        "name": "Bioluminescence",
+        "species": "Aquatic",
+        "stats": {
+            "knowledge": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Bioluminescence Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Strobe (Dazzle enemies or Light up dark area)."
+            }
+        ]
+    },
+    {
+        "name": "Remora-Disk",
+        "species": "Aquatic",
+        "stats": {
+            "awareness": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Remora-Disk Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Hitchhiker (Attach to Large creature. Gain Cover/Travel)."
+            }
+        ]
+    },
+    {
+        "name": "Bovine Anatomy",
+        "species": "Mammal",
+        "stats": {
+            "might": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Bovine Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Flat Grinding Teeth, Hooves, Horn Stubs, Short Tail."
+            }
+        ]
+    },
+    {
+        "name": "Cervid Anatomy",
+        "species": "Mammal",
+        "stats": {
+            "endurance": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Cervid Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Antlers (Display), Hooves, Alert Ears, Short Tail."
+            }
+        ]
+    },
+    {
+        "name": "Primate Anatomy",
+        "species": "Mammal",
+        "stats": {
+            "finesse": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Primate Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Opposable Thumbs, Climbing Feet, Flat Teeth, No Tail."
+            }
+        ]
+    },
+    {
+        "name": "Ursine Anatomy",
+        "species": "Mammal",
+        "stats": {
+            "might": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Ursine Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Thick Fur, Non-Retractable Claws, Omnivore Teeth, Stub Tail."
+            }
+        ]
+    },
+    {
+        "name": "Rodent Anatomy",
+        "species": "Mammal",
+        "stats": {
+            "vitality": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Rodent Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Gnawing Buck Teeth, Hairless Tail, Whiskers, Paws."
+            }
+        ]
+    },
+    {
+        "name": "Bandit Anatomy",
+        "species": "Mammal",
+        "stats": {
+            "charm": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Bandit Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Dexterous Fingers, Night-Mask Fur, Ringed Tail, Paws."
+            }
+        ]
+    },
+    {
+        "name": "Canine Anatomy",
+        "species": "Mammal",
+        "stats": {
+            "endurance": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Canine Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Sharp Canines (1d4 Bite), Weather-Fur, Pack-Tail, Paws."
+            }
+        ]
+    },
+    {
+        "name": "Feline Anatomy",
+        "species": "Mammal",
+        "stats": {
+            "reflexes": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Feline Anatomy Trait",
+                "type": "Biological Trait",
+                "effect": "Includes: Retractable Claws (Climb only), Balance Tail, Night-Pupils."
+            }
+        ]
+    },
+    {
+        "name": "Tapetum Lucidum",
+        "species": "Mammal",
+        "stats": {
+            "awareness": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Tapetum Lucidum Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Darkvision (Black & White)."
+            }
+        ]
+    },
+    {
+        "name": "Wet Nose",
+        "species": "Mammal",
+        "stats": {
+            "intuition": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Wet Nose Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Scent-Track (Track unseen enemies)."
+            }
+        ]
+    },
+    {
+        "name": "Swivel Ears",
+        "species": "Mammal",
+        "stats": {
+            "awareness": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Radar",
+                "type": "Action",
+                "effect": "Listen to a door to identify exactly how many creatures are in the next room."
+            },
+            {
+                "name": "Uncanny Dodge",
+                "type": "Reaction",
+                "effect": "Take half damage from a Ranged Attack that you hear coming."
+            }
+        ]
+    },
+    {
+        "name": "Long Whiskers",
+        "species": "Mammal",
+        "stats": {
+            "reflexes": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Long Whiskers Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Vibration Sense (Detect ground movement 30ft)."
+            }
+        ]
+    },
+    {
+        "name": "Pit Organs",
+        "species": "Mammal",
+        "stats": {
+            "logic": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Pit Organs Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Heat-Sight (Spot living targets in fog/dark)."
+            }
+        ]
+    },
+    {
+        "name": "Fovea Lens",
+        "species": "Mammal",
+        "stats": {
+            "awareness": 1,
+            "charm": 1
+        },
+        "passives": [
+            {
+                "name": "Fovea Lens Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Telescopic Vision (See detail at 1 mile)."
+            }
+        ]
+    },
+    {
+        "name": "Mobile Brow",
+        "species": "Mammal",
+        "stats": {
+            "charm": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Mobile Brow Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Empathy (Advantage on Insight/Social)."
+            }
+        ]
+    },
+    {
+        "name": "Cranial Ridge",
+        "species": "Mammal",
+        "stats": {
+            "knowledge": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Cranial Ridge Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Recall (Perfect memory)."
+            }
+        ]
+    },
+    {
+        "name": "Retractable Claws",
+        "species": "Mammal",
+        "stats": {
+            "finesse": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Gut Rake",
+                "type": "Bonus",
+                "effect": "If you have a target Grappled, make a free claw attack against them with Advantage."
+            },
+            {
+                "name": "Climber",
+                "type": "Passive",
+                "effect": "You gain a Climb Speed equal to your Walk Speed."
+            }
+        ]
+    },
+    {
+        "name": "Heavy Paws",
+        "species": "Mammal",
+        "stats": {
+            "might": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Heavy Paws Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Maul (Crit hits Stun target)."
+            }
+        ]
+    },
+    {
+        "name": "Opposable Thumbs",
+        "species": "Mammal",
+        "stats": {
+            "might": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Opposable Thumbs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Choke-Slam (Throw target Prone + Dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Shovel Claws",
+        "species": "Mammal",
+        "stats": {
+            "might": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Shovel Claws Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Tunnel-Strike (Burrow & Attack)."
+            }
+        ]
+    },
+    {
+        "name": "Needle Fangs",
+        "species": "Mammal",
+        "stats": {
+            "finesse": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Needle Fangs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Latch-On (Grapple with auto-bite dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Iron Hooves",
+        "species": "Mammal",
+        "stats": {
+            "might": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Iron Hooves Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Sunder (Ignore Shield AC / Break Objects)."
+            }
+        ]
+    },
+    {
+        "name": "Dexterous Digits",
+        "species": "Mammal",
+        "stats": {
+            "finesse": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Dexterous Digits Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Sabotage (Disarm traps/devices as Bonus)."
+            }
+        ]
+    },
+    {
+        "name": "Hooked Talons",
+        "species": "Mammal",
+        "stats": {
+            "reflexes": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Hooked Talons Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Wall-Climb (Climb Speed = Walk Speed)."
+            }
+        ]
+    },
+    {
+        "name": "Fast-Twitch Muscle",
+        "species": "Mammal",
+        "stats": {
+            "endurance": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Fast-Twitch Muscle Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Dash (Move 3x Speed in straight line)."
+            }
+        ]
+    },
+    {
+        "name": "Spring Tendons",
+        "species": "Mammal",
+        "stats": {
+            "might": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Spring Tendons Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Bound (Jump distance tripled)."
+            }
+        ]
+    },
+    {
+        "name": "Reversible Ankles",
+        "species": "Mammal",
+        "stats": {
+            "finesse": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Reversible Ankles Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Scramble (Hang upside down / Descent)."
+            }
+        ]
+    },
+    {
+        "name": "Webbed Digits",
+        "species": "Mammal",
+        "stats": {
+            "vitality": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Webbed Digits Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Mariner (Swim Speed = Walk, Hold Breath)."
+            }
+        ]
+    },
+    {
+        "name": "Pillar Legs",
+        "species": "Mammal",
+        "stats": {
+            "might": 1,
+            "fortitude": 1
+        },
+        "passives": [
+            {
+                "name": "Pillar Legs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Tremor-Stomp (AOE Knockdown 5ft)."
+            }
+        ]
+    },
+    {
+        "name": "Padded Soles",
+        "species": "Mammal",
+        "stats": {
+            "finesse": 1,
+            "intuition": 1
+        },
+        "passives": [
+            {
+                "name": "Padded Soles Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Ghost-Walk (0 sound on stone/wood)."
+            }
+        ]
+    },
+    {
+        "name": "Split Hooves",
+        "species": "Mammal",
+        "stats": {
+            "willpower": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Split Hooves Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Sure-Foot (Immune to Knockdown/Slip)."
+            }
+        ]
+    },
+    {
+        "name": "Locking Joints",
+        "species": "Mammal",
+        "stats": {
+            "endurance": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Locking Joints Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Beast of Burden (Double Carry Capacity)."
+            }
+        ]
+    },
+    {
+        "name": "Bone Plating",
+        "species": "Mammal",
+        "stats": {
+            "fortitude": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Bone Plating Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Shell (+2 Natural AC, Heavy)."
+            }
+        ]
+    },
+    {
+        "name": "Dense Wool",
+        "species": "Mammal",
+        "stats": {
+            "endurance": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Dense Wool Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Winter-Coat (Resist Cold/Fire)."
+            }
+        ]
+    },
+    {
+        "name": "Oily Fur",
+        "species": "Mammal",
+        "stats": {
+            "finesse": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Slippery",
+                "type": "Reaction",
+                "effect": "Automatically succeed on a check to escape a Grapple."
+            },
+            {
+                "name": "Waterproof",
+                "type": "Passive",
+                "effect": "You dry off instantly and never suffer penalties from being wet or cold due to water."
+            }
+        ]
+    },
+    {
+        "name": "Quill-Coat",
+        "species": "Mammal",
+        "stats": {
+            "fortitude": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Quill-Coat Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Barbed (Grapplers take 1d4 Dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Chroma-Fur",
+        "species": "Mammal",
+        "stats": {
+            "intuition": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Chroma-Fur Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Blend (+5 Stealth when stationary)."
+            }
+        ]
+    },
+    {
+        "name": "Loose Skin",
+        "species": "Mammal",
+        "stats": {
+            "vitality": 1,
+            "reflexes": 1
+        },
+        "passives": [
+            {
+                "name": "Loose Skin Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Roll (Resist Bludgeoning/Fall Dmg)."
+            }
+        ]
+    },
+    {
+        "name": "Calloused Hide",
+        "species": "Mammal",
+        "stats": {
+            "willpower": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Calloused Hide Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Pain-Dead (Ignore wound penalties)."
+            }
+        ]
+    },
+    {
+        "name": "Blubber Layer",
+        "species": "Mammal",
+        "stats": {
+            "vitality": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Blubber Layer Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Deep-Dive (Resist Pressure/Cold Water)."
+            }
+        ]
+    },
+    {
+        "name": "Musk Glands",
+        "species": "Mammal",
+        "stats": {
+            "fortitude": 1,
+            "logic": 1
+        },
+        "passives": [
+            {
+                "name": "Musk Glands Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Spray (Cone: Blindness/Nausea)."
+            }
+        ]
+    },
+    {
+        "name": "Prehensile Tail",
+        "species": "Mammal",
+        "stats": {
+            "finesse": 1,
+            "knowledge": 1
+        },
+        "passives": [
+            {
+                "name": "Hangman",
+                "type": "Action",
+                "effect": "Hang upside down from a stable point; Ranged attacks against you have Disadvantage."
+            },
+            {
+                "name": "Third Hand",
+                "type": "Passive",
+                "effect": "Hold a torch or light item in your tail, leaving your hands free for weapons/shields."
+            }
+        ]
+    },
+    {
+        "name": "Skin Flaps",
+        "species": "Mammal",
+        "stats": {
+            "reflexes": 1,
+            "vitality": 1
+        },
+        "passives": [
+            {
+                "name": "Skin Flaps Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Glide (Negate fall dmg, Travel)."
+            }
+        ]
+    },
+    {
+        "name": "Resonance Throat",
+        "species": "Mammal",
+        "stats": {
+            "charm": 1,
+            "willpower": 1
+        },
+        "passives": [
+            {
+                "name": "Resonance Throat Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Bellow (AOE Fear or Rally)."
+            }
+        ]
+    },
+    {
+        "name": "Toxic Sacs",
+        "species": "Mammal",
+        "stats": {
+            "logic": 1,
+            "endurance": 1
+        },
+        "passives": [
+            {
+                "name": "Toxic Sacs Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Poison-Coat (Lick weapon to poison)."
+            }
+        ]
+    },
+    {
+        "name": "Cheek Pouches",
+        "species": "Mammal",
+        "stats": {
+            "endurance": 1,
+            "might": 1
+        },
+        "passives": [
+            {
+                "name": "Cheek Pouches Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Cache (Hide items in throat)."
+            }
+        ]
+    },
+    {
+        "name": "Tail Flag",
+        "species": "Mammal",
+        "stats": {
+            "charm": 2
+        },
+        "passives": [
+            {
+                "name": "Tail Flag Trait",
+                "type": "Biological Trait",
+                "effect": "Active: Rally (Grant Ally +1d4 on next roll)."
+            }
+        ]
+    },
+    {
+        "name": "Counter-Tail",
+        "species": "Mammal",
+        "stats": {
+            "reflexes": 1,
+            "finesse": 1
+        },
+        "passives": [
+            {
+                "name": "Counter-Tail Trait",
+                "type": "Biological Trait",
+                "effect": "Passive: Tightrope (Advantage on Acrobatics)."
+            }
+        ]
+    },
+    {
+        "name": "Standard",
+        "stats": {},
+        "passives": []
+    }
+]

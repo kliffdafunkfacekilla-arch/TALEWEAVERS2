@@ -1,0 +1,11 @@
+Stat_ID,Full_Name,Base_Value,Attribute_A,Attribute_B,Attribute_C,Formula_Logic,Description
+HP,Hit Points (Meat),10,Might,Refflexes,Vitality,Base + A + B  + C,"Physical health. If 0, you are Dying."
+CMP,Composure,10,Willpower,Logic,Awareness,Base + A + B  + C,"Mental health. If 0, you are Broken (Panic/Surrender)."
+SP,Stamina Points,0,Endurance,Finesse,Fortitude,A + B + C,Fuel for Physical Abilities and special attacks.
+FP,Focus Points,0,Knowledge,Charm,Intuition,A + B + C,Fuel for Spells and Mental Abilities.
+ALT,Alertness,0,Intuition,Reflex,-,A + B ,Combat turn order.
+SPD,Move Speed,0,Vitality,Willpower,-,A + B ruond up tonearest multiple of  5,Movement in feet per turn.
+CAMO,Stealth,0,Finesse,Awareness,-,(A+B ),your stealth floor wont be seen if not moving
+CACHE,Carry Cap.,2,Might,Knowledge,-,((A+B)/10) + base,pockets or slots for quick items
+THERM,Temp Regulation,0,Endurance,Logic,-,(A+B)/5,the range out of you comfort zone you can handle
+HYDRO,Drought Sensitivity,0,Fortitude,Charm,-,(A+B)/5,the range out of you comfort zone you can handle

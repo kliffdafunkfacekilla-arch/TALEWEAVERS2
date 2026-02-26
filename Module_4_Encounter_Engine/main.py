@@ -51,6 +51,39 @@ ITEM_DB = load_game_data("Item_Builder.json")
 # THE ENGINE ROUTER
 # ==========================================
 
+def generate_terrain_grid(biome: str, width: int = 15, height: int = 10):
+    """Generates a 2D array of tile types based on biome."""
+    grid = []
+    
+    # Biome-specific obstacle chances
+    weights = {
+        "Forest": {"TREE": 0.25, "ROCK": 0.05, "MUD": 0.1},
+        "Tundra": {"SNOW": 0.4, "ROCK": 0.1, "ICE": 0.05},
+        "Desert": {"SAND_DUNES": 0.2, "ROCK": 0.1},
+        "Swamp": {"WATER": 0.3, "MUD": 0.2, "TREE": 0.1},
+        "Mountains": {"ROCK": 0.4, "FALLEN_STORES": 0.1}
+    }
+    
+    biome_weights = weights.get(biome, {"ROCK": 0.05})
+    
+    for row in range(height):
+        grid_row = []
+        for col in range(width):
+            roll = random.random()
+            tile = "EMPTY"
+            
+            cumulative = 0
+            for type_name, chance in biome_weights.items():
+                cumulative += chance
+                if roll < cumulative:
+                    tile = type_name
+                    break
+            
+            grid_row.append(tile)
+        grid.append(grid_row)
+        
+    return grid
+
 @app.get("/generate-encounter", response_model=Encounter)
 async def generate_encounter(
     biome: str = Query(..., description="The biome where the encounter occurs, e.g., 'Tundra', 'Forest'"),
@@ -59,6 +92,9 @@ async def generate_encounter(
     # Roll the procedural dice for the encounter type
     encounter_type = random.choice(list(EncounterType))
     encounter_id = f"ENC_{str(uuid.uuid4())[:8].upper()}"
+    
+    # Generate the tactical grid
+    tactical_grid = generate_terrain_grid(biome)
     
     # ---------------------------------------------------------
     # 1. COMBAT (Now wired to your actual Enemy_Builder.json)
@@ -97,7 +133,8 @@ async def generate_encounter(
             name=f"Hostile Contact in the {biome}",
             description=f"You have been ambushed by a squad of {squad[0]['name']}s.",
             threat_level=threat_level,
-            enemies=squad
+            enemies=squad,
+            grid=tactical_grid
         )
     
     # ---------------------------------------------------------
@@ -112,7 +149,8 @@ async def generate_encounter(
             threat_level=threat_level,
             target_npc="Suspicious Scavenger",
             composure=threat_level * 3,
-            social_stakes="They are hoarding D-Dust and Aetherium."
+            social_stakes="They are hoarding D-Dust and Aetherium.",
+            grid=tactical_grid
         )
     
     # ---------------------------------------------------------
@@ -126,7 +164,8 @@ async def generate_encounter(
             threat_level=threat_level,
             hazard_type="Terrain/Weather",
             bypass_condition="Requires Mobility or Awareness check.",
-            damage_type="True Damage"
+            damage_type="True Damage",
+            grid=tactical_grid
         )
     
     # ---------------------------------------------------------
@@ -140,7 +179,8 @@ async def generate_encounter(
             threat_level=threat_level,
             mechanism="Logical / Magical",
             difficulty_class=10 + threat_level,
-            reward_hint="A hidden cache of resources."
+            reward_hint="A hidden cache of resources.",
+            grid=tactical_grid
         )
     
     # ---------------------------------------------------------
@@ -154,11 +194,12 @@ async def generate_encounter(
 
         return DiscoveryEncounter(
             id=encounter_id,
-            name="Forgotten Cache",
-            description="You uncover something buried in the dirt.",
+            name="Hidden Cache",
+            description="You stumble upon a remnant of the old world.",
             threat_level=threat_level,
-            lore_snippet="The insignia of a dead faction is stamped on the side.",
-            hidden_item_id=loot_id
+            lore_snippet="A journal detailing the collapse...",
+            hidden_item_id=loot_id,
+            grid=tactical_grid
         )
     
     # ---------------------------------------------------------

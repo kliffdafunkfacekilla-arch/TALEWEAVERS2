@@ -1,0 +1,54 @@
+STEP,Category,Option Name,Stat 1,Stat 2,Body Part,Mechanic / Trait
+1_SIZE,SIZE 1,Tiny,"+2 Reflex, +1 Finesse","-2 Might, -1 Vitality",Small Frame,Squeeze: Move through 4-inch gaps. +Advantage on Stealth.
+1_SIZE,SIZE 2,Small,+1 Reflex,-1 Might,Light Frame,Lightweight: Trigger no pressure plates. Fall damage halved.
+1_SIZE,SIZE 3,Medium,None,None,Balanced Frame,Standard: No penalties. Can use standard gear.
+1_SIZE,SIZE 4,Large,+1 Might,-1 Reflex,Heavy Frame,Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures.
+1_SIZE,SIZE 5,Huge,"+2 Might, +1 Vitality","-2 Reflex, -1 Finesse",Siege Frame,Siege: Deal double damage to structures. You occupy a 10ft x 10ft space.
+2_BIO,ANCESTRY,The Raptor,Awareness,Willpower,Accipiter Anatomy,"Includes: Hooked Beak, Talons, Broad Wings, Hunter Eyes."
+2_BIO,ANCESTRY,The Corvid,Intuition,Endurance,Corvus Anatomy,"Includes: Tool-Using Beak, Dexterous Feet, Voice Mimicry, Black Plumage."
+2_BIO,ANCESTRY,The Owl,Knowledge,Finesse,Strigiform Anatomy,"Includes: Silent Feathers, Night-Eyes, Swivel Neck (270°), Talons."
+2_BIO,ANCESTRY,The Parrot,Reflexes,Vitality,Psittacine Anatomy,"Includes: Crushing Beak, Zygodactyl Feet (Climb), Vocal Mimicry."
+2_BIO,ANCESTRY,The Swan,Awareness,Charm,Waterfowl Anatomy,"Includes: Long Neck, Webbed Feet, Waterproof Feathers, Blunt Beak."
+2_BIO,ANCESTRY,The Ostrich,Logic,Might,Ratite Anatomy,"Includes: Vestigial Wings (No Flight), Powerful Legs, Kick-Claw."
+2_BIO,ANCESTRY,The Penguin,Reflexes,Awareness,Spheniscid Anatomy,"Includes: Flipper-Wings (Swim), Blubber Layer, Upright Stance."
+2_BIO,ANCESTRY,The Heron,Fortitude,Reflexes,Wading Anatomy,"Includes: Spear Beak, Stilt Legs, S-Curve Neck, Broad Wings."
+3_HEAD,SENSES,Telescopic,Vitality,Reflexes,Magnifying Lens,Passive: Eagle-Eye (See fine detail from 1 mile away. +5 Perception).
+3_HEAD,SENSES,Night-Watch,Logic,Reflexes,Tubular Eyes,"Passive: Low-Light (Darkvision 120ft, but Disadvantage in bright sun)."
+3_HEAD,SENSES,Magnetic,Awareness,Charm,Magneto-Receptors,Passive: Compass (Never lost. Detect metal within 10ft).
+3_HEAD,SENSES,Panoramic,Intuition,Reflexes,Lateral Eyes,Passive: 360-View (Cannot be Flanked. +2 Initiative).
+3_HEAD,SENSES,Tracker,Finesse,Endurance,Olfactory Bulb,Passive: Scavenger-Scent (Smell decay/blood from 1 mile away).
+3_HEAD,SENSES,Stabilizer,Knowledge,Knowledge,Gyro-Head,Active: Lock-On (Move at full speed while keeping Aim on a target).
+3_HEAD,SENSES,Echo,Awareness,Willpower,Facial Disk,Active: Pinpoint (Hearing-based Blindsight 30ft).
+3_HEAD,SENSES,Flash,Reflexes,Knowledge,Crest Display,Active: Startle (Flare crest. Target within 10ft loses Reaction).
+4_ARMS,ARMS,Wing-Blade,Knowledge,Logic,Spurred Wrists,Active: Wing-Slash (Melee Attack. Deal Slashing + Bleed).
+4_ARMS,ARMS,Buffet,Vitality,Vitality,Heavy Pinions,Active: Gust (Cone Attack. Knock targets Prone with wind/impact).
+4_ARMS,ARMS,Shield,Awareness,Might,Bone-Wings,Passive: Mantle (Use Wings as Shield. +2 AC against Ranged Attacks).
+4_ARMS,ARMS,Grasper,Reflexes,Charm,Clawed Digits,Active: Manipulate (Archaeopteryx claws allow item use while flying).
+4_ARMS,ARMS,Diver,Knowledge,Vitality,Swept Wings,Active: Stoop (Dive Attack. +1d6 Dmg for every 10ft fallen).
+4_ARMS,ARMS,Silent,Endurance,Awareness,Serrated Fringes,Passive: Owl-Flight (Flight makes 0 sound. Advantage on Stealth).
+4_ARMS,ARMS,Launch,Willpower,Finesse,Strong Shoulders,Active: Vertical-Takeoff (Launch into air without running start).
+4_ARMS,ARMS,Swimmer,Vitality,Fortitude,Flipper-Wings,Passive: Hydro-Dynamic (Swim Speed = Fly Speed. Cannot Fly).
+5_LEGS,LEGS,Talons,Vitality,Awareness,Raptor Claws,"Active: Snatch (Grapple Check. On success, restrain target)."
+5_LEGS,LEGS,Sprinter,Endurance,Reflexes,Running Struts,Active: Dash (Move 3x Speed on ground).
+5_LEGS,LEGS,Climber,Knowledge,Reflexes,Zygodactyl Toes,Passive: Tree-Walker (Climb Speed = Walk Speed. Hang upside down).
+5_LEGS,LEGS,Wader,Might,Reflexes,Stilt Legs,Passive: Marsh-Walk (Ignore difficult terrain in water/mud/snow).
+5_LEGS,LEGS,Kicker,Reflexes,Reflexes,Cassowary Claw,Active: Eviscerate (Melee Kick. High Dmg + Knockback).
+5_LEGS,LEGS,Percher,Reflexes,Awareness,Locking Tendons,Passive: Vigil (Can sleep while standing/perched without falling).
+5_LEGS,LEGS,Paddler,Intuition,Vitality,Webbed Feet,Passive: Surface-Swim (Swim Speed = Walk Speed).
+5_LEGS,LEGS,Drop,Finesse,Awareness,Shock Absorbers,Passive: Cushion (Reduce Fall Damage by half).
+6_BODY,BODY,Downy,Reflexes,Willpower,Insulating Down,Passive: Cold-Proof (Resistance to Cold. Immune to Weather effects).
+6_BODY,BODY,Oily,Fortitude,Vitality,Preen Gland,Passive: Waterproof (Cannot be waterlogged. Float automatically).
+6_BODY,BODY,Armored,Awareness,Knowledge,Keratin Scales,Passive: Hard-Feather (+2 Natural AC. Flight speed -10ft).
+6_BODY,BODY,Display,Reflexes,Vitality,Iridescent Plume,Active: Dazzle (Target Disadvantage on Attack rolls due to flash).
+6_BODY,BODY,Mimic,Awareness,Charm,Camo-Plumage,Passive: Blend (+5 Stealth in chosen terrain).
+6_BODY,BODY,Light,Awareness,Awareness,Hollow Bones,Passive: Lift (Advantage on Acrobatics and Fly checks).
+6_BODY,BODY,Storage,Might,Endurance,Crop Pouch,Passive: Cache (Store items/food safely in throat pouch).
+6_BODY,BODY,Tough,Knowledge,Vitality,Thick Skin,Passive: Scarred (Ignore first 2 points of damage from any hit).
+7_SPEC,SPECIAL,Mimic,Awareness,Knowledge,Syrinx Box,Active: Voice-Thief (Perfectly mimic any sound or voice heard).
+7_SPEC,SPECIAL,Song,Charm,Awareness,Song-Throat,Active: Bardic-Chirp (Allies within 30ft gain +1d4 to next Save).
+7_SPEC,SPECIAL,Rudder,Logic,Awareness,Fan Tail,Passive: Turn-On-Dime (No turn radius limit while flying).
+7_SPEC,SPECIAL,Balance,Knowledge,Vitality,Counter-Tail,Passive: Wire-Walk (Advantage on Balance. Cannot be knocked Prone).
+7_SPEC,SPECIAL,Beak,Finesse,Knowledge,Hooked Bill,Active: Tear (Melee Attack. Auto-Crit against Prone targets).
+7_SPEC,SPECIAL,Crush,Reflexes,Awareness,Nut-Cracker Bill,Active: Break (Double damage against objects/armor).
+7_SPEC,SPECIAL,Fish,Intuition,Willpower,Throat Sac,Active: Scoop (Grapple tiny/small target and hold in mouth).
+7_SPEC,SPECIAL,Sonic,Reflexes,Fortitude,Boom-Sack,Active: Resonate (AOE Thunder Damage in 15ft cone).

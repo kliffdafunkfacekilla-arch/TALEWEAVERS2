@@ -23,7 +23,7 @@ export function PixiBattlemap() {
                 const currentBiome = useGameStore.getState().selectedHex?.biome_tag || "Tundra";
 
                 console.log(`[VTT] Requesting encounter for biome: ${currentBiome}`);
-                const res = await fetch(`http://localhost:8004/generate-encounter?biome=${currentBiome}&threat_level=4`);
+                const res = await fetch(`http://localhost:8008/generate-encounter?biome=${currentBiome}&threat_level=4`);
 
                 if (!res.ok) throw new Error("Encounter Engine offline.");
                 const data = await res.json();
@@ -49,9 +49,10 @@ export function PixiBattlemap() {
 
                 // Save to Zustand
                 useGameStore.getState().setActiveEncounter({
-                    gridWidth: 15,
-                    gridHeight: 10,
-                    tokens: dynamicTokens
+                    gridWidth: data.grid_width || 15,
+                    gridHeight: data.grid_height || 10,
+                    tokens: dynamicTokens,
+                    grid: data.grid
                 });
 
                 // Post encounter description to Director Log
@@ -93,15 +94,41 @@ export function PixiBattlemap() {
         const GRID_W = activeEncounter.gridWidth;
         const GRID_H = activeEncounter.gridHeight;
 
-        // ── 1. Draw Checkerboard Grid ──
+        // ── 1. Draw Checkerboard Grid & Terrain ──
         const gridGraphics = new Graphics();
+        const terrainGrid = activeEncounter.grid || [];
+
         for (let row = 0; row < GRID_H; row++) {
             for (let col = 0; col < GRID_W; col++) {
                 const isLight = (row + col) % 2 === 0;
+                const tileType = terrainGrid[row] ? terrainGrid[row][col] : "EMPTY";
+
+                // Base Tile Color
+                let bgColor = isLight ? 0x1c1c1c : 0x171717;
+                if (tileType === "SNOW") bgColor = isLight ? 0xe0e0e0 : 0xd0d0d0;
+                if (tileType === "SAND_DUNES") bgColor = isLight ? 0xd4a373 : 0xbc8a5f;
+                if (tileType === "WATER") bgColor = 0x2244aa;
+
                 gridGraphics.rect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                gridGraphics.fill(isLight ? 0x1c1c1c : 0x171717);
+                gridGraphics.fill(bgColor);
                 gridGraphics.rect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 gridGraphics.stroke({ width: 1, color: 0x2a2a2a });
+
+                // Render Obstacles
+                if (tileType === "TREE") {
+                    gridGraphics.circle(col * TILE_SIZE + TILE_SIZE / 2, row * TILE_SIZE + TILE_SIZE / 2, TILE_SIZE / 3);
+                    gridGraphics.fill({ color: 0x064e3b, alpha: 0.8 });
+                    gridGraphics.circle(col * TILE_SIZE + TILE_SIZE / 2, row * TILE_SIZE + TILE_SIZE / 2, TILE_SIZE / 3);
+                    gridGraphics.stroke({ width: 2, color: 0x022c22 });
+                } else if (tileType === "ROCK") {
+                    gridGraphics.poly([
+                        col * TILE_SIZE + 10, row * TILE_SIZE + 10,
+                        col * TILE_SIZE + 40, row * TILE_SIZE + 15,
+                        col * TILE_SIZE + 35, row * TILE_SIZE + 40,
+                        col * TILE_SIZE + 15, row * TILE_SIZE + 35
+                    ]);
+                    gridGraphics.fill({ color: 0x4b5563, alpha: 0.9 });
+                }
             }
         }
 

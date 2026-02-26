@@ -1,0 +1,54 @@
+STEP,Category,Option Name,Stat 1,Stat 2,Body Part,Mechanic / Trait
+1_SIZE,SIZE 1,Tiny,"+2 Reflex, +1 Finesse","-2 Might, -1 Vitality",Small Frame,Squeeze: Move through 4-inch gaps. +Advantage on Stealth.
+1_SIZE,SIZE 2,Small,+1 Reflex,-1 Might,Light Frame,Lightweight: Trigger no pressure plates. Fall damage halved.
+1_SIZE,SIZE 3,Medium,None,None,Balanced Frame,Standard: No penalties. Can use standard gear.
+1_SIZE,SIZE 4,Large,+1 Might,-1 Reflex,Heavy Frame,Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures.
+1_SIZE,SIZE 5,Huge,"+2 Might, +1 Vitality","-2 Reflex, -1 Finesse",Siege Frame,Siege: Deal double damage to structures. You occupy a 10ft x 10ft space.
+2_BIO,ANCESTRY,The Gator,Logic,Willpower,Crocodilian Anatomy,"Includes: Armor Scales, Hold Breath (30m), Swim Tail, Conical Teeth."
+2_BIO,ANCESTRY,The Cobra,Endurance,Intuition,Serpentine Anatomy,"Includes: Fangs (Injection), Hood, No Legs (Slither), Heat Pits."
+2_BIO,ANCESTRY,The Turtle,Vitality,Awareness,Testudine Anatomy,"Includes: Shell (Partial Cover), Beak, Stub Tail, Plodding Speed."
+2_BIO,ANCESTRY,The Gecko,Logic,Finesse,Climbing Anatomy,"Includes: Sticky Pads (Climb), Detachable Tail, Night-Pupils."
+2_BIO,ANCESTRY,The Monitor,Might,Reflexes,Varanid Anatomy,"Includes: Forked Tongue (Tracker), Rending Claws, Whip Tail."
+2_BIO,ANCESTRY,The Chameleon,Knowledge,Charm,Arboreal Anatomy,"Includes: Independent Eyes, Color-Shift Skin, Zodactyl Feet."
+2_BIO,ANCESTRY,The Raptor,Fortitude,Fortitude,Theropod Anatomy,"Includes: Sickle Talons, Counter-Balance Tail, Proto-Feathers."
+2_BIO,ANCESTRY,The Iguana,Fortitude,Reflexes,Display Anatomy,"Includes: Dorsal Spines, Throat Dewlap, Whip Tail, Cheek Scales."
+3_HEAD,SENSES,Thermal,Logic,Charm,Pit Organs,Passive: Heat-Sight (See living targets through walls/darkness).
+3_HEAD,SENSES,Taster,Awareness,Logic,Forked Tongue,"Passive: Chemoreception (Track scents at +5, detect poison)."
+3_HEAD,SENSES,Sniper,Logic,Logic,Swivel Eyes,Active: Target-Lock (Next attack has Advantage and ignores Cover).
+3_HEAD,SENSES,Amphibious,Logic,Fortitude,Nictitating Membrane,Passive: Clear-Sight (See perfectly underwater and immune to Sandstorms).
+3_HEAD,SENSES,Hypnotic,Intuition,Finesse,Spectacle Hood,Active: Mesmerize (Target makes Will save or is Stunned 1 turn).
+3_HEAD,SENSES,Panic,Willpower,Intuition,Parietal Eye,Passive: Third Eye (Cannot be Surprised or Flanked).
+3_HEAD,SENSES,Snapper,Knowledge,Logic,Locking Jaw,"Active: Death-Roll (Grapple. If successful, auto-crit damage)."
+3_HEAD,SENSES,Spitter,Reflexes,Fortitude,Venom Glands,Active: Blind (Ranged Attack. Target is Blinded for 1d4 rounds).
+4_ARMS,ARMS,Constrictor,Logic,Intuition,Muscular Coils,Active: Squeeze (Grappled targets take 1d6 Bludgeoning per turn).
+4_ARMS,ARMS,Ripper,Reflexes,Endurance,Sickle Claws,Active: Eviscerate (Apply Deep Wound: Healing is halved for target).
+4_ARMS,ARMS,Climber,Fortitude,Reflexes,Van der Waals Pads,Passive: Spider-Climb (Walk on ceilings/glass with hands free).
+4_ARMS,ARMS,Basher,Reflexes,Finesse,Club-Fists,Active: Smash (Melee Attack. Knock target back 10ft).
+4_ARMS,ARMS,Injector,Knowledge,Logic,Hollow Spurs,Active: Neurotoxin (Melee Hit: Target Speed is 0 for 1 turn).
+4_ARMS,ARMS,Digger,Reflexes,Charm,Spade Claws,Active: Trench (Create Cover/Terrain modifiers instantly).
+4_ARMS,ARMS,Glider,Reflexes,Vitality,Rib-Wings,Passive: Draco-Glide (Negate fall damage. 3:1 Travel ratio).
+4_ARMS,ARMS,Mimic,Logic,Might,Change-Skin,"Active: Camo-Strike (Turn Invisible for 1 turn, attack breaks it)."
+5_LEGS,LEGS,Sprinter,Fortitude,Intuition,Bipedal Hips,"Active: Burst (Move 4x Speed, but Lethargic next turn)."
+5_LEGS,LEGS,Swimmer,Vitality,Logic,Paddle Tail,Passive: River-King (Swim Speed = Walk x2. Hold breath 1 hour).
+5_LEGS,LEGS,Leaper,Reflexes,Finesse,Coiled Muscles,Active: Strike-Jump (Jump 20ft instantly as part of an attack).
+5_LEGS,LEGS,Anchor,Might,Knowledge,Grip Talons,Passive: Rooted (Immune to Shove/Trip/Pull).
+5_LEGS,LEGS,Silent,Reflexes,Fortitude,Soft Scales,Passive: Stalk (No penalty to Stealth for moving at full speed).
+5_LEGS,LEGS,Wall-Run,Endurance,Logic,Hooked Toes,Passive: Skitter (Move across vertical surfaces without slowing).
+5_LEGS,LEGS,Surface,Awareness,Intuition,Webbed Fringe,Passive: Water-Walk (Run across liquid surfaces if you don't stop).
+5_LEGS,LEGS,Strider,Intuition,Fortitude,Desert Scales,Passive: Heat-Sync (Immune to Exhaustion from Heat/Travel).
+6_BODY,BODY,Iron-Scale,Reflexes,Logic,Osteoderms,"Passive: Heavy Plate (+3 Natural AC, -5 Speed)."
+6_BODY,BODY,Regen,Endurance,Charm,Stem-Cell Biology,"Active: Shed (Bonus Action. Heal 25% HP, remove all Status Effects)."
+6_BODY,BODY,Reactive,Fortitude,Vitality,Color-Shift Scales,Passive: Active Camo (+5 Stealth if you moved less than 5ft).
+6_BODY,BODY,Spined,Willpower,Logic,Dorsal Spines,Passive: Thorns (Grapplers/Melee attackers take 1d4 Pierce).
+6_BODY,BODY,Solar,Intuition,Might,Solar Scales,Passive: Cold-Blood (Regain 1 SP per hour in direct sunlight).
+6_BODY,BODY,Slippery,Reflexes,Reflexes,Mucus Coat,Passive: Evasion (Take half damage from AOE/Breath attacks).
+6_BODY,BODY,Ablative,Intuition,Fortitude,Layered Scutes,Passive: Molt (Negate one Critical Hit per day by shedding armor).
+6_BODY,BODY,Rubber,Reflexes,Fortitude,Elastic Hide,Passive: Impact (Resistance to Bludgeoning damage).
+7_SPEC,SPECIAL,Whip,Fortitude,Intuition,Prehensile Tail,Active: Trip (Bonus Action. Knock target Prone at 10ft range).
+7_SPEC,SPECIAL,Rattle,Awareness,Might,Tail Rattle,Active: Warning (AOE Fear effect within 30ft).
+7_SPEC,SPECIAL,Frill,Knowledge,Intuition,Neck Frill,Active: Flare (Target loses next Action due to shock/startle).
+7_SPEC,SPECIAL,Venom,Willpower,Vitality,Poison Sacs,Active: Envenom (Coat weapon. Con Save or Paralyzed).
+7_SPEC,SPECIAL,Drop,Reflexes,Intuition,Autotomy Tail,Active: Decoy (Reaction. Drop tail. It wiggles. You turn Invisible).
+7_SPEC,SPECIAL,Breath,Intuition,Reflexes,Throat Gland,Active: Exhale (15ft Cone of Acid or Fire).
+7_SPEC,SPECIAL,Grip,Charm,Logic,Constrictor Coils,Passive:Crush (Advantage on all Grapple Checks).
+7_SPEC,SPECIAL,Sense,Reflexes,Reflexes,Seismic Scales,Passive: Tremor-Sense (Detect all movement within 60ft).

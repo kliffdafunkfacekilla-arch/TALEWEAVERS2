@@ -1,0 +1,54 @@
+STEP,Category,Option Name,Stat 1,Stat 2,Body Part,Mechanic / Trait
+1_SIZE,SIZE 1,Tiny,"+2 Reflex, +1 Finesse","-2 Might, -1 Vitality",Small Frame,Squeeze: Move through 4-inch gaps. +Advantage on Stealth.
+1_SIZE,SIZE 2,Small,+1 Reflex,-1 Might,Light Frame,Lightweight: Trigger no pressure plates. Fall damage halved.
+1_SIZE,SIZE 3,Medium,None,None,Balanced Frame,Standard: No penalties. Can use standard gear.
+1_SIZE,SIZE 4,Large,+1 Might,-1 Reflex,Heavy Frame,Bulk: You provide Full Cover to allies. Cannot be Shoved by Medium creatures.
+1_SIZE,SIZE 5,Huge,"+2 Might, +1 Vitality","-2 Reflex, -1 Finesse",Siege Frame,Siege: Deal double damage to structures. You occupy a 10ft x 10ft space.
+2_BIO,ANCESTRY,The Shark,Endurance,Awareness,Selachimorpha Anatomy,"Includes: Cartilage Skeleton, Rows of Teeth, Gills/Lung Hybrid."
+2_BIO,ANCESTRY,The Crab,Reflexes,Fortitude,Crustacean Anatomy,"Includes: Hard Carapace (AC), Pincers, Gills, Bipedal/Quad Stance."
+2_BIO,ANCESTRY,The Octopus,Willpower,Finesse,Cephalopod Anatomy,"Includes: No Bones (Squeeze), Tentacle-Hair, Ink Sac, Beak."
+2_BIO,ANCESTRY,The Whale,Logic,Knowledge,Cetacean Anatomy,"Includes: Blubber, Blowhole, Sonar, Powerful Build."
+2_BIO,ANCESTRY,The Ray,Intuition,Charm,Batoidea Anatomy,"Includes: Flat Torso, Whip Tail, Wing-Fins (Cape-like)."
+2_BIO,ANCESTRY,The Eel,Knowledge,Vitality,Anguilliform Anatomy,"Includes: Elongated Limbs, Slippery Skin, Needle Teeth."
+2_BIO,ANCESTRY,The Jelly,Intuition,Willpower,Cnidarian Anatomy,"Includes: Translucent Skin, Stinging Tendrils, Fluid Motion."
+2_BIO,ANCESTRY,The Angler,Might,Vitality,Abyssal Anatomy,"Includes: Lure Light, Massive Jaw, Pressure Immune, Black Skin."
+3_HEAD,SENSES,Sonar,Knowledge,Logic,Melon/Dome,Active: Ping (Blindsight 60ft in Air or Water. See invisible).
+3_HEAD,SENSES,Electro,Endurance,Reflexes,Ampullae Pores,Passive: Bio-Electric (Detect heartbeats/machines within 10ft).
+3_HEAD,SENSES,Lateral,Logic,Willpower,Lateral Line,Passive: Pressure-Sense (Cannot be Surprised. Detect air/water currents).
+3_HEAD,SENSES,Dark-Eye,Intuition,Charm,Large Lenses,Passive: Abyss-Sight (See perfectly in magical/deep darkness).
+3_HEAD,SENSES,Smeller,Awareness,Willpower,Olfactory Nares,Passive: Blood-Scent (Track injured targets from 1 mile away).
+3_HEAD,SENSES,Hammer,Charm,Finesse,Wide-Set Eyes,Passive: 360-Vision (Cannot be Flanked. +2 Perception).
+3_HEAD,SENSES,Lure,Endurance,Reflexes,Illicium Light,Active: Mesmerize (Lure target closer. They lose Reaction).
+3_HEAD,SENSES,Beak,Reflexes,Logic,Parrot-Beak,Active: Crunch (Ignore Armor/Shell Hardness on Bite attacks).
+4_ARMS,ARMS,Pincers,Reflexes,Vitality,Chitin Gauntlets,Active: Vice (Grapple. Target is Restrained. Auto-Dmg per turn).
+4_ARMS,ARMS,Tentacles,Logic,Might,Suction Fingers,Active: Entangle (Reach 10ft. Grapple with Advantage).
+4_ARMS,ARMS,Blades,Reflexes,Fortitude,Fin-Spurs,Active: Slice (Melee Unarmed Attack. High Crit Chance or Bleed).
+4_ARMS,ARMS,Ram,Vitality,Intuition,Bone-Plate Head,Active: Batter (Charge Attack. High Dmg + Stun).
+4_ARMS,ARMS,Shockers,Finesse,Finesse,Electric Nodes,Active: Tase (Melee Touch. Target drops held item or is Stunned).
+4_ARMS,ARMS,Nets,Knowledge,Vitality,Mucus Webbing,Active: Ensnare (Cone spray. Targets slowed/stuck).
+4_ARMS,ARMS,Smashers,Knowledge,Might,Mantis-Club Fists,Active: Cavitation (Melee Hit. Deals Thunder Dmg + Knockback).
+4_ARMS,ARMS,Stingers,Fortitude,Endurance,Nematocysts,Passive: Touch-Pain (Anyone touching you takes 1d4 Acid/Poison).
+5_LEGS,LEGS,Strider,Endurance,Might,Fin-Calves,Active: Hydro-Dash (Move 3x Speed in Water. Normal Speed on Land).
+5_LEGS,LEGS,Stabilizer,Might,Finesse,Heavy Boots,Passive: Current-Walker (Ignore Difficult Terrain in Water/Mud).
+5_LEGS,LEGS,Scuttle,Reflexes,Might,Armored Greaves,Passive: Stable-Stance (Advantage vs Shove. Full speed sideways).
+5_LEGS,LEGS,Hover,Endurance,Logic,Gas Bladder,Passive: Drift (Float 1ft off ground. Ignore caltrops/liquids).
+5_LEGS,LEGS,Leaper,Logic,Logic,Reverse-Joints,Active: Breach (Jump distance tripled. Launch from water to land instantly).
+5_LEGS,LEGS,Grip,Knowledge,Intuition,Suction Toes,Passive: Anchor (Climb walls. Cannot be moved against will).
+5_LEGS,LEGS,Silent,Awareness,Finesse,Soft-Soles,Passive: Fluid-Walk (0 Sound on wet surfaces/stone).
+5_LEGS,LEGS,Propel,Fortitude,Knowledge,Webbed Feet,Passive: Marathon (Swim Speed = Run Speed. Kick is 2x Dmg).
+6_BODY,BODY,Shell,Willpower,Might,Calcium Plate,Passive: Bunker (+4 AC. -10ft Speed. Heavy).
+6_BODY,BODY,Blubber,Awareness,Finesse,Fat Layer,Passive: Insulated (Resist Cold. Float automatically).
+6_BODY,BODY,Slippery,Intuition,Vitality,Mucus Coat,Passive: Evasion (Advantage to escape Grapples. Fire Resist).
+6_BODY,BODY,Camo,Awareness,Logic,Chromatophores,Active: Shift (Turn Invisible while stationary. +5 Stealth moving).
+6_BODY,BODY,Spined,Endurance,Finesse,Urchin Spines,Passive: Barbed (Grapplers take 1d4 Pierce Dmg).
+6_BODY,BODY,Rubber,Charm,Willpower,Soft Tissue,Passive: Squish (Immune to Bludgeoning. Fit through tiny gaps).
+6_BODY,BODY,Deep,Willpower,Fortitude,Pressure Skin,Passive: Void-Born (Immune to Pressure and Psychic Damage).
+6_BODY,BODY,Scale,Intuition,Charm,Placoid Scales,Passive: Hydro-Skin (+1 Natural AC. Drying out takes 2x longer).
+7_SPEC,SPECIAL,Ink,Willpower,Charm,Ink Sac,Active: Smokescreen (20ft Cloud. Blindness. Disengage Free).
+7_SPEC,SPECIAL,Regen,Intuition,Endurance,Starfish DNA,Active: Regrow (Heal limb or massive HP over Short Rest).
+7_SPEC,SPECIAL,Pearl,Vitality,Charm,Nacre Gland,Passive: Luster (Advantage on Social/Barter. Look valuable).
+7_SPEC,SPECIAL,Toxin,Willpower,Reflexes,Puffer-Toxin,Active: Inflate (Reaction. Enemy hitting you is Poisoned).
+7_SPEC,SPECIAL,Song,Finesse,Fortitude,Whale-Song,Active: Resonate (Buff Allies or Communicate 10 miles).
+7_SPEC,SPECIAL,Flight,Awareness,Willpower,Ray-Wings,Passive: Glider (Negate fall damage. 3:1 Travel ratio).
+7_SPEC,SPECIAL,Lights,Knowledge,Vitality,Bioluminescence,Active: Strobe (Dazzle enemies or Light up dark area).
+7_SPEC,SPECIAL,Parasite,Awareness,Logic,Remora-Disk,Passive: Hitchhiker (Attach to Large creature. Gain Cover/Travel).

@@ -1,0 +1,14 @@
+Attribute,Mammal,Avian,Reptile,Insect,Aquatic,Plant,Reference
+Might,10,8,10,12,9,11,60
+Endurance,11,10,9,8,12,10,60
+Finesse,12,10,8,10,11,9,60
+Reflexes,9,12,11,10,10,8,60
+Vitality,10,11,10,9,8,12,60
+Fortitude,8,9,12,11,10,10,60
+Knowledge,12,11,10,10,9,8,60
+Logic,8,9,12,11,10,10,60
+Awareness,9,12,8,10,11,10,60
+Intuition,10,8,11,12,10,9,60
+Charm,11,10,10,9,8,12,60
+Willpower,10,10,9,8,12,11,60
+,120,120,120,120,120,120,

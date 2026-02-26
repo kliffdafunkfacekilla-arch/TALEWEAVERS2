@@ -219,7 +219,14 @@ public:
 
         // 3. RNG Spawn Check (Did it successfully grow here?)
         if (chance(gen) <= lf.spawn_chance) {
-          cell.local_fauna.push_back(lf.name);
+          if (lf.type == "FLORA") {
+            cell.local_flora.push_back(lf.name);
+          } else {
+            cell.local_fauna.push_back(lf.name);
+          }
+          if (lf.is_aggressive) {
+            cell.threat_level += 1;
+          }
           total_spawned++;
         }
       }
@@ -228,21 +235,27 @@ public:
               << " lifeform populations spawned.\n";
   }
 
-  void PopulateResourcesAndWildlife(std::vector<VoronoiCell> &grid) {
-    std::cout << "[S.A.G.A. PORT] Seeding Minerals, Flora, and Fauna..."
+  void PopulateResourcesAndWildlife(std::vector<VoronoiCell> &grid,
+                                    const std::vector<BiomeDef> &biomeRules) {
+    std::cout << "[S.A.G.A. PORT] Seeding Minerals and Biome Resources..."
               << std::endl;
 
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
 
+    // Map Biome names to their definitions for fast lookup
+    std::map<std::string, const BiomeDef *> biomeMap;
+    for (const auto &b : biomeRules) {
+      biomeMap[b.name] = &b;
+    }
+
     for (auto &cell : grid) {
       if (cell.elevation <= 0.2f) {
-        // Ocean Resources
+        // Ocean Resources - Hardcoded fallback since oceans lack true biomes
+        // currently
         if (dist(gen) < 0.3f)
           cell.local_resources.push_back("Salt");
-        if (dist(gen) < 0.1f)
-          cell.local_fauna.push_back("Abyssal_Leviathan");
         continue;
       }
 
@@ -259,51 +272,25 @@ public:
           cell.local_resources.push_back("Coal");
       }
 
-      // --- 2. BIOME SPECIFIC LOOT & FLORA ---
-      if (cell.biome_tag == "MUSHROOM_SWAMP") {
-        if (dist(gen) < 0.60f)
-          cell.local_resources.push_back("Rot_Gas");
-        if (dist(gen) < 0.30f)
-          cell.local_resources.push_back("Ancient_Bones");
-        if (dist(gen) < 0.80f)
-          cell.local_flora.push_back("D-Dust_Spores");
-        if (dist(gen) < 0.50f)
-          cell.local_flora.push_back("Glow_Fungus");
-        cell.threat_level += 1;
-      } else if (cell.biome_tag == "SCORCHED_DESERT") {
-        if (dist(gen) < 0.50f)
-          cell.local_resources.push_back("Sand_Silica");
-        if (dist(gen) < 0.20f)
-          cell.local_resources.push_back("Ancient_Bones");
-      } else if (cell.biome_tag == "LUSH_JUNGLE") {
-        if (dist(gen) < 0.40f)
-          cell.local_flora.push_back("Blood_Root");
-        if (dist(gen) < 0.50f)
-          cell.local_flora.push_back("Iron_Wood");
-      }
-
-      // --- 3. DYNAMIC WILDLIFE (Based on Climate Math) ---
-      if (cell.temperature < -20.0f) { // Deep Cold
-        if (dist(gen) < 0.10f)
-          cell.local_fauna.push_back("Frost_Troll");
-        if (dist(gen) < 0.20f)
-          cell.local_fauna.push_back("Ice_Crawler");
-        cell.threat_level += 2; // Trolls make the hex lethal
-      } else if (cell.biome_tag == "SCORCHED_DESERT" && dist(gen) < 0.05f) {
-        cell.local_fauna.push_back("Sand_Wurm");
-        cell.threat_level += 3;
+      // --- 2. DYNAMIC BIOME SPECIFIC LOOT ---
+      if (biomeMap.count(cell.biome_tag)) {
+        const BiomeDef *bDef = biomeMap[cell.biome_tag];
+        for (const auto &res : bDef->resources) {
+          // Scarcity acts as the spawn probability (0.0 to 1.0)
+          if (dist(gen) <= res.scarcity) {
+            cell.local_resources.push_back(res.name);
+          }
+        }
       }
 
       // General scavengers follow habitability (where things die)
       if (cell.habitability > 20.0f) {
         if (dist(gen) < 0.50f)
           cell.local_fauna.push_back("Wild_Game");
-        if (dist(gen) < 0.15f)
-          cell.local_fauna.push_back("Scavenger_Pack");
       }
     }
 
-    std::cout << "[S.A.G.A. PORT] Ecosystem generation complete." << std::endl;
+    std::cout << "[S.A.G.A. PORT] Resource generation complete." << std::endl;
   }
 
 private:

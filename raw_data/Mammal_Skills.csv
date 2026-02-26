@@ -1,0 +1,58 @@
+Body Part,Skill Name,Type,Effect Description
+Antlers,Gore,Action,"If you move 20ft in a straight line, your next attack deals +1d6 damage and knocks the target Prone."
+Antlers,Parry,Reaction,"When hit by melee, reduce the damage taken by 1d6 + Might."
+Long Arms,Lunge,Passive,Your melee reach increases by +5 feet on your turn.
+Long Arms,Swing,Move,"You can move through trees, rafters, or hanging ropes at full speed without checks."
+Hairless Tail,Rudder,Reaction,Gain Advantage on checks to avoid being knocked Prone or Shoved.
+Hairless Tail,Tactile Grip,Utility,"Use your tail to press buttons, pull levers, or lift light items (under 5lbs) behind you."
+Slit Pupils,Focus,Bonus,"For the rest of this turn, your ranged attacks ignore Half-Cover and Three-Quarters Cover."
+Slit Pupils,Night Hunter,Passive,You treat Dim Light as Bright Light and Darkness as Dim Light.
+Prehensile Tail,Hangman,Action,Hang upside down from a stable point; Ranged attacks against you have Disadvantage.
+Prehensile Tail,Third Hand,Passive,"Hold a torch or light item in your tail, leaving your hands free for weapons/shields."
+Round Ears,Sonar,Action,Instantly pinpoint the location of any invisible or hidden moving creature within 30ft.
+Round Ears,Eavesdrop,Passive,You suffer no penalties to Perception when listening through doors or thin walls.
+Spiked Fur,Quill Shot,Action,Shake your body to fire loose quills in a 10ft cone (Dex save for damage).
+Spiked Fur,Barbed,Passive,Any creature that Grapples you or hits you with an Unarmed Strike takes 1d4 Piercing damage.
+Thick Fur Coat,Shrug It Off,Reaction,"Once per encounter, reduce the damage of an incoming Bludgeoning attack by half."
+Thick Fur Coat,Insulated,Passive,You are immune to extreme cold weather and resist Cold damage.
+Retractable Claws,Gut Rake,Bonus,"If you have a target Grappled, make a free claw attack against them with Advantage."
+Retractable Claws,Climber,Passive,You gain a Climb Speed equal to your Walk Speed.
+Hooves,Rear Kick,Reaction,"When an enemy enters the space directly behind you, make a reflex attack against them."
+Hooves,Trample,Action,Move through a smaller enemy's space. They must save or take damage and fall Prone.
+Scent Glands,Musk Spray,Action,Release a 5ft cloud. Creatures inside must save or be Sickened (Disadvantage on attacks).
+Scent Glands,Mark Territory,Utility,Mark an area. Animals of your species recognize your claim and may be Friendly or Fearful.
+Square Jaw,Crunch,Action,"You can bite through inanimate objects (wood, bone, soft metal) to sunder items."
+Square Jaw,Lockjaw,Passive,Creatures grappled by your mouth have Disadvantage on checks to escape.
+Neck Mane,Regal Roar,Action,Bellow to give allies within 30ft a +1 bonus to Attack Rolls for the next round.
+Neck Mane,Throat Guard,Passive,"You are immune to ""Critical Hits"" caused by called shots to the neck or strangulation."
+Expressive Eyes,Puppy Dog,Reaction,"When targeted by a humanoid, force a Will save. On fail, they must choose a different target."
+Expressive Eyes,Distract,Bonus,You can use the Help action as a Bonus Action by catching an enemy's gaze.
+Thick Throat,Bellow,Action,Shout in a 15ft cone. Targets must save or be Deafened and take Thunder damage.
+Thick Throat,Gulp,Bonus,"Swallow a small object (key/ring) instantly to hide it, regurgitating it later safely."
+Mossed Fur,Blend In,Bonus,"If standing near foliage, turn Invisible until you move or attack."
+Mossed Fur,Ambush,Passive,You deal extra damage on attacks against creatures that haven't detected you yet.
+Wide Paws,Snowshoe,Passive,"You ignore Difficult Terrain caused by snow, mud, or sand."
+Wide Paws,Paddle,Passive,You gain a Swim Speed equal to your Walk Speed.
+Oily Fur,Slippery,Reaction,Automatically succeed on a check to escape a Grapple.
+Oily Fur,Waterproof,Passive,You dry off instantly and never suffer penalties from being wet or cold due to water.
+Silky Fur,Groom,Short Rest,"Clean self or ally to remove smells and dirt, curing minor diseases or parasites."
+Silky Fur,Silent Fabric,Passive,Your fur makes no sound. Gain Advantage on Stealth checks in quiet environments.
+Swivel Ears,Radar,Action,Listen to a door to identify exactly how many creatures are in the next room.
+Swivel Ears,Uncanny Dodge,Reaction,Take half damage from a Ranged Attack that you hear coming.
+Padded Feet,Silence,Passive,Moving at normal speed does not impose penalties on Stealth checks.
+Padded Feet,Cat Fall,Passive,You take half damage from falls and always land on your feet.
+Long Fingers,Pickpocket,Bonus,Attempt to steal an item from an adjacent distracted target (Sleight of Hand).
+Long Fingers,Choke,Action,"If you Grapple a target, you can prevent them from speaking or casting verbal spells."
+Iron Gut,Scavenge,Short Rest,Eat spoiled food/raw meat to regain Hit Points as if it were a standard ration.
+Iron Gut,Toxin Filter,Passive,You have Advantage on saving throws against Ingested Poisons.
+Skill Name,Required Body Part,Effect,
+Winter,Thick Fur / Blubber,Ignore Cold Damage / Environmental Cold.,
+Scent_Track,Wet Nose / Snout,Advantage to track by smell.,
+Sniff,Wet Nose,Detect Poison/Chemicals by smell.,
+Roar,Throat Sac / Mane,Action: 30ft Fear (Will Save).,
+Bellow,Thick Throat,AoE Fear (30ft) as Action.,
+Play Dead,Slow Heart (Possum),Enemies ignore you if you are Prone.,
+Stink,Scent Glands,5ft Cloud. Targets inside have Disadvantage.,
+Iron-Gut,Scavenger Gut,Immune to ingested disease/rot.,
+Sonar,Round/Bat Ears,No Perception penalty in dim light.,
+Pounce,Powerful Legs,#ERROR!,

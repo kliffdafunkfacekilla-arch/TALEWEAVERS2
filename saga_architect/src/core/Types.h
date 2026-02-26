@@ -19,6 +19,15 @@ struct Season {
   float moisture_modifier;
 };
 
+// 1b. HEIGHTMAP SCULPTING
+struct HeightmapStep {
+  std::string tool; // "Hill", "Pit", "Range", "Trough", "Smooth"
+  int count;
+  float height;
+  std::pair<float, float> range_x; // Min-Max percentage (0.0 to 1.0)
+  std::pair<float, float> range_y; // Min-Max percentage (0.0 to 1.0)
+};
+
 // 2. BIOMES & RESOURCES
 struct Resource {
   std::string name;

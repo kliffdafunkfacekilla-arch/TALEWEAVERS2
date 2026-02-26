@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useGameStore } from '../store/useGameStore';
 import { MapRenderer } from './MapRenderer';
+import { EntityEditor } from './EntityEditor';
+import { CalendarEditor } from './CalendarEditor';
 
 interface WorldArchitectProps {
     onBack: () => void;
@@ -15,7 +17,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const viewLens = useGameStore((s) => s.viewLens);
     const setViewLens = useGameStore((s) => s.setViewLens);
 
-    const [activeTab, setActiveTab] = useState<'LORE' | 'GEOGRAPHY' | 'CLIMATE' | 'BIOMES' | 'RESOURCES' | 'ECOSYSTEM' | 'FACTIONS'>('LORE');
+    const [activeTab, setActiveTab] = useState<'PAINTING' | 'LORE' | 'GEOGRAPHY' | 'CLIMATE' | 'BIOMES' | 'RESOURCES' | 'ECOSYSTEM' | 'FACTIONS'>('PAINTING');
     const [isGenerating, setIsGenerating] = useState(false);
 
     // --- LORE VAULT STATE (PORT 8001) ---
@@ -26,13 +28,25 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const [isLoreProcessing, setIsLoreProcessing] = useState(false);
 
     // --- ARCHITECT'S PALETTE (EDIT MODE) ---
-    const [editMode, setEditMode] = useState<'NONE' | 'ELEVATION' | 'BIOME' | 'FACTION' | 'RESOURCE' | 'FAUNA' | 'FLORA'>('NONE');
-    const [activeBrush, setActiveBrush] = useState<string | number>(''); // e.g., "SCORCHED_DESERT" or 0.1
+    const editMode = useGameStore((s) => s.editMode);
+    const setEditMode = useGameStore((s) => s.setEditMode);
+    const activeBrush = useGameStore((s) => s.activeBrush);
+    const setActiveBrush = useGameStore((s) => s.setActiveBrush);
+    const brushSize = useGameStore((s) => s.brushSize);
+    const setBrushSize = useGameStore((s) => s.setBrushSize);
+    const brushStrength = useGameStore((s) => s.brushStrength);
+    const setBrushStrength = useGameStore((s) => s.setBrushStrength);
 
     // --- 1. GEOGRAPHY STATE ---
     const [hexCount, setHexCount] = useState(2500);
     const [plateCount, setPlateCount] = useState(15);
     const [heightmap, setHeightmap] = useState("");
+    const [heightmapSteps, setHeightmapSteps] = useState([
+        { tool: "Hill", count: 200, height: 0.15, range_x: [0.0, 1.0], range_y: [0.0, 1.0] },
+        { tool: "Range", count: 10, height: 0.40, range_x: [0.1, 0.9], range_y: [0.1, 0.9] },
+        { tool: "Pit", count: 50, height: 0.10, range_x: [0.0, 1.0], range_y: [0.0, 1.0] },
+        { tool: "Smooth", count: 2, height: 0.0, range_x: [0.0, 1.0], range_y: [0.0, 1.0] }
+    ]);
 
     // --- 2. CLIMATE STATE ---
     const [rainMultiplier, setRainMultiplier] = useState(1.0);
@@ -117,7 +131,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             world_settings: {
                 num_hexes: hexCount,
                 tectonic_plates: plateCount,
-                heightmap_image: heightmap
+                heightmap_image: heightmap,
+                heightmap_steps: heightmapSteps
             },
             climate: {
                 north_pole: northPole.map(n => Number(n) || 0),
@@ -180,6 +195,12 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
         setFactions(newList);
     };
 
+    const updateHeightmapStep = (index: number, field: string, value: any) => {
+        const newList = [...heightmapSteps];
+        newList[index] = { ...newList[index], [field]: value };
+        setHeightmapSteps(newList);
+    };
+
     return (
         <div className="w-full h-full flex bg-zinc-950 text-white font-sans overflow-hidden">
 
@@ -194,7 +215,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
 
                 {/* Tabs */}
                 <div className="flex flex-wrap border-b border-zinc-800 bg-zinc-950">
-                    {(['LORE', 'GEOGRAPHY', 'CLIMATE', 'BIOMES', 'RESOURCES', 'ECOSYSTEM', 'FACTIONS'] as const).map(tab => (
+                    {(['PAINTING', 'LORE', 'GEOGRAPHY', 'CLIMATE', 'BIOMES', 'RESOURCES', 'ECOSYSTEM', 'FACTIONS'] as const).map(tab => (
                         <button
                             key={tab} onClick={() => setActiveTab(tab)}
                             className={`px-2 py-2 text-[9px] font-bold uppercase tracking-widest transition-colors ${activeTab === tab ? 'text-amber-500 border-b-2 border-amber-500 bg-zinc-900' : 'text-zinc-600 hover:text-zinc-400'}`}
@@ -219,13 +240,18 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                             {/* Ingest Section */}
                             <div className="p-3 border border-zinc-800 bg-zinc-950">
                                 <label className="text-amber-500 font-bold uppercase mb-2 block">1. Ingest Markdown Vault</label>
-                                <input
-                                    type="text"
-                                    value={vaultPath}
-                                    onChange={(e) => setVaultPath(e.target.value)}
-                                    className="w-full bg-zinc-900 border border-zinc-700 p-2 text-white outline-none focus:border-amber-500 mb-2 font-mono text-[10px]"
-                                    placeholder="e.g., C:/Users/Notes/SAGA_Lore"
-                                />
+                                <div className="flex gap-2 mb-2">
+                                    <input
+                                        type="text"
+                                        value={vaultPath}
+                                        onChange={(e) => setVaultPath(e.target.value)}
+                                        className="flex-grow bg-zinc-900 border border-zinc-700 p-2 text-white outline-none focus:border-amber-500 font-mono text-[10px]"
+                                        placeholder="C:/Users/Notes/SAGA_Lore"
+                                    />
+                                    {/* @ts-ignore - webkitdirectory is a non-standard attribute but works in Chrome/Electron */}
+                                    <input type="file" webkitdirectory="" directory="" onChange={(e) => setVaultPath(e.target.files?.[0]?.webkitRelativePath?.split('/')[0] || e.target.value)} className="hidden" id="vaultPicker" />
+                                    <label htmlFor="vaultPicker" className="bg-zinc-800 hover:bg-zinc-700 text-white p-2 px-3 text-[10px] font-bold uppercase cursor-pointer transition-colors border border-zinc-700">Browse</label>
+                                </div>
                                 <button
                                     onClick={handleIngestLore}
                                     disabled={isLoreProcessing || !loreOnline}
@@ -290,11 +316,53 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
 
                             <div className="p-3 border border-zinc-800 bg-zinc-950">
                                 <label className="text-amber-500 font-bold uppercase mb-2 block">2. Image Import Override</label>
-                                <p className="text-[10px] text-zinc-500 mb-2">Provide a filename (e.g. map.png) in the saga_architect folder to bypass tectonics.</p>
-                                <input
-                                    type="text" placeholder="Leave blank for procedural" value={heightmap} onChange={(e) => setHeightmap(e.target.value)}
-                                    className="w-full bg-zinc-900 border border-zinc-700 p-2 text-white outline-none focus:border-amber-500"
-                                />
+                                <p className="text-[10px] text-zinc-500 mb-2">Provide a heightmap image to bypass procedural tectonics.</p>
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text" placeholder="Leave blank for procedural" value={heightmap} onChange={(e) => setHeightmap(e.target.value)}
+                                        className="flex-grow bg-zinc-900 border border-zinc-700 p-2 text-white outline-none focus:border-amber-500 text-xs"
+                                    />
+                                    <input type="file" accept="image/png, image/jpeg" onChange={(e) => setHeightmap(e.target.files?.[0]?.name || '')} className="hidden" id="heightmapPicker" />
+                                    <label htmlFor="heightmapPicker" className="bg-zinc-800 hover:bg-zinc-700 text-white p-2 px-3 text-[10px] font-bold uppercase cursor-pointer transition-colors border border-zinc-700">Browse</label>
+                                </div>
+                            </div>
+
+                            <div className="p-3 border border-zinc-800 bg-zinc-950 flex flex-col gap-2">
+                                <label className="text-amber-500 font-bold uppercase block">3. Procedural Sculpting Brushes</label>
+                                <p className="text-[9px] text-zinc-500 leading-tight">These brushes run cumulatively before climate is simulated. Overrides Tectonics.</p>
+
+                                {heightmapSteps.map((step, i) => (
+                                    <div key={i} className="flex flex-col gap-2 border border-zinc-800 p-2 bg-zinc-900/50">
+                                        <div className="flex justify-between items-center">
+                                            <select
+                                                value={step.tool}
+                                                onChange={e => updateHeightmapStep(i, 'tool', e.target.value)}
+                                                className="bg-black border border-zinc-700 p-1 text-xs text-amber-500 font-bold outline-none uppercase"
+                                            >
+                                                <option value="Hill">Hill</option>
+                                                <option value="Pit">Pit</option>
+                                                <option value="Range">Range</option>
+                                                <option value="Smooth">Smooth</option>
+                                            </select>
+                                            <button onClick={() => setHeightmapSteps(heightmapSteps.filter((_, idx) => idx !== i))} className="text-red-500 hover:text-red-400 text-xs font-bold uppercase">Del</button>
+                                        </div>
+
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[10px] text-zinc-400 w-10">Count</span>
+                                            <input type="range" min="1" max="500" value={step.count} onChange={e => updateHeightmapStep(i, 'count', Number(e.target.value))} className="flex-grow h-1 accent-amber-500" />
+                                            <span className="text-[10px] w-8 text-right font-mono">{step.count}</span>
+                                        </div>
+
+                                        {step.tool !== 'Smooth' && (
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-[10px] text-zinc-400 w-10">Height</span>
+                                                <input type="range" min="0.01" max="1.0" step="0.01" value={step.height} onChange={e => updateHeightmapStep(i, 'height', Number(e.target.value))} className="flex-grow h-1 accent-amber-500" />
+                                                <span className="text-[10px] w-8 text-right font-mono">{step.height.toFixed(2)}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                                <button onClick={() => setHeightmapSteps([...heightmapSteps, { tool: "Hill", count: 10, height: 0.2, range_x: [0, 1], range_y: [0, 1] }])} className="w-full border border-dashed border-zinc-700 text-zinc-500 py-1.5 hover:bg-zinc-800 transition-colors text-xs uppercase tracking-wider font-bold mt-2">+ Add Brush</button>
                             </div>
                         </div>
                     )}
@@ -315,16 +383,32 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                     <div className="grid grid-cols-2 gap-2 text-xs">
                                         <div>
                                             <span className="text-zinc-500 block text-[10px] mb-1">Temp Range (°C)</span>
-                                            <div className="flex gap-1">
-                                                <input type="number" placeholder="Min" value={b.min_temp} onChange={e => updateBiome(i, 'min_temp', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-center text-white" />
-                                                <input type="number" placeholder="Max" value={b.max_temp} onChange={e => updateBiome(i, 'max_temp', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-center text-white" />
+                                            <div className="flex flex-col gap-1">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-[9px] w-6 text-zinc-500">Min</span>
+                                                    <input type="range" min="-100" max="100" value={b.min_temp} onChange={e => updateBiome(i, 'min_temp', Number(e.target.value))} className="flex-grow h-1 bg-zinc-700 appearance-none accent-emerald-500" />
+                                                    <span className="text-[9px] w-6 text-right font-mono">{b.min_temp}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-[9px] w-6 text-zinc-500">Max</span>
+                                                    <input type="range" min="-100" max="100" value={b.max_temp} onChange={e => updateBiome(i, 'max_temp', Number(e.target.value))} className="flex-grow h-1 bg-zinc-700 appearance-none accent-emerald-500" />
+                                                    <span className="text-[9px] w-6 text-right font-mono">{b.max_temp}</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div>
-                                            <span className="text-zinc-500 block text-[10px] mb-1">Rain Range (0-1)</span>
-                                            <div className="flex gap-1">
-                                                <input type="number" step="0.1" min="0" max="1" placeholder="Min" value={b.min_rain} onChange={e => updateBiome(i, 'min_rain', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-center text-white" />
-                                                <input type="number" step="0.1" min="0" max="1" placeholder="Max" value={b.max_rain} onChange={e => updateBiome(i, 'max_rain', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-center text-white" />
+                                            <span className="text-zinc-500 block text-[10px] mb-1">Rain Range</span>
+                                            <div className="flex flex-col gap-1">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-[9px] w-6 text-zinc-500">Min</span>
+                                                    <input type="range" min="0" max="1.5" step="0.05" value={b.min_rain} onChange={e => updateBiome(i, 'min_rain', Number(e.target.value))} className="flex-grow h-1 bg-zinc-700 appearance-none accent-emerald-500" />
+                                                    <span className="text-[9px] w-6 text-right font-mono">{b.min_rain.toFixed(2)}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-[9px] w-6 text-zinc-500">Max</span>
+                                                    <input type="range" min="0" max="1.5" step="0.05" value={b.max_rain} onChange={e => updateBiome(i, 'max_rain', Number(e.target.value))} className="flex-grow h-1 bg-zinc-700 appearance-none accent-emerald-500" />
+                                                    <span className="text-[9px] w-6 text-right font-mono">{b.max_rain.toFixed(2)}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -367,18 +451,28 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                         <div className="space-y-6">
                             <div>
                                 <label className="text-blue-400 font-bold uppercase mb-2 block">Global Base Temperatures (°C)</label>
-                                <div className="grid grid-cols-[auto_1fr_1fr] gap-x-2 gap-y-3 mb-2 items-center">
-                                    <span className="text-zinc-500 text-xs uppercase pr-2 text-right">North Pole</span>
-                                    <input type="number" placeholder="Min" value={northPole[0]} onChange={(e) => setNorthPole([e.target.value === '' ? '' : Number(e.target.value), northPole[1]])} className="bg-zinc-950 border border-zinc-700 p-1.5 text-center text-white text-xs" />
-                                    <input type="number" placeholder="Max" value={northPole[1]} onChange={(e) => setNorthPole([northPole[0], e.target.value === '' ? '' : Number(e.target.value)])} className="bg-zinc-950 border border-zinc-700 p-1.5 text-center text-white text-xs" />
-
-                                    <span className="text-zinc-500 text-xs uppercase pr-2 text-right">Equator</span>
-                                    <input type="number" placeholder="Min" value={equator[0]} onChange={(e) => setEquator([e.target.value === '' ? '' : Number(e.target.value), equator[1]])} className="bg-zinc-950 border border-zinc-700 p-1.5 text-center text-white text-xs" />
-                                    <input type="number" placeholder="Max" value={equator[1]} onChange={(e) => setEquator([equator[0], e.target.value === '' ? '' : Number(e.target.value)])} className="bg-zinc-950 border border-zinc-700 p-1.5 text-center text-white text-xs" />
-
-                                    <span className="text-zinc-500 text-xs uppercase pr-2 text-right">South Pole</span>
-                                    <input type="number" placeholder="Min" value={southPole[0]} onChange={(e) => setSouthPole([e.target.value === '' ? '' : Number(e.target.value), southPole[1]])} className="bg-zinc-950 border border-zinc-700 p-1.5 text-center text-white text-xs" />
-                                    <input type="number" placeholder="Max" value={southPole[1]} onChange={(e) => setSouthPole([southPole[0], e.target.value === '' ? '' : Number(e.target.value)])} className="bg-zinc-950 border border-zinc-700 p-1.5 text-center text-white text-xs" />
+                                <div className="space-y-3 mb-4">
+                                    <div className="flex flex-col gap-1">
+                                        <div className="flex items-center justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>North Pole</span> <span className="font-mono text-white text-xs">[{northPole[0]}°C to {northPole[1]}°C]</span></div>
+                                        <div className="flex gap-2">
+                                            <input type="range" min="-100" max="100" value={northPole[0]} onChange={(e) => setNorthPole([Number(e.target.value), northPole[1]])} className="w-1/2 h-1 bg-zinc-700 appearance-none accent-blue-500" />
+                                            <input type="range" min="-100" max="100" value={northPole[1]} onChange={(e) => setNorthPole([northPole[0], Number(e.target.value)])} className="w-1/2 h-1 bg-zinc-700 appearance-none accent-blue-500" />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <div className="flex items-center justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Equator</span> <span className="font-mono text-white text-xs">[{equator[0]}°C to {equator[1]}°C]</span></div>
+                                        <div className="flex gap-2">
+                                            <input type="range" min="-100" max="100" value={equator[0]} onChange={(e) => setEquator([Number(e.target.value), equator[1]])} className="w-1/2 h-1 bg-zinc-700 appearance-none accent-blue-500" />
+                                            <input type="range" min="-100" max="100" value={equator[1]} onChange={(e) => setEquator([equator[0], Number(e.target.value)])} className="w-1/2 h-1 bg-zinc-700 appearance-none accent-blue-500" />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <div className="flex items-center justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>South Pole</span> <span className="font-mono text-white text-xs">[{southPole[0]}°C to {southPole[1]}°C]</span></div>
+                                        <div className="flex gap-2">
+                                            <input type="range" min="-100" max="100" value={southPole[0]} onChange={(e) => setSouthPole([Number(e.target.value), southPole[1]])} className="w-1/2 h-1 bg-zinc-700 appearance-none accent-blue-500" />
+                                            <input type="range" min="-100" max="100" value={southPole[1]} onChange={(e) => setSouthPole([southPole[0], Number(e.target.value)])} className="w-1/2 h-1 bg-zinc-700 appearance-none accent-blue-500" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -422,22 +516,20 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                             <option value="FLORA">FLORA</option>
                                         </select>
                                     </div>
-                                    <div className="grid grid-cols-4 gap-2 text-xs mt-1">
-                                        <div>
-                                            <span className="text-zinc-500 block text-[10px] mb-1">Min Temp</span>
-                                            <input type="number" value={lf.min_temp} onChange={e => updateLifeform(i, 'min_temp', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-white text-center" />
+                                    <div className="flex flex-col gap-3 mt-2 mb-2">
+                                        <div className="flex flex-col gap-1 w-full text-xs">
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Temperature (°C)</span> <span className="text-white font-mono">[{lf.min_temp} to {lf.max_temp}]</span></div>
+                                            <div className="flex gap-2 items-center">
+                                                <input type="range" min="-100" max="100" value={lf.min_temp} onChange={e => updateLifeform(i, 'min_temp', Number(e.target.value))} className="w-1/2 h-1 bg-zinc-700 appearance-none accent-green-500" />
+                                                <input type="range" min="-100" max="100" value={lf.max_temp} onChange={e => updateLifeform(i, 'max_temp', Number(e.target.value))} className="w-1/2 h-1 bg-zinc-700 appearance-none accent-green-500" />
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span className="text-zinc-500 block text-[10px] mb-1">Max Temp</span>
-                                            <input type="number" value={lf.max_temp} onChange={e => updateLifeform(i, 'max_temp', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-white text-center" />
-                                        </div>
-                                        <div>
-                                            <span className="text-zinc-500 block text-[10px] mb-1">Min Water</span>
-                                            <input type="number" step="0.1" min="0" max="1" value={lf.min_water ?? 0} onChange={e => updateLifeform(i, 'min_water', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-white text-center" />
-                                        </div>
-                                        <div>
-                                            <span className="text-zinc-500 block text-[10px] mb-1">Max Water</span>
-                                            <input type="number" step="0.1" min="0" max="1" value={lf.max_water ?? 1} onChange={e => updateLifeform(i, 'max_water', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-white text-center" />
+                                        <div className="flex flex-col gap-1 w-full text-xs">
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Water Need (0-1.5)</span> <span className="text-white font-mono">[{lf.min_water?.toFixed(2)} to {lf.max_water?.toFixed(2)}]</span></div>
+                                            <div className="flex gap-2 items-center">
+                                                <input type="range" min="0" max="1.5" step="0.05" value={lf.min_water ?? 0} onChange={e => updateLifeform(i, 'min_water', Number(e.target.value))} className="w-1/2 h-1 bg-zinc-700 appearance-none accent-green-500" />
+                                                <input type="range" min="0" max="1.5" step="0.05" value={lf.max_water ?? 1} onChange={e => updateLifeform(i, 'max_water', Number(e.target.value))} className="w-1/2 h-1 bg-zinc-700 appearance-none accent-green-500" />
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2 text-xs mt-1">
@@ -458,11 +550,12 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                             <input type="number" placeholder="Amt" value={lf.farm_yield_amount || 0} onChange={e => updateLifeform(i, 'farm_yield_amount', Number(e.target.value))} className="w-16 bg-zinc-900 border border-zinc-700 p-1 text-white text-center" />
                                         </div>
                                     )}
-                                    <div className="grid grid-cols-3 gap-2 text-xs">
-                                        <div>
-                                            <span className="text-zinc-500 block text-[10px] mb-1">Spawn Chance</span>
-                                            <input type="number" step="0.01" value={lf.spawn_chance} onChange={e => updateLifeform(i, 'spawn_chance', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-white text-center" />
+                                    <div className="mt-2 border-t border-zinc-800 pt-2">
+                                        <div className="flex justify-between items-center text-[10px] text-zinc-500 mb-1">
+                                            <span>Spawn Chance</span>
+                                            <span className="text-white font-mono">{(lf.spawn_chance * 100).toFixed(0)}%</span>
                                         </div>
+                                        <input type="range" min="0" max="1" step="0.01" value={lf.spawn_chance} onChange={e => updateLifeform(i, 'spawn_chance', Number(e.target.value))} className="w-full h-1 bg-zinc-700 appearance-none accent-green-500" />
                                     </div>
                                 </div>
                             ))}
@@ -484,15 +577,21 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                         placeholder="Faction Name"
                                     />
 
-                                    <div className="grid grid-cols-2 gap-x-2 gap-y-3 items-center text-xs">
-                                        <label className="text-zinc-500 text-[10px] uppercase">Aggression</label>
-                                        <input type="number" step="0.1" min="0" max="1" value={f.aggression} onChange={e => updateFaction(i, 'aggression', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-white text-center" />
+                                    <div className="flex flex-col gap-3 mt-1 mb-2">
+                                        <div className="flex flex-col gap-1 w-full text-xs">
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Aggression</span> <span className="text-white font-mono">{(f.aggression * 100).toFixed(0)}%</span></div>
+                                            <input type="range" step="0.05" min="0" max="1" value={f.aggression} onChange={e => updateFaction(i, 'aggression', Number(e.target.value))} className="w-full h-1 bg-zinc-700 appearance-none accent-red-500" />
+                                        </div>
 
-                                        <label className="text-zinc-500 text-[10px] uppercase">Expansion</label>
-                                        <input type="number" step="0.1" min="0" max="1" value={f.expansion_rate ?? 0.5} onChange={e => updateFaction(i, 'expansion_rate', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-white text-center" />
+                                        <div className="flex flex-col gap-1 w-full text-xs">
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Expansion Rate</span> <span className="text-white font-mono">{((f.expansion_rate ?? 0.5) * 100).toFixed(0)}%</span></div>
+                                            <input type="range" step="0.05" min="0" max="1" value={f.expansion_rate ?? 0.5} onChange={e => updateFaction(i, 'expansion_rate', Number(e.target.value))} className="w-full h-1 bg-zinc-700 appearance-none accent-red-500" />
+                                        </div>
 
-                                        <label className="text-zinc-500 text-[10px] uppercase">Trade Value</label>
-                                        <input type="number" step="0.1" min="0" value={f.base_trade_value ?? 1.0} onChange={e => updateFaction(i, 'base_trade_value', Number(e.target.value))} className="w-full bg-zinc-900 border border-zinc-700 p-1 text-white text-center" />
+                                        <div className="flex flex-col gap-1 w-full text-xs">
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Base Trade Value</span> <span className="text-white font-mono">x{((f.base_trade_value ?? 1.0)).toFixed(1)}</span></div>
+                                            <input type="range" step="0.1" min="0" max="3" value={f.base_trade_value ?? 1.0} onChange={e => updateFaction(i, 'base_trade_value', Number(e.target.value))} className="w-full h-1 bg-zinc-700 appearance-none accent-red-500" />
+                                        </div>
                                     </div>
                                     <div className="grid grid-cols-5 gap-2 text-[10px] mt-1">
                                         <label className="flex items-center gap-1 text-zinc-400 cursor-pointer">
@@ -540,6 +639,79 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                         </div>
                     )}
 
+                    {/* PAINTING TAB (The Architect's Palette) */}
+                    {activeTab === 'PAINTING' && (
+                        <div className="space-y-6">
+
+                            {/* Tools Selection */}
+                            <div>
+                                <label className="text-amber-500 font-bold uppercase mb-2 block border-b border-zinc-800 pb-1">Editing Tools</label>
+                                <div className="grid grid-cols-2 gap-2 mt-2">
+                                    {(['NONE', 'ELEVATION', 'BIOME', 'FACTION', 'RESOURCE', 'FAUNA', 'FLORA'] as const).map(mode => (
+                                        <button
+                                            key={mode}
+                                            onClick={() => { setEditMode(mode); setActiveBrush(''); }}
+                                            className={`px-2 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors rounded border ${editMode === mode ? 'bg-amber-500 text-black border-amber-500' : 'bg-zinc-950 text-zinc-400 border-zinc-700 hover:text-white hover:border-zinc-500'}`}
+                                        >
+                                            {mode === 'NONE' ? 'INSPECT' : mode}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Brush Setup */}
+                            {editMode !== 'NONE' && (
+                                <div className="p-3 border border-amber-900/30 bg-amber-900/10 space-y-4">
+                                    <div>
+                                        <label className="text-white font-bold uppercase text-[10px] mb-2 flex justify-between">
+                                            <span>Brush Size (Radius)</span>
+                                            <span className="text-amber-500">{brushSize} Hexes</span>
+                                        </label>
+                                        <input
+                                            type="range" min="1" max="25" step="1"
+                                            value={brushSize} onChange={(e) => setBrushSize(Number(e.target.value))}
+                                            className="w-full h-1 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-white font-bold uppercase text-[10px] mb-2 flex justify-between">
+                                            <span>Brush Strength</span>
+                                            <span className="text-amber-500">{brushStrength}%</span>
+                                        </label>
+                                        <input
+                                            type="range" min="10" max="100" step="10"
+                                            value={brushStrength} onChange={(e) => setBrushStrength(Number(e.target.value))}
+                                            className="w-full h-1 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                                        />
+                                        <p className="text-[9px] text-zinc-500 mt-1 italic">Limits how many hexes inside the radius are affected.</p>
+                                    </div>
+
+                                    {/* Data Picker */}
+                                    <div className="pt-2 border-t border-amber-900/30">
+                                        {editMode === 'ELEVATION' ? (
+                                            <div className="grid grid-cols-3 gap-1">
+                                                <button onClick={() => setActiveBrush(0.1)} className={`py-2 text-[9px] font-bold uppercase ${activeBrush === 0.1 ? 'bg-blue-900 text-blue-200 border border-blue-500' : 'bg-zinc-950 text-zinc-500 border border-zinc-800'}`}>TRENCH</button>
+                                                <button onClick={() => setActiveBrush(0.3)} className={`py-2 text-[9px] font-bold uppercase ${activeBrush === 0.3 ? 'bg-emerald-900 text-emerald-200 border border-emerald-500' : 'bg-zinc-950 text-zinc-500 border border-zinc-800'}`}>LAND</button>
+                                                <button onClick={() => setActiveBrush(0.9)} className={`py-2 text-[9px] font-bold uppercase ${activeBrush === 0.9 ? 'bg-zinc-200 text-zinc-950 border border-zinc-300' : 'bg-zinc-950 text-zinc-500 border border-zinc-800'}`}>PEAK</button>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <label className="text-white font-bold uppercase text-[10px] mb-1 block">Active Paint</label>
+                                                <input
+                                                    type="text"
+                                                    value={activeBrush as string}
+                                                    onChange={(e) => setActiveBrush(e.target.value.replace(/\s+/g, '_'))}
+                                                    placeholder={`Enter ${editMode} Name`}
+                                                    className="w-full bg-zinc-950 border border-amber-900/50 p-2 text-white text-xs outline-none focus:border-amber-500"
+                                                />
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                        </div>
+                    )}
                 </div>
 
                 <div className="mt-auto p-4 border-t border-zinc-800 bg-zinc-950">
@@ -566,45 +738,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                     ))}
                 </div>
 
-                {/* THE ARCHITECT'S PALETTE: Floating Toolbar */}
-                {worldData && (
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-zinc-900/95 border border-amber-900/50 p-2 rounded-lg shadow-2xl backdrop-blur-md z-30 flex flex-col items-center gap-2">
-                        <div className="flex gap-1 border-b border-zinc-800 pb-2 mb-1 w-full justify-center">
-                            {(['NONE', 'ELEVATION', 'BIOME', 'FACTION', 'RESOURCE', 'FAUNA', 'FLORA'] as const).map(mode => (
-                                <button
-                                    key={mode}
-                                    onClick={() => { setEditMode(mode); setActiveBrush(''); }}
-                                    className={`px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest transition-colors rounded ${editMode === mode ? 'bg-amber-500 text-black' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'}`}
-                                >
-                                    {mode === 'NONE' ? 'INSPECT' : mode}
-                                </button>
-                            ))}
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            {editMode === 'ELEVATION' && (
-                                <div className="flex space-x-2">
-                                    <span className="text-[10px] text-zinc-500 uppercase flex items-center pr-2 border-r border-zinc-800">Carve</span>
-                                    <button onClick={() => setActiveBrush(0.1)} className={`px-2 py-1 text-[9px] font-mono ${activeBrush === 0.1 ? 'text-blue-500 border border-blue-500' : 'text-zinc-500 border border-transparent'}`}>OCEAN TRENCH</button>
-                                    <button onClick={() => setActiveBrush(0.3)} className={`px-2 py-1 text-[9px] font-mono ${activeBrush === 0.3 ? 'text-green-500 border border-green-500' : 'text-zinc-500 border border-transparent'}`}>FLAT LAND</button>
-                                    <button onClick={() => setActiveBrush(0.9)} className={`px-2 py-1 text-[9px] font-mono ${activeBrush === 0.9 ? 'text-zinc-300 border border-zinc-300' : 'text-zinc-500 border border-transparent'}`}>MOUNTAIN PEAK</button>
-                                </div>
-                            )}
-                            {editMode !== 'NONE' && editMode !== 'ELEVATION' && (
-                                <>
-                                    <span className="text-[10px] text-zinc-400 uppercase">Paint:</span>
-                                    <input
-                                        type="text"
-                                        value={activeBrush as string}
-                                        onChange={(e) => setActiveBrush(e.target.value.replace(/\s+/g, '_'))}
-                                        placeholder={`Enter ${editMode} name...`}
-                                        className="bg-zinc-950 border border-zinc-700 p-1 px-2 text-white text-xs w-48 outline-none focus:border-amber-500"
-                                    />
-                                </>
-                            )}
-                        </div>
-                    </div>
-                )}
+                {/* --- TOP LEFT: VIEW LENSES --- */}
 
                 {/* Hex Inspector HUD */}
                 {selectedHex && (
@@ -663,9 +797,18 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                 </div>
                             )}
                         </div>
-                    </div>
                 )}
+                    </div>
+
+            {/* RIGHT PANEL: Entity Editor & Calendar Editor */}
+                <div className="w-[350px] bg-zinc-900/90 border-l border-zinc-800 flex flex-col shadow-2xl z-10 flex-shrink-0">
+                    <div className="flex-1 overflow-hidden flex flex-col h-1/2">
+                        <EntityEditor />
+                    </div>
+                    <div className="flex-1 overflow-hidden flex flex-col h-1/2">
+                        <CalendarEditor />
+                    </div>
+                </div>
             </div>
-        </div>
-    );
+            );
 }

@@ -145,6 +145,7 @@ export interface ActiveEncounter {
     gridWidth: number;
     gridHeight: number;
     tokens: EncounterToken[];
+    grid?: string[][]; // tile types: TREE, ROCK, WATER, SNOW, etc.
 }
 
 export interface ClientGameState {
@@ -166,7 +167,15 @@ export interface ClientGameState {
     setSelectedHex: (hex: HexCell | null) => void;
 
     // The Architect's Palette: Edit Brush Logic
-    editHex: (hexId: number, editMode: string, brushValue: string | number) => void;
+    editMode: string;
+    setEditMode: (mode: string) => void;
+    activeBrush: string | number;
+    setActiveBrush: (brush: string | number) => void;
+    brushSize: number;
+    setBrushSize: (size: number) => void;
+    brushStrength: number;
+    setBrushStrength: (strength: number) => void;
+    paintHex: (hexIndex: number) => void;
 
     // Campaign State (Module 8 integration)
     activeCampaignId: string | null;
@@ -237,13 +246,18 @@ export interface ClientGameState {
 
 // ── Initial State ─────────────────────────────────────────────────────
 const INITIAL_STATE: Omit<ClientGameState,
-    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'editHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet' | 'setClientLoadout' | 'addInjury' | 'setViewLens'
+    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setEditMode' | 'setActiveBrush' | 'setBrushSize' | 'setBrushStrength' | 'paintHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet' | 'setClientLoadout' | 'addInjury' | 'setViewLens'
 > = {
     viewLens: 'PHYSICAL',
     currentScreen: 'MAIN_MENU',
     worldData: null,
     selectedHex: null,
     activeCampaignId: null,
+    editMode: 'NONE',
+    activeBrush: '',
+    brushSize: 1, // Default 1 hex radius
+    brushStrength: 100, // Default 100% application chance
+
     characterSheet: null,
     clientLoadout: [],
     activeEncounter: null,
@@ -311,61 +325,86 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     setSelectedHex: (hex) => set({ selectedHex: hex }),
 
     // The Architect's Palette Logic
-    editHex: (hexId: number, editMode: string, brushValue: string | number) => set((state) => {
-        if (!state.worldData) return state;
+    setEditMode: (mode) => set({ editMode: mode }),
+    setActiveBrush: (brush) => set({ activeBrush: brush }),
+    setBrushSize: (size) => set({ brushSize: size }),
+    setBrushStrength: (strength) => set({ brushStrength: strength }),
 
-        const updatedMap = [...state.worldData.macro_map];
-        const cell = { ...updatedMap[hexId] };
+    paintHex: (hexIndex) => set((state) => {
+        if (!state.worldData || state.editMode === 'NONE') return state;
+        const newMap = [...state.worldData.macro_map];
 
-        // Initialize missing arrays (just in case)
-        if (!cell.local_resources) cell.local_resources = [];
-        if (!cell.local_fauna) cell.local_fauna = [];
-        if (!cell.local_flora) cell.local_flora = [];
+        const targetHex = newMap[hexIndex];
+        if (!targetHex) return state;
 
-        // --- THE TERRAIN CARVER ---
-        if (editMode === 'ELEVATION') {
-            cell.elevation = brushValue as number;
-            // Auto-fix biomes if you sink land into the ocean
-            if (cell.elevation <= 0.2) {
-                cell.biome_tag = 'OCEAN';
-                cell.faction_owner = ''; // Drown the city!
-            } else if (cell.biome_tag === 'OCEAN') {
-                cell.biome_tag = 'PLAINS'; // Default land if you raise the ocean floor
-            }
-        }
-        else if (editMode === 'BIOME') {
-            cell.biome_tag = brushValue;
-        }
-        else if (editMode === 'FACTION') {
-            cell.faction_owner = brushValue;
-        }
-        else if (editMode === 'RESOURCE') {
-            if (!cell.local_resources.includes(brushValue)) {
-                cell.local_resources.push(brushValue);
-            } else {
-                cell.local_resources = cell.local_resources.filter(r => r !== brushValue);
-            }
-        }
-        else if (editMode === 'FAUNA') {
-            if (!cell.local_fauna.includes(brushValue)) {
-                cell.local_fauna.push(brushValue);
-            } else {
-                cell.local_fauna = cell.local_fauna.filter(r => r !== brushValue);
-            }
-        }
-        else if (editMode === 'FLORA') {
-            if (!cell.local_flora.includes(brushValue)) {
-                cell.local_flora.push(brushValue);
-            } else {
-                cell.local_flora = cell.local_flora.filter(r => r !== brushValue);
+        // Apply Brush geometrically out to 'brushSize' radius
+        const paintedIds = new Set<number>();
+        const queue: { id: number, dist: number }[] = [{ id: targetHex.id, dist: 1 }];
+
+        while (queue.length > 0) {
+            const current = queue.shift()!;
+            if (paintedIds.has(current.id)) continue;
+            paintedIds.add(current.id);
+
+            if (current.dist < state.brushSize) {
+                const cell = newMap.find((h: any) => h.id === current.id);
+                if (cell && cell.neighbors) {
+                    cell.neighbors.forEach((nId: number) => {
+                        if (!paintedIds.has(nId)) {
+                            queue.push({ id: nId, dist: current.dist + 1 });
+                        }
+                    });
+                }
             }
         }
 
-        updatedMap[hexId] = cell;
+        // Apply mutations to all hexes in the radius
+        for (let i = 0; i < newMap.length; i++) {
+            if (paintedIds.has(newMap[i].id)) {
+                // If brushStrength < 100%, roll a percentage die to see if paint applies
+                if (state.brushStrength < 100) {
+                    if (Math.random() * 100 > state.brushStrength) continue;
+                }
+
+                const cell = { ...newMap[i] };
+                if (state.editMode === 'ELEVATION') {
+                    cell.elevation = state.activeBrush as number;
+                    if (cell.elevation <= 0.2) { cell.biome_tag = 'OCEAN'; cell.faction_owner = ''; }
+                    else if (cell.biome_tag === 'OCEAN') { cell.biome_tag = 'WASTELAND'; }
+                }
+                else if (state.editMode === 'BIOME') { cell.biome_tag = state.activeBrush as string; }
+                else if (state.editMode === 'FACTION') { cell.faction_owner = state.activeBrush === 'UNCLAIMED' ? '' : state.activeBrush as string; }
+                else if (state.editMode === 'RESOURCE') {
+                    if (!cell.local_resources) cell.local_resources = [];
+                    if (!cell.local_resources.includes(state.activeBrush as string)) {
+                        cell.local_resources = [...cell.local_resources, state.activeBrush as string];
+                    } else {
+                        cell.local_resources = cell.local_resources.filter((r: string) => r !== state.activeBrush);
+                    }
+                }
+                else if (state.editMode === 'FAUNA') {
+                    if (!cell.local_fauna) cell.local_fauna = [];
+                    if (!cell.local_fauna.includes(state.activeBrush as string)) {
+                        cell.local_fauna = [...cell.local_fauna, state.activeBrush as string];
+                    } else {
+                        cell.local_fauna = cell.local_fauna.filter((r: string) => r !== state.activeBrush);
+                    }
+                }
+                else if (state.editMode === 'FLORA') {
+                    if (!cell.local_flora) cell.local_flora = [];
+                    if (!cell.local_flora.includes(state.activeBrush as string)) {
+                        cell.local_flora = [...cell.local_flora, state.activeBrush as string];
+                    } else {
+                        cell.local_flora = cell.local_flora.filter((r: string) => r !== state.activeBrush);
+                    }
+                }
+                newMap[i] = cell;
+            }
+        }
 
         return {
-            worldData: { ...state.worldData, macro_map: updatedMap },
-            selectedHex: state.selectedHex?.id === hexId ? cell : state.selectedHex // Also update the inspector if we're looking at it
+            worldData: { ...state.worldData, macro_map: newMap },
+            selectedHex: state.selectedHex?.id === targetHex.id ? newMap.find((c: any) => c.id === targetHex.id) : state.selectedHex
         };
     }),
 

@@ -1,18 +1,29 @@
 import re
 from .schemas import LoreCategory
 
-def categorize_text(text: str) -> str:
+def categorize_text(text: str, filepath: str = "") -> str:
     """
-    Keyword-based heuristic categorization for un-tagged documents.
+    Categorizes based on folder path first, then falls back to term-frequency heuristics.
     """
     text_lower = text.lower()
-    
-    # Heuristics based on common fantasy tropes and game requirements
+    path_lower = filepath.lower()
+
+    # --- TIER 1: FOLDER PATH CHEAT CODES ---
+    # If the file is inside a specific folder, trust the user's organization 100%
+    if any(w in path_lower for w in ["faction", "organization", "guild", "cult"]): return LoreCategory.POLITICAL_FACTION
+    if any(w in path_lower for w in ["npc", "character", "people"]): return LoreCategory.PERSON
+    if any(w in path_lower for w in ["item", "equipment", "loot", "relic"]): return LoreCategory.ITEM
+    if any(w in path_lower for w in ["location", "city", "region", "biome"]): return LoreCategory.BIOME
+    if any(w in path_lower for w in ["flora", "plant", "herb"]): return LoreCategory.PLANT
+    if any(w in path_lower for w in ["fauna", "beast", "monster"]): return LoreCategory.ANIMAL
+    if any(w in path_lower for w in ["history", "lore", "myth"]): return LoreCategory.HISTORY
+
+    # --- TIER 2: TERM FREQUENCY HEURISTICS ---
     heuristics = {
         LoreCategory.POLITICAL_FACTION: ["faction", "empire", "kingdom", "alliance", "treaty", "senate", "rebel", "council", "territory", "capital", "noble"],
-        LoreCategory.PLANT: ["flora", "leaf", "root", "bloom", "grows", "herb", "shrub"],
-        LoreCategory.ANIMAL: ["beast", "fauna", "creature", "habitat", "fur", "scales", "migration"],
-        LoreCategory.RESOURCE: ["ore", "mine", "aetherium", "supply", "trade", "harvest", "scarcity"],
+        LoreCategory.PLANT: ["flora", "leaf", "root", "bloom", "grows", "herb", "shrub", "moss"],
+        LoreCategory.ANIMAL: ["beast", "fauna", "creature", "habitat", "fur", "scales", "migration", "predator"],
+        LoreCategory.RESOURCE: ["ore", "mine", "aetherium", "supply", "trade", "harvest", "scarcity", "metal"],
         LoreCategory.BIOME: ["climate", "terrain", "swamp", "mountain", "desert", "tundra", "ecosystem"],
         LoreCategory.TECH: ["forge", "mechanism", "gears", "automation", "steam", "alchemy", "invention"],
         LoreCategory.MAGIC: ["spell", "ritual", "enchantment", "mana", "leyline", "wizard", "sorcerer"],
@@ -22,19 +33,19 @@ def categorize_text(text: str) -> str:
         LoreCategory.HISTORY: ["era", "ancient", "war", "chronicle", "legacy", "ruins", "archeology"],
         LoreCategory.CULTURE: ["tradition", "language", "dialect", "custom", "etiquette", "festival", "folklore"]
     }
-    # Extract all whole words from the text to prevent substring matching 
-    # (e.g. 'fur' in 'further' triggering ANIMAL, or 'ore' in 'forest' triggering RESOURCE)
-    words_in_text = set(re.findall(r'\b\w+\b', text_lower))
     
-    # Count matches for each category
     counts = {}
     for category, keywords in heuristics.items():
-        count = sum(1 for word in keywords if word in words_in_text)
-        if count > 0:
-            counts[category] = count
+        score = 0
+        for word in keywords:
+            # Count EVERY occurrence of the word in the text, not just if it exists
+            score += len(re.findall(rf'\b{word}\b', text_lower))
+        
+        if score > 0:
+            counts[category] = score
             
     if not counts:
         return LoreCategory.LORE
         
-    # Return the category with the most matches
+    # Return the category with the absolute highest frequency of matching words
     return max(counts, key=counts.get)
