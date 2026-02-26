@@ -219,7 +219,7 @@ public:
 
         // 3. RNG Spawn Check (Did it successfully grow here?)
         if (chance(gen) <= lf.spawn_chance) {
-          cell.local_lifeforms.push_back(lf.name);
+          cell.local_fauna.push_back(lf.name);
           total_spawned++;
         }
       }
@@ -229,7 +229,8 @@ public:
   }
 
   void PopulateResourcesAndWildlife(std::vector<VoronoiCell> &grid) {
-    std::cout << "[S.A.G.A. PORT] Seeding Minerals, Flora, and Fauna..." << std::endl;
+    std::cout << "[S.A.G.A. PORT] Seeding Minerals, Flora, and Fauna..."
+              << std::endl;
 
     std::random_device rd;
     std::mt19937 gen(rd());

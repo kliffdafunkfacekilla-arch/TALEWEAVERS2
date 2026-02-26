@@ -1,0 +1,16 @@
+Microsoft (R) Build Engine version 16.11.6+a918ceb31 for .NET Framework
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+  main.cpp
+C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\src\map/VoronoiGen.cpp(87,1): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data [C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\build\saga_architect.vcxproj]
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\src\map/VoronoiGen.cpp(115,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data [C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\build\saga_architect.vcxproj]
+C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\src\map/VoronoiGen.cpp(116,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data [C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\build\saga_architect.vcxproj]
+C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\src\map/VoronoiGen.cpp(149,24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data [C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\build\saga_architect.vcxproj]
+C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\src\simulation/AutoPopulate.cpp(97,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data [C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\build\saga_architect.vcxproj]
+C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\src\simulation/AutoPopulate.cpp(222,16): error C2039: 'local_lifeforms': is not a member of 'VoronoiCell' [C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\build\saga_architect.vcxproj]
+C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\src\core/Types.h(90): message : see declaration of 'VoronoiCell' [C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\build\saga_architect.vcxproj]
+C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\src\simulation/AutoPopulate.cpp(361,21): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data [C:\Users\krazy\Documents\GitHub\TALEWEAVERS\saga_architect\build\saga_architect.vcxproj]
