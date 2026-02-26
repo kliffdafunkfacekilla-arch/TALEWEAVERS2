@@ -1,0 +1,42 @@
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Python / FastAPI ---
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+env/
+*.sqlite3
+*.db
+.pytest_cache/
+
+# --- Node.js / React (VTT Client) ---
+node_modules/
+dist/
+build/
+.npm/
+package-lock.json
+
+# --- C++ / CMake (World Architect) ---
+build/
+bin/
+obj/
+out/
+.vs/
+*.exe
+*.dll
+*.lib
+*.pdb
+*.suo
+*.user
+CMakeCache.txt
+CMakeFiles/
+
+# --- Local Databases & Data ---
+test_vault/.chroma/
+Saga_Master_World.json
