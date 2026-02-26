@@ -1,21 +1,12 @@
+import sys
+from pathlib import Path
+# Add root to sys.path to allow importing from saga_common
+sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+
 from pydantic import BaseModel, Field
 from typing import List, Dict, Optional, Union
 from enum import Enum
-
-class ItemCategory(str, Enum):
-    WEAPON = "WEAPON"
-    ARMOR = "ARMOR"
-    TOOL = "TOOL"
-    CONSUMABLE = "CONSUMABLE"
-    QUEST = "QUEST"
-    TREASURE = "TREASURE"
-    INFO = "INFO"
-
-# --- WEALTH SCHEMA ---
-class WealthState(BaseModel):
-    aetherium_coins: int = 0
-    d_dust_grams: float = 0.0
-    current_exchange_rate: float = Field(default=1.0, description="1 gram D-Dust = X Aetherium")
+from saga_common.models.core import ItemCategory, WealthState
 
 # --- BASE ITEM ---
 class BaseItem(BaseModel):

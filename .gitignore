@@ -40,3 +40,13 @@ CMakeFiles/
 # --- Local Databases & Data ---
 test_vault/.chroma/
 Saga_Master_World.json
+*.bak
+
+# --- AI Agents / Local Tools ---
+.gemini/
+.agents/
+.agent/
+_agents/
+_agent/
+verification_output.txt
+build_log.txt

@@ -11,7 +11,7 @@ echo Starting Character Engine (Port 8003)...
 start "Character Engine" cmd /c "cd saga_character_engine && python -m uvicorn main:app --port 8003 --reload"
 
 echo Starting Encounter Engine (Port 8004)...
-start "Encounter Engine" cmd /c "cd Module_4_Encounter_Engine && python -m uvicorn main:app --port 8004 --reload"
+start "Encounter Engine" cmd /c "cd saga_encounter_engine && python -m uvicorn main:app --port 8004 --reload"
 
 echo Starting Item Foundry (Port 8005)...
 start "Item Foundry" cmd /c "cd saga_item_engine && python -m uvicorn main:app --port 8005 --reload"
@@ -23,13 +23,13 @@ echo Starting Clash Engine (Port 8007)...
 start "Clash Engine" cmd /c "cd saga_clash_engine && python -m uvicorn main:app --port 8007 --reload"
 
 echo Starting Core Game Master (Port 8000)...
-start "Game Master Director" cmd /c "cd saga_gamemaster && python -m uvicorn server:app --port 8000 --reload"
+start "Game Master Director" cmd /c "cd saga_gamemaster && python -m uvicorn main:app --port 8000 --reload"
 
 echo Starting Campaign Weaver (Port 8010)...
-start "Campaign Weaver" cmd /c "cd TALEWEAVERS\saga_campaign_weaver && python -m uvicorn main:app --port 8010 --reload"
+start "Campaign Weaver" cmd /c "cd saga_campaign_weaver && python -m uvicorn main:app --port 8010 --reload"
 
 echo Starting VTT Client (Frontend)...
-start "VTT Client" cmd /c "cd TALEWEAVERS\saga_vtt_client && npm install && npm run dev"
+start "VTT Client" cmd /c "cd saga_vtt_client && npm install && npm run dev"
 
 echo All services are launching in separate windows!
 echo Once running, navigate to the frontend URL provided by the VTT Client terminal (usually http://localhost:5173).

@@ -1,13 +1,11 @@
+import sys
+from pathlib import Path
+# Add root to sys.path to allow importing from saga_common
+sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+
 from pydantic import BaseModel
 from typing import Optional
-
-class CombatantState(BaseModel):
-    name: str
-    current_hp: int = 10         # The engine needs this to calculate trauma!
-    attack_or_defense_pool: int  
-    weapon_damage_dice: Optional[str] = None  
-    stamina_burned: int = 0      
-    focus_burned: int = 0        
+from saga_common.models.core import CombatantState
 
 class ClashRequest(BaseModel):
     attacker: CombatantState
