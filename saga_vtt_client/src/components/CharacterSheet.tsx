@@ -5,7 +5,7 @@ export const CharacterSheet: React.FC = () => {
     const [species, setSpecies] = useState('PLANT');
 
     // Core Attributes (The 6/6 Split)
-    const [stats, setStats] = useState({
+    const [stats] = useState({
         might: 10, endurance: 10, vitality: 10, fortitude: 10, reflexes: 10, finesse: 10,
         knowledge: 10, logic: 10, charm: 10, willpower: 10, awareness: 10, intuition: 10
     });

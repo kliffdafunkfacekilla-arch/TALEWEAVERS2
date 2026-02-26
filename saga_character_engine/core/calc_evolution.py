@@ -34,16 +34,44 @@ def apply_biology(base_stats: CoreAttributes, evolutions: BiologicalEvolutions) 
         evolutions.special_slot,
     ]
     
+    # Build a lookup for easier matching
+    stat_map = {
+        "might": "might", "endurance": "endurance", "vitality": "vitality",
+        "fortitude": "fortitude", "reflex": "reflexes", "reflexes": "reflexes", "finesse": "finesse",
+        "knowledge": "knowledge", "logic": "logic", "charm": "charm",
+        "willpower": "willpower", "awareness": "awareness", "intuition": "intuition"
+    }
+
     # Loop through the database. If a trait matches a player's choice, apply it.
     for trait in matrix_db:
         trait_name = trait.get("name", "")
         
         if trait_name in chosen_traits and trait_name != "Standard":
-            # 1. Apply stat bonuses (e.g., {"fortitude": 2})
-            for stat, bonus in trait.get("stats", {}).items():
-                if hasattr(base_stats, stat):
-                    current_val = getattr(base_stats, stat)
-                    setattr(base_stats, stat, current_val + bonus)
+            # 1. Apply stat bonuses
+            # Format could be {"fortitude": 2} or {"+2 reflex, +1 finesse": 1}
+            for stat_key, bonus_val in trait.get("stats", {}).items():
+                # Handle old format {"fortitude": 2}
+                if stat_key in stat_map:
+                    mapped_stat = stat_map[stat_key]
+                    if hasattr(base_stats, mapped_stat):
+                        current_val = getattr(base_stats, mapped_stat)
+                        setattr(base_stats, mapped_stat, current_val + bonus_val)
+                # Handle string format like "+2 reflex, +1 finesse"
+                elif "," in stat_key or "+" in stat_key or "-" in stat_key:
+                    import re
+                    # Find and parse all '+1 stat' or '-2 stat'
+                    matches = re.finditer(r'([+-]?\s*\d+)\s*([a-zA-Z]+)', stat_key)
+                    for match in matches:
+                        try:
+                            num = int(match.group(1).replace(' ', ''))
+                            stat_name = match.group(2).lower()
+                            if stat_name in stat_map:
+                                mapped_stat = stat_map[stat_name]
+                                if hasattr(base_stats, mapped_stat):
+                                    current_val = getattr(base_stats, mapped_stat)
+                                    setattr(base_stats, mapped_stat, current_val + num * bonus_val)
+                        except ValueError:
+                            pass
             
             # 2. Add passive skills or abilities linked to this evolution
             if "passives" in trait:

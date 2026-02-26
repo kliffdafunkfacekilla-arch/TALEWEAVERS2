@@ -10,7 +10,6 @@ interface WorldArchitectProps {
 
 export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const setWorldData = useGameStore((s) => s.setWorldData);
-    const worldData = useGameStore((s) => s.worldData);
     const selectedHex = useGameStore((s) => s.selectedHex);
 
     // THE MAP LENSES
@@ -797,18 +796,19 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                 </div>
                             )}
                         </div>
-                )}
                     </div>
+                )}
+            </div>
 
             {/* RIGHT PANEL: Entity Editor & Calendar Editor */}
-                <div className="w-[350px] bg-zinc-900/90 border-l border-zinc-800 flex flex-col shadow-2xl z-10 flex-shrink-0">
-                    <div className="flex-1 overflow-hidden flex flex-col h-1/2">
-                        <EntityEditor />
-                    </div>
-                    <div className="flex-1 overflow-hidden flex flex-col h-1/2">
-                        <CalendarEditor />
-                    </div>
+            <div className="w-[350px] bg-zinc-900/90 border-l border-zinc-800 flex flex-col shadow-2xl z-10 flex-shrink-0">
+                <div className="flex-1 overflow-hidden flex flex-col h-1/2">
+                    <EntityEditor />
+                </div>
+                <div className="flex-1 overflow-hidden flex flex-col h-1/2">
+                    <CalendarEditor />
                 </div>
             </div>
-            );
+        </div>
+    );
 }

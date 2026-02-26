@@ -8,7 +8,7 @@ export const CalendarEditor: React.FC = () => {
         fetch('http://localhost:8004/api/config/calendar')
             .then(res => res.json())
             .then(data => setCalendar(data))
-            .catch(err => console.error("Failed to load Calendar config. Is Port 8004 running?", err));
+            .catch(() => console.error("Failed to load Calendar config. Is Port 8004 running?"));
     }, []);
 
     const saveConfig = () => {
@@ -17,7 +17,7 @@ export const CalendarEditor: React.FC = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(calendar)
         }).then(() => alert("God Engine Calendar Updated!"))
-            .catch(err => alert("Save failed. Is Port 8004 running?"));
+            .catch(() => alert("Save failed. Is Port 8004 running?"));
     };
 
     if (!calendar) return <div className="text-zinc-500 p-4 border-t border-zinc-800 bg-zinc-950 text-xs font-mono uppercase tracking-widest">Loading Chronos Config... (Port 8004)</div>;

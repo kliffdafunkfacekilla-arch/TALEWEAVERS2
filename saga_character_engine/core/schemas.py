@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 # Add root to sys.path to allow importing from saga_common
-sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 
 from pydantic import BaseModel, Field
 from typing import List, Dict, Optional
