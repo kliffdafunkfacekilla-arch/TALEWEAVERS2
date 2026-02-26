@@ -11,6 +11,10 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const worldData = useGameStore((s) => s.worldData);
     const selectedHex = useGameStore((s) => s.selectedHex);
 
+    // THE MAP LENSES
+    const viewLens = useGameStore((s) => s.viewLens);
+    const setViewLens = useGameStore((s) => s.setViewLens);
+
     const [activeTab, setActiveTab] = useState<'LORE' | 'GEOGRAPHY' | 'CLIMATE' | 'BIOMES' | 'RESOURCES' | 'ECOSYSTEM' | 'FACTIONS'>('LORE');
     const [isGenerating, setIsGenerating] = useState(false);
 
@@ -22,8 +26,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const [isLoreProcessing, setIsLoreProcessing] = useState(false);
 
     // --- ARCHITECT'S PALETTE (EDIT MODE) ---
-    const [editMode, setEditMode] = useState<'NONE' | 'BIOME' | 'FACTION' | 'RESOURCE' | 'FAUNA' | 'FLORA'>('NONE');
-    const [activeBrush, setActiveBrush] = useState<string>(''); // e.g., "SCORCHED_DESERT" or "Iron_Ore"
+    const [editMode, setEditMode] = useState<'NONE' | 'ELEVATION' | 'BIOME' | 'FACTION' | 'RESOURCE' | 'FAUNA' | 'FLORA'>('NONE');
+    const [activeBrush, setActiveBrush] = useState<string | number>(''); // e.g., "SCORCHED_DESERT" or 0.1
 
     // --- 1. GEOGRAPHY STATE ---
     const [hexCount, setHexCount] = useState(2500);
@@ -552,34 +556,56 @@ return (
         <div className="flex-grow relative bg-[#050505] overflow-hidden">
             <MapRenderer />
 
+            {/* --- TOP LEFT: VIEW LENSES --- */}
+            <div className="absolute top-4 left-4 flex flex-col space-y-2 z-20">
+                {['PHYSICAL', 'POLITICAL', 'RESOURCE', 'THREAT'].map(lens => (
+                    <button
+                        key={lens}
+                        onClick={() => setViewLens(lens as any)}
+                        className={`px-3 py-2 text-[10px] font-bold uppercase tracking-widest border transition-all ${viewLens === lens ? 'bg-amber-600 text-black border-amber-500' : 'bg-zinc-900/80 text-zinc-400 border-zinc-700 hover:text-white'}`}
+                    >
+                        {lens} LENS
+                    </button>
+                ))}
+            </div>
+
             {/* THE ARCHITECT'S PALETTE: Floating Toolbar */}
             {worldData && (
-                <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-zinc-900/95 border border-amber-900/50 p-2 rounded-lg shadow-2xl backdrop-blur-md z-30 flex items-center gap-4">
-                    <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest pl-2">Brush Tool</span>
-                    <div className="flex gap-1">
-                        {(['NONE', 'BIOME', 'FACTION', 'RESOURCE', 'FAUNA', 'FLORA'] as const).map(mode => (
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-zinc-900/95 border border-amber-900/50 p-2 rounded-lg shadow-2xl backdrop-blur-md z-30 flex flex-col items-center gap-2">
+                    <div className="flex gap-1 border-b border-zinc-800 pb-2 mb-1 w-full justify-center">
+                        {(['NONE', 'ELEVATION', 'BIOME', 'FACTION', 'RESOURCE', 'FAUNA', 'FLORA'] as const).map(mode => (
                             <button
                                 key={mode}
                                 onClick={() => { setEditMode(mode); setActiveBrush(''); }}
-                                className={`px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest transition-colors rounded ${editMode === mode ? 'bg-amber-500 text-black' : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'}`}
+                                className={`px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest transition-colors rounded ${editMode === mode ? 'bg-amber-500 text-black' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'}`}
                             >
-                                {mode}
+                                {mode === 'NONE' ? 'INSPECT' : mode}
                             </button>
                         ))}
                     </div>
 
-                    {editMode !== 'NONE' && (
-                        <div className="flex items-center gap-2 border-l border-zinc-700 pl-4">
-                            <span className="text-[10px] text-zinc-400 uppercase">Paint:</span>
-                            <input
-                                type="text"
-                                value={activeBrush}
-                                onChange={(e) => setActiveBrush(e.target.value.replace(/\s+/g, '_'))}
-                                placeholder={`Enter ${editMode} name...`}
-                                className="bg-zinc-950 border border-zinc-700 p-1 px-2 text-white text-xs w-48 outline-none focus:border-amber-500"
-                            />
-                        </div>
-                    )}
+                    <div className="flex items-center gap-2">
+                        {editMode === 'ELEVATION' && (
+                            <div className="flex space-x-2">
+                                <span className="text-[10px] text-zinc-500 uppercase flex items-center pr-2 border-r border-zinc-800">Carve</span>
+                                <button onClick={() => setActiveBrush(0.1)} className={`px-2 py-1 text-[9px] font-mono ${activeBrush === 0.1 ? 'text-blue-500 border border-blue-500' : 'text-zinc-500 border border-transparent'}`}>OCEAN TRENCH</button>
+                                <button onClick={() => setActiveBrush(0.3)} className={`px-2 py-1 text-[9px] font-mono ${activeBrush === 0.3 ? 'text-green-500 border border-green-500' : 'text-zinc-500 border border-transparent'}`}>FLAT LAND</button>
+                                <button onClick={() => setActiveBrush(0.9)} className={`px-2 py-1 text-[9px] font-mono ${activeBrush === 0.9 ? 'text-zinc-300 border border-zinc-300' : 'text-zinc-500 border border-transparent'}`}>MOUNTAIN PEAK</button>
+                            </div>
+                        )}
+                        {editMode !== 'NONE' && editMode !== 'ELEVATION' && (
+                            <>
+                                <span className="text-[10px] text-zinc-400 uppercase">Paint:</span>
+                                <input
+                                    type="text"
+                                    value={activeBrush as string}
+                                    onChange={(e) => setActiveBrush(e.target.value.replace(/\s+/g, '_'))}
+                                    placeholder={`Enter ${editMode} name...`}
+                                    className="bg-zinc-950 border border-zinc-700 p-1 px-2 text-white text-xs w-48 outline-none focus:border-amber-500"
+                                />
+                            </>
+                        )}
+                    </div>
                 </div>
             )}
 

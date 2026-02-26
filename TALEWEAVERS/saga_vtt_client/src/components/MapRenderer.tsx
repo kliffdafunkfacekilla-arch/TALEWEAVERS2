@@ -251,13 +251,12 @@ export function MapRenderer() {
     // --- RENDER LOOP ---
     const draw = () => {
         mapGraphics.clear();
-        const currentData = useGameStore.getState().worldData;
-        if (!currentData) return;
+        const state = useGameStore.getState();
+        if (!state.worldData) return;
 
-        currentData.macro_map.forEach((cell: any) => {
+        state.worldData.macro_map.forEach((cell: any) => {
             const cx = cell.x;
             const cy = cell.y;
-            const color = getBiomeColor(cell.biome_tag, cell.elevation);
 
             const size = 12;
             const points: number[] = [];
@@ -267,41 +266,76 @@ export function MapRenderer() {
                 points.push(cy + size * Math.sin(angle));
             }
 
-            // 1. Draw Biome
-            mapGraphics.beginFill(color);
-            mapGraphics.drawPolygon(points);
-            mapGraphics.endFill();
+            // ==========================================
+            // LENS 1: PHYSICAL (Biomes & Elevation)
+            // ==========================================
+            if (state.viewLens === 'PHYSICAL') {
+                let color = getBiomeColor(cell.biome_tag, cell.elevation);
 
-            // 2. Draw Borders (If Faction Owned)
-            if (cell.faction_owner) {
-                mapGraphics.lineStyle(2, cell.faction_owner === 'The_Rot_Coven' ? 0x991b1b : 0x1d4ed8, 0.8);
+                // Add shading for mountains so terrain pops
+                if (cell.elevation > 0.8) color = 0xd4d4d8; // Snowcap
+                else if (cell.elevation > 0.6) color = 0x52525b; // Dark Grey Rock
+
+                mapGraphics.beginFill(color);
                 mapGraphics.drawPolygon(points);
-            }
-
-            // 3. Draw Resource Indicators
-            if (cell.local_resources && cell.local_resources.length > 0) {
-                mapGraphics.beginFill(0x3b82f6); // Blue dot for resources
-                mapGraphics.drawCircle(cx, cy - 4, 3);
                 mapGraphics.endFill();
             }
 
-            // 4. Draw Fauna Indicators
-            if (cell.local_fauna && cell.local_fauna.length > 0) {
-                mapGraphics.beginFill(0xef4444); // Red dot for fauna
-                mapGraphics.drawCircle(cx - 4, cy + 4, 2);
+            // ==========================================
+            // LENS 2: POLITICAL (Factions & Borders)
+            // ==========================================
+            else if (state.viewLens === 'POLITICAL') {
+                // Oceans are black, Land is dark grey, Owned land is colored
+                let color = cell.elevation <= 0.2 ? 0x050505 : 0x1f1f22;
+                if (cell.faction_owner === 'The_Rot_Coven') color = 0x7f1d1d; // Dark Red
+                if (cell.faction_owner === 'Iron_Empire') color = 0x1e3a8a; // Dark Blue
+
+                mapGraphics.beginFill(color);
+                mapGraphics.drawPolygon(points);
                 mapGraphics.endFill();
             }
 
-            // 5. Draw Flora Indicators
-            if (cell.local_flora && cell.local_flora.length > 0) {
-                mapGraphics.beginFill(0x22c55e); // Green dot for flora
-                mapGraphics.drawCircle(cx + 4, cy + 4, 2);
+            // ==========================================
+            // LENS 3: RESOURCE (Economy Map)
+            // ==========================================
+            else if (state.viewLens === 'RESOURCE') {
+                mapGraphics.beginFill(0x09090b); // Pitch black map
+                mapGraphics.lineStyle(1, 0x27272a, 0.5); // Faint hex borders
+                mapGraphics.drawPolygon(points);
+                mapGraphics.endFill();
+
+                // Draw bright icons for resources
+                if (cell.local_resources?.includes('Iron_Ore')) {
+                    mapGraphics.beginFill(0xf97316); // Orange Dot
+                    mapGraphics.drawCircle(cx, cy, 4);
+                    mapGraphics.endFill();
+                }
+                if (cell.local_flora?.includes('D-Dust_Spores')) {
+                    mapGraphics.beginFill(0x22c55e); // Neon Green Dot
+                    mapGraphics.drawCircle(cx - 3, cy + 3, 3);
+                    mapGraphics.endFill();
+                }
+            }
+
+            // ==========================================
+            // LENS 4: THREAT (Danger Heatmap)
+            // ==========================================
+            else if (state.viewLens === 'THREAT') {
+                let heatColor = 0x3b82f6; // Safe (Level 1)
+                if (cell.threat_level === 2) heatColor = 0xeab308; // Warning
+                if (cell.threat_level === 3) heatColor = 0xf97316; // Dangerous
+                if (cell.threat_level >= 4) heatColor = 0xef4444; // Lethal
+
+                mapGraphics.beginFill(cell.elevation <= 0.2 ? 0x050505 : heatColor);
+                mapGraphics.drawPolygon(points);
                 mapGraphics.endFill();
             }
 
-            // 6. Draw City Indicator
+            // --- GLOBAL OVERLAYS ---
+            // Always draw City dots no matter what lens is active
             if (cell.is_city) {
                 mapGraphics.beginFill(0xffffff);
+                mapGraphics.lineStyle(1, 0x000000, 1);
                 mapGraphics.drawCircle(cx, cy, 4);
                 mapGraphics.endFill();
             }

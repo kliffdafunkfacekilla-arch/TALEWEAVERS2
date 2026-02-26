@@ -157,12 +157,16 @@ export interface ClientGameState {
     setWorldData: (data: WorldData) => void;
     clearWorld: () => void;
 
+    // NEW: Map Visual Lenses
+    viewLens: 'PHYSICAL' | 'POLITICAL' | 'RESOURCE' | 'THREAT';
+    setViewLens: (lens: 'PHYSICAL' | 'POLITICAL' | 'RESOURCE' | 'THREAT') => void;
+
     // Hex Inspector
     selectedHex: HexCell | null;
     setSelectedHex: (hex: HexCell | null) => void;
 
     // The Architect's Palette: Edit Brush Logic
-    editHex: (hexId: number, editMode: string, brushValue: string) => void;
+    editHex: (hexId: number, editMode: string, brushValue: string | number) => void;
 
     // Campaign State (Module 8 integration)
     activeCampaignId: string | null;
@@ -233,8 +237,9 @@ export interface ClientGameState {
 
 // ── Initial State ─────────────────────────────────────────────────────
 const INITIAL_STATE: Omit<ClientGameState,
-    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'editHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet' | 'setClientLoadout' | 'addInjury'
+    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'editHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet' | 'setClientLoadout' | 'addInjury' | 'setViewLens'
 > = {
+    viewLens: 'PHYSICAL',
     currentScreen: 'MAIN_MENU',
     worldData: null,
     selectedHex: null,
@@ -295,6 +300,9 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     // Navigation
     setScreen: (screen) => set({ currentScreen: screen }),
 
+    // Map Lenses
+    setViewLens: (lens) => set({ viewLens: lens }),
+
     // World Memory
     setWorldData: (data) => set({ worldData: data }),
     clearWorld: () => set({ worldData: null }),
@@ -303,7 +311,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     setSelectedHex: (hex) => set({ selectedHex: hex }),
 
     // The Architect's Palette Logic
-    editHex: (hexId: number, editMode: string, brushValue: string) => set((state) => {
+    editHex: (hexId: number, editMode: string, brushValue: string | number) => set((state) => {
         if (!state.worldData) return state;
 
         const updatedMap = [...state.worldData.macro_map];
@@ -314,7 +322,18 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
         if (!cell.local_fauna) cell.local_fauna = [];
         if (!cell.local_flora) cell.local_flora = [];
 
-        if (editMode === 'BIOME') {
+        // --- THE TERRAIN CARVER ---
+        if (editMode === 'ELEVATION') {
+            cell.elevation = brushValue as number;
+            // Auto-fix biomes if you sink land into the ocean
+            if (cell.elevation <= 0.2) {
+                cell.biome_tag = 'OCEAN';
+                cell.faction_owner = ''; // Drown the city!
+            } else if (cell.biome_tag === 'OCEAN') {
+                cell.biome_tag = 'PLAINS'; // Default land if you raise the ocean floor
+            }
+        }
+        else if (editMode === 'BIOME') {
             cell.biome_tag = brushValue;
         }
         else if (editMode === 'FACTION') {
