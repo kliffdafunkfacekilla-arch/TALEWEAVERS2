@@ -1,0 +1,471 @@
+{
+    "AQUATIC": {
+        "head_slot": [
+            "Standard",
+            "Melon/Dome",
+            "Ampullae Pores",
+            "Lateral Line",
+            "Large Lenses",
+            "Olfactory Nares",
+            "Wide-Set Eyes",
+            "Illicium Light",
+            "Parrot-Beak"
+        ],
+        "body_slot": [
+            "Standard",
+            "Calcium Plate",
+            "Fat Layer",
+            "Mucus Coat",
+            "Chromatophores",
+            "Urchin Spines",
+            "Soft Tissue"
+        ],
+        "arms_slot": [
+            "Standard",
+            "Chitin Gauntlets",
+            "Suction Fingers",
+            "Fin-Spurs",
+            "Bone-Plate Head",
+            "Electric Nodes",
+            "Mucus Webbing",
+            "Mantis-Club Fists",
+            "Nematocysts"
+        ],
+        "legs_slot": [
+            "Standard",
+            "Fin-Calves",
+            "Heavy Boots",
+            "Armored Greaves",
+            "Gas Bladder",
+            "Reverse-Joints",
+            "Suction Toes",
+            "Soft-Soles",
+            "Webbed Feet"
+        ],
+        "skin_slot": [
+            "Standard",
+            "Pressure Skin",
+            "Placoid Scales"
+        ],
+        "special_slot": [
+            "Standard",
+            "Ink Sac",
+            "Starfish DNA",
+            "Nacre Gland",
+            "Puffer-Toxin",
+            "Whale-Song",
+            "Ray-Wings",
+            "Bioluminescence",
+            "Remora-Disk"
+        ],
+        "size_slot": [
+            "Standard",
+            "Small Frame",
+            "Light Frame",
+            "Balanced Frame",
+            "Heavy Frame",
+            "Siege Frame"
+        ],
+        "ancestry_slot": [
+            "Standard",
+            "Selachimorpha Anatomy",
+            "Crustacean Anatomy",
+            "Cephalopod Anatomy",
+            "Cetacean Anatomy",
+            "Batoidea Anatomy",
+            "Anguilliform Anatomy",
+            "Cnidarian Anatomy",
+            "Abyssal Anatomy"
+        ]
+    },
+    "AVIAN": {
+        "head_slot": [
+            "Standard",
+            "Magnifying Lens",
+            "Tubular Eyes",
+            "Magneto-Receptors",
+            "Lateral Eyes",
+            "Olfactory Bulb",
+            "Gyro-Head",
+            "Facial Disk",
+            "Crest Display"
+        ],
+        "body_slot": [
+            "Standard",
+            "Insulating Down",
+            "Preen Gland",
+            "Iridescent Plume",
+            "Hollow Bones",
+            "Crop Pouch"
+        ],
+        "arms_slot": [
+            "Standard",
+            "Spurred Wrists",
+            "Heavy Pinions",
+            "Bone-Wings",
+            "Clawed Digits",
+            "Swept Wings",
+            "Serrated Fringes",
+            "Strong Shoulders",
+            "Flipper-Wings"
+        ],
+        "legs_slot": [
+            "Standard",
+            "Raptor Claws",
+            "Running Struts",
+            "Zygodactyl Toes",
+            "Stilt Legs",
+            "Cassowary Claw",
+            "Locking Tendons",
+            "Webbed Feet",
+            "Shock Absorbers"
+        ],
+        "skin_slot": [
+            "Standard",
+            "Keratin Scales",
+            "Camo-Plumage",
+            "Thick Skin"
+        ],
+        "special_slot": [
+            "Standard",
+            "Syrinx Box",
+            "Song-Throat",
+            "Fan Tail",
+            "Counter-Tail",
+            "Hooked Bill",
+            "Nut-Cracker Bill",
+            "Throat Sac",
+            "Boom-Sack"
+        ],
+        "size_slot": [
+            "Standard",
+            "Small Frame",
+            "Light Frame",
+            "Balanced Frame",
+            "Heavy Frame",
+            "Siege Frame"
+        ],
+        "ancestry_slot": [
+            "Standard",
+            "Accipiter Anatomy",
+            "Corvus Anatomy",
+            "Strigiform Anatomy",
+            "Psittacine Anatomy",
+            "Waterfowl Anatomy",
+            "Ratite Anatomy",
+            "Spheniscid Anatomy",
+            "Wading Anatomy"
+        ]
+    },
+    "INSECT": {
+        "head_slot": [
+            "Standard",
+            "Faceted Eyes",
+            "Feelers",
+            "Light Sensors",
+            "Chemical Receptors",
+            "Serrated Jaws",
+            "Needle Mouth",
+            "Biolum-Glands",
+            "Ovipositor"
+        ],
+        "body_slot": [
+            "Standard",
+            "Hard Shell",
+            "Stick-Bug Shape",
+            "Warning Colors",
+            "Thorax Spines",
+            "Sensory Bristles",
+            "Abdominal Light",
+            "Compressed Thorax",
+            "Molting Hormones"
+        ],
+        "arms_slot": [
+            "Standard",
+            "Raptorial Blades",
+            "Crushing Claws",
+            "Spinneret Wrists",
+            "Barbed Forelegs",
+            "Flat-Plate Arms",
+            "Tiny Claws",
+            "Spade Limbs",
+            "Hypodermic Spurs"
+        ],
+        "legs_slot": [
+            "Standard",
+            "Multi-Legs",
+            "Hydraulic Knees",
+            "Hooked Tarsi",
+            "Surface Tension",
+            "Buzzing Wings",
+            "Soft-Hairs",
+            "Rhythmic Gait",
+            "Paddle Hairs"
+        ],
+        "skin_slot": [
+            "Standard"
+        ],
+        "special_slot": [
+            "Standard",
+            "Abdominal Spur",
+            "Rear Spinnerets",
+            "Pheromone Cloud",
+            "Chemical Chamber",
+            "Elytra/Wings",
+            "Stridulation Legs",
+            "Brood Sac",
+            "Mind-Spore"
+        ],
+        "size_slot": [
+            "Standard",
+            "Small Frame",
+            "Light Frame",
+            "Balanced Frame",
+            "Heavy Frame",
+            "Siege Frame"
+        ],
+        "ancestry_slot": [
+            "Standard",
+            "Coleoptera Anatomy",
+            "Mantodea Anatomy",
+            "Arachnid Anatomy",
+            "Formicidae Anatomy",
+            "Odonata Anatomy",
+            "Scorpiones Anatomy",
+            "Lepidoptera Anatomy",
+            "Myriapod Anatomy"
+        ]
+    },
+    "MAMMAL": {
+        "head_slot": [
+            "Standard",
+            "Tapetum Lucidum",
+            "Wet Nose",
+            "Swivel Ears",
+            "Long Whiskers",
+            "Pit Organs",
+            "Fovea Lens",
+            "Mobile Brow",
+            "Cranial Ridge"
+        ],
+        "body_slot": [
+            "Standard",
+            "Bone Plating",
+            "Dense Wool",
+            "Quill-Coat",
+            "Blubber Layer"
+        ],
+        "arms_slot": [
+            "Standard",
+            "Retractable Claws",
+            "Heavy Paws",
+            "Opposable Thumbs",
+            "Shovel Claws",
+            "Needle Fangs",
+            "Iron Hooves",
+            "Dexterous Digits",
+            "Hooked Talons"
+        ],
+        "legs_slot": [
+            "Standard",
+            "Fast-Twitch Muscle",
+            "Spring Tendons",
+            "Reversible Ankles",
+            "Webbed Digits",
+            "Pillar Legs",
+            "Padded Soles",
+            "Split Hooves",
+            "Locking Joints"
+        ],
+        "skin_slot": [
+            "Standard",
+            "Oily Fur",
+            "Chroma-Fur",
+            "Loose Skin",
+            "Calloused Hide"
+        ],
+        "special_slot": [
+            "Standard",
+            "Musk Glands",
+            "Prehensile Tail",
+            "Skin Flaps",
+            "Resonance Throat",
+            "Toxic Sacs",
+            "Cheek Pouches",
+            "Tail Flag",
+            "Counter-Tail"
+        ],
+        "size_slot": [
+            "Standard"
+        ],
+        "ancestry_slot": [
+            "Standard",
+            "Bovine Anatomy",
+            "Cervid Anatomy",
+            "Primate Anatomy",
+            "Ursine Anatomy",
+            "Rodent Anatomy",
+            "Bandit Anatomy",
+            "Canine Anatomy",
+            "Feline Anatomy"
+        ]
+    },
+    "PLANT": {
+        "head_slot": [
+            "Standard",
+            "Photosensors",
+            "Root-Nerves",
+            "Scent-Glands",
+            "Mycelium-Brain",
+            "Thermal-Pits",
+            "Chemo-Receptors",
+            "Sweet-Nectar",
+            "Moisture-Sense"
+        ],
+        "body_slot": [
+            "Standard",
+            "Iron-Wood",
+            "Fungal-Flesh",
+            "Hydraulic-Vines",
+            "Reed-Structure"
+        ],
+        "arms_slot": [
+            "Standard",
+            "Heavy Branches",
+            "Whip-Limbs",
+            "Needle-Fingers",
+            "Puff-Ball Hands",
+            "Fly-Trap Jaws",
+            "Sticky Palms",
+            "Cactus-Spines",
+            "Root-Fists"
+        ],
+        "legs_slot": [
+            "Standard",
+            "Stump-Roots",
+            "Vine-Mass",
+            "Spore-Cloud",
+            "Roll-Cage",
+            "Sub-Surface",
+            "Stalk-Legs",
+            "Drill-Roots",
+            "Tendrils"
+        ],
+        "skin_slot": [
+            "Standard",
+            "Spiked-Skin",
+            "Soft-Moss",
+            "Cuticle-Layer",
+            "Cork-Skin"
+        ],
+        "special_slot": [
+            "Standard",
+            "Rapid-Cell",
+            "Poison-Sap",
+            "Goodberry",
+            "Pollen-Cloud",
+            "Mandrake-Root",
+            "Root-Burst",
+            "Fungal-Spore",
+            "Pollen-Link"
+        ],
+        "size_slot": [
+            "Standard",
+            "Small Frame",
+            "Light Frame",
+            "Balanced Frame",
+            "Heavy Frame",
+            "Siege Frame"
+        ],
+        "ancestry_slot": [
+            "Standard",
+            "Arboreal Anatomy",
+            "Floral Anatomy",
+            "Creeper Anatomy",
+            "Bush Anatomy",
+            "Succulent Anatomy",
+            "Fungal Anatomy",
+            "Bryophyte Anatomy",
+            "Pteridophyte Anatomy"
+        ]
+    },
+    "REPTILE": {
+        "head_slot": [
+            "Standard",
+            "Pit Organs",
+            "Forked Tongue",
+            "Swivel Eyes",
+            "Nictitating Membrane",
+            "Spectacle Hood",
+            "Parietal Eye",
+            "Locking Jaw",
+            "Venom Glands"
+        ],
+        "body_slot": [
+            "Standard",
+            "Osteoderms",
+            "Stem-Cell Biology",
+            "Dorsal Spines",
+            "Mucus Coat",
+            "Layered Scutes"
+        ],
+        "arms_slot": [
+            "Standard",
+            "Muscular Coils",
+            "Sickle Claws",
+            "Van der Waals Pads",
+            "Club-Fists",
+            "Hollow Spurs",
+            "Spade Claws",
+            "Rib-Wings",
+            "Change-Skin"
+        ],
+        "legs_slot": [
+            "Standard",
+            "Bipedal Hips",
+            "Paddle Tail",
+            "Coiled Muscles",
+            "Grip Talons",
+            "Soft Scales",
+            "Hooked Toes",
+            "Webbed Fringe",
+            "Desert Scales"
+        ],
+        "skin_slot": [
+            "Standard",
+            "Color-Shift Scales",
+            "Solar Scales",
+            "Elastic Hide"
+        ],
+        "special_slot": [
+            "Standard",
+            "Prehensile Tail",
+            "Tail Rattle",
+            "Neck Frill",
+            "Poison Sacs",
+            "Autotomy Tail",
+            "Throat Gland",
+            "Constrictor Coils",
+            "Seismic Scales"
+        ],
+        "size_slot": [
+            "Standard",
+            "Small Frame",
+            "Light Frame",
+            "Balanced Frame",
+            "Heavy Frame",
+            "Siege Frame"
+        ],
+        "ancestry_slot": [
+            "Standard",
+            "Crocodilian Anatomy",
+            "Serpentine Anatomy",
+            "Testudine Anatomy",
+            "Climbing Anatomy",
+            "Varanid Anatomy",
+            "Arboreal Anatomy",
+            "Theropod Anatomy",
+            "Display Anatomy"
+        ]
+    }
+}

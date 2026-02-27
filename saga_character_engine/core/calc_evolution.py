@@ -26,6 +26,8 @@ def apply_biology(base_stats: CoreAttributes, evolutions: BiologicalEvolutions) 
     
     # Map the schema slots to the player's choices
     chosen_traits = [
+        evolutions.size_slot,
+        evolutions.ancestry_slot,
         evolutions.head_slot,
         evolutions.body_slot,
         evolutions.arms_slot,

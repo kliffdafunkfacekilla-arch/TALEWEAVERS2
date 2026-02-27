@@ -9,6 +9,8 @@ from saga_common.models.core import CoreAttributes, DerivedVitals
 
 class BiologicalEvolutions(BaseModel):
     species_base: str    # e.g., "PLANT", "AVIAN"
+    size_slot: str = "Standard"
+    ancestry_slot: str = "Standard"
     head_slot: str = "Standard"
     body_slot: str = "Standard"
     arms_slot: str = "Standard"
