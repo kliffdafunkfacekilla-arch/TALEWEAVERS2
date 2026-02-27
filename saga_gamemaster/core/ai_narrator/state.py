@@ -13,6 +13,7 @@ class GameState(TypedDict):
     current_location: str
     active_quests: List[Dict]
     player_vitals: Dict
+    active_encounter: Optional[Dict] # New: The mechanical data for the current threat
     
     # 3. Mechanical Results
     math_log: str               # Output from Math Engines

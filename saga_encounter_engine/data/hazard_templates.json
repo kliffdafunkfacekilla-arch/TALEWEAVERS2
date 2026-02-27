@@ -1,0 +1,67 @@
+{
+    "Razor-Vines": {
+        "title": "Overgrown Razor-Vines",
+        "narrative": "The path is choked with thick, pulsing green vines covered in translucent thorns.",
+        "detection": {
+            "triad": "Awareness + Knowledge",
+            "dc_base": 12
+        },
+        "disarm": {
+            "triad": "Finesse + Intuition",
+            "dc_base": 14
+        },
+        "effect": {
+            "damage": "2d4 Piercing",
+            "save": "Reflexes Half",
+            "injury": "Minor Body"
+        }
+    },
+    "Hidden Pitfall": {
+        "title": "Leaves-Covered Pit",
+        "narrative": "The ground looks suspiciously flat and undisturbed under the heavy leaf litter.",
+        "detection": {
+            "triad": "Awareness + Intuition",
+            "dc_base": 15
+        },
+        "disarm": {
+            "triad": "Logic + Finesse",
+            "dc_base": 13
+        },
+        "effect": {
+            "damage": "1d10 Blunt",
+            "save": "Reflexes Negates",
+            "injury": "Minor Body"
+        }
+    },
+    "Cold Snap": {
+        "title": "Magical Frost-Vein",
+        "narrative": "The air suddenly drops to sub-zero temperatures as you step into a blue-lit glade.",
+        "detection": {
+            "triad": "Awareness + Willpower",
+            "dc_base": 14
+        },
+        "disarm": null,
+        "effect": {
+            "damage": "1d8 Cold",
+            "save": "Endurance Half",
+            "injury": "Minor Body"
+        }
+    },
+    "Gas Vent": {
+        "title": "Sulfurous Fissure",
+        "narrative": "A low hiss emanates from a crack in the rock, followed by a faint yellow mist.",
+        "detection": {
+            "triad": "Awareness + Intuition",
+            "dc_base": 13
+        },
+        "disarm": {
+            "triad": "Logic + Finesse",
+            "dc_base": 15
+        },
+        "effect": {
+            "damage": "1d6 Acid",
+            "save": "Fortitude Half",
+            "injury": "Minor Body"
+        }
+    }
+}

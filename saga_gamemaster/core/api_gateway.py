@@ -7,6 +7,7 @@ class SAGA_API_Gateway:
             "char_engine": "http://localhost:8003",
             "item_foundry": "http://localhost:8005",
             "clash_engine": "http://localhost:8007",
+            "encounter_engine": "http://localhost:8004",
         }
 
     async def get_character(self, player_id: str):
@@ -14,7 +15,8 @@ class SAGA_API_Gateway:
         # For now, we return a valid dict so the GM App doesn't crash.
         return {
             "player_id": player_id,
-            "survival_pools": {"current_hp": 15, "max_hp": 20, "stamina": 8, "max_stamina": 10}
+            "survival_pools": {"current_hp": 15, "max_hp": 20, "stamina": 8, "max_stamina": 10},
+            "attributes": {"awareness": 12, "logic": 10, "willpower": 11, "intuition": 13, "finesse": 11, "reflexes": 12}
         }
 
     async def use_item(self, player_id: str, item_id: str):
@@ -58,10 +60,23 @@ class SAGA_API_Gateway:
                 logging.error(f"Clash Engine Error: {e}")
                 return {"margin": "ERROR", "dmg": 0, "injury": None}
 
+    async def generate_encounter(self, request_data: dict):
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.post(
+                    f"{self.microservices['encounter_engine']}/api/encounter/generate",
+                    json=request_data
+                )
+                response.raise_for_status()
+                return response.json()
+            except Exception as e:
+                logging.error(f"Encounter Engine Error: {e}")
+                return None
+
     async def check_quest_triggers(self, coords: str):
         # For now, this acts as the "Director's Script". 
         if coords == "[10, 15]":
-            return {"type": "AMBUSH", "event": "Bandit Ambush"}
+            return {"type": "COMBAT", "event": "Wolf Cultist Ambush", "seed": "Wolf Cultists searching for a relic."}
         return None
     
     async def get_campaign_state(self, player_id: str):

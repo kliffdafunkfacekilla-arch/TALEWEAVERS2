@@ -1,0 +1,26 @@
+{
+    "Magical Ward": {
+        "title": "Aethel-Locked Door",
+        "narrative": "A shimmering blue barrier bars the way. Strange runes pulse in response to your presence.",
+        "logic_gate": "BURN_5_FOCUS",
+        "required_triad": "Knowledge + Intuition",
+        "dc_base": 15,
+        "failure_cost": "Burn 1 Mind Injury"
+    },
+    "Mechanical Lock": {
+        "title": "Ancient Gears",
+        "narrative": "A massive stone door with a series of interlocking bronze gears. Some parts seem jammed.",
+        "logic_gate": "ALIGN_GEARS",
+        "required_triad": "Finesse + Logic",
+        "dc_base": 13,
+        "failure_cost": "Spend 2 Stamina"
+    },
+    "Riddle Statue": {
+        "title": "The Silent Sentinel",
+        "narrative": "An iron statue stands in the center of the hall, pointing towards an inscription: 'What speaks without a mouth?'",
+        "logic_gate": "SOLVE_RIDDLE",
+        "required_triad": "Logic + Intuition",
+        "dc_base": 16,
+        "failure_cost": "Stunned for 1 Round"
+    }
+}

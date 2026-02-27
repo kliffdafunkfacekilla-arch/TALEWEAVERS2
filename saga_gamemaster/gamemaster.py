@@ -21,6 +21,7 @@ class GameState(TypedDict):
     current_hex: dict
     weather: str
     active_quest: Optional[dict]
+    active_encounter: Optional[dict]  # New: Stores the mechanical encounter from Module 4
     war_events: List[str]
     tension: int
     event_trigger: Optional[str]
