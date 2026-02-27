@@ -7,7 +7,7 @@ class SAGA_API_Gateway:
             "char_engine": "http://localhost:8003",
             "item_foundry": "http://localhost:8005",
             "clash_engine": "http://localhost:8007",
-            "encounter_engine": "http://localhost:8004",
+            "encounter_engine": "http://localhost:8009",
         }
 
     async def get_character(self, player_id: str):

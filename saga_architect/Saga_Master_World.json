@@ -398,9 +398,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -6.31500244140625
@@ -496,7 +494,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -17.369998931884766
@@ -544,9 +544,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -28.630001068115234
@@ -866,7 +864,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -42.45000457763672
@@ -1186,7 +1186,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -38.98499298095703
@@ -1490,7 +1492,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -53.834999084472656
@@ -2114,9 +2118,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -23.40999984741211
@@ -2628,9 +2630,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -15.725000381469727
@@ -2886,9 +2886,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -11.810001373291016
@@ -3048,9 +3046,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -40.810001373291016
@@ -3066,9 +3062,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -41.38999938964844
@@ -3084,9 +3078,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -38.32499694824219
@@ -3326,9 +3318,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -29.645000457763672
@@ -4144,9 +4134,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -41.46000671386719
@@ -4818,7 +4806,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -43.77000427246094
@@ -5394,7 +5384,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -14.235000610351563
@@ -5954,9 +5946,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -31.56000518798828
@@ -6374,7 +6364,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -35.52000427246094
@@ -6438,9 +6430,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -34.28499984741211
@@ -6488,7 +6478,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -38.4900016784668
@@ -6792,9 +6784,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -30.514999389648438
@@ -7370,7 +7360,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -43.564998626708984
@@ -7690,9 +7682,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -16.709999084472656
@@ -7868,7 +7858,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -17.31999969482422
@@ -8380,7 +8372,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -22.485000610351563
@@ -8460,9 +8454,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -8.040000915527344
@@ -8622,9 +8614,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -15.579999923706055
@@ -9520,9 +9510,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -24.13500213623047
@@ -10018,7 +10006,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -39.480003356933594
@@ -10066,9 +10056,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -11.665000915527344
@@ -10500,9 +10488,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -40.084999084472656
@@ -10534,7 +10520,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -17.174999237060547
@@ -10550,9 +10538,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -9.634998321533203
@@ -10712,7 +10698,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -25.949996948242188
@@ -10744,9 +10732,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -33.704994201660156
@@ -11258,9 +11244,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -10.275001525878906
@@ -11452,7 +11436,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -29.5
@@ -11548,7 +11534,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -40.63500213623047
@@ -11724,9 +11712,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -21.825000762939453
@@ -12094,9 +12080,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -11.264999389648438
@@ -12112,9 +12096,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -23.145004272460938
@@ -12354,9 +12336,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -35.59000015258789
@@ -12388,9 +12368,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -9.284996032714844
@@ -12854,9 +12832,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -23.700000762939453
@@ -13418,9 +13394,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -35.52000427246094
@@ -14028,7 +14002,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -6.149997711181641
@@ -14380,9 +14356,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -12.535001754760742
@@ -14542,9 +14516,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -32.219993591308594
@@ -14560,7 +14532,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -6.645000457763672
@@ -14674,7 +14648,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -30.225000381469727
@@ -14994,9 +14970,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -5.655002593994141
@@ -15156,9 +15130,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -8.040000915527344
@@ -15526,7 +15498,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -52.349998474121094
@@ -15734,7 +15708,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -28.775001525878906
@@ -15910,7 +15886,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -11.084999084472656
@@ -16070,7 +16048,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -10.769996643066406
@@ -16262,9 +16242,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -28.590003967285156
@@ -16584,9 +16562,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -39.939998626708984
@@ -17290,9 +17266,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -38.4900016784668
@@ -17340,9 +17314,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -32.054996490478516
@@ -18222,7 +18194,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -9.615001678466797
@@ -18318,7 +18292,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -31.239999771118164
@@ -18414,9 +18390,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -33.53999710083008
@@ -18992,9 +18966,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -34.695003509521484
@@ -19154,9 +19126,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -53.834999084472656
@@ -19604,7 +19574,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -8.040000915527344
@@ -19988,7 +19960,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -38.20000076293945
@@ -20212,7 +20186,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -31.229999542236328
@@ -20340,9 +20316,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -24.464996337890625
@@ -20470,7 +20444,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -33.70500183105469
@@ -20518,9 +20494,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -7.469997406005859
@@ -20552,9 +20526,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -53.670005798339844
@@ -20746,9 +20718,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -9.489997863769531
@@ -20876,9 +20846,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -7.965003967285156
@@ -21102,9 +21070,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -38.05500030517578
@@ -21152,9 +21118,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -42.285003662109375
@@ -21202,7 +21166,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -14.235000610351563
@@ -21362,9 +21328,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -33.87000274658203
@@ -21524,9 +21488,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -16.450000762939453
@@ -21558,7 +21520,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -41.38999938964844
@@ -21862,9 +21826,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -45.089996337890625
@@ -22312,7 +22274,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -14.564994812011719
@@ -22760,7 +22724,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -14.39999771118164
@@ -22968,9 +22934,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -27.03499984741211
@@ -23018,9 +22982,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -21.670000076293945
@@ -23660,9 +23622,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -37.185001373291016
@@ -24222,9 +24182,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -18.19499969482422
@@ -24368,7 +24326,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -30.3700008392334
@@ -24480,7 +24440,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -6.149997711181641
@@ -24528,7 +24490,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -27.599994659423828
@@ -24960,9 +24924,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -13.40999984741211
@@ -25106,7 +25068,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -51.69000244140625
@@ -25138,9 +25102,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -15.224998474121094
@@ -25396,7 +25358,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -40.469993591308594
@@ -25796,9 +25760,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -53.01000213623047
@@ -26198,7 +26160,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -22.829999923706055
@@ -26262,7 +26226,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -46.73999786376953
@@ -26502,9 +26468,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -39.31500244140625
@@ -26616,7 +26580,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -9.055000305175781
@@ -26728,7 +26694,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -32.54499816894531
@@ -26776,9 +26744,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -38.654998779296875
@@ -27066,7 +27032,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -41.244998931884766
@@ -27274,7 +27242,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -12.245000839233398
@@ -27370,7 +27340,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -23.310001373291016
@@ -27866,9 +27838,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -21.23499870300293
@@ -27884,7 +27854,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -51.029998779296875
@@ -27996,7 +27968,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -26.94000244140625
@@ -28556,7 +28530,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -40.95500183105469
@@ -28924,9 +28900,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -44.0
@@ -29054,9 +29028,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -19.68000030517578
@@ -29088,9 +29060,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -51.19499969482422
@@ -29202,9 +29172,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -9.779998779296875
@@ -29412,9 +29380,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -10.110004425048828
@@ -29478,7 +29444,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -24.6300048828125
@@ -29894,9 +29862,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -18.625
@@ -30008,7 +29974,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -39.975006103515625
@@ -30200,7 +30168,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -11.375
@@ -30456,7 +30426,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -16.30500030517578
@@ -30632,7 +30604,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -24.6300048828125
@@ -31032,7 +31006,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -34.57500076293945
@@ -31160,7 +31136,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -29.415000915527344
@@ -31672,9 +31650,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -16.30500030517578
@@ -31706,9 +31682,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -12.535001754760742
@@ -31756,7 +31730,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -21.23499870300293
@@ -31932,9 +31908,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -20.175003051757813
@@ -32750,9 +32724,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -15.0
@@ -33008,7 +32980,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -51.360008239746094
@@ -33088,9 +33062,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -19.4950008392334
@@ -33186,9 +33158,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -16.709999084472656
@@ -33396,7 +33366,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -42.45000457763672
@@ -33492,9 +33464,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -10.504997253417969
@@ -33734,9 +33704,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -11.810001373291016
@@ -33976,9 +33944,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -7.75
@@ -34042,7 +34008,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -17.46500015258789
@@ -34602,7 +34570,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -50.040000915527344
@@ -34762,7 +34732,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -32.054996490478516
@@ -34906,9 +34878,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -17.029998779296875
@@ -35084,7 +35054,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -27.270000457763672
@@ -35468,7 +35440,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -29.209999084472656
@@ -36540,9 +36514,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -12.914997100830078
@@ -36846,7 +36818,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -52.019996643066406
@@ -36878,9 +36852,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -33.27000045776367
@@ -37072,7 +37044,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -28.259998321533203
@@ -37600,9 +37574,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -47.56500244140625
@@ -38082,9 +38054,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -37.185001373291016
@@ -38132,7 +38102,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -23.844999313354492
@@ -38212,9 +38184,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -25.875
@@ -38662,7 +38632,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -44.0
@@ -38758,7 +38730,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -5.284999847412109
@@ -39078,7 +39052,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -51.360008239746094
@@ -39238,9 +39214,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -20.80000114440918
@@ -39384,9 +39358,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -6.444999694824219
@@ -39546,9 +39518,7 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [
-                "Frost Troll"
-            ],
+            "local_lifeforms": [],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -14.070003509521484
@@ -39660,7 +39630,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -7.459999084472656
@@ -40140,7 +40112,9 @@
             "elevation": 0.20000000298023224,
             "faction_owner": "",
             "has_river": false,
-            "local_lifeforms": [],
+            "local_lifeforms": [
+                "Frost Troll"
+            ],
             "moisture": 0.0,
             "settlement": "",
             "temperature": -52.019996643066406

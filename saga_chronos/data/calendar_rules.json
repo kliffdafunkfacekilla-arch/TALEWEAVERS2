@@ -1,0 +1,37 @@
+{
+  "months": [
+    {
+      "name": "Dawnspire",
+      "days": 32,
+      "season": "Spring"
+    },
+    {
+      "name": "The_Long_Dark",
+      "days": 40,
+      "season": "Winter"
+    }
+  ],
+  "seasons": {
+    "Spring": {
+      "temp_band": "MID",
+      "precipitation_chance": 0.4,
+      "weather_type": "Rain"
+    },
+    "Winter": {
+      "temp_band": "LOW",
+      "precipitation_chance": 0.6,
+      "weather_type": "Snow"
+    }
+  },
+  "moons": [
+    {
+      "name": "Aetheris",
+      "color": "Pale Blue"
+    }
+  ],
+  "days_of_week": [
+    "Firstday",
+    "Midday",
+    "Restday"
+  ]
+}

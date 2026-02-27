@@ -237,20 +237,32 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                             </div>
 
                             {/* Ingest Section */}
-                            <div className="p-3 border border-zinc-800 bg-zinc-950">
-                                <label className="text-amber-500 font-bold uppercase mb-2 block">1. Ingest Markdown Vault</label>
-                                <div className="flex gap-2 mb-2">
+                            <div className="p-4 border border-zinc-800 bg-zinc-950/50 rounded-lg space-y-3">
+                                <div className="flex justify-between items-center">
+                                    <label className="text-amber-500 font-bold uppercase tracking-widest text-[10px]">1. Sync Obsidian Vault</label>
+                                    <span className="text-[9px] text-zinc-500 italic">Enter FULL absolute path</span>
+                                </div>
+                                <div className="flex gap-2">
                                     <input
                                         type="text"
                                         value={vaultPath}
                                         onChange={(e) => setVaultPath(e.target.value)}
-                                        className="flex-grow bg-zinc-900 border border-zinc-700 p-2 text-white outline-none focus:border-amber-500 font-mono text-[10px]"
-                                        placeholder="C:/Users/Notes/SAGA_Lore"
+                                        className="flex-grow bg-zinc-900 border border-zinc-700 p-2 text-white outline-none focus:border-amber-500 font-mono text-[10px] placeholder:text-zinc-700"
+                                        placeholder="e.g. C:\Users\Documents\LoreVault"
                                     />
                                     {/* @ts-ignore - webkitdirectory is a non-standard attribute but works in Chrome/Electron */}
-                                    <input type="file" webkitdirectory="" directory="" onChange={(e) => setVaultPath(e.target.files?.[0]?.webkitRelativePath?.split('/')[0] || e.target.value)} className="hidden" id="vaultPicker" />
-                                    <label htmlFor="vaultPicker" className="bg-zinc-800 hover:bg-zinc-700 text-white p-2 px-3 text-[10px] font-bold uppercase cursor-pointer transition-colors border border-zinc-700">Browse</label>
+                                    <input type="file" webkitdirectory="" directory="" onChange={(e) => {
+                                        const path = e.target.files?.[0]?.webkitRelativePath?.split('/')[0];
+                                        if (path) {
+                                            alert(`Note: Browser security prevents getting the full path. Please type or paste the ABSOLUTE path to '${path}' manually.`);
+                                            setVaultPath(path);
+                                        }
+                                    }} className="hidden" id="vaultPicker" />
+                                    <label htmlFor="vaultPicker" className="bg-zinc-800 hover:bg-zinc-700 text-white p-2 px-3 text-[10px] font-bold uppercase cursor-pointer transition-colors border border-zinc-700 flex items-center">Browse</label>
                                 </div>
+                                <p className="text-[9px] text-zinc-600 leading-relaxed">
+                                    <strong className="text-zinc-400">Security Note:</strong> Browsers cannot see your full hardware path. Copy and paste the actual path from your File Explorer for best results.
+                                </p>
                                 <button
                                     onClick={handleIngestLore}
                                     disabled={isLoreProcessing || !loreOnline}

@@ -109,7 +109,7 @@
     },
     {
       "skill": "Utilize",
-      "stat_pair": "Fortitude + Willpower",
+      "stat_pair": "Fortitude + Logic",
       "effect": "Use environment to gain Advantage on next Fortify action."
     },
     {
@@ -126,19 +126,19 @@
     },
     {
       "skill": "Exploit",
-      "stat_pair": "Finesse + Intuition",
+      "stat_pair": "Reflexes + Intuition",
       "effect": "If enemy is Staggered, user may move turn order to act next."
     },
     {
       "skill": "Tactics",
-      "stat_pair": "Might + Knowledge",
+      "stat_pair": "Reflexes + Charm",
       "effect": "If top of turn order, all allies gain +5ft Move Speed."
     }
   ],
   "Stabilize": [
     {
       "skill": "First Aid",
-      "stat_pair": "Endurance + Charm",
+      "stat_pair": "Endurance + Intuition",
       "effect": "Stitch wound as Move Action (Disadvantage) instead of Main."
     },
     {
@@ -155,17 +155,17 @@
   "Rally": [
     {
       "skill": "Self-Awareness",
-      "stat_pair": "Intuition + Vitality",
+      "stat_pair": "Finesse + Willpower",
       "effect": "Spend 1 FP for Advantage to resist Mental Fractures."
     },
     {
       "skill": "Detached",
-      "stat_pair": "Willpower + Logic",
+      "stat_pair": "Endurance + Knowledge",
       "effect": "Ignore Disadvantage penalty for low CMP (<50%) for 1 turn."
     },
     {
       "skill": "Mindfulness",
-      "stat_pair": "Awareness + Fortitude",
+      "stat_pair": "Awareness + Finesse",
       "effect": "Can perform Rally action on allies at range (15ft)."
     }
   ],
@@ -182,24 +182,24 @@
     },
     {
       "skill": "Speed",
-      "stat_pair": "Endurance + Logic",
+      "stat_pair": "Finesse + Knowledge",
       "effect": "Moving 2 turns in a row increases SPD by +10ft."
     }
   ],
   "Bravery": [
     {
       "skill": "Commitment",
-      "stat_pair": "Finesse + Intuition",
+      "stat_pair": "Might + Charm",
       "effect": "Advantage on Resolve rolls while adjacent to an enemy."
     },
     {
       "skill": "Determined",
-      "stat_pair": "Might + Awareness",
+      "stat_pair": "Might + Willpower",
       "effect": "Allies moving toward the user gain +5ft Move Speed."
     },
     {
       "skill": "Outsmart",
-      "stat_pair": "Reflexes + Finesse",
+      "stat_pair": "Vitality + Logic",
       "effect": "Retreat without losing Initiative on next round."
     }
   ]

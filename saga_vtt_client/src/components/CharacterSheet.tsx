@@ -65,10 +65,10 @@ export const CharacterSheet: React.FC = () => {
             const skillData = (Object.values(tacticalTriads).flat() as any[]).find(s => s.skill === choice.skill);
             if (skillData) {
                 const parts = skillData.stat_pair.split('+').map((s: string) => s.trim().toLowerCase().replace('reflex', 'reflexes'));
-                
+
                 const bodyStat = parts.find(p => BODY_STATS.includes(p)) || parts[0];
                 const mindStat = parts.find(p => MIND_STATS.includes(p)) || parts[1];
-                
+
                 const leadStat = choice.lead === "Body" ? bodyStat : mindStat;
                 if ((stats as any).hasOwnProperty(leadStat)) (stats as any)[leadStat] += 1;
             }
@@ -90,14 +90,18 @@ export const CharacterSheet: React.FC = () => {
 
     const toggleSkill = (triad: string, skill: string) => {
         setSelectedSkills(prev => {
-            const next = { ...prev };
-            if (next[triad]?.skill === skill) {
-                if (next[triad].lead === "Body") next[triad].lead = "Mind";
-                else delete next[triad];
+            const current = prev[triad];
+            if (current?.skill === skill) {
+                if (current.lead === "Body") {
+                    return { ...prev, [triad]: { ...current, lead: "Mind" } };
+                } else {
+                    const next = { ...prev };
+                    delete next[triad];
+                    return next;
+                }
             } else {
-                next[triad] = { skill, lead: "Body" };
+                return { ...prev, [triad]: { skill, lead: "Body" } };
             }
-            return next;
         });
     };
 
@@ -374,7 +378,7 @@ export const CharacterSheet: React.FC = () => {
                                         </div>
                                     </div>
                                 ))}
-                             </div>
+                            </div>
                         </div>
 
                         {/* POWERS */}

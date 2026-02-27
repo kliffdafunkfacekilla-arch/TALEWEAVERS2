@@ -1,8 +1,9 @@
 {
   "world_settings": {
     "num_hexes": 2500,
-    "tectonic_plates": 15,
-    "heightmap_image": ""
+    "tectonic_plates": 5,
+    "heightmap_image": "Gemini_Generated_Image_j9uvp4j9uvp4j9uv.png",
+    "heightmap_steps": []
   },
   "climate": {
     "north_pole": [
