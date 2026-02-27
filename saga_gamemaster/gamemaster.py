@@ -1,15 +1,17 @@
 import json
 import os
+import random
 import httpx
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.llms import Ollama
 from langgraph.graph import StateGraph, END
-from typing import TypedDict, Optional
+from typing import TypedDict, Optional, List
 
-# Paths to our God Engine data
-DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
+# Paths - Unified to root /data
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 PLAYER_FILE = os.path.join(DATA_DIR, "player_state.json")
 MAP_FILE = os.path.join(DATA_DIR, "Saga_Master_World.json")
+CHRONICLE_FILE = os.path.join(DATA_DIR, "Chronicle_Log.json")
 WEAVER_URL = "http://localhost:8010/api/weaver/side_quest"
 
 # Define the State that LangGraph will pass between nodes
@@ -19,6 +21,9 @@ class GameState(TypedDict):
     current_hex: dict
     weather: str
     active_quest: Optional[dict]
+    war_events: List[str]
+    tension: int
+    event_trigger: Optional[str]
     narrative_output: str
 
 # --- NODE 1: Gather World State ---
@@ -31,11 +36,12 @@ def gather_context(state: GameState):
             "player_id": state["player_id"],
             "name": "Traveler",
             "location": { "hex_x": 0, "hex_y": 0 },
-            "vitals": { "max_hp": 25 },
+            "vitals": { "hp": 25, "max_hp": 25 },
+            "tension": 0,
             "active_quests": []
         }
     else:
-        with open(PLAYER_FILE, "r") as f:
+        with open(PLAYER_FILE, "r", encoding='utf-8') as f:
             player = json.load(f)
         
     # 2. Find where they are standing
@@ -48,26 +54,57 @@ def gather_context(state: GameState):
     else:
         with open(MAP_FILE, "r") as f:
             world = json.load(f)
-        
-        # Find the specific hex data
         current_hex = next((h for h in world.get("macro_map", []) 
                             if h.get("x") == hex_x and h.get("y") == hex_y), 
                             {"biome": "Wasteland", "faction_owner": "No Man's Land", "id": 0})
     
-    # (Mocked weather for now)
+    # 4. Read Chronicle (Distant War Awareness)
+    war_notes = []
+    if os.path.exists(CHRONICLE_FILE):
+        with open(CHRONICLE_FILE, "r") as f:
+            logs = json.load(f)
+            # Find the last few events to narrate
+            for log in logs[-3:]:
+                war_notes.append(log.get("description", ""))
+
     weather = "Heavy Snow and Freezing Winds" 
     
     return {
         "player_data": player, 
         "current_hex": current_hex, 
+        "war_events": war_notes,
+        "tension": player.get("tension", 0),
         "weather": weather
     }
 
-# --- NODE 2: Generate Active Quest (The Plot Twist) ---
+# --- NODE 2: evaluate_tension (The Director Pulse) ---
+def evaluate_tension(state: GameState):
+    """Calculates if an immediate event should occur based on noise/lingering."""
+    tension = state.get("tension", 0)
+    event_trigger = None
+    
+    # If threat level is high, tension rises faster
+    threat = state["current_hex"].get("threat_level", 1)
+    tension += random.randint(1, 5) + threat
+    
+    # Roll for a pulse event
+    roll = random.randint(1, 100)
+    if tension > 50 and roll < (tension - 40):
+        print("Tension peak! Triggering event...")
+        event_trigger = random.choice(["AMBUSH", "HUNTED", "GEAR_BREAK"])
+        tension = 0 # Reset after trigger
+    elif roll < 5:
+        event_trigger = "LUCKY_FIND"
+        
+    return {"tension": tension, "event_trigger": event_trigger}
+
+# --- NODE 3: Generate Active Quest (The Plot Twist) ---
 async def generate_quest_beat(state: GameState):
     """Hits the Campaign Weaver to see if there is a story beat here."""
+    if state.get("event_trigger"):
+        return {"active_quest": None} # Skip weaver if we have a tension event
+
     print("GM is weaving the plot...")
-    
     biome = state["current_hex"].get("biome", "wilderness")
     faction = state["current_hex"].get("faction_owner", "No Man's Land")
     
@@ -87,45 +124,46 @@ async def generate_quest_beat(state: GameState):
         
     return {"active_quest": None}
 
-# --- NODE 3: Generate the Scene ---
+# --- NODE 4: Generate the Scene ---
 def generate_scene(state: GameState):
     print("GM is writing the scene...")
     try:
         llm = Ollama(model="llama3")
-    except Exception as e:
+    except:
         return {"narrative_output": "The world is silent. (LLM offline)"}
     
-    player_name = state["player_data"].get("name", "Traveler")
-    health = state["player_data"].get("vitals", {}).get("max_hp", 0)
-    biome = state["current_hex"].get("biome", "Wasteland")
-    faction = state["current_hex"].get("faction_owner", "No Man's Land")
+    p = state["player_data"]
+    hp_pct = (p.get("vitals", {}).get("hp", 0) / p.get("vitals", {}).get("max_hp", 1)) * 100
     
-    quest_text = ""
-    if state.get("active_quest"):
-        obj = state["active_quest"].get("narrative_objective", "Wait for further instructions.")
-        quest_text = f"\nQUEST OBJECTIVE: {obj}"
+    war_context = "\nDISTANT EVENTS: " + " ".join(state["war_events"]) if state["war_events"] else ""
+    quest_text = f"\nQUEST OBJECTIVE: {state['active_quest']['narrative_objective']}" if state.get("active_quest") else ""
+    
+    event_text = ""
+    if state.get("event_trigger"):
+        event_text = f"\nCRITICAL EVENT: {state['event_trigger']}. Acknowledge this immediately in the narration!"
+
+    health_style = "Survival Mode" if hp_pct < 50 else "Standard"
 
     # The Master Prompt
     system_prompt = f"""
-    You are the Game Master of a gritty, dark-fantasy tabletop RPG called T.A.L.E.W.E.A.V.E.R.
-    The tone is brutal, tactical, and survival-focused. 
+    You are the Game Master of T.A.L.E.W.E.A.V.E.R. 
+    Tone: Gritty, Brutal, Tactical.
     
-    Current State:
-    - Player Name: {player_name} (HP: {health})
-    - Location: {biome} biome. 
-    - Weather: {state['weather']}
-    - Territory Controller: {faction}
-    {quest_text}
+    Player: {p.get('name')} (HP: {p.get('vitals', {}).get('hp')}/{p.get('vitals', {}).get('max_hp')})
+    Location: {state['current_hex'].get('biome')} (Owned by {state['current_hex'].get('faction_owner')})
+    Style: {health_style} {war_context} {quest_text} {event_text}
     
-    Write a 3-paragraph opening scene for the player arriving in this hex. 
-    Incorporate the weather, the biome, the faction, and the quest objective if present. 
-    Do not make decisions for the player. End by asking them what they want to do.
+    NARRATION RULES:
+    1. If HP is low, describe their physical pain and fatigue.
+    2. If DISTANT EVENTS are present, mention sensory clues (smoke, distant sounds).
+    3. If CRITICAL EVENT is set, narrate the transition into danger (e.g. an ambush).
+    4. Write 3 paragraphs. End with a prompt.
     """
     
     try:
         response = llm.invoke(system_prompt)
     except:
-        response = f"The {biome} stretches before you. {quest_text}. What do you do?"
+        response = f"The {state['current_hex'].get('biome')} stretches before you. {event_text}. What do you do?"
         
     return {"narrative_output": response}
 
@@ -133,21 +171,31 @@ def generate_scene(state: GameState):
 workflow = StateGraph(GameState)
 
 workflow.add_node("gather_context", gather_context)
+workflow.add_node("evaluate_tension", evaluate_tension)
 workflow.add_node("generate_quest_beat", generate_quest_beat)
 workflow.add_node("generate_scene", generate_scene)
 
 workflow.set_entry_point("gather_context")
-workflow.add_edge("gather_context", "generate_quest_beat")
+workflow.add_edge("gather_context", "evaluate_tension")
+workflow.add_edge("evaluate_tension", "generate_quest_beat")
 workflow.add_edge("generate_quest_beat", "generate_scene")
 workflow.add_edge("generate_scene", END)
 
-# Compile
 game_master_app = workflow.compile()
 
-# --- TEST ---
 if __name__ == "__main__":
     import asyncio
-    initial_state = {"player_id": "char_001", "player_data": {}, "current_hex": {}, "weather": "", "active_quest": None, "narrative_output": ""}
+    initial_state = {
+        "player_id": "char_001", 
+        "player_data": {}, 
+        "current_hex": {}, 
+        "weather": "", 
+        "active_quest": None, 
+        "war_events": [], 
+        "tension": 0, 
+        "event_trigger": None, 
+        "narrative_output": ""
+    }
     
     async def run_test():
         result = await game_master_app.ainvoke(initial_state)

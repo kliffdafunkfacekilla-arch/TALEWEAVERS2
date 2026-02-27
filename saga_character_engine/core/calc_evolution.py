@@ -13,18 +13,45 @@ def load_evolution_matrix() -> List[Dict]:
     if matrix_path.exists():
         with open(matrix_path, "r", encoding="utf-8") as f:
             return json.load(f)
-    print(f"[WARNING] Could not find {matrix_path}. Using empty matrix.")
     return []
 
-def apply_biology(base_stats: CoreAttributes, evolutions: BiologicalEvolutions) -> Dict:
+def load_species_base() -> Dict[str, Dict[str, int]]:
+    """Loads the Latin Square base stats for each species."""
+    base_path = DATA_DIR / "species_base_stats.json"
+    if base_path.exists():
+        with open(base_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+def apply_biology(evolutions: BiologicalEvolutions) -> Dict:
     """
-    Scans the actual Evolution Matrix for the player's 6 chosen slots,
-    merges the biological stats with base attributes, and grants passives.
+    Initializes stats from species base and applies cumulative bonuses from choices.
     """
     granted_passives = []
     matrix_db = load_evolution_matrix()
+    species_bases = load_species_base()
     
-    # Map the schema slots to the player's choices
+    # 1. Initialize from Latin Square Base
+    # Normalizing species name for lookup
+    species_key = evolutions.species_base.title()
+    base_config = species_bases.get(species_key, {})
+    
+    final_stats = {
+        "might": base_config.get("might", 10),
+        "endurance": base_config.get("endurance", 10),
+        "vitality": base_config.get("vitality", 10),
+        "fortitude": base_config.get("fortitude", 10),
+        "reflexes": base_config.get("reflexes", 10),
+        "finesse": base_config.get("finesse", 10),
+        "knowledge": base_config.get("knowledge", 10),
+        "logic": base_config.get("logic", 10),
+        "charm": base_config.get("charm", 10),
+        "willpower": base_config.get("willpower", 10),
+        "awareness": base_config.get("awareness", 10),
+        "intuition": base_config.get("intuition", 10)
+    }
+    
+    # 2. Map the schema slots to the player's choices
     chosen_traits = [
         evolutions.size_slot,
         evolutions.ancestry_slot,
@@ -36,7 +63,6 @@ def apply_biology(base_stats: CoreAttributes, evolutions: BiologicalEvolutions) 
         evolutions.special_slot,
     ]
     
-    # Build a lookup for easier matching
     stat_map = {
         "might": "might", "endurance": "endurance", "vitality": "vitality",
         "fortitude": "fortitude", "reflex": "reflexes", "reflexes": "reflexes", "finesse": "finesse",
@@ -44,49 +70,35 @@ def apply_biology(base_stats: CoreAttributes, evolutions: BiologicalEvolutions) 
         "willpower": "willpower", "awareness": "awareness", "intuition": "intuition"
     }
 
-    # Loop through the database. If a trait matches a player's choice, apply it.
+    # 3. Apply traits from the matrix
     for trait in matrix_db:
         trait_name = trait.get("name", "")
-        
         if trait_name in chosen_traits and trait_name != "Standard":
-            # 1. Apply stat bonuses
-            # Format could be {"fortitude": 2} or {"+2 reflex, +1 finesse": 1}
-            for stat_key, bonus_val in trait.get("stats", {}).items():
-                # Handle old format {"fortitude": 2}
-                if stat_key in stat_map:
-                    mapped_stat = stat_map[stat_key]
-                    if hasattr(base_stats, mapped_stat):
-                        current_val = getattr(base_stats, mapped_stat)
-                        setattr(base_stats, mapped_stat, current_val + bonus_val)
-                # Handle string format like "+2 reflex, +1 finesse"
-                elif "," in stat_key or "+" in stat_key or "-" in stat_key:
+            # Each biological trait gives stats defined in the matrix
+            stats_config = trait.get("stats", {})
+            for key, val in stats_config.items():
+                # Handle single stat keys or comma-separated lists
+                potential_stats = [s.strip().lower() for s in key.replace('+', '').split(',')]
+                for ps in potential_stats:
                     import re
-                    # Find and parse all '+1 stat' or '-2 stat'
-                    matches = re.finditer(r'([+-]?\s*\d+)\s*([a-zA-Z]+)', stat_key)
-                    for match in matches:
-                        try:
-                            num = int(match.group(1).replace(' ', ''))
-                            stat_name = match.group(2).lower()
-                            if stat_name in stat_map:
-                                mapped_stat = stat_map[stat_name]
-                                if hasattr(base_stats, mapped_stat):
-                                    current_val = getattr(base_stats, mapped_stat)
-                                    setattr(base_stats, mapped_stat, current_val + num * bonus_val)
-                        except ValueError:
-                            pass
+                    match = re.search(r'[a-zA-Z]+', ps)
+                    if match:
+                        clean_stat = stat_map.get(match.group(0))
+                        if clean_stat and clean_stat in final_stats:
+                            bonus = val if isinstance(val, int) else 1
+                            final_stats[clean_stat] += bonus
             
-            # 2. Add passive skills or abilities linked to this evolution
+            # Add passive abilities
             if "passives" in trait:
                 granted_passives.extend(trait["passives"])
             elif "effect" in trait:
-                # Fallback if the JSON uses flat effects instead of lists
                 granted_passives.append({
                     "name": trait_name,
                     "type": trait.get("type", "Biological Passive"),
                     "effect": trait["effect"]
                 })
-            
+    
     return {
-        "updated_stats": base_stats,
+        "updated_stats": CoreAttributes(**final_stats),
         "passives": granted_passives
     }

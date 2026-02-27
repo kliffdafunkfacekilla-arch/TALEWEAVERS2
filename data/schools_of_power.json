@@ -1,0 +1,98 @@
+{
+    "MIGHT": {
+        "school": "NEXUS",
+        "spells": [
+            "Kinetic Punch",
+            "Anchor",
+            "The Pull"
+        ]
+    },
+    "ENDURANCE": {
+        "school": "MASS",
+        "spells": [
+            "Heavy Hand",
+            "Iron Skin",
+            "Density Shift"
+        ]
+    },
+    "REFLEXES": {
+        "school": "MOTUS",
+        "spells": [
+            "Sonic Jab",
+            "Twitch",
+            "Quick Step"
+        ]
+    },
+    "FINESSE": {
+        "school": "FLUX",
+        "spells": [
+            "Seep",
+            "Soft Form",
+            "Liquid Step"
+        ]
+    },
+    "VITALITY": {
+        "school": "VITA",
+        "spells": [
+            "Thorn Whip",
+            "Barkskin",
+            "Mend"
+        ]
+    },
+    "FORTITUDE": {
+        "school": "LEX",
+        "spells": [
+            "Smite",
+            "Deny",
+            "Truth"
+        ]
+    },
+    "KNOWLEDGE": {
+        "school": "RATIO",
+        "spells": [
+            "Telekinetic Shove",
+            "Predict",
+            "Scan"
+        ]
+    },
+    "LOGIC": {
+        "school": "ORDO",
+        "spells": [
+            "Geometric Dart",
+            "Angle Block",
+            "Mending"
+        ]
+    },
+    "AWARENESS": {
+        "school": "LUX",
+        "spells": [
+            "Flash",
+            "Refract",
+            "Illuminate"
+        ]
+    },
+    "INTUITION": {
+        "school": "OMEN",
+        "spells": [
+            "Jinx",
+            "Bad Feeling",
+            "Find Path"
+        ]
+    },
+    "CHARM": {
+        "school": "AURA",
+        "spells": [
+            "Shout",
+            "Distract",
+            "Command: Halt"
+        ]
+    },
+    "WILLPOWER": {
+        "school": "ANUMIS",
+        "spells": [
+            "Spirit Lash",
+            "Ward",
+            "Speak with Dead"
+        ]
+    }
+}

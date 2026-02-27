@@ -2,12 +2,14 @@ import json
 import os
 from chronos_clock import ChronosClock
 
-# File Paths (Adjust these to match your folder structure)
-DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+# File Paths - Centralizing to root /data directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE_DIR, "data")
 MAP_FILE = os.path.join(DATA_DIR, "Saga_Master_World.json")
 CALENDAR_FILE = os.path.join(DATA_DIR, "calendar_rules.json")
-ENTITIES_FILE = os.path.join(DATA_DIR, "entity_rules.json") # From your React UI
+ENTITIES_FILE = os.path.join(DATA_DIR, "entity_rules.json")
 SAVE_STATE_FILE = os.path.join(DATA_DIR, "chronos_save.json")
+CHRONICLE_FILE = os.path.join(DATA_DIR, "Chronicle_Log.json")
 
 class ChronosEngine:
     def __init__(self):
@@ -16,6 +18,7 @@ class ChronosEngine:
         self.calendar_config = self._load_json(CALENDAR_FILE, {"months": [], "seasons": {}})
         self.entity_rules = self._load_json(ENTITIES_FILE, {"factions": {}, "resources": {}, "wildlife": {}})
         self.state = self._load_json(SAVE_STATE_FILE, {"current_tick": 0, "factions": {}})
+        self.chronicle = self._load_json(CHRONICLE_FILE, [])
         
         # Ensure default calendar exists if nothing was loaded
         if not self.calendar_config.get("months"):
@@ -50,6 +53,20 @@ class ChronosEngine:
         # We also overwrite the map in case borders expanded or resources depleted
         with open(MAP_FILE, 'w') as f:
             json.dump(self.world_map, f, indent=2)
+        # Save Chronicle
+        with open(CHRONICLE_FILE, 'w') as f:
+            json.dump(self.chronicle[-50:], f, indent=2) # Keep last 50 events
+
+    def log_event(self, tick, event_type, description, location=None):
+        """ Appends a story event to the Chronicle. """
+        event = {
+            "tick": tick,
+            "type": event_type,
+            "description": description,
+            "location": location
+        }
+        self.chronicle.append(event)
+        print(f" [CHRONICLE] {description}")
 
     def run_tick(self, days_to_advance=1):
         """ Press 'Play' on the universe for X days. """
@@ -147,6 +164,14 @@ class ChronosEngine:
             print(f"    Infrastructure Level: {infrastructure}")
             print(f"    Military Roster: {', '.join(military)}")
             print(f"    Logistics: {logistics}\n")
+
+            # Log to Chronicle
+            self.log_event(
+                self.state["current_tick"],
+                "ECONOMY",
+                f"{faction_name} expanded their infrastructure to {infrastructure} and improved logistics to {logistics}.",
+                location=hexes[0].get("id") if hexes else None
+            )
 
 if __name__ == "__main__":
     engine = ChronosEngine()

@@ -19,13 +19,18 @@ class BiologicalEvolutions(BaseModel):
     special_slot: str = "Standard"
 
 class CharacterBuildRequest(BaseModel):
-    name: str
-    base_attributes: CoreAttributes
+    name: str = "Subject 001"
+    base_attributes: Optional[CoreAttributes] = None
     evolutions: BiologicalEvolutions
     background_training: str = "None"
     tactical_skills: Dict[str, str] = {} # e.g. {"Aggressive": "Body", "Command": "Mind"}
     selected_powers: List[Dict[str, str]] = [] # Expecting full power obj or strings
     equipped_loadout: Dict[str, str] = {}
+
+class CompiledSkill(BaseModel):
+    rank: int
+    pips: int
+    lead: str
 
 class CompiledCharacterSheet(BaseModel):
     name: str
@@ -33,7 +38,7 @@ class CompiledCharacterSheet(BaseModel):
     vitals: DerivedVitals
     evolutions: BiologicalEvolutions
     passives: List[Dict[str, str]] = []
-    tactical_skills: Dict[str, Dict[str, int]] = {} # e.g. {"Aggressive": {"rank": 1, "pips": 0}}
+    tactical_skills: Dict[str, CompiledSkill] = {} # e.g. {"Aggressive": {"rank": 1, "pips": 0, "lead": "Body"}}
     powers: List[Dict[str, str]] = []
     loadout: Dict[str, str] = {}
     holding_fees: Dict[str, int] = {"stamina": 0, "focus": 0}

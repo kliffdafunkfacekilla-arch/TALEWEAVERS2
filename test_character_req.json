@@ -1,0 +1,29 @@
+{
+  "name": "Audit Traveler",
+  "base_attributes": null,
+  "evolutions": {
+    "species_base": "PLANT",
+    "size_slot": "Standard",
+    "ancestry_slot": "Standard",
+    "head_slot": "Standard",
+    "body_slot": "Standard",
+    "arms_slot": "Standard",
+    "legs_slot": "Standard",
+    "skin_slot": "Standard",
+    "special_slot": "Standard"
+  },
+  "tactical_skills": {
+    "Aggressive": "Body",
+    "Intimidating": "Body",
+    "Skirmish": "Body",
+    "Predict": "Body",
+    "Rooted": "Body",
+    "Alter": "Body",
+    "Confidence": "Mind",
+    "Command": "Mind",
+    "Medicine": "Mind",
+    "Mindfulness": "Mind",
+    "Speed": "Mind",
+    "Commitment": "Mind"
+  }
+}

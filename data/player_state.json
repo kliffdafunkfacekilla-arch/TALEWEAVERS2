@@ -6,11 +6,13 @@
     "hex_y": 0
   },
   "vitals": {
+    "hp": 25,
     "max_hp": 25,
     "max_stamina": 15,
     "max_composure": 10,
     "max_focus": 10
   },
+  "tension": 0,
   "inventory": [
     "Rusted Cleaver",
     "Iron Root Tea"
