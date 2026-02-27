@@ -131,7 +131,6 @@ export interface InventorySlot {
     itemName: string | null;
 }
 
-// --- Tactical Encounter Types ---
 export interface EncounterToken {
     id: string;
     name: string;
@@ -139,13 +138,23 @@ export interface EncounterToken {
     y: number;
     color: number;
     isPlayer: boolean;
+    radius?: number;
 }
 
 export interface ActiveEncounter {
-    gridWidth: number;
-    gridHeight: number;
-    tokens: EncounterToken[];
-    grid?: string[][]; // tile types: TREE, ROCK, WATER, SNOW, etc.
+    encounter_id: string;
+    data: {
+        category?: string;
+        title: string;
+        narrative_prompt: string;
+        npcs?: any[];
+        enemies?: any[];
+        trigger_effect?: any;
+        options?: any[];
+        loot_tags?: string[];
+        spatial?: { x_offset: number; y_offset: number; footprint_radius: number };
+    };
+    interactionHistory: { role: string; content: string }[];
 }
 
 export interface ClientGameState {
@@ -463,25 +472,40 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
         };
     }),
 
-    sendAction: (action: string, burn: number, target: string) => {
+    sendAction: async (action: string, burn: number, target: string) => {
         const state = get();
         if (state.ui_locked) return;
 
         set({ ui_locked: true });
 
-        const payload = { action, burn, target };
+        const payload = {
+            player_id: 'PLAYER_001',
+            action_type: action,
+            action_target: target,
+            raw_chat_text: "",
+            stamina_burned: burn
+        };
+
         console.log('[VTT] Action sent:', JSON.stringify(payload));
 
-        set((s) => ({
-            chat_log: [
-                ...s.chat_log,
-                { sender: 'SYSTEM' as const, text: `▶ ${action} (Burn: ${burn}) → ${target}` },
-            ],
-        }));
+        try {
+            const res = await fetch('http://localhost:8000/action', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
-        setTimeout(() => {
+            if (!res.ok) throw new Error("Action failed");
+
+            const update = await res.json();
+
             set((s) => ({
                 ui_locked: false,
+                chat_log: [
+                    ...s.chat_log,
+                    { sender: 'AI_DIRECTOR' as const, text: update.ai_narration_html.replace(/<[^>]*>?/gm, '') },
+                ],
+                activeEncounter: update.active_encounter || null,
                 vitals: {
                     ...s.vitals,
                     stamina: {
@@ -489,12 +513,19 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
                         current: Math.max(0, s.vitals.stamina.current - burn),
                     },
                 },
-                chat_log: [
-                    ...s.chat_log,
-                    { sender: 'AI_DIRECTOR' as const, text: `The ${target} recoils from your ${action.toLowerCase()}. The blow lands with brutal precision.` },
-                ],
             }));
-        }, 2000);
+
+            // Handle VTT Commands (like MOVE_TOKEN or START_COMBAT)
+            if (update.vtt_commands) {
+                update.vtt_commands.forEach((cmd: string) => {
+                    console.log("[VTT] Received System Command:", cmd);
+                });
+            }
+
+        } catch (err) {
+            console.error(err);
+            set({ ui_locked: false });
+        }
     },
 
     addChatMessage: (msg: ChatMessage) => {

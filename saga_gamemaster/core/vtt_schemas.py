@@ -13,3 +13,4 @@ class VTTUpdate(BaseModel):
     system_log: str
     ui_refresh_required: bool
     vtt_commands: List[str] = []
+    active_encounter: Optional[Dict] = None

@@ -8,6 +8,7 @@ import { InjurySlots } from './components/right_panel/InjurySlots';
 import { QuestTracker } from './components/hud/QuestTracker';
 import { WorldArchitect } from './components/WorldArchitect';
 import { CharacterSheet } from './components/CharacterSheet';
+import { EncounterOverlay } from './components/hud/EncounterOverlay';
 import { useGameStore } from './store/useGameStore';
 import type { LoadoutItem } from './store/useGameStore';
 import './App.css';
@@ -192,6 +193,7 @@ export default function App() {
         {/* CENTER: The Map */}
         <div className="flex-grow relative bg-black min-w-0">
           <PixiBattlemap />
+          <EncounterOverlay />
 
           {/* FLOATING TOP-RIGHT: Quest Tracker HUD */}
           <div className="absolute top-4 right-4 z-20 pointer-events-none">

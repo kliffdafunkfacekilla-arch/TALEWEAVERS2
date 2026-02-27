@@ -10,18 +10,24 @@ class EncounterCategory(str, Enum):
     DISCOVERY = "DISCOVERY"
     DILEMMA = "DILEMMA"
 
+class SpatialData(BaseModel):
+    x_offset: float = 0.0  # Offset from hex center
+    y_offset: float = 0.0
+    footprint_radius: float = 1.0
+
 # --- 1. SOCIAL SCHEMA ---
 class SocialNPC(BaseModel):
     name: str
     species: str
     faction: str
     disposition: str  # "FRIENDLY", "NEUTRAL", "SUSPICIOUS", "HOSTILE"
-    motives: List[str]  # e.g., ["Needs Food", "Hates the Empire"]
-    composure_pool: int  # Social HP
+    motives: List[str]
+    composure_pool: int
     willpower: int
     logic: int
     awareness: int
     trade_inventory: Optional[List[str]] = []
+    spatial: SpatialData = Field(default_factory=SpatialData)
 
 class SocialEncounter(BaseModel):
     category: Literal[EncounterCategory.SOCIAL] = EncounterCategory.SOCIAL
@@ -35,14 +41,15 @@ class HazardEncounter(BaseModel):
     category: Literal[EncounterCategory.HAZARD] = EncounterCategory.HAZARD
     title: str
     narrative_prompt: str
-    detection_check: Dict[str, Union[str, int]]  # {"triad": "Awareness + Logic", "dc": 14}
+    detection_check: Dict[str, Union[str, int]]
     disarm_check: Optional[Dict[str, Union[str, int]]] = None
-    trigger_effect: Dict[str, str]  # {"damage": "3d6 Piercing", "save": "Reflexes Half", "injury": "Minor Body"}
+    trigger_effect: Dict[str, str]
+    spatial: SpatialData = Field(default_factory=SpatialData)
 
 # --- 3. DILEMMA / HARD CHOICE SCHEMA ---
 class DilemmaOption(BaseModel):
     label: str
-    consequence_mechanic: str  # e.g., "LOSE_2_STAMINA", "GAIN_ITEM_VAULT"
+    consequence_mechanic: str
     consequence_narrative: str
 
 class DilemmaEncounter(BaseModel):
@@ -54,19 +61,20 @@ class DilemmaEncounter(BaseModel):
 # --- 4. COMBAT SCHEMA ---
 class Combatant(BaseModel):
     name: str
-    rank: str  # "Mook", "Elite", "Boss"
+    rank: str
     hp: int
     stamina: int
     traits: List[str]
     weapons: List[str]
     armor: int
+    spatial: SpatialData = Field(default_factory=SpatialData)
 
 class CombatEncounter(BaseModel):
     category: Literal[EncounterCategory.COMBAT] = EncounterCategory.COMBAT
     title: str
     narrative_prompt: str
     enemies: List[Combatant]
-    terrain_difficulty: int  # 1-10
+    terrain_difficulty: int
     escape_dc: int
 
 # --- 5. PUZZLE SCHEMA ---
@@ -74,10 +82,11 @@ class PuzzleEncounter(BaseModel):
     category: Literal[EncounterCategory.PUZZLE] = EncounterCategory.PUZZLE
     title: str
     narrative_prompt: str
-    logic_gate: str  # e.g., "MATCH_THREE_SYMBOLS", "BURN_5_FOCUS"
+    logic_gate: str
     required_triad: str
     dc: int
     failure_cost: str
+    spatial: SpatialData = Field(default_factory=SpatialData)
 
 # --- 6. DISCOVERY SCHEMA ---
 class DiscoveryEncounter(BaseModel):
@@ -86,6 +95,7 @@ class DiscoveryEncounter(BaseModel):
     narrative_prompt: str
     loot_tags: List[str]
     interaction_required: bool
+    spatial: SpatialData = Field(default_factory=SpatialData)
 
 # --- THE POLYMORPHIC UNION ---
 EncounterData = Union[
@@ -102,14 +112,11 @@ class EncounterResponse(BaseModel):
     data: EncounterData
 
 class EncounterRequest(BaseModel):
-    # Contextual data for "No Input" generation
     biome: Optional[str] = None
     location_id: Optional[str] = None
     threat_level: int = 1
     world_id: Optional[str] = None
     faction_territory: Optional[str] = None
-    
-    # Override for "Detailed Prompt" generation
     forced_type: Optional[EncounterCategory] = None
     seed_prompt: Optional[str] = None
     quest_id: Optional[str] = None

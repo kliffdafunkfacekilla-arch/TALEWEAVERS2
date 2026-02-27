@@ -50,6 +50,7 @@ async def handle_player_action(action: PlayerAction, db: AsyncSession = Depends(
         "math_log": "",
         "director_override": None,
         "vtt_commands": [],
+        "active_encounter": None,
         "ai_narration": ""
     }
     
@@ -64,7 +65,8 @@ async def handle_player_action(action: PlayerAction, db: AsyncSession = Depends(
         ai_narration_html=f"<div>{final_state['ai_narration']}</div>",
         system_log=final_state["math_log"],
         ui_refresh_required=True if final_state["math_log"] else False,
-        vtt_commands=final_state["vtt_commands"]
+        vtt_commands=final_state["vtt_commands"],
+        active_encounter=final_state.get("active_encounter")
     )
     
     return response
@@ -131,6 +133,7 @@ async def process_chat_action(req: PlayerChatRequest):
         "math_log": "",
         "director_override": None,
         "vtt_commands": [],
+        "active_encounter": state.get("active_encounter"),
         "ai_narration": ""
     }
     
@@ -140,8 +143,9 @@ async def process_chat_action(req: PlayerChatRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
-    # Update campaign tracker with new vitals
+    # Update campaign tracker with new state
     ACTIVE_CAMPAIGNS[req.campaign_id]["player_vitals"] = final_state["player_vitals"]
+    ACTIVE_CAMPAIGNS[req.campaign_id]["active_encounter"] = final_state.get("active_encounter")
     
     return {
         "narration": final_state["ai_narration"],
