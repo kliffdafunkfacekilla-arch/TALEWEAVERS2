@@ -76,7 +76,7 @@ class SAGA_API_Gateway:
     async def check_quest_triggers(self, coords: str):
         # For now, this acts as the "Director's Script". 
         if coords == "[10, 15]":
-            return {"type": "COMBAT", "event": "Wolf Cultist Ambush", "seed": "Wolf Cultists searching for a relic."}
+            return {"type": "SOCIAL", "event": "Wandering Merchant", "seed": "A merchant with information about the relic."}
         return None
     
     async def get_campaign_state(self, player_id: str):
