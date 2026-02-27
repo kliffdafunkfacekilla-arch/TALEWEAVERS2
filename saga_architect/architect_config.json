@@ -1,8 +1,8 @@
 {
   "world_settings": {
-    "num_hexes": 2500,
+    "num_hexes": 10000,
     "tectonic_plates": 5,
-    "heightmap_image": "Gemini_Generated_Image_j9uvp4j9uvp4j9uv.png",
+    "heightmap_image": "",
     "heightmap_steps": []
   },
   "climate": {

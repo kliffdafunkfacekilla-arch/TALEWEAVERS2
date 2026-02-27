@@ -11,6 +11,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../stb_image.h"
 
+// Include Delaunator for true Voronoi Topology
+#include "delaunator/delaunator.hpp"
+
 class VoronoiGen {
 public:
   std::vector<VoronoiCell> cells;
@@ -30,6 +33,35 @@ public:
       cells[i].wind_dy = 0.0f;
       cells[i].has_river = false;
     }
+
+    std::cout << "Running Delaunay Triangulation to establish topology..." << std::endl;
+    std::vector<double> coords;
+    for (const auto& c : cells) {
+        coords.push_back(c.x);
+        coords.push_back(c.y);
+    }
+    
+    delaunator::Delaunator d(coords);
+    
+    // Convert Delaunay triangles into Voronoi neighborhood graph
+    for (std::size_t i = 0; i < d.triangles.size(); i += 3) {
+        int t0 = d.triangles[i];
+        int t1 = d.triangles[i + 1];
+        int t2 = d.triangles[i + 2];
+        
+        // Ensure t0 knows t1 and t2 are neighbors
+        if (std::find(cells[t0].neighbors.begin(), cells[t0].neighbors.end(), t1) == cells[t0].neighbors.end()) cells[t0].neighbors.push_back(t1);
+        if (std::find(cells[t0].neighbors.begin(), cells[t0].neighbors.end(), t2) == cells[t0].neighbors.end()) cells[t0].neighbors.push_back(t2);
+        
+        // Ensure t1 knows t0 and t2 are neighbors
+        if (std::find(cells[t1].neighbors.begin(), cells[t1].neighbors.end(), t0) == cells[t1].neighbors.end()) cells[t1].neighbors.push_back(t0);
+        if (std::find(cells[t1].neighbors.begin(), cells[t1].neighbors.end(), t2) == cells[t1].neighbors.end()) cells[t1].neighbors.push_back(t2);
+        
+        // Ensure t2 knows t0 and t1 are neighbors
+        if (std::find(cells[t2].neighbors.begin(), cells[t2].neighbors.end(), t0) == cells[t2].neighbors.end()) cells[t2].neighbors.push_back(t0);
+        if (std::find(cells[t2].neighbors.begin(), cells[t2].neighbors.end(), t1) == cells[t2].neighbors.end()) cells[t2].neighbors.push_back(t1);
+    }
+    std::cout << "Topology graph established." << std::endl;
   }
 
   // Photo Importer — reads a grayscale PNG and maps pixel brightness to

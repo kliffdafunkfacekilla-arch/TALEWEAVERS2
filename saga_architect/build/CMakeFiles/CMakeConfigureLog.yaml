@@ -26,7 +26,7 @@ events:
       Microsoft (R) Build Engine version 16.11.6+a918ceb31 for .NET Framework
       Copyright (C) Microsoft Corporation. All rights reserved.
       
-      Build started 2/25/2026 12:21:27 AM.
+      Build started 2/27/2026 5:21:08 PM.
       Project "C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\3.31.6\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
       PrepareForBuild:
         Creating directory "Debug\\".
@@ -52,7 +52,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.88
+      Time Elapsed 00:00:01.11
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -71,8 +71,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/CMakeScratch/TryCompile-6gbpc7"
-      binary: "C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/CMakeScratch/TryCompile-6gbpc7"
+      source: "C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/CMakeScratch/TryCompile-59w0l1"
+      binary: "C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/CMakeScratch/TryCompile-59w0l1"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -82,33 +82,33 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/CMakeScratch/TryCompile-6gbpc7'
+        Change Dir: 'C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/CMakeScratch/TryCompile-59w0l1'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/Current/Bin/MSBuild.exe" cmTC_fad3a.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/Current/Bin/MSBuild.exe" cmTC_a4473.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:n
         Microsoft (R) Build Engine version 16.11.6+a918ceb31 for .NET Framework
         Copyright (C) Microsoft Corporation. All rights reserved.
         
-        Build started 2/25/2026 12:21:29 AM.
-        Project "C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6gbpc7\\cmTC_fad3a.vcxproj" on node 1 (default targets).
+        Build started 2/27/2026 5:21:10 PM.
+        Project "C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\CMakeScratch\\TryCompile-59w0l1\\cmTC_a4473.vcxproj" on node 1 (default targets).
         PrepareForBuild:
-          Creating directory "cmTC_fad3a.dir\\Debug\\".
-          Creating directory "C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6gbpc7\\Debug\\".
-          Creating directory "cmTC_fad3a.dir\\Debug\\cmTC_fad3a.tlog\\".
+          Creating directory "cmTC_a4473.dir\\Debug\\".
+          Creating directory "C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\CMakeScratch\\TryCompile-59w0l1\\Debug\\".
+          Creating directory "cmTC_a4473.dir\\Debug\\cmTC_a4473.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_fad3a.dir\\Debug\\cmTC_fad3a.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Creating "cmTC_a4473.dir\\Debug\\cmTC_a4473.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_fad3a.dir\\Debug\\\\" /Fd"cmTC_fad3a.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Python313\\Lib\\site-packages\\cmake\\data\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_a4473.dir\\Debug\\\\" /Fd"cmTC_a4473.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Python313\\Lib\\site-packages\\cmake\\data\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.29.30159 for x64
-          CMakeCXXCompilerABI.cpp
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_fad3a.dir\\Debug\\\\" /Fd"cmTC_fad3a.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Python313\\Lib\\site-packages\\cmake\\data\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+          CMakeCXXCompilerABI.cpp
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_a4473.dir\\Debug\\\\" /Fd"cmTC_a4473.dir\\Debug\\vc142.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Python313\\Lib\\site-packages\\cmake\\data\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6gbpc7\\Debug\\cmTC_fad3a.exe" /INCREMENTAL /ILK:"cmTC_fad3a.dir\\Debug\\cmTC_fad3a.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/CMakeScratch/TryCompile-6gbpc7/Debug/cmTC_fad3a.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/CMakeScratch/TryCompile-6gbpc7/Debug/cmTC_fad3a.lib" /MACHINE:X64  /machine:x64 cmTC_fad3a.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_fad3a.vcxproj -> C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6gbpc7\\Debug\\cmTC_fad3a.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\CMakeScratch\\TryCompile-59w0l1\\Debug\\cmTC_a4473.exe" /INCREMENTAL /ILK:"cmTC_a4473.dir\\Debug\\cmTC_a4473.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/CMakeScratch/TryCompile-59w0l1/Debug/cmTC_a4473.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/krazy/Documents/GitHub/TALEWEAVERS/saga_architect/build/CMakeFiles/CMakeScratch/TryCompile-59w0l1/Debug/cmTC_a4473.lib" /MACHINE:X64  /machine:x64 cmTC_a4473.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_a4473.vcxproj -> C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\CMakeScratch\\TryCompile-59w0l1\\Debug\\cmTC_a4473.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_fad3a.dir\\Debug\\cmTC_fad3a.tlog\\unsuccessfulbuild".
-          Touching "cmTC_fad3a.dir\\Debug\\cmTC_fad3a.tlog\\cmTC_fad3a.lastbuildstate".
-        Done Building Project "C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6gbpc7\\cmTC_fad3a.vcxproj" (default targets).
+          Deleting file "cmTC_a4473.dir\\Debug\\cmTC_a4473.tlog\\unsuccessfulbuild".
+          Touching "cmTC_a4473.dir\\Debug\\cmTC_a4473.tlog\\cmTC_a4473.lastbuildstate".
+        Done Building Project "C:\\Users\\krazy\\Documents\\GitHub\\TALEWEAVERS\\saga_architect\\build\\CMakeFiles\\CMakeScratch\\TryCompile-59w0l1\\cmTC_a4473.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { useGameStore } from '../store/useGameStore';
+import { Delaunay } from 'd3-delaunay';
 
 export const MapRenderer: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -20,7 +21,7 @@ export const MapRenderer: React.FC = () => {
             case 'LUSH_JUNGLE': return 0x166534; // Deep vibrant green
             case 'MUSHROOM_SWAMP': return 0x9333ea; // Bright toxic purple
             case 'OCEAN': return 0x0284c7; // Teal
-            default: return 0x4ade80; // Bright green plains fallback instead of grey
+            default: return 0x4ade80; // Bright green plains fallback
         }
     };
 
@@ -38,19 +39,24 @@ export const MapRenderer: React.FC = () => {
             containerRef.current?.appendChild(app.canvas as unknown as HTMLElement);
             appRef.current = app;
 
+            // Scale up the logical world visually 
+            const WORLD_SIZE = 1000;
             const viewport = new Viewport({
                 screenWidth: containerRef.current!.clientWidth,
                 screenHeight: containerRef.current!.clientHeight,
-                worldWidth: 2000, worldHeight: 2000,
+                worldWidth: WORLD_SIZE, worldHeight: WORLD_SIZE,
                 events: app.renderer.events
             });
             app.stage.addChild(viewport);
             viewport.drag().pinch().wheel().decelerate();
 
+            // Adjust starting view to center map nicely
+            viewport.moveCenter(WORLD_SIZE / 2, WORLD_SIZE / 2);
+            viewport.setZoom(0.8, true);
+
             const mapGraphics = new PIXI.Graphics();
             viewport.addChild(mapGraphics);
 
-            // DRAG PAINTING MATH
             let isPainting = false;
             let lastPaintedId = -1;
             viewport.eventMode = 'static';
@@ -60,9 +66,11 @@ export const MapRenderer: React.FC = () => {
                 const state = useGameStore.getState();
                 if (!state.worldData) return;
                 const localPos = viewport.toLocal(e.global);
+
                 let minDist = Infinity;
                 let nearestId = -1;
 
+                // Find closest Voronoi site (cell center)
                 for (let i = 0; i < state.worldData.macro_map.length; i++) {
                     const cell = state.worldData.macro_map[i];
                     const dx = cell.x - localPos.x;
@@ -96,54 +104,65 @@ export const MapRenderer: React.FC = () => {
             const draw = () => {
                 mapGraphics.clear();
                 const state = useGameStore.getState();
-                if (!state.worldData) return;
+                if (!state.worldData || state.worldData.macro_map.length === 0) return;
 
-                state.worldData.macro_map.forEach((cell: any) => {
-                    const cx = cell.x || 0;
-                    const cy = cell.y || 0;
+                const cells = state.worldData.macro_map;
 
-                    // Slightly overdraw the hex size (19 vs 18 spacing) to guarantee overlapping fusion and eliminate 1-pixel grid gaps
-                    const size = 19;
-                    const points: number[] = [];
-                    // Flat-topped hexes 
-                    for (let a = 0; a < 6; a++) {
-                        const angle = (Math.PI / 3) * a + Math.PI / 6;
-                        points.push(cx + size * Math.cos(angle));
-                        points.push(cy + size * Math.sin(angle));
+                // --- VORONOI GENERATION (Azgaar Style) ---
+                // Extract points array
+                const points = Float64Array.from(cells.flatMap((c: any) => [c.x, c.y]));
+                const delaunay = new Delaunay(points);
+                // Define the bounding box of the voronoi generation
+                const voronoi = delaunay.voronoi([-50, -50, WORLD_SIZE + 50, WORLD_SIZE + 50]);
+
+                cells.forEach((cell: any, i: number) => {
+                    // Extract exact polygon vertices for this cell
+                    const polygon = voronoi.cellPolygon(i);
+                    if (!polygon || polygon.length < 3) return; // Skip degenerate cells
+
+                    // Flatten polygon coords for PIXI drawing
+                    const drawPoints: number[] = [];
+                    for (let j = 0; j < polygon.length - 1; j++) { // -1 to skip duplicated end point
+                        drawPoints.push(polygon[j][0], polygon[j][1]);
                     }
 
                     if (state.viewLens === 'PHYSICAL') {
                         let color = getBiomeColor(cell.biome_tag, cell.elevation);
 
-                        // Paint the terrain. No black borders on normal land to create smooth rolling continents.
                         mapGraphics.fill(color);
-                        mapGraphics.poly(points);
-                        mapGraphics.fill();
+                        mapGraphics.poly(drawPoints);
 
-                        // Only add soft white snowy highlights to extreme elevations
-                        if (cell.elevation > 0.8) {
-                            mapGraphics.stroke({ width: 2, color: 0xFFFFFF, alpha: 0.3 });
+                        // Add coastline strokes - outline water differently from land
+                        if (cell.elevation <= 0.2) {
+                            mapGraphics.stroke({ width: 0.5, color: 0x0ea5e9, alpha: 0.3 }); // Soft water edges
+                        } else {
+                            if (cell.elevation > 0.8) {
+                                // Snowy mountains
+                                mapGraphics.stroke({ width: 2, color: 0xFFFFFF, alpha: 0.5 });
+                            }
                         }
+                        mapGraphics.fill();
                     }
                     else if (state.viewLens === 'POLITICAL') {
                         let color = cell.elevation <= 0.2 ? 0x050505 : 0x1f1f22;
                         if (cell.faction_owner === 'The_Rot_Coven') color = 0x7f1d1d;
                         if (cell.faction_owner === 'Iron_Empire') color = 0x1e3a8a;
                         mapGraphics.fill(color);
-                        mapGraphics.poly(points);
+                        mapGraphics.poly(drawPoints);
+                        mapGraphics.stroke({ width: 1, color: 0x000000, alpha: 0.5 }); // Draw country borders
                         mapGraphics.fill();
                     }
                     else if (state.viewLens === 'RESOURCE') {
                         mapGraphics.fill(0x09090b);
-                        mapGraphics.poly(points);
+                        mapGraphics.poly(drawPoints);
                         mapGraphics.stroke({ width: 1, color: 0x27272a, alpha: 0.5 });
                         mapGraphics.fill();
 
                         if (cell.local_resources?.includes('Iron_Ore')) {
-                            mapGraphics.fill(0xf97316); mapGraphics.circle(cx, cy, 4); mapGraphics.fill();
+                            mapGraphics.fill(0xf97316); mapGraphics.circle(cell.x, cell.y, 4); mapGraphics.fill();
                         }
                         if (cell.local_flora?.includes('D-Dust_Spores')) {
-                            mapGraphics.fill(0x22c55e); mapGraphics.circle(cx - 3, cy + 3, 3); mapGraphics.fill();
+                            mapGraphics.fill(0x22c55e); mapGraphics.circle(cell.x - 3, cell.y + 3, 3); mapGraphics.fill();
                         }
                     }
                     else if (state.viewLens === 'THREAT') {
@@ -152,13 +171,14 @@ export const MapRenderer: React.FC = () => {
                         if (cell.threat_level === 3) heatColor = 0xf97316;
                         if (cell.threat_level >= 4) heatColor = 0xef4444;
                         mapGraphics.fill(cell.elevation <= 0.2 ? 0x050505 : heatColor);
-                        mapGraphics.poly(points);
+                        mapGraphics.poly(drawPoints);
                         mapGraphics.fill();
                     }
 
-                    if (cell.is_city) {
+                    // Cities 
+                    if (cell.is_city && state.viewLens !== 'PHYSICAL') { // Hide cities on physical map
                         mapGraphics.fill(0xffffff);
-                        mapGraphics.circle(cx, cy, 4);
+                        mapGraphics.circle(cell.x, cell.y, 4);
                         mapGraphics.stroke({ width: 1, color: 0x000000, alpha: 1 });
                         mapGraphics.fill();
                     }

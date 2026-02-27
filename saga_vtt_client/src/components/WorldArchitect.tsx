@@ -25,6 +25,9 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const [loreQuery, setLoreQuery] = useState("Aggressive factions that use iron");
     const [loreResults, setLoreResults] = useState<{ title: string; category: string; content: string; distance: number }[]>([]);
     const [isLoreProcessing, setIsLoreProcessing] = useState(false);
+    const [loreFactions, setLoreFactions] = useState<{ title: string }[]>([]);
+    const [loreWildlife, setLoreWildlife] = useState<{ title: string }[]>([]);
+
 
     // --- ARCHITECT'S PALETTE (EDIT MODE) ---
     const editMode = useGameStore((s) => s.editMode);
@@ -81,11 +84,27 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
         }
     ]);
 
+    const fetchLoreEntities = async () => {
+        try {
+            const res = await fetch("http://localhost:8001/api/lore/entities");
+            if (res.ok) {
+                const data = await res.json();
+                setLoreFactions(data.factions || []);
+                setLoreWildlife(data.wildlife || []);
+            }
+        } catch (e) {
+            console.error("Failed to fetch lore entities", e);
+        }
+    };
+
     // Check if Port 8001 is running on mount
     useEffect(() => {
         fetch("http://localhost:8001/health")
             .then(res => res.json())
-            .then(() => setLoreOnline(true))
+            .then(() => {
+                setLoreOnline(true);
+                fetchLoreEntities();
+            })
             .catch(() => setLoreOnline(false));
     }, []);
 
@@ -99,6 +118,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             });
             const data = await res.json();
             alert(`Lore Vault Ingested! Processed ${data.files_processed} Markdown files.`);
+            fetchLoreEntities(); // Refresh the datalists with new vault output!
         } catch {
             alert("Failed to reach Lore Module on Port 8001.");
         } finally {
@@ -202,6 +222,12 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
 
     return (
         <div className="w-full h-full flex bg-zinc-950 text-white font-sans overflow-hidden">
+            <datalist id="lore-factions">
+                {loreFactions.map((f, idx) => <option key={idx} value={f.title} />)}
+            </datalist>
+            <datalist id="lore-wildlife">
+                {loreWildlife.map((w, idx) => <option key={idx} value={w.title} />)}
+            </datalist>
 
             {/* LEFT PANEL: God Engine Config */}
             <div className="w-[400px] bg-zinc-900/90 border-r border-zinc-800 flex flex-col shadow-2xl z-10">
@@ -514,6 +540,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                     <div className="flex gap-2">
                                         <input
                                             type="text"
+                                            list="lore-wildlife"
                                             value={lf.name}
                                             onChange={(e) => updateLifeform(i, 'name', e.target.value)}
                                             className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white text-xs font-bold"
@@ -582,6 +609,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                 <div key={i} className="p-3 border border-zinc-800 bg-zinc-950 flex flex-col gap-3">
                                     <input
                                         type="text"
+                                        list="lore-factions"
                                         value={f.name}
                                         onChange={e => updateFaction(i, 'name', e.target.value)}
                                         className="w-full bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold"
