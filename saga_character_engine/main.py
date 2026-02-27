@@ -4,6 +4,7 @@ from core.schemas import CharacterBuildRequest, CompiledCharacterSheet, DerivedV
 from core.calc_vitals import calculate_pools
 from core.calc_evolution import apply_biology
 from core.calc_loadout import apply_holding_fees
+from core.calc_skills import calculate_skills
 import uvicorn
 
 app = FastAPI(title="T.A.L.E.W.E.A.V.E.R. Character Rules Engine", version="1.0.0")
@@ -40,13 +41,17 @@ async def calculate_character_sheet(request: CharacterBuildRequest):
         # 3. Apply Loadout Holding Fees
         fees = apply_holding_fees(vitals, request.equipped_loadout)
         
-        # 4. Compile the Final Sheet
+        # 4. Calculate Tactical Skills Ranks/Pips
+        compiled_skills = calculate_skills(final_attributes, request.tactical_skills)
+        
+        # 5. Compile the Final Sheet
         return CompiledCharacterSheet(
             name=request.name,
             attributes=final_attributes,
             vitals=vitals,
             evolutions=request.evolutions,
             passives=granted_passives,
+            tactical_skills=compiled_skills,
             powers=request.selected_powers,
             loadout=request.equipped_loadout,
             holding_fees=fees

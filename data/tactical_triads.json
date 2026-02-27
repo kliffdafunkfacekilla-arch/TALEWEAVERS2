@@ -1,0 +1,206 @@
+{
+  "Assault": [
+    {
+      "skill": "Aggressive",
+      "stat_pair": "Might + Knowledge",
+      "effect": "Advantage on damage vs Shields/Heavy Armor."
+    },
+    {
+      "skill": "Calculated",
+      "stat_pair": "Reflexes + Logic",
+      "effect": "On Advantage hit, attacker chooses enemy's Injury Resistance stat."
+    },
+    {
+      "skill": "Patient",
+      "stat_pair": "Finesse + Intuition",
+      "effect": "Advantage on hit if user Defended/Yielded last turn."
+    }
+  ],
+  "Coercion": [
+    {
+      "skill": "Intimidating",
+      "stat_pair": "Vitality + Charm",
+      "effect": "Solid Hit forces Disadvantage on target's next Social/Resolve action."
+    },
+    {
+      "skill": "Deception",
+      "stat_pair": "Endurance + Willpower",
+      "effect": "Deals minor chip CMP damage even on a Miss."
+    },
+    {
+      "skill": "Relentless",
+      "stat_pair": "Fortitude + Awareness",
+      "effect": "Advantage on Coercion rolls vs already Broken/Shaken targets."
+    }
+  ],
+  "Ballistics": [
+    {
+      "skill": "Skirmish",
+      "stat_pair": "Reflexes + Knowledge",
+      "effect": "Removes Disadvantage for firing within 5ft of enemies."
+    },
+    {
+      "skill": "Precise",
+      "stat_pair": "Finesse + Logic",
+      "effect": "Spend 1 FP for Advantage on Critical Injury rolls."
+    },
+    {
+      "skill": "Thrown/Tossed",
+      "stat_pair": "Might + Awareness",
+      "effect": "On hit, target rolls vs Staggered status."
+    }
+  ],
+  "Suppression": [
+    {
+      "skill": "Predict",
+      "stat_pair": "Vitality + Intuition",
+      "effect": "Declare hex; enemy entering must roll CMP or stop moving."
+    },
+    {
+      "skill": "Impose",
+      "stat_pair": "Fortitude + Willpower",
+      "effect": "Enemies in range suffer Disadvantage on Initiative actions."
+    },
+    {
+      "skill": "Imply",
+      "stat_pair": "Endurance + Charm",
+      "effect": "Target has Disadvantage on Offense if they don't move out of LoS."
+    }
+  ],
+  "Fortify": [
+    {
+      "skill": "Rooted",
+      "stat_pair": "Endurance + Logic",
+      "effect": "Immune to Prone/Forced Move; Advantage vs Disarm."
+    },
+    {
+      "skill": "Fluid",
+      "stat_pair": "Fortitude + Knowledge",
+      "effect": "Successful defense converts Solid Hit into a Graze."
+    },
+    {
+      "skill": "Dueling",
+      "stat_pair": "Might + Intuition",
+      "effect": "Winning a Clash grants Advantage on next Assault action."
+    }
+  ],
+  "Resolve": [
+    {
+      "skill": "Confidence",
+      "stat_pair": "Vitality + Willpower",
+      "effect": "Advantage on Social defense rolls while at Max CMP."
+    },
+    {
+      "skill": "Reasoning",
+      "stat_pair": "Reflexes + Awareness",
+      "effect": "Use Logic for Horrifying Sight defense instead of Willpower."
+    },
+    {
+      "skill": "Cavalier",
+      "stat_pair": "Finesse + Charm",
+      "effect": "Nat 20 Defense deals 1d4 CMP damage to attacker."
+    }
+  ],
+  "Operations": [
+    {
+      "skill": "Alter",
+      "stat_pair": "Might + Logic",
+      "effect": "Advantage on rolls to destroy cover or create Difficult Terrain."
+    },
+    {
+      "skill": "Utilize",
+      "stat_pair": "Fortitude + Willpower",
+      "effect": "Use environment to gain Advantage on next Fortify action."
+    },
+    {
+      "skill": "Introduce",
+      "stat_pair": "Endurance + Awareness",
+      "effect": "Spend 1 SP to give ally shield/cover +1 Durability."
+    }
+  ],
+  "Tactics": [
+    {
+      "skill": "Command",
+      "stat_pair": "Fortitude + Charm",
+      "effect": "Ally may swap their Lead/Trail stats immediately for free."
+    },
+    {
+      "skill": "Exploit",
+      "stat_pair": "Finesse + Intuition",
+      "effect": "If enemy is Staggered, user may move turn order to act next."
+    },
+    {
+      "skill": "Tactics",
+      "stat_pair": "Might + Knowledge",
+      "effect": "If top of turn order, all allies gain +5ft Move Speed."
+    }
+  ],
+  "Stabilize": [
+    {
+      "skill": "First Aid",
+      "stat_pair": "Endurance + Charm",
+      "effect": "Stitch wound as Move Action (Disadvantage) instead of Main."
+    },
+    {
+      "skill": "Medicine",
+      "stat_pair": "Vitality + Knowledge",
+      "effect": "Advantage on rolls to remove Bleeding or Poison status."
+    },
+    {
+      "skill": "Surgery",
+      "stat_pair": "Fortitude + Intuition",
+      "effect": "Only skill capable of removing Severe Injury scars."
+    }
+  ],
+  "Rally": [
+    {
+      "skill": "Self-Awareness",
+      "stat_pair": "Intuition + Vitality",
+      "effect": "Spend 1 FP for Advantage to resist Mental Fractures."
+    },
+    {
+      "skill": "Detached",
+      "stat_pair": "Willpower + Logic",
+      "effect": "Ignore Disadvantage penalty for low CMP (<50%) for 1 turn."
+    },
+    {
+      "skill": "Mindfulness",
+      "stat_pair": "Awareness + Fortitude",
+      "effect": "Can perform Rally action on allies at range (15ft)."
+    }
+  ],
+  "Mobility": [
+    {
+      "skill": "Charge",
+      "stat_pair": "Reflexes + Willpower",
+      "effect": "Move 15ft in straight line for Advantage on next Assault."
+    },
+    {
+      "skill": "Flanking",
+      "stat_pair": "Vitality + Awareness",
+      "effect": "No Free Attacks provoked when moving adjacent to enemies."
+    },
+    {
+      "skill": "Speed",
+      "stat_pair": "Endurance + Logic",
+      "effect": "Moving 2 turns in a row increases SPD by +10ft."
+    }
+  ],
+  "Bravery": [
+    {
+      "skill": "Commitment",
+      "stat_pair": "Finesse + Intuition",
+      "effect": "Advantage on Resolve rolls while adjacent to an enemy."
+    },
+    {
+      "skill": "Determined",
+      "stat_pair": "Might + Awareness",
+      "effect": "Allies moving toward the user gain +5ft Move Speed."
+    },
+    {
+      "skill": "Outsmart",
+      "stat_pair": "Reflexes + Finesse",
+      "effect": "Retreat without losing Initiative on next round."
+    }
+  ]
+}
