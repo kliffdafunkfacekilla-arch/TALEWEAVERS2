@@ -513,17 +513,15 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
         set({ ui_locked: true });
 
         const payload = {
+            campaign_id: state.activeCampaignId || 'CAMPAIGN_001',
             player_id: 'PLAYER_001',
-            action_type: action,
-            action_target: target,
-            raw_chat_text: "",
-            stamina_burned: burn
+            player_input: action === "TRAVEL" ? `Move to ${target}` : action,
         };
 
         console.log('[VTT] Action sent:', JSON.stringify(payload));
 
         try {
-            const res = await fetch('http://localhost:8000/action', {
+            const res = await fetch('http://localhost:8000/api/campaign/action', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -537,24 +535,23 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
                 ui_locked: false,
                 chat_log: [
                     ...s.chat_log,
-                    { sender: 'AI_DIRECTOR' as const, text: update.ai_narration_html.replace(/<[^>]*>?/gm, '') },
+                    { sender: 'AI_DIRECTOR' as const, text: update.narration || 'The world awaits.' },
                 ],
-                activeEncounter: update.active_encounter && s.activeEncounter ? {
-                    ...s.activeEncounter,
-                    ...update.active_encounter,
-                    tokens: s.activeEncounter.tokens,
-                    gridWidth: s.activeEncounter.gridWidth,
-                    gridHeight: s.activeEncounter.gridHeight,
-                    grid: s.activeEncounter.grid
-                } : (update.active_encounter || s.activeEncounter),
-                vitals: {
-                    ...s.vitals,
-                    stamina: {
-                        ...s.vitals.stamina,
-                        current: Math.max(0, s.vitals.stamina.current - burn),
-                    },
-                },
+                // If a new encounter is triggered or an old one is closed
+                activeEncounter: update.active_encounter || null
             }));
+
+            // Sync vitals if returned
+            if (update.updated_vitals) {
+                get().setPlayerVitals(update.updated_vitals);
+            }
+
+            // Sync Victory logic if encounter closed via chat
+            if (!update.active_encounter && state.activeEncounter) {
+                const hex = get().selectedHex;
+                if (hex) get().markEncounterCleared(hex.id || `HEX_${hex.index}`);
+                set({ activeEncounter: null, selectedTargetId: null });
+            }
 
             // Handle VTT Commands (like MOVE_TOKEN or START_COMBAT)
             if (update.vtt_commands) {
@@ -624,6 +621,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
             }
 
             const payload = {
+                campaign_id: state.activeCampaignId,
                 skill_name: skillName,
                 skill_rank: skillRank,
                 stat_mod: statMod,

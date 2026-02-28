@@ -163,10 +163,12 @@ async def process_chat_action(req: PlayerChatRequest):
         "narration": final_state["ai_narration"],
         "system_log": final_state["math_log"],
         "updated_vitals": final_state["player_vitals"],
-        "vtt_commands": final_state["vtt_commands"]
+        "vtt_commands": final_state["vtt_commands"],
+        "active_encounter": final_state.get("active_encounter")
     }
 
 class TacticalActionRequest(BaseModel):
+    campaign_id: str
     skill_name: str
     skill_rank: int
     stat_mod: int
@@ -244,9 +246,27 @@ async def process_tactical_action(req: TacticalActionRequest):
     }
     
     target_id = req.target.get("id", "enemy_unknown")
+    camp_id = req.campaign_id
     
     # ── S.A.G.A Rule: Dead is Dead ──
     # Check if the target was already deleted or doesn't exist in the active combat list.
+    if target_id not in active_enemies:
+        # Check if we can initialize this enemy from the campaign's active encounter
+        if camp_id in ACTIVE_CAMPAIGNS:
+            camp = ACTIVE_CAMPAIGNS[camp_id]
+            enc = camp.get("active_encounter")
+            if enc and enc.get("tokens"):
+                target_token = next((t for t in enc["tokens"] if t["id"] == target_id), None)
+                if target_token:
+                    print(f"[GM] Initializing enemy {target_id} from Active Encounter data.")
+                    active_enemies[target_id] = {
+                        "id": target_id,
+                        "name": target_token.get("name", "Unknown"),
+                        "current_hp": target_token.get("current_hp", 15),
+                        "attack_or_defense_pool": target_token.get("attack_or_defense_pool", 4),
+                        "weapon_dice": target_token.get("weapon_dice", "1d6")
+                    }
+        
     if target_id not in active_enemies:
         return {
             "resolution_text": "ENCOUNTER OVER: The target is no longer present.",

@@ -6,6 +6,8 @@ from core.vector_store import LoreVaultDB
 from collections import Counter
 import uvicorn
 import os
+import json
+import logging
 
 app = FastAPI(title="S.A.G.A. Lore Vault API", description="Module 1: Lore Database")
 

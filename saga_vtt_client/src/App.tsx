@@ -99,7 +99,10 @@ export default function App() {
       setCampaignId(campData.campaign_id);
       console.log(`[VTT] Campaign ${campData.campaign_id} initialized.`);
 
-      // ── STEP 4: AI Director introduction ──
+      // ── STEP 4: AI Director induction pulse ──
+      // This ensures the Director checks for encounters at the starting hex immediately.
+      await useGameStore.getState().sendAction("TRAVEL", 0, "402");
+
       addChatMessage({
         sender: 'AI_DIRECTOR',
         text: 'The biting cold of the Deep Tundra pierces your armor. You stand in Hex #402. What do you do?'

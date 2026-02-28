@@ -832,11 +832,11 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                         </h4>
 
                         <ul className="text-xs font-mono space-y-2">
-                            <li className="flex justify-between"><span className="text-zinc-500">Biome</span><span className="text-white font-bold">{selectedHex.biome_tag}</span></li>
-                            <li className="flex justify-between"><span className="text-zinc-500">Elevation</span><span className="text-white">{(selectedHex.elevation * 100).toFixed(1)}%</span></li>
-                            <li className="flex justify-between"><span className="text-zinc-500">Temp</span><span className="text-red-400">{selectedHex.temperature.toFixed(1)}°C</span></li>
-                            <li className="flex justify-between"><span className="text-zinc-500">Moisture</span><span className="text-blue-400">{(selectedHex.moisture * 100).toFixed(0)}%</span></li>
-                            <li className="flex justify-between"><span className="text-zinc-500">Wind</span><span className="text-zinc-300">[{selectedHex.wind_dx.toFixed(1)}, {selectedHex.wind_dy.toFixed(1)}]</span></li>
+                            <li className="flex justify-between"><span className="text-zinc-500">Biome</span><span className="text-white font-bold">{selectedHex.biome_tag || "Unknown"}</span></li>
+                            <li className="flex justify-between"><span className="text-zinc-500">Elevation</span><span className="text-white">{((selectedHex.elevation || 0) * 100).toFixed(1)}%</span></li>
+                            <li className="flex justify-between"><span className="text-zinc-500">Temp</span><span className="text-red-400">{(selectedHex.temperature || 0).toFixed(1)}°C</span></li>
+                            <li className="flex justify-between"><span className="text-zinc-500">Moisture</span><span className="text-blue-400">{((selectedHex.moisture || 0) * 100).toFixed(0)}%</span></li>
+                            <li className="flex justify-between"><span className="text-zinc-500">Wind</span><span className="text-zinc-300">[{(selectedHex.wind_dx || 0).toFixed(1)}, {(selectedHex.wind_dy || 0).toFixed(1)}]</span></li>
                         </ul>
 
                         <div className="mt-4 pt-3 border-t border-zinc-800 space-y-3">
