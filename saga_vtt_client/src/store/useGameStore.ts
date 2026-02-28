@@ -55,6 +55,7 @@ export interface CharacterSheet {
     };
     evolutions: any;
     passives: { name: string; effect: string }[];
+    tactical_skills?: Record<string, any>;
     powers: string[];
     loadout: Record<string, string>;
     holding_fees: { stamina: number; focus: number };
@@ -107,7 +108,7 @@ export interface Injuries {
 }
 
 export interface ChatMessage {
-    sender: 'SYSTEM' | 'AI_DIRECTOR' | 'PLAYER' | 'NARRATOR';
+    sender: 'SYSTEM' | 'AI_DIRECTOR' | 'PLAYER' | 'NARRATOR' | 'ERROR';
     text: string;
 }
 
@@ -143,6 +144,10 @@ export interface EncounterToken {
 
 export interface ActiveEncounter {
     encounter_id: string;
+    tokens: EncounterToken[];
+    gridWidth?: number;
+    gridHeight?: number;
+    grid?: number[][];
     data: {
         category?: string;
         title: string;
@@ -200,7 +205,9 @@ export interface ClientGameState {
 
     // Tactical Encounter
     activeEncounter: ActiveEncounter | null;
+    encountersCleared: Set<string>;
     setActiveEncounter: (encounter: ActiveEncounter | null) => void;
+    markEncounterCleared: (id: string) => void;
     moveToken: (id: string, newX: number, newY: number) => void;
 
     // Targeting (the token you are aiming at on the grid)
@@ -246,6 +253,7 @@ export interface ClientGameState {
 
     // ── Actions ──
     sendAction: (action: string, burn: number, target: string) => void;
+    executeAction: (skillName: string, targetId: string) => Promise<void>;
     addChatMessage: (msg: ChatMessage) => void;
     selectToken: (id: string | null) => void;
     toggleQuestComplete: (id: string) => void;
@@ -255,7 +263,7 @@ export interface ClientGameState {
 
 // ── Initial State ─────────────────────────────────────────────────────
 const INITIAL_STATE: Omit<ClientGameState,
-    'sendAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setEditMode' | 'setActiveBrush' | 'setBrushSize' | 'setBrushStrength' | 'paintHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet' | 'setClientLoadout' | 'addInjury' | 'setViewLens'
+    'sendAction' | 'executeAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setWorldData' | 'clearWorld' | 'setCampaignId' | 'setSelectedHex' | 'setEditMode' | 'setActiveBrush' | 'setBrushSize' | 'setBrushStrength' | 'paintHex' | 'setActiveEncounter' | 'moveToken' | 'setPlayerVitals' | 'setTarget' | 'setCharacterSheet' | 'setClientLoadout' | 'addInjury' | 'setViewLens'
 > = {
     viewLens: 'PHYSICAL',
     currentScreen: 'MAIN_MENU',
@@ -270,6 +278,7 @@ const INITIAL_STATE: Omit<ClientGameState,
     characterSheet: null,
     clientLoadout: [],
     activeEncounter: null,
+    encountersCleared: new Set<string>(),
     selectedTargetId: null,
     ui_locked: false,
     characterName: 'Kael Thornwood',
@@ -420,14 +429,30 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     // Campaign
     setCampaignId: (id) => set({ activeCampaignId: id }),
 
-    // Character Sheet (from Port 8003)
-    setCharacterSheet: (sheet) => set({ characterSheet: sheet, characterName: sheet.name }),
+    // Character Sheet (from Port 8003 or CharacterBuilder)
+    setCharacterSheet: (sheet) => set({
+        characterSheet: sheet,
+        characterName: sheet.name,
+        attributes: sheet.attributes || get().attributes,
+        skills: sheet.tactical_skills ? Object.keys(sheet.tactical_skills) : get().skills,
+        vitals: sheet.vitals ? {
+            hp: { current: sheet.vitals.max_hp, max: sheet.vitals.max_hp },
+            stamina: { current: sheet.vitals.max_stamina, max: sheet.vitals.max_stamina },
+            focus: { current: sheet.vitals.max_focus, max: sheet.vitals.max_focus },
+            composure: { current: sheet.vitals.max_composure, max: sheet.vitals.max_composure }
+        } : get().vitals
+    }),
 
     // Client Loadout (for Action Deck)
     setClientLoadout: (items) => set({ clientLoadout: items }),
 
     // Tactical Encounter
     setActiveEncounter: (encounter) => set({ activeEncounter: encounter }),
+    markEncounterCleared: (id) => set((s) => {
+        const next = new Set(s.encountersCleared);
+        next.add(id);
+        return { encountersCleared: next };
+    }),
     moveToken: (id, newX, newY) => set((state) => {
         if (!state.activeEncounter) return state;
         const updatedTokens = state.activeEncounter.tokens.map(t =>
@@ -443,20 +468,20 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     setPlayerVitals: (apiVitals) => set((state) => ({
         vitals: {
             hp: {
-                current: apiVitals.current_hp ?? state.vitals.hp.current,
-                max: apiVitals.max_hp ?? state.vitals.hp.max,
+                current: apiVitals.current_hp ?? ((apiVitals.hp as any)?.current) ?? state.vitals.hp.current,
+                max: apiVitals.max_hp ?? ((apiVitals.hp as any)?.max) ?? state.vitals.hp.max,
             },
             stamina: {
-                current: apiVitals.current_stamina ?? apiVitals.stamina ?? state.vitals.stamina.current,
-                max: apiVitals.max_stamina ?? state.vitals.stamina.max,
+                current: apiVitals.current_stamina ?? ((apiVitals.stamina as any)?.current) ?? state.vitals.stamina.current,
+                max: apiVitals.max_stamina ?? ((apiVitals.stamina as any)?.max) ?? state.vitals.stamina.max,
             },
             focus: {
-                current: apiVitals.current_focus ?? state.vitals.focus.current,
-                max: apiVitals.max_focus ?? state.vitals.focus.max,
+                current: apiVitals.current_focus ?? ((apiVitals.focus as any)?.current) ?? state.vitals.focus.current,
+                max: apiVitals.max_focus ?? ((apiVitals.focus as any)?.max) ?? state.vitals.focus.max,
             },
             composure: {
-                current: apiVitals.current_composure ?? state.vitals.composure.current,
-                max: apiVitals.max_composure ?? state.vitals.composure.max,
+                current: apiVitals.current_composure ?? ((apiVitals.composure as any)?.current) ?? state.vitals.composure.current,
+                max: apiVitals.max_composure ?? ((apiVitals.composure as any)?.max) ?? state.vitals.composure.max,
             },
         }
     })),
@@ -505,7 +530,14 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
                     ...s.chat_log,
                     { sender: 'AI_DIRECTOR' as const, text: update.ai_narration_html.replace(/<[^>]*>?/gm, '') },
                 ],
-                activeEncounter: update.active_encounter || null,
+                activeEncounter: update.active_encounter && s.activeEncounter ? {
+                    ...s.activeEncounter,
+                    ...update.active_encounter,
+                    tokens: s.activeEncounter.tokens,
+                    gridWidth: s.activeEncounter.gridWidth,
+                    gridHeight: s.activeEncounter.gridHeight,
+                    grid: s.activeEncounter.grid
+                } : (update.active_encounter || s.activeEncounter),
                 vitals: {
                     ...s.vitals,
                     stamina: {
@@ -524,6 +556,78 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
 
         } catch (err) {
             console.error(err);
+            set({ ui_locked: false });
+        }
+    },
+
+    executeAction: async (skillName: string, targetId: string) => {
+        set({ ui_locked: true });
+        try {
+            const state = get();
+            const activeEncounter = state.activeEncounter;
+            const targetToken = activeEncounter?.tokens?.find((t: any) => t.id === targetId);
+
+            const payload = {
+                skill_name: skillName,
+                target: {
+                    id: targetId,
+                    name: targetToken?.name || 'Unknown',
+                    type: targetToken?.isPlayer ? 'Player' : 'Enemy'
+                },
+                attacker_attributes: state.attributes,
+                attacker_vitals: state.vitals,
+                equipped_items: state.clientLoadout
+            };
+
+            const res = await fetch('http://localhost:8000/api/player/action', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) throw new Error("API Gateway Action Delivery Failed.");
+
+            const result = await res.json();
+
+            get().addChatMessage({ sender: 'SYSTEM', text: `> ${skillName} vs ${targetToken?.name || 'Target'}: ${result.resolution_text || 'Action resolved.'}` });
+
+            // 1. Update the enemy token HP in the active encounter
+            if (activeEncounter && result.new_target_hp !== undefined) {
+                set((s) => ({
+                    activeEncounter: s.activeEncounter ? {
+                        ...s.activeEncounter,
+                        tokens: s.activeEncounter.tokens.map((t: any) =>
+                            t.id === targetId ? { ...t, current_hp: result.new_target_hp } : t
+                        )
+                    } : null
+                }));
+            }
+
+            // 2. Handle Player Vitals
+            if (result.vitals_update) {
+                get().setPlayerVitals(result.vitals_update);
+            }
+
+            // 3. Victory Protocol: Clear the encounter if ended or if HP hits 0
+            if (result.encounter_ended || (result.new_target_hp !== undefined && result.new_target_hp <= 0)) {
+                console.log("[VTT] Victory! Forcing tactical state clear.");
+                set({
+                    activeEncounter: null,
+                    selectedTargetId: null,
+                    ui_locked: false
+                });
+
+                // Add a definitive victory message
+                get().addChatMessage({
+                    sender: 'SYSTEM',
+                    text: "战斗结束！敌人已溃败。 (Combat Ended! Enemy defeated.)"
+                });
+            }
+
+        } catch (e) {
+            console.error(e);
+            get().addChatMessage({ sender: 'ERROR', text: 'Action failed to reach Game Master.' });
+        } finally {
             set({ ui_locked: false });
         }
     },

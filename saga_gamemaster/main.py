@@ -10,7 +10,11 @@ from typing import Optional
 import uvicorn
 import uuid
 
-app = FastAPI(title="SAGA Core GM App", port=8000)
+app = FastAPI(title="SAGA Core GM App")
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy", "module": "Core Game Master", "port": 8000}
 
 # Allow React (Port 5173) to talk to this API
 app.add_middleware(
@@ -152,6 +156,96 @@ async def process_chat_action(req: PlayerChatRequest):
         "system_log": final_state["math_log"],
         "updated_vitals": final_state["player_vitals"],
         "vtt_commands": final_state["vtt_commands"]
+    }
+
+class TacticalActionRequest(BaseModel):
+    skill_name: str
+    target: dict
+    attacker_attributes: dict
+    attacker_vitals: dict
+    equipped_items: list
+
+@app.post("/api/player/action")
+async def process_tactical_action(req: TacticalActionRequest):
+    """Bridge between VTT ActionHUD and Port 8007 Clash Engine."""
+    from core.api_gateway import SAGA_API_Gateway
+    gateway = SAGA_API_Gateway()
+    
+    global active_enemies
+    if 'active_enemies' not in globals():
+        globals()['active_enemies'] = {}
+    
+    # Extract specific stats based on the ActionHUD JSON
+    player_pool = int(req.attacker_attributes.get("might", 0)) + int(req.attacker_attributes.get("reflexes", 0))
+    player_hp = int(req.attacker_vitals.get("hp", {}).get("current", 20))
+    player_stamina = int(req.attacker_vitals.get("stamina", {}).get("current", 12))
+    
+    stamina_burn = 1
+    new_stamina = max(0, player_stamina - stamina_burn)
+    
+    attacker_data = {
+        "name": "Player",
+        "current_hp": player_hp,
+        "attack_or_defense_pool": player_pool,
+        "weapon_damage_dice": "1d8", # Default prototype weapon
+        "stamina_burned": stamina_burn,
+        "focus_burned": 0
+    }
+    
+    # Stateful Defender Tracking
+    target_id = req.target.get("id", "enemy_unknown")
+    if target_id not in active_enemies:
+        active_enemies[target_id] = 20  # Default Enemy Max HP
+        
+    defender_data = {
+        "name": req.target.get("name", "Unknown Enemy"),
+        "current_hp": active_enemies[target_id],
+        "attack_or_defense_pool": 8,
+        "weapon_damage_dice": "1d6",
+        "stamina_burned": 0,
+        "focus_burned": 0
+    }
+    
+    clash_result = await gateway.resolve_clash(
+        attacker_data=attacker_data,
+        defender_data=defender_data
+    )
+    
+    # Apply damage permanently (signed deltas: dmg is negative)
+    dmg_dealt = clash_result.get("dmg", 0)
+    active_enemies[target_id] = max(0, active_enemies[target_id] + dmg_dealt)
+    
+    # Counter-attack damage to player if the enemy scored a REVERSAL (signed delta)
+    player_dmg_taken = clash_result.get("attacker_dmg", 0)
+    final_player_hp = max(0, player_hp + player_dmg_taken)
+    
+    # Build updated vitals to send back to React
+    updated_vitals = req.attacker_vitals.copy()
+    if "stamina" in updated_vitals and isinstance(updated_vitals["stamina"], dict):
+        updated_vitals["stamina"]["current"] = new_stamina
+    if "hp" in updated_vitals and isinstance(updated_vitals["hp"], dict):
+        updated_vitals["hp"]["current"] = final_player_hp
+        
+    status_msg = f"Margin: {clash_result['margin']}. Damage dealt: {abs(dmg_dealt)}. Enemy HP: {active_enemies[target_id]}."
+    if player_dmg_taken < 0:
+        status_msg += f" You took {abs(player_dmg_taken)} counter-damage!"
+    is_defeated = active_enemies[target_id] == 0
+    if is_defeated:
+        status_msg += " Enemy defeated!"
+        
+        # 1. Clear the enemy from the active tracking pool
+        del active_enemies[target_id]
+        
+        # 2. Clear the encounter in the global campaign state
+        for camp in ACTIVE_CAMPAIGNS.values():
+            if camp.get("active_encounter"):
+                camp["active_encounter"] = None
+    
+    return {
+        "resolution_text": status_msg,
+        "vitals_update": updated_vitals,
+        "new_target_hp": 0 if is_defeated else active_enemies[target_id],
+        "encounter_ended": is_defeated
     }
 
 if __name__ == "__main__":

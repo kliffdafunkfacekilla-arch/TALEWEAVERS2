@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useGameStore } from '../store/useGameStore';
 import speciesSlots from '../data/Species_Slots.json';
 import speciesBases from '../data/species_base_stats.json';
 import evolutionMatrix from '../data/Evolution_Matrix.json';
@@ -66,8 +67,8 @@ export const CharacterSheet: React.FC = () => {
             if (skillData) {
                 const parts = skillData.stat_pair.split('+').map((s: string) => s.trim().toLowerCase().replace('reflex', 'reflexes'));
 
-                const bodyStat = parts.find(p => BODY_STATS.includes(p)) || parts[0];
-                const mindStat = parts.find(p => MIND_STATS.includes(p)) || parts[1];
+                const bodyStat = parts.find((p: any) => BODY_STATS.includes(p)) || parts[0];
+                const mindStat = parts.find((p: any) => MIND_STATS.includes(p)) || parts[1];
 
                 const leadStat = choice.lead === "Body" ? bodyStat : mindStat;
                 if ((stats as any).hasOwnProperty(leadStat)) (stats as any)[leadStat] += 1;
@@ -207,7 +208,7 @@ export const CharacterSheet: React.FC = () => {
                         {Object.keys(evolutions).map((slot) => {
                             const selectedName = (evolutions as any)[slot];
                             const traitData = evolutionMatrix.find((t: any) => t.name === selectedName);
-                            const effect = traitData?.passives?.[0]?.effect || traitData?.effect || "No description available.";
+                            const effect = (traitData?.passives?.[0] as any)?.effect || (traitData as any)?.effect || "No description available.";
                             return (
                                 <div key={slot} className="group relative">
                                     <label className="text-[10px] text-zinc-500 uppercase block mb-1">{slot.replace('_', ' ')}</label>
@@ -407,6 +408,20 @@ export const CharacterSheet: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
+                        </div>
+
+                        {/* INITIALIZE BUTTON */}
+                        <div className="mt-8 pt-4 border-t border-zinc-800 flex justify-end">
+                            <button
+                                onClick={() => {
+                                    useGameStore.getState().setCharacterSheet(compiledData);
+                                    // For now, exit back to main menu. The user can then enter the VTT.
+                                    useGameStore.getState().setScreen('MAIN_MENU');
+                                }}
+                                className="bg-yellow-600 hover:bg-yellow-500 text-black font-bold uppercase text-xs tracking-widest px-8 py-3 shadow-[0_0_15px_rgba(202,138,4,0.3)] transition-all hover:shadow-[0_0_25px_rgba(202,138,4,0.6)]"
+                            >
+                                Finalize & Exit
+                            </button>
                         </div>
                     </div>
                 ) : (

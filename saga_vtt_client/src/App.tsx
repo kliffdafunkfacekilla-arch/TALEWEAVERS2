@@ -9,6 +9,7 @@ import { QuestTracker } from './components/hud/QuestTracker';
 import { WorldArchitect } from './components/WorldArchitect';
 import { CharacterSheet } from './components/CharacterSheet';
 import { EncounterOverlay } from './components/hud/EncounterOverlay';
+import { ActionHUD } from './components/hud/ActionHUD';
 import { useGameStore } from './store/useGameStore';
 import type { LoadoutItem } from './store/useGameStore';
 import './App.css';
@@ -28,8 +29,45 @@ export default function App() {
   const handleEnterCampaign = async () => {
     setIsStarting(true);
     try {
-      // ── STEP 1: Build Character via Port 8003 ──
-      console.log("[VTT] Requesting True Character Sheet from Port 8003...");
+      const state = useGameStore.getState();
+
+      // ── STEP 1: Build Character via Port 8003 or Use Existing ──
+      if (state.characterSheet) {
+        console.log("[VTT] Using custom built Character Sheet from Origin Forge:", state.characterSheet.name);
+      } else {
+        console.log("[VTT] No custom character found. Requesting default Scavenger_01 from Port 8003...");
+
+        const buildRequest = {
+          name: "Scavenger_01",
+          base_attributes: {
+            might: 3, endurance: 4, vitality: 5, fortitude: 3, reflexes: 4, finesse: 2,
+            knowledge: 2, logic: 2, charm: 1, willpower: 3, awareness: 4, intuition: 3
+          },
+          evolutions: {
+            species_base: "HUMAN",
+            head_slot: "Standard", body_slot: "Standard", arms_slot: "Standard",
+            legs_slot: "Standard", skin_slot: "Standard", special_slot: "None"
+          },
+          selected_powers: [],
+          equipped_loadout: { "main_hand": "wpn_rusted_cleaver", "consumable_1": "csm_ddust", "consumable_2": "csm_stamina_tea" },
+          tactical_skills: {}
+        };
+
+        const charRes = await fetch('http://localhost:8003/api/rules/character/calculate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(buildRequest)
+        });
+
+        if (!charRes.ok) {
+          console.warn("[VTT] Character Engine offline. Using fallback vitals.");
+          setPlayerVitals({ current_hp: 20, max_hp: 20, current_stamina: 12, max_stamina: 12, current_focus: 9, max_focus: 9, current_composure: 14, max_composure: 14 });
+        } else {
+          const compiledSheet = await charRes.json();
+          console.log("[VTT] Default Character Sheet compiled:", compiledSheet.name);
+          setCharacterSheet(compiledSheet);
+        }
+      }
 
       // Starting equipment + skills. Item IDs must exist in data/Item_Builder.json
       const STARTING_LOADOUT: LoadoutItem[] = [
@@ -40,47 +78,6 @@ export default function App() {
         { id: 'csm_stamina_tea', name: 'Iron Root Tea', type: 'CONSUMABLE', target: 'SELF', range: 0, stamina_cost: 0, dice: '+STM', desc: 'Bitter tea that restores endurance.' },
       ];
 
-      const buildRequest = {
-        name: "Scavenger_01",
-        base_attributes: {
-          might: 3, endurance: 4, vitality: 5, fortitude: 3, reflexes: 4, finesse: 2,
-          knowledge: 2, logic: 2, charm: 1, willpower: 3, awareness: 4, intuition: 3
-        },
-        evolutions: {
-          species_base: "HUMAN",
-          head_slot: "Standard", body_slot: "Standard", arms_slot: "Standard",
-          legs_slot: "Standard", skin_slot: "Standard", special_slot: "None"
-        },
-        selected_powers: [],
-        equipped_loadout: { "main_hand": "wpn_rusted_cleaver", "consumable_1": "csm_ddust", "consumable_2": "csm_stamina_tea" }
-      };
-
-      const charRes = await fetch('http://localhost:8003/api/rules/character/calculate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(buildRequest)
-      });
-
-      if (!charRes.ok) {
-        console.warn("[VTT] Character Engine offline. Using fallback vitals.");
-        setPlayerVitals({ current_hp: 20, max_hp: 20, current_stamina: 12, max_stamina: 12, current_focus: 9, max_focus: 9, current_composure: 14, max_composure: 14 });
-      } else {
-        const compiledSheet = await charRes.json();
-        console.log("[VTT] Character Sheet compiled:", compiledSheet.name);
-        setCharacterSheet(compiledSheet);
-        setPlayerVitals({
-          current_hp: compiledSheet.vitals.max_hp,
-          max_hp: compiledSheet.vitals.max_hp,
-          current_stamina: compiledSheet.vitals.max_stamina,
-          max_stamina: compiledSheet.vitals.max_stamina,
-          current_focus: compiledSheet.vitals.max_focus,
-          max_focus: compiledSheet.vitals.max_focus,
-          current_composure: compiledSheet.vitals.max_composure,
-          max_composure: compiledSheet.vitals.max_composure,
-        });
-      }
-
-      // ── STEP 2: Set the client-side loadout for the Action Deck ──
       setClientLoadout(STARTING_LOADOUT);
       console.log("[VTT] Loadout equipped:", STARTING_LOADOUT.map(i => i.name).join(', '));
 
@@ -180,7 +177,7 @@ export default function App() {
 
   // ─── GAMEPLAY: 5-Panel VTT Interface ────────────────────────────────
   return (
-    <div className="w-screen h-screen overflow-hidden bg-zinc-950 text-white flex flex-col font-sans select-none">
+    <div className="fixed inset-0 overflow-hidden bg-zinc-950 text-white flex flex-col font-sans select-none">
 
       {/* ═══ TOP / MIDDLE SECTION ═══ */}
       <div className="flex-grow flex relative min-h-0">
@@ -194,6 +191,7 @@ export default function App() {
         <div className="flex-grow relative bg-black min-w-0">
           <PixiBattlemap />
           <EncounterOverlay />
+          <ActionHUD />
 
           {/* FLOATING TOP-RIGHT: Quest Tracker HUD */}
           <div className="absolute top-4 right-4 z-20 pointer-events-none">

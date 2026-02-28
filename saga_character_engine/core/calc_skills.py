@@ -33,6 +33,17 @@ def calculate_skills(attributes: CoreAttributes, chosen_skills: Dict[str, str]) 
             if skill_data["skill"] in chosen_skills:
                 selected_triads.add(triad)
                 
+    # Quickplay bypass for VTT testing UI
+    if len(chosen_skills) == 0:
+        return {
+            "skills": {},
+            "stat_bonuses": {
+                "might": 0, "endurance": 0, "vitality": 0, "fortitude": 0, "reflexes": 0, "finesse": 0,
+                "knowledge": 0, "logic": 0, "charm": 0, "willpower": 0, "awareness": 0, "intuition": 0
+            }
+        }
+                
+                
     if len(chosen_skills) != 12:
          # Note: We return error as string or raise for the API to handle
          raise ValueError(f"Character must select exactly 12 skills. Selected: {len(chosen_skills)}")

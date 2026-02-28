@@ -15,12 +15,22 @@ export function PixiBattlemap() {
     // ── REAL ENCOUNTER FETCH (PORT 8004) ──
     useEffect(() => {
         const fetchRealEncounter = async () => {
-            // Only fetch if we don't already have an active encounter
+            // 1. Only fetch if we don't already have an active encounter
             if (activeEncounter) return;
+
+            // 2. Prevent "Zombie Loops": Don't fetch if this location was already cleared
+            const selectedHex = useGameStore.getState().selectedHex;
+            const hexId = selectedHex?.id || `HEX_${selectedHex?.index || 'NULL'}`;
+            const cleared = useGameStore.getState().encountersCleared;
+
+            if (cleared.has(hexId)) {
+                console.log(`[VTT] Encounter at ${hexId} already cleared. Skipping fetch.`);
+                return;
+            }
 
             try {
                 // Read the current biome from the selected hex, or use a default
-                const currentBiome = useGameStore.getState().selectedHex?.biome_tag || "Tundra";
+                const currentBiome = selectedHex?.biome_tag || "Tundra";
 
                 console.log(`[VTT] Requesting encounter for biome: ${currentBiome}`);
                 const res = await fetch(`http://localhost:8008/generate-encounter?biome=${currentBiome}&threat_level=4`);
@@ -49,10 +59,17 @@ export function PixiBattlemap() {
 
                 // Save to Zustand
                 useGameStore.getState().setActiveEncounter({
+                    encounter_id: data.id || "ENC_DYNAMIC",
                     gridWidth: data.grid_width || 15,
                     gridHeight: data.grid_height || 10,
                     tokens: dynamicTokens,
-                    grid: data.grid
+                    grid: data.grid,
+                    data: {
+                        title: data.name,
+                        narrative_prompt: data.description,
+                        enemies: data.enemies
+                    },
+                    interactionHistory: []
                 });
 
                 // Post encounter description to Director Log
@@ -68,12 +85,19 @@ export function PixiBattlemap() {
 
                 // Fallback: spawn a basic encounter without the server
                 useGameStore.getState().setActiveEncounter({
+                    encounter_id: "ENC_FALLBACK",
                     gridWidth: 15,
                     gridHeight: 10,
                     tokens: [
                         { id: 'player_1', name: 'Scavenger', x: 2, y: 5, color: 0x3B82F6, isPlayer: true },
                         { id: 'enemy_1', name: 'Unknown Entity', x: 8, y: 5, color: 0xEF4444, isPlayer: false }
-                    ]
+                    ],
+                    data: {
+                        title: "Wilderness Encounter",
+                        narrative_prompt: "You stumble across a hostile entity.",
+                        enemies: []
+                    },
+                    interactionHistory: []
                 });
             }
         };
@@ -91,8 +115,8 @@ export function PixiBattlemap() {
             camera.removeChildAt(0);
         }
 
-        const GRID_W = activeEncounter.gridWidth;
-        const GRID_H = activeEncounter.gridHeight;
+        const GRID_W = activeEncounter.gridWidth ?? 15;
+        const GRID_H = activeEncounter.gridHeight ?? 10;
 
         // ── 1. Draw Checkerboard Grid & Terrain ──
         const gridGraphics = new Graphics();
@@ -101,7 +125,7 @@ export function PixiBattlemap() {
         for (let row = 0; row < GRID_H; row++) {
             for (let col = 0; col < GRID_W; col++) {
                 const isLight = (row + col) % 2 === 0;
-                const tileType = terrainGrid[row] ? terrainGrid[row][col] : "EMPTY";
+                const tileType = (terrainGrid[row] ? terrainGrid[row][col] : "EMPTY") as string;
 
                 // Base Tile Color
                 let bgColor = isLight ? 0x1c1c1c : 0x171717;

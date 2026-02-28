@@ -27,6 +27,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const [isLoreProcessing, setIsLoreProcessing] = useState(false);
     const [loreFactions, setLoreFactions] = useState<{ title: string }[]>([]);
     const [loreWildlife, setLoreWildlife] = useState<{ title: string }[]>([]);
+    const [loreResources, setLoreResources] = useState<{ title: string }[]>([]);
 
 
     // --- ARCHITECT'S PALETTE (EDIT MODE) ---
@@ -91,6 +92,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                 const data = await res.json();
                 setLoreFactions(data.factions || []);
                 setLoreWildlife(data.wildlife || []);
+                setLoreResources(data.resources || []);
             }
         } catch (e) {
             console.error("Failed to fetch lore entities", e);
@@ -143,6 +145,21 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
         }
     };
 
+    // Helper for inputs that use datalists to append rather than overwrite
+    const appendToListString = (currentVal: string[], newVal: string, dataListId: string) => {
+        const datalist = document.getElementById(dataListId) as HTMLDataListElement | null;
+        if (!datalist) return newVal.split(',').map(s => s.trim()).filter(s => s);
+
+        const options = Array.from(datalist.options).map(o => o.value);
+
+        if (options.includes(newVal)) {
+            if (!currentVal.includes(newVal)) return [...currentVal, newVal];
+            return currentVal;
+        }
+
+        return newVal.split(',').map(s => s.trim()).filter(s => s);
+    };
+
     const handleGenerate = async () => {
         setIsGenerating(true);
 
@@ -166,28 +183,6 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             factions: factions
         };
 
-        // Helper function for inputs that use datalists to append rather than overwrite
-        const appendToListString = (currentVal: string[], newVal: string, dataListId: string) => {
-            // Find the datalist element to check if the new string is exactly one of the options
-            const datalist = document.getElementById(dataListId) as HTMLDataListElement | null;
-            if (!datalist) return newVal.split(',').map(s => s.trim()).filter(s => s);
-
-            const options = Array.from(datalist.options).map(o => o.value);
-
-            // If the user just clicked a single datalist option, it will equal the exact string.
-            // But if they were typing "Stone, Iron" and it got overwritten by "Gold", we want "Stone, Iron, Gold".
-            // Since standard inputs overwrite the whole value, we check if the newVal exactly matches an option.
-            if (options.includes(newVal)) {
-                // It was a click! safely append to the old array
-                if (!currentVal.includes(newVal)) {
-                    return [...currentVal, newVal];
-                }
-                return currentVal;
-            }
-
-            // They are just typing freely, process normally
-            return newVal.split(',').map(s => s.trim()).filter(s => s);
-        };
 
         try {
             const response = await fetch("http://localhost:8012/api/world/generate", {
@@ -250,6 +245,9 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             </datalist>
             <datalist id="lore-wildlife">
                 {loreWildlife.map((w, idx) => <option key={idx} value={w.title} />)}
+            </datalist>
+            <datalist id="lore-resources">
+                {loreResources.map((r, idx) => <option key={idx} value={r.title} />)}
             </datalist>
 
             {/* LEFT PANEL: God Engine Config */}
@@ -433,13 +431,16 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                             <label className="text-emerald-500 font-bold uppercase mb-2 block">Custom Biomes</label>
                             {biomes.map((b, i) => (
                                 <div key={i} className="p-3 border border-zinc-800 bg-zinc-950 flex flex-col gap-3">
-                                    <input
-                                        type="text"
-                                        value={b.name}
-                                        onChange={e => updateBiome(i, 'name', e.target.value.toUpperCase().replace(/\s+/g, '_'))}
-                                        className="w-full bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold uppercase"
-                                        placeholder="BIOME_NAME"
-                                    />
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            value={b.name}
+                                            onChange={e => updateBiome(i, 'name', e.target.value.toUpperCase().replace(/\s+/g, '_'))}
+                                            className="w-full bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold uppercase"
+                                            placeholder="BIOME_NAME"
+                                        />
+                                        <button onClick={() => setBiomes(biomes.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2">X</button>
+                                    </div>
                                     <div className="grid grid-cols-2 gap-2 text-xs">
                                         <div>
                                             <span className="text-zinc-500 block text-[10px] mb-1">Temp Range (°C)</span>
@@ -484,17 +485,21 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                             <label className="text-yellow-500 font-bold uppercase mb-2 block">Global Resources</label>
                             {resources.map((r, i) => (
                                 <div key={i} className="p-3 border border-zinc-800 bg-zinc-950 flex flex-col gap-3">
-                                    <div className="flex items-center gap-2">
-                                        <input
-                                            type="text"
-                                            value={r.name}
-                                            onChange={e => updateResource(i, 'name', e.target.value)}
-                                            className="flex-grow bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold"
-                                            placeholder="Resource Name"
-                                        />
-                                        <label className="flex items-center gap-1 text-[10px] text-zinc-400 uppercase cursor-pointer">
-                                            <input type="checkbox" checked={r.is_infinite} onChange={e => updateResource(i, 'is_infinite', e.target.checked)} className="accent-yellow-500" /> Infinite
-                                        </label>
+                                    <div className="flex gap-2">
+                                        <div className="flex flex-grow items-center gap-2">
+                                            <input
+                                                type="text"
+                                                list="lore-resources"
+                                                value={r.name}
+                                                onChange={e => updateResource(i, 'name', e.target.value)}
+                                                className="flex-grow bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold"
+                                                placeholder="Resource Name"
+                                            />
+                                            <label className="flex items-center gap-1 text-[10px] text-zinc-400 uppercase cursor-pointer">
+                                                <input type="checkbox" checked={r.is_infinite} onChange={e => updateResource(i, 'is_infinite', e.target.checked)} className="accent-yellow-500" /> Infinite
+                                            </label>
+                                        </div>
+                                        <button onClick={() => setResources(resources.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2 border-l border-zinc-800 ml-1">X</button>
                                     </div>
                                     <div>
                                         <span className="text-zinc-500 block text-[10px] mb-1">Scarcity (0 = Rare, 1 = Common)</span>
@@ -560,7 +565,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                             <label className="text-green-500 font-bold uppercase mb-2 block">Custom Flora / Fauna</label>
                             {lifeforms.map((lf, i) => (
                                 <div key={i} className="p-3 border border-zinc-800 bg-zinc-950 flex flex-col gap-2">
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-2 items-center">
                                         <input
                                             type="text"
                                             list="lore-wildlife"
@@ -571,11 +576,12 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                         <select
                                             value={lf.type}
                                             onChange={(e) => updateLifeform(i, 'type', e.target.value)}
-                                            className="w-24 bg-zinc-900 border border-zinc-700 p-1 text-zinc-400 text-xs"
+                                            className="w-24 bg-zinc-900 border border-zinc-700 p-1 text-zinc-400 text-xs h-full"
                                         >
                                             <option value="FAUNA">FAUNA</option>
                                             <option value="FLORA">FLORA</option>
                                         </select>
+                                        <button onClick={() => setLifeforms(lifeforms.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2 h-full border-l border-zinc-800">X</button>
                                     </div>
                                     <div className="flex flex-col gap-3 mt-2 mb-2">
                                         <div className="flex flex-col gap-1 w-full text-xs">
@@ -632,14 +638,17 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                             <label className="text-red-500 font-bold uppercase mb-2 block">Custom Cultures</label>
                             {factions.map((f, i) => (
                                 <div key={i} className="p-3 border border-zinc-800 bg-zinc-950 flex flex-col gap-3">
-                                    <input
-                                        type="text"
-                                        list="lore-factions"
-                                        value={f.name}
-                                        onChange={e => updateFaction(i, 'name', e.target.value)}
-                                        className="w-full bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold"
-                                        placeholder="Faction Name"
-                                    />
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            list="lore-factions"
+                                            value={f.name}
+                                            onChange={e => updateFaction(i, 'name', e.target.value)}
+                                            className="w-full bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold"
+                                            placeholder="Faction Name"
+                                        />
+                                        <button onClick={() => setFactions(factions.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2">X</button>
+                                    </div>
 
                                     <div className="flex flex-col gap-3 mt-1 mb-2">
                                         <div className="flex flex-col gap-1 w-full text-xs">

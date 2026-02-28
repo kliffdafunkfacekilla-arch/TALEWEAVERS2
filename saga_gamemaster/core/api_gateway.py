@@ -54,6 +54,7 @@ class SAGA_API_Gateway:
                 return {
                     "margin": data.get("clash_result", "DEADLOCK"),
                     "dmg": data.get("defender_hp_change", 0),
+                    "attacker_dmg": data.get("attacker_hp_change", 0),
                     "injury": data.get("defender_injury_applied", None)
                 }
             except Exception as e:
