@@ -166,19 +166,42 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             factions: factions
         };
 
+        // Helper function for inputs that use datalists to append rather than overwrite
+        const appendToListString = (currentVal: string[], newVal: string, dataListId: string) => {
+            // Find the datalist element to check if the new string is exactly one of the options
+            const datalist = document.getElementById(dataListId) as HTMLDataListElement | null;
+            if (!datalist) return newVal.split(',').map(s => s.trim()).filter(s => s);
+
+            const options = Array.from(datalist.options).map(o => o.value);
+
+            // If the user just clicked a single datalist option, it will equal the exact string.
+            // But if they were typing "Stone, Iron" and it got overwritten by "Gold", we want "Stone, Iron, Gold".
+            // Since standard inputs overwrite the whole value, we check if the newVal exactly matches an option.
+            if (options.includes(newVal)) {
+                // It was a click! safely append to the old array
+                if (!currentVal.includes(newVal)) {
+                    return [...currentVal, newVal];
+                }
+                return currentVal;
+            }
+
+            // They are just typing freely, process normally
+            return newVal.split(',').map(s => s.trim()).filter(s => s);
+        };
+
         try {
-            const response = await fetch("http://localhost:8002/api/world/generate", {
+            const response = await fetch("http://localhost:8012/api/world/generate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
             });
             if (!response.ok) throw new Error("C++ Engine Error");
             const result = await response.json();
             setWorldData(result.world_data);
             console.log("[VTT] God Engine Simulation Complete. Saved to Zustand.");
-        } catch (error) {
-            console.error("Simulation Failed:", error);
-            alert("Failed to reach Python Wrapper on Port 8002. Is saga_architect running?");
+        } catch (err) {
+            console.error("API Call failed:", err);
+            alert("Failed to reach Python Wrapper on Port 8012. Is saga_architect running?");
         } finally {
             setIsGenerating(false);
         }
@@ -572,7 +595,9 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                     </div>
                                     <div className="flex items-center gap-2 text-xs mt-1">
                                         <span className="text-zinc-500 w-12 text-[10px]">Diet:</span>
-                                        <input type="text" value={(lf.diet || []).join(', ')} onChange={e => updateLifeform(i, 'diet', e.target.value.split(',').map(s => s.trim()))} className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Meat, Plants, Sunlight" />
+                                        <input type="text" list="lore-resources" value={(lf.diet || []).join(', ')}
+                                            onChange={e => updateLifeform(i, 'diet', appendToListString(lf.diet || [], e.target.value, 'lore-resources'))}
+                                            className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Meat, Plants, Sunlight" />
                                     </div>
                                     <div className="grid grid-cols-2 gap-2 mt-1">
                                         <label className="flex items-center gap-2 text-[10px] text-zinc-400 cursor-pointer">
@@ -653,23 +678,33 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                     <div className="flex flex-col gap-2 mt-2">
                                         <div className="flex items-center gap-2 text-xs">
                                             <span className="text-zinc-500 w-16 text-[9px] uppercase">Require:</span>
-                                            <input type="text" value={(f.required_resources || []).join(', ')} onChange={e => updateFaction(i, 'required_resources', e.target.value.split(',').map(s => s.trim()))} className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Stone, Iron" />
+                                            <input type="text" list="lore-resources" value={(f.required_resources || []).join(', ')}
+                                                onChange={e => updateFaction(i, 'required_resources', appendToListString(f.required_resources || [], e.target.value, 'lore-resources'))}
+                                                className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Stone, Iron" />
                                         </div>
                                         <div className="flex items-center gap-2 text-xs">
                                             <span className="text-green-500 w-16 text-[9px] uppercase">Loves:</span>
-                                            <input type="text" value={f.loved_resources.join(', ')} onChange={e => updateFaction(i, 'loved_resources', e.target.value.split(',').map(s => s.trim()))} className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Bones, Wood, etc" />
+                                            <input type="text" list="lore-resources" value={(f.loved_resources || []).join(', ')}
+                                                onChange={e => updateFaction(i, 'loved_resources', appendToListString(f.loved_resources || [], e.target.value, 'lore-resources'))}
+                                                className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Bones, Wood, etc" />
                                         </div>
                                         <div className="flex items-center gap-2 text-xs">
                                             <span className="text-red-500 w-16 text-[9px] uppercase">Hates:</span>
-                                            <input type="text" value={f.hated_resources.join(', ')} onChange={e => updateFaction(i, 'hated_resources', e.target.value.split(',').map(s => s.trim()))} className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Iron, Gold, etc" />
+                                            <input type="text" list="lore-resources" value={(f.hated_resources || []).join(', ')}
+                                                onChange={e => updateFaction(i, 'hated_resources', appendToListString(f.hated_resources || [], e.target.value, 'lore-resources'))}
+                                                className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Iron, Gold, etc" />
                                         </div>
                                         <div className="flex items-center gap-2 text-xs">
                                             <span className="text-blue-400 w-16 text-[9px] uppercase">Biomes:</span>
-                                            <input type="text" value={(f.preferred_biomes || []).join(', ')} onChange={e => updateFaction(i, 'preferred_biomes', e.target.value.split(',').map(s => s.trim().toUpperCase()))} className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="DEEP_TUNDRA" />
+                                            <input type="text" list="lore-biomes" value={(f.preferred_biomes || []).join(', ')}
+                                                onChange={e => updateFaction(i, 'preferred_biomes', appendToListString(f.preferred_biomes || [], e.target.value, 'lore-biomes'))}
+                                                className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="DEEP_TUNDRA" />
                                         </div>
                                         <div className="flex items-center gap-2 text-xs">
                                             <span className="text-amber-500 w-16 text-[9px] uppercase">Bldgs:</span>
-                                            <input type="text" value={(f.building_preferences || []).join(', ')} onChange={e => updateFaction(i, 'building_preferences', e.target.value.split(',').map(s => s.trim()))} className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Wood_Hut, Keep" />
+                                            <input type="text" list="lore-buildings" value={(f.building_preferences || []).join(', ')}
+                                                onChange={e => updateFaction(i, 'building_preferences', appendToListString(f.building_preferences || [], e.target.value, 'lore-buildings'))}
+                                                className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Wood_Hut, Keep" />
                                         </div>
                                     </div>
                                 </div>

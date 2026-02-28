@@ -36,12 +36,19 @@ async def run_cpp_engine(req: GenerateRequest, phase: str):
         
     print("[API] Wrote architect_config.json. Booting C++ Engine...")
     
-    # 2. Determine the correct executable path
-    executable = "./build/saga_architect"
-    if os.path.exists("./build/Debug/saga_architect.exe"):
-        executable = "./build/Debug/saga_architect.exe"
-    elif os.path.exists("./build/saga_architect.exe"):
-         executable = "./build/saga_architect.exe"
+    # 2. Determine the correct executable path using absolute paths
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    executable = os.path.join(base_dir, "build", "saga_architect")
+    
+    if os.path.exists(os.path.join(base_dir, "build", "Release", "saga_architect.exe")):
+        executable = os.path.join(base_dir, "build", "Release", "saga_architect.exe")
+    elif os.path.exists(os.path.join(base_dir, "build", "Debug", "saga_architect.exe")):
+        executable = os.path.join(base_dir, "build", "Debug", "saga_architect.exe")
+    elif os.path.exists(os.path.join(base_dir, "build", "saga_architect.exe")):
+        executable = os.path.join(base_dir, "build", "saga_architect.exe")
+
+    if os.name == 'nt' and not executable.endswith('.exe'):
+        executable += '.exe'
 
     # 3. Pull the trigger on the C++ Engine with the phase argument
     try:
@@ -117,5 +124,5 @@ async def generate_cultures(req: GenerateRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    # Module 2 runs on Port 8002!
-    uvicorn.run(app, host="0.0.0.0", port=8002)
+    # Module 2 runs on Port 8012!
+    uvicorn.run(app, host="0.0.0.0", port=8012)

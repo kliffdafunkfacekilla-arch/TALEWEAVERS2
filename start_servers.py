@@ -5,7 +5,7 @@ import sys
 # Define all the backend microservices
 services = [
     ("Lore Vault", 8001, "saga_lore_module"),
-    ("World Architect", 8002, "saga_architect"),
+    ("World Architect", 8012, "saga_architect"),
     ("Character Engine", 8003, "saga_character_engine"),
     ("Chronos Engine", 8004, "saga_chronos"),
     ("Item Foundry", 8005, "saga_item_engine"),

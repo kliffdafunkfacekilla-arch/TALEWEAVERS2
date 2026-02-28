@@ -37,9 +37,9 @@ def parse_vault(vault_path: str) -> List[Dict]:
                         if raw_upper in LoreCategory.__members__:
                             category = LoreCategory[raw_upper]
                             
-                    # If no valid frontmatter exists, use our new smart categorizer and pass the file path!
+                    # If no valid frontmatter exists, use our new smart categorizer and pass the relative file path!
                     if not category:
-                        category = categorize_text(content, str(file_path))
+                        category = categorize_text(content, str(file_path.relative_to(vault_root)))
                         
                     documents.append({
                         "id": str(file_path.relative_to(vault_root)),

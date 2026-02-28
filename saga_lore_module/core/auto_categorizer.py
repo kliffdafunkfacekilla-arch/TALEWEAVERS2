@@ -15,7 +15,8 @@ def categorize_text(text: str, filepath: str = "") -> str:
     if any(w in path_lower for w in ["item", "equipment", "loot", "relic"]): return LoreCategory.ITEM
     if any(w in path_lower for w in ["location", "city", "region", "biome"]): return LoreCategory.BIOME
     if any(w in path_lower for w in ["flora", "plant", "herb"]): return LoreCategory.PLANT
-    if any(w in path_lower for w in ["fauna", "beast", "monster"]): return LoreCategory.ANIMAL
+    if any(w in path_lower for w in ["fauna", "fuana", "beast", "monster"]): return LoreCategory.ANIMAL
+    if any(w in path_lower for w in ["resource", "material", "ore", "mineral"]): return LoreCategory.RESOURCE
     if any(w in path_lower for w in ["history", "lore", "myth"]): return LoreCategory.HISTORY
 
     # --- TIER 2: TERM FREQUENCY HEURISTICS ---
