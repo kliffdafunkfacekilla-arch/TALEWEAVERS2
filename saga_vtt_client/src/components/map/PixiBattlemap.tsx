@@ -115,12 +115,14 @@ export function PixiBattlemap() {
     const draw = useCallback(() => {
         const app = appRef.current;
         const camera = cameraRef.current;
-        if (!app || !camera || !activeEncounter) return;
+        if (!app || !camera) return;
 
         // Clear previous children
         while (camera.children.length > 0) {
             camera.removeChildAt(0);
         }
+
+        if (!activeEncounter) return;
 
         const GRID_W = activeEncounter.gridWidth ?? 15;
         const GRID_H = activeEncounter.gridHeight ?? 10;
@@ -241,6 +243,43 @@ export function PixiBattlemap() {
             circle.fill(token.color);
             circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 3);
             circle.stroke({ width: 2, color: 0x000000 });
+
+            // --- S.A.G.A Visuals: Orientation, HP, Composure ---
+            // 1. Directional Indicator (Triangle pointing Front)
+            const dir = token.direction || 0; // 0=N, 1=E, 2=S, 3=W
+            const indicator = new Graphics();
+            indicator.poly([-6, 0, 6, 0, 0, -10]);
+            indicator.fill(0xffffff);
+            indicator.x = TILE_SIZE / 2;
+            indicator.y = TILE_SIZE / 2;
+            indicator.rotation = (dir * Math.PI) / 2;
+            tokenGroup.addChild(indicator);
+
+            // 2. Health & Composure Bars (Small bars below token)
+            const bars = new Graphics();
+            const barW = TILE_SIZE - 10;
+            // HP Bar (Green)
+            bars.rect(5, TILE_SIZE - 8, barW, 3);
+            bars.fill(0x333333);
+            bars.rect(5, TILE_SIZE - 8, barW * 0.7, 3); // 70% fill for demo
+            bars.fill(0x22c55e);
+            // Composure Bar (Purple/Blue)
+            bars.rect(5, TILE_SIZE - 4, barW, 2);
+            bars.fill(0x333333);
+            bars.rect(5, TILE_SIZE - 4, barW * 0.8, 2);
+            bars.fill(0x8b5cf6);
+            tokenGroup.addChild(bars);
+
+            // 3. Prone indicator
+            if (token.is_prone) {
+                circle.alpha = 0.5;
+                const proneText = new Text({ text: "PRONE", style: { fontSize: 8, fill: 0xff4444, fontWeight: 'bold' } });
+                proneText.anchor.set(0.5);
+                proneText.x = TILE_SIZE / 2;
+                proneText.y = TILE_SIZE / 2 + 10;
+                tokenGroup.addChild(proneText);
+            }
+
             tokenGroup.addChild(circle);
 
             // Token initial letter

@@ -11,6 +11,10 @@ class ClashRequest(BaseModel):
     attacker: CombatantState
     defender: CombatantState
     chaos_level: int = 1         
+    attacker_advantage: bool = False
+    attacker_disadvantage: bool = False
+    defender_advantage: bool = False
+    defender_disadvantage: bool = False
 
 class ClashResolution(BaseModel):
     clash_result: str            
@@ -19,6 +23,8 @@ class ClashResolution(BaseModel):
     margin: int
     attacker_hp_change: int = 0
     defender_hp_change: int = 0
+    attacker_composure_change: int = 0
+    defender_composure_change: int = 0
     attacker_injury_applied: Optional[str] = None  
     defender_injury_applied: Optional[str] = None
     stamina_deducted_attacker: int = 0

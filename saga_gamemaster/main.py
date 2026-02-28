@@ -94,12 +94,20 @@ async def start_campaign(req: StartCampaignRequest):
     """Drops the player into the world and initializes the session tracker."""
     camp_id = f"CAMP_{uuid.uuid4().hex[:8].upper()}"
     
+    import random
     ACTIVE_CAMPAIGNS[camp_id] = {
         "player_id": req.player_id,
         "current_hex": req.starting_hex_id,
         "day": 1,
-        "player_vitals": {"current_hp": 20, "max_hp": 20, "stamina": 10, "max_stamina": 10},
-        "active_encounter": None
+        "player_vitals": {
+            "current_hp": 20, "max_hp": 20, 
+            "stamina": 12, "max_stamina": 12,
+            "composure": 10, "max_composure": 10,
+            "focus": 10, "max_focus": 10
+        },
+        "chaos_level": random.randint(1, 12),
+        "active_encounter": None,
+        "injuries": []
     }
     
     print(f"[DIRECTOR] Campaign {camp_id} started at Hex {req.starting_hex_id}.")
@@ -160,6 +168,10 @@ async def process_chat_action(req: PlayerChatRequest):
 
 class TacticalActionRequest(BaseModel):
     skill_name: str
+    skill_rank: int
+    stat_mod: int
+    has_advantage: bool = False
+    has_disadvantage: bool = False
     target: dict
     attacker_attributes: dict
     attacker_vitals: dict
@@ -169,23 +181,49 @@ class TacticalActionRequest(BaseModel):
 async def process_tactical_action(req: TacticalActionRequest):
     """Bridge between VTT ActionHUD and Port 8007 Clash Engine."""
     from core.api_gateway import SAGA_API_Gateway
+    import random
     gateway = SAGA_API_Gateway()
     
     global active_enemies
     if 'active_enemies' not in globals():
         globals()['active_enemies'] = {}
     
-    # Extract specific stats based on the ActionHUD JSON
-    player_pool = int(req.attacker_attributes.get("might", 0)) + int(req.attacker_attributes.get("reflexes", 0))
+    # ── Chaos Check ──
+    # User rule: Any risky roll matching Chaos Level triggers a Warp.
+    if not ACTIVE_CAMPAIGNS:
+         start_chaos = random.randint(1, 12)
+         ACTIVE_CAMPAIGNS["CAMPAIGN_001"] = {
+             "chaos_level": start_chaos,
+             "chaos_history": [start_chaos],
+             "injuries": []
+         }
+         logging.info(f"--- S.A.G.A Campaign Initialized --- Chaos Level: {start_chaos}")
+
+    chaos_triggered = False
+    player_roll = random.randint(1, 20)
+    # We find the first campaign to get the chaos level (UI currently supports 1 active)
+    chaos_level = 1
+    current_camp_id = None
+    for cid, camp in ACTIVE_CAMPAIGNS.items():
+        chaos_level = camp.get("chaos_level", 1)
+        current_camp_id = cid
+        break
+    
+    if player_roll == chaos_level:
+        chaos_triggered = True
+        # Escalate Chaos
+        if current_camp_id:
+            ACTIVE_CAMPAIGNS[current_camp_id]["chaos_level"] = min(12, chaos_level + 1)
+    
+    # Extract stats
     player_hp = int(req.attacker_vitals.get("hp", {}).get("current", 20))
     player_stamina = int(req.attacker_vitals.get("stamina", {}).get("current", 12))
-    player_focus = int(req.attacker_vitals.get("focus", {}).get("current", 9))
+    player_focus = int(req.attacker_vitals.get("focus", {}).get("current", 10))
+    player_composure = int(req.attacker_vitals.get("composure", {}).get("current", 10))
     
     # ── Dynamic Loadout Resolution ──
-    # Look for the current weapon in the equipped items
     equipped_weapon = next((item for item in req.equipped_items if item.get("type", "").upper() in ["MELEE", "RANGED", "MAGIC"]), None)
     is_magic = equipped_weapon and equipped_weapon.get("type", "").upper() == "MAGIC"
-    
     weapon_dice = equipped_weapon.get("dice", "1d6") if equipped_weapon else "1d4"
     cost = equipped_weapon.get("stamina_cost", 1) if equipped_weapon else 1
     
@@ -198,21 +236,30 @@ async def process_tactical_action(req: TacticalActionRequest):
     attacker_data = {
         "name": "Player",
         "current_hp": player_hp,
-        "attack_or_defense_pool": player_pool,
+        "skill_rank": req.skill_rank,
+        "stat_mod": req.stat_mod,
         "weapon_damage_dice": weapon_dice, 
         "stamina_burned": stamina_burn,
         "focus_burned": focus_burn
     }
     
-    # Stateful Defender Tracking
     target_id = req.target.get("id", "enemy_unknown")
+    
+    # ── S.A.G.A Rule: Dead is Dead ──
+    # Check if the target was already deleted or doesn't exist in the active combat list.
     if target_id not in active_enemies:
-        active_enemies[target_id] = 20  # Default Enemy Max HP
+        return {
+            "resolution_text": "ENCOUNTER OVER: The target is no longer present.",
+            "vitals_update": req.attacker_vitals,
+            "new_target_hp": 0,
+            "encounter_ended": True
+        }
         
     defender_data = {
         "name": req.target.get("name", "Unknown Enemy"),
-        "current_hp": active_enemies[target_id],
-        "attack_or_defense_pool": 8,
+        "current_hp": active_enemies[target_id]["hp"],
+        "skill_rank": 2, # NPC baseline
+        "stat_mod": 2,
         "weapon_damage_dice": "1d6",
         "stamina_burned": 0,
         "focus_burned": 0
@@ -220,45 +267,78 @@ async def process_tactical_action(req: TacticalActionRequest):
     
     clash_result = await gateway.resolve_clash(
         attacker_data=attacker_data,
-        defender_data=defender_data
+        defender_data=defender_data,
+        chaos_level=chaos_level,
+        attacker_adv=req.has_advantage,
+        attacker_dis=req.has_disadvantage
     )
     
-    # Apply damage permanently (signed deltas: dmg is negative)
-    dmg_dealt = clash_result.get("dmg", 0)
-    active_enemies[target_id] = max(0, active_enemies[target_id] + dmg_dealt)
+    # ... (Tie-breaker logic remains) ...
+    if clash_result.get("clash_result") == "CLASH_TIE":
+        atk_tie = random.randint(1, 20) + req.skill_rank
+        def_tie = random.randint(1, 20) + 2
+        if atk_tie > def_tie:
+            clash_result["resolution_extra"] = "TIE BROKEN: Player force win!"
+            clash_result["defender_hp_change"] = -2
+        elif def_tie > atk_tie:
+            clash_result["resolution_extra"] = "TIE BROKEN: Enemy outlasts you!"
+            clash_result["attacker_hp_change"] = -2
+        else:
+            clash_result["resolution_extra"] = "DEADLOCK CONTINUES."
+
+    # Update state
+    dmg_dealt = clash_result.get("defender_hp_change", 0)
+    active_enemies[target_id]["hp"] = max(0, active_enemies[target_id]["hp"] + dmg_dealt)
     
-    # Counter-attack damage to player if the enemy scored a REVERSAL (signed delta)
-    player_dmg_taken = clash_result.get("attacker_dmg", 0)
-    final_player_hp = max(0, player_hp + player_dmg_taken)
+    stress_dealt = clash_result.get("defender_composure_change", 0)
+    active_enemies[target_id]["composure"] = max(0, active_enemies[target_id]["composure"] + stress_dealt)
     
-    # Build updated vitals to send back to React
+    player_dmg = clash_result.get("attacker_hp_change", 0)
+    final_player_hp = max(0, player_hp + player_dmg)
+    
+    player_stress = clash_result.get("attacker_composure_change", 0)
+    final_player_composure = max(0, player_composure + player_stress)
+    
+    is_defeated = active_enemies[target_id]["hp"] <= 0 or active_enemies[target_id]["composure"] <= 0
+    
+    # VTT updates
     updated_vitals = req.attacker_vitals.copy()
-    if "stamina" in updated_vitals and isinstance(updated_vitals["stamina"], dict):
-        updated_vitals["stamina"]["current"] = new_stamina
-    if "hp" in updated_vitals and isinstance(updated_vitals["hp"], dict):
-        updated_vitals["hp"]["current"] = final_player_hp
-    if "focus" in updated_vitals and isinstance(updated_vitals["focus"], dict):
-        updated_vitals["focus"]["current"] = new_focus
+    if "stamina" in updated_vitals: updated_vitals["stamina"]["current"] = new_stamina
+    if "hp" in updated_vitals: updated_vitals["hp"]["current"] = final_player_hp
+    if "focus" in updated_vitals: updated_vitals["focus"]["current"] = new_focus
+    if "composure" in updated_vitals: updated_vitals["composure"]["current"] = final_player_composure
         
-    status_msg = f"Margin: {clash_result['margin']}. Damage dealt: {abs(dmg_dealt)}. Enemy HP: {active_enemies[target_id]}."
-    if player_dmg_taken < 0:
-        status_msg += f" You took {abs(player_dmg_taken)} counter-damage!"
-    is_defeated = active_enemies[target_id] == 0
+    status_msg = f"ROLL: {player_roll} vs Chaos {chaos_level}. Result: {clash_result['clash_result']}."
+    if chaos_triggered:
+        status_msg += " !! CHAOS WARP TRIGGERED !!"
+    
+    status_msg += f" Margin: {clash_result['margin']}. Dmg/Stress: {dmg_dealt}/{stress_dealt}."
+    
+    # (Injury Escalation logic remains)
+    if clash_result.get("defender_injury_applied") and current_camp_id:
+        new_injury = clash_result["defender_injury_applied"]
+        camp = ACTIVE_CAMPAIGNS[current_camp_id]
+        camp["injuries"].append(new_injury)
+        minors = [i for i in camp["injuries"] if "MINOR" in i]
+        majors = [i for i in camp["injuries"] if "MAJOR" in i]
+        if len(minors) >= 2:
+            status_msg += " (2 Minors converted to 1 MAJOR!)"
+            camp["injuries"] = [i for i in camp["injuries"] if "MINOR" not in i]
+            camp["injuries"].append("MAJOR: Injury Escalation (2 Minors)")
+        if len(majors) >= 3:
+             is_defeated = True # KO
+             status_msg += " !! OVER-INJURED: KNOCKOUT !!"
+
     if is_defeated:
-        status_msg += " Enemy defeated!"
-        
-        # 1. Clear the enemy from the active tracking pool
+        status_msg += " Target defeated!"
         del active_enemies[target_id]
-        
-        # 2. Clear the encounter in the global campaign state
-        for camp in ACTIVE_CAMPAIGNS.values():
-            if camp.get("active_encounter"):
-                camp["active_encounter"] = None
+        if current_camp_id:
+            ACTIVE_CAMPAIGNS[current_camp_id]["active_encounter"] = None
     
     return {
-        "resolution_text": status_msg,
+        "resolution_text": status_msg + f" {clash_result.get('resolution_extra', '')}",
         "vitals_update": updated_vitals,
-        "new_target_hp": 0 if is_defeated else active_enemies[target_id],
+        "new_target_hp": 0 if is_defeated else active_enemies[target_id]["hp"],
         "encounter_ended": is_defeated
     }
 

@@ -50,7 +50,9 @@ class WealthState(BaseModel):
 class CombatantState(BaseModel):
     name: str
     current_hp: int = 10
-    attack_or_defense_pool: int
+    attack_or_defense_pool: int = 0
+    skill_rank: int = 0
+    stat_mod: int = 0
     weapon_damage_dice: Optional[str] = None
     stamina_burned: int = 0
     focus_burned: int = 0

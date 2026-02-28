@@ -48,14 +48,20 @@ class SAGA_API_Gateway:
                 logging.error(f"Item Foundry Error: {e}")
                 return {"item_name": item_id, "effect": "Item resolution failed."}
 
-    async def resolve_clash(self, attacker_data: dict, defender_data: dict):
+    async def resolve_clash(self, attacker_data: dict, defender_data: dict, chaos_level: int = 1, 
+                            attacker_adv: bool = False, attacker_dis: bool = False,
+                            defender_adv: bool = False, defender_dis: bool = False):
         async with httpx.AsyncClient() as client:
             try:
                 # We format the payload exactly as Module 7 expects
                 payload = {
                     "attacker": attacker_data,
                     "defender": defender_data,
-                    "chaos_level": 1
+                    "chaos_level": chaos_level,
+                    "attacker_advantage": attacker_adv,
+                    "attacker_disadvantage": attacker_dis,
+                    "defender_advantage": defender_adv,
+                    "defender_disadvantage": defender_dis
                 }
                 response = await client.post(
                     f"{self.microservices['clash_engine']}/api/clash/resolve",
@@ -64,14 +70,18 @@ class SAGA_API_Gateway:
                 response.raise_for_status()
                 data = response.json()
                 return {
-                    "margin": data.get("clash_result", "DEADLOCK"),
-                    "dmg": data.get("defender_hp_change", 0),
-                    "attacker_dmg": data.get("attacker_hp_change", 0),
-                    "injury": data.get("defender_injury_applied", None)
+                    "clash_result": data.get("clash_result", "DEADLOCK"),
+                    "margin": data.get("margin", 0),
+                    "defender_hp_change": data.get("defender_hp_change", 0),
+                    "attacker_hp_change": data.get("attacker_hp_change", 0),
+                    "defender_composure_change": data.get("defender_composure_change", 0),
+                    "attacker_composure_change": data.get("attacker_composure_change", 0),
+                    "defender_injury_applied": data.get("defender_injury_applied", None),
+                    "chaos_effect_triggered": data.get("chaos_effect_triggered", None)
                 }
             except Exception as e:
                 logging.error(f"Clash Engine Error: {e}")
-                return {"margin": "ERROR", "dmg": 0, "injury": None}
+                return {"clash_result": "ERROR", "margin": 0}
 
     async def generate_encounter(self, request_data: dict):
         async with httpx.AsyncClient() as client:

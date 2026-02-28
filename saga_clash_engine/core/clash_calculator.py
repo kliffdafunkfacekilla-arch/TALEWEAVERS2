@@ -36,30 +36,40 @@ def roll_dice(dice_str: str) -> int:
 
 def resolve_clash(req: ClashRequest) -> ClashResolution:
     """
-    The Margin-of-Victory calculator.
-
-    Step 1: Roll 1d20 for both sides and add their burned Stamina and pool.
-    Step 2: Compare. margin = atk_total - def_total.
-    Step 3: Determine outcome from the margin.
-
-    ─────────────────────────────────────────────────────────────────────
-    | margin >= 5   → CRUSHING_WIN  | Full weapon damage + chaos effect │
-    | 1 <= margin <= 4 → SCRAPE     | Half weapon damage                │
-    | margin < 0    → REVERSAL      | Defender deals 2 chip damage      │
-    | margin == 0   → DEADLOCK      | No damage; chaos may trigger      │
-    ─────────────────────────────────────────────────────────────────────
+    S.A.G.A. Realignment: 
+    1d20 + Skill Rank + Stat Mod + (Rank // 2)
+    
+    Thresholds:
+    10+   : Critical (2x Dmg)
+    4 - 9 : Normal Dmg
+    1 - 3 : Graze (Minor Composure Stress)
+    0     : CLASH (Tie)
+    -1 to -5 : Defense Success
+    -6 to -11: Rattling Defense (Attacker takes Composure Stress)
+    -11+  : Critical Miss (Prone)
     """
-    # Step 1: Roll for both sides and add pools + burned stamina
-    atk_roll = roll_d20()
-    def_roll = roll_d20()
+    # --- Roll with Adv/Dis ---
+    def roll_with_benefit(base_roll_func, advantage: bool, disadvantage: bool):
+        if advantage and not disadvantage:
+            return max(base_roll_func(), base_roll_func())
+        if disadvantage and not advantage:
+            return min(base_roll_func(), base_roll_func())
+        return base_roll_func()
 
-    atk_total = atk_roll + req.attacker.attack_or_defense_pool + req.attacker.stamina_burned
-    def_total = def_roll + req.defender.attack_or_defense_pool + req.defender.stamina_burned
+    atk_roll = roll_with_benefit(roll_d20, req.attacker_advantage, req.attacker_disadvantage)
+    def_roll = roll_with_benefit(roll_d20, req.defender_advantage, req.defender_disadvantage)
+
+    # Formula: d20 + Skill + Stat + (Rank // 2) tier bonus
+    atk_bonus = req.attacker.skill_rank + req.attacker.stat_mod + (req.attacker.skill_rank // 2)
+    def_bonus = req.defender.skill_rank + req.defender.stat_mod + (req.defender.skill_rank // 2)
+
+    atk_total = atk_roll + atk_bonus
+    def_total = def_roll + def_bonus
 
     margin = atk_total - def_total
 
     res = ClashResolution(
-        clash_result="DEADLOCK",    # Default, will be overwritten
+        clash_result="DEADLOCK",
         attacker_roll=atk_total,
         defender_roll=def_total,
         margin=margin,
@@ -67,29 +77,26 @@ def resolve_clash(req: ClashRequest) -> ClashResolution:
         stamina_deducted_defender=req.defender.stamina_burned,
     )
 
-    # Step 2: Determine outcome based on the Margin
-    if margin >= 5:
-        # CRUSHING WIN — roll full weapon damage
-        res.clash_result = "CRUSHING_WIN"
-        damage = roll_dice(req.attacker.weapon_damage_dice) if req.attacker.weapon_damage_dice else 1
+    damage = roll_dice(req.attacker.weapon_damage_dice) if req.attacker.weapon_damage_dice else 1
+
+    if margin >= 10:
+        res.clash_result = "CRITICAL_HIT"
+        res.defender_hp_change = -(damage * 2)
+    elif 4 <= margin <= 9:
+        res.clash_result = "NORMAL_HIT"
         res.defender_hp_change = -damage
-
-    elif 1 <= margin <= 4:
-        # SCRAPE — half damage, no tactical advantage
-        res.clash_result = "SCRAPE"
-        damage = roll_dice(req.attacker.weapon_damage_dice) if req.attacker.weapon_damage_dice else 1
-        res.defender_hp_change = -(max(1, damage // 2))
-
-    elif margin < 0:
-        # REVERSAL — defender wins; attacker takes chip damage
-        res.clash_result = "REVERSAL"
-        res.attacker_hp_change = -2   # Chip damage
-
-    else:
-        # DEADLOCK — margin == 0; both locked, no damage
-        res.clash_result = "DEADLOCK"
-        # In high chaos, the world reacts
-        if req.chaos_level > 3:
-            res.chaos_effect_triggered = "Reality Warp: Ground shifts, both fall Prone."
+    elif 1 <= margin <= 3:
+        res.clash_result = "GRAZE"
+        res.defender_composure_change = -1 # Minor stress
+    elif margin == 0:
+        res.clash_result = "CLASH_TIE"
+    elif -5 <= margin <= -1:
+        res.clash_result = "DEFENSIVE_SUCCESS"
+    elif -11 <= margin <= -6:
+        res.clash_result = "RATTLING_DEFENSE"
+        res.attacker_composure_change = -1 # Attacker takes stress
+    elif margin < -11:
+        res.clash_result = "CRITICAL_MISS"
+        res.chaos_effect_triggered = "Attacker falls PRONE."
 
     return res

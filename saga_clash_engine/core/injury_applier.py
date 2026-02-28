@@ -13,17 +13,24 @@ BODY_TRAUMA_DB = [
 
 def apply_injuries(res: ClashResolution, req: ClashRequest) -> ClashResolution:
     """
-    Intercepts the Clash damage and checks if either combatant dropped to 0 HP.
-    If they do, it triggers the Dual-Track Trauma system.
+    S.A.G.A. Injury Rules:
+    - Any single blow dealing 5+ damage triggers an injury.
+    - A CRITICAL_HIT (+10 margin) always triggers a MAJOR injury.
+    - Dropping to 0 HP or less triggers an injury.
     """
     # 1. Check Defender
-    if res.defender_hp_change < 0:
-        if req.defender.current_hp + res.defender_hp_change <= 0:
-            res.defender_injury_applied = random.choice(BODY_TRAUMA_DB)
+    dmg_to_def = abs(res.defender_hp_change)
+    is_crit = res.clash_result == "CRITICAL_HIT"
+    at_zero_def = (req.defender.current_hp + res.defender_hp_change) <= 0
+    
+    if dmg_to_def >= 5 or is_crit or at_zero_def:
+        injury = random.choice(BODY_TRAUMA_DB)
+        res.defender_injury_applied = f"MAJOR: {injury}" if is_crit else f"MINOR: {injury}"
 
-    # 2. Check Attacker (In case of a REVERSAL margin where the defender counters)
-    if res.attacker_hp_change < 0:
-        if req.attacker.current_hp + res.attacker_hp_change <= 0:
-            res.attacker_injury_applied = random.choice(BODY_TRAUMA_DB)
+    # 2. Check Attacker (Counter-damage/Reversals)
+    dmg_to_atk = abs(res.attacker_hp_change)
+    at_zero_atk = (req.attacker.current_hp + res.attacker_hp_change) <= 0
+    if dmg_to_atk >= 5 or at_zero_atk:
+        res.attacker_injury_applied = f"MINOR: {random.choice(BODY_TRAUMA_DB)}"
 
     return res

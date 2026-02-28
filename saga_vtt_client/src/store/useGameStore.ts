@@ -140,6 +140,9 @@ export interface EncounterToken {
     color: number;
     isPlayer: boolean;
     radius?: number;
+    direction?: number; // 0=N, 1=E, 2=S, 3=W
+    is_prone?: boolean;
+    engaged_with?: string[]; // IDs of tokens this token has clashed with this round
 }
 
 export interface ActiveEncounter {
@@ -573,8 +576,59 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
             const activeEncounter = state.activeEncounter;
             const targetToken = activeEncounter?.tokens?.find((t: any) => t.id === targetId);
 
+            // --- Real-time Skill Resolution ---
+            // 1. Resolve Rank (Default to 0 if unknown)
+            let skillRank = 0;
+            if (state.characterSheet?.tactical_skills) {
+                const skillData = state.characterSheet.tactical_skills[skillName];
+                skillRank = typeof skillData === 'object' ? skillData.rank : (typeof skillData === 'number' ? skillData : 0);
+            }
+
+            // 2. Resolve Stat Mod (Lead Stat)
+            // For now, we map common skills to their Sector I/II stats. 
+            // In a full build, this is determined by the player's chosen "Lead" during creation.
+            const skillToStatMap: Record<string, string> = {
+                'Assault': 'might',
+                'Ballistics': 'reflexes',
+                'Fortify': 'fortitude',
+                'Mobility': 'finesse',
+                'Tactics': 'logic',
+                'Deceive': 'charm',
+                'Coercion': 'willpower',
+                'Basic Attack': 'might',
+                'Ranged Attack': 'reflexes'
+            };
+            const leadStat = skillToStatMap[skillName] || 'might';
+            const statMod = state.attributes[leadStat] || 0;
+
+            // 3. Tactical Advantage (Flanking / Engaged)
+            const playerToken = activeEncounter.tokens.find(t => t.isPlayer);
+            let hasAdvantage = false;
+            let hasDisadvantage = false;
+
+            if (playerToken && targetToken) {
+                // Rule: Engaged if token has clashed this round
+                const isEngaged = (targetToken.engaged_with?.length || 0) > 0;
+
+                // Calculate Relative Position
+                const dx = playerToken.x - targetToken.x;
+                const dy = playerToken.y - targetToken.y;
+
+                // Simplified Flanking: If target is engaged with someone else, side attacks get Advantage
+                if (isEngaged && !targetToken.engaged_with?.includes(playerToken.id)) {
+                    hasAdvantage = true;
+                }
+
+                // Sneak Attack: Attacking from behind (if orientation matches)
+                // For now, if no direction, assume 'Front' is where the current engagement is.
+            }
+
             const payload = {
                 skill_name: skillName,
+                skill_rank: skillRank,
+                stat_mod: statMod,
+                has_advantage: hasAdvantage,
+                has_disadvantage: hasDisadvantage,
                 target: {
                     id: targetId,
                     name: targetToken?.name || 'Unknown',
@@ -595,6 +649,18 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
 
             const result = await res.json();
 
+            // Track Engagement: Player and Target are now engaged
+            set((s) => ({
+                activeEncounter: s.activeEncounter ? {
+                    ...s.activeEncounter,
+                    tokens: s.activeEncounter.tokens.map(t => {
+                        if (t.id === playerToken?.id) return { ...t, engaged_with: [...(t.engaged_with || []), targetId] };
+                        if (t.id === targetId) return { ...t, engaged_with: [...(t.engaged_with || []), playerToken?.id || ''] };
+                        return t;
+                    })
+                } : null
+            }));
+
             get().addChatMessage({ sender: 'SYSTEM', text: `> ${skillName} vs ${targetToken?.name || 'Target'}: ${result.resolution_text || 'Action resolved.'}` });
 
             // 1. Delegate synchronization and victory logic
@@ -614,30 +680,36 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     },
 
     syncCombatState: (result) => {
-        const { new_target_hp, encounter_ended, vitals_update, targetId } = result;
+        const { new_target_hp, encounter_ended, vitals_update, targetId, clash_result } = result;
 
-        // 1. Update NPC HP
-        if (targetId && new_target_hp !== undefined) {
+        // 1. Update NPC State (HP, Composure, etc.)
+        if (targetId) {
             set((s) => ({
                 activeEncounter: s.activeEncounter ? {
                     ...s.activeEncounter,
-                    tokens: s.activeEncounter.tokens.map((t: any) =>
-                        t.id === targetId ? { ...t, current_hp: new_target_hp } : t
-                    )
+                    tokens: s.activeEncounter.tokens.map((t: any) => {
+                        if (t.id === targetId) {
+                            return {
+                                ...t,
+                                current_hp: new_target_hp !== undefined ? new_target_hp : t.current_hp,
+                                is_prone: clash_result === "CRITICAL_MISS" ? true : t.is_prone
+                            };
+                        }
+                        return t;
+                    })
                 } : null
             }));
         }
 
-        // 2. Update Player Vitals
+        // 2. Update Player Vitals (HP, Stamina, Focus, Composure)
         if (vitals_update) {
             get().setPlayerVitals(vitals_update);
         }
 
         // 3. Victory Protocol: Close tactical HUD if ended or HP 0
+        const hex = get().selectedHex;
         if (encounter_ended || (new_target_hp !== undefined && new_target_hp <= 0)) {
             console.log("[VTT] Victory! Forcing tactical state clear.");
-
-            const hex = get().selectedHex;
             if (hex) {
                 get().markEncounterCleared(hex.id || `HEX_${hex.index || 'NULL'}`);
             }
