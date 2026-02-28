@@ -103,6 +103,36 @@ async def get_world_entities():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/api/lore/config/save")
+async def save_entity_config(payload: dict):
+    """
+    Saves the God Engine parameters (Aggression, Diet, Rarity, etc.) for a specific Lore entity.
+    This writes an override file that the C++ World Architect can parse during generation.
+    """
+    try:
+        config_path = "../god_engine_overrides.json"
+        
+        # Load existing if available
+        overrides = {}
+        if os.path.exists(config_path):
+            with open(config_path, "r", encoding="utf-8") as f:
+                try:
+                    overrides = json.load(f)
+                except:
+                    pass
+                    
+        # Update the entity's specific configuration rules
+        entity_id = payload.get("id", "Unknown_Entity")
+        overrides[entity_id] = payload
+        
+        # Save back to disk
+        with open(config_path, "w", encoding="utf-8") as f:
+            json.dump(overrides, f, indent=2)
+            
+        return {"status": "success", "message": f"Saved God Engine parameters for {entity_id}"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "module": "Lore Vault", "port": 8001}

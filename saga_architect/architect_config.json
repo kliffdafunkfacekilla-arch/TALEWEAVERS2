@@ -1,39 +1,39 @@
 {
   "world_settings": {
-    "num_hexes": 10000,
-    "tectonic_plates": 50,
-    "heightmap_image": "C:\\Users\\krazy\\Pictures\\Gemini_Generated_Image_j9uvp4j9uvp4j9uv.png",
+    "num_hexes": 2500,
+    "tectonic_plates": 15,
+    "heightmap_image": "",
     "heightmap_steps": []
   },
   "climate": {
     "north_pole": [
-      16,
-      35
+      -60,
+      -20
     ],
     "equator": [
       20,
       45
     ],
     "south_pole": [
-      25,
-      45
+      -70,
+      -30
     ],
-    "rainfall_multiplier": 2,
+    "rainfall_multiplier": 1,
     "wind_bands": [
-      "S",
-      "S",
-      "S",
-      "S",
-      "S",
-      "S",
-      "S"
+      "E",
+      "NE",
+      "W",
+      "E",
+      "W",
+      "SE",
+      "E"
     ]
   },
   "biomes": [
     {
       "name": "DEEP_TUNDRA",
-      "min_temp": -100,
-      "max_temp": -84,
+      "min_temp": -80,
+      "max_temp": -5,
       "min_rain": 0,
       "max_rain": 1
     },
@@ -53,7 +53,7 @@
     },
     {
       "name": "MUSHROOM_SWAMP",
-      "min_temp": 1,
+      "min_temp": 10,
       "max_temp": 40,
       "min_rain": 0.6,
       "max_rain": 1
@@ -86,42 +86,6 @@
       "building_preferences": [
         "Bone_Hut"
       ]
-    },
-    {
-      "name": "New_Faction",
-      "aggression": 0.5,
-      "expansion_rate": 0.5,
-      "will_fight": true,
-      "will_farm": true,
-      "will_mine": false,
-      "will_hunt": true,
-      "will_trade": true,
-      "base_trade_value": 1,
-      "required_resources": [],
-      "loved_resources": [
-        "Wood"
-      ],
-      "hated_resources": [],
-      "preferred_biomes": [],
-      "building_preferences": []
-    },
-    {
-      "name": "New_Faction",
-      "aggression": 0.5,
-      "expansion_rate": 0.5,
-      "will_fight": true,
-      "will_farm": true,
-      "will_mine": false,
-      "will_hunt": true,
-      "will_trade": true,
-      "base_trade_value": 1,
-      "required_resources": [],
-      "loved_resources": [
-        "Wood"
-      ],
-      "hated_resources": [],
-      "preferred_biomes": [],
-      "building_preferences": []
     }
   ],
   "flora_fauna": [
@@ -164,24 +128,6 @@
       "diet": [
         "Sunlight"
       ]
-    },
-    {
-      "name": "New Creature",
-      "type": "FAUNA",
-      "is_aggressive": false,
-      "is_farmable": false,
-      "is_tameable": false,
-      "farm_yield_resource": "Meat",
-      "farm_yield_amount": 5,
-      "min_temp": 0,
-      "max_temp": 30,
-      "min_water": 0.1,
-      "max_water": 1,
-      "spawn_chance": 0.1,
-      "allowed_biomes": [
-        "ANY"
-      ],
-      "diet": []
     }
   ]
 }
