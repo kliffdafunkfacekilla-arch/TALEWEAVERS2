@@ -33,7 +33,14 @@ export function PixiBattlemap() {
                 const currentBiome = selectedHex?.biome_tag || "Tundra";
 
                 console.log(`[VTT] Requesting encounter for biome: ${currentBiome}`);
-                const res = await fetch(`http://localhost:8008/generate-encounter?biome=${currentBiome}&threat_level=4`);
+                const res = await fetch(`http://localhost:8009/api/encounter/generate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        biome: currentBiome,
+                        threat_level: 4
+                    })
+                });
 
                 if (!res.ok) throw new Error("Encounter Engine offline.");
                 const data = await res.json();

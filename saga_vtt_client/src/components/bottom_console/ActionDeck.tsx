@@ -172,7 +172,8 @@ export function ActionDeck() {
                             body: JSON.stringify({
                                 campaign_id: campaignId,
                                 player_input: actionText,
-                                stamina_burned: card.stamina_cost
+                                stamina_burned: card.type !== 'MAGIC' ? card.stamina_cost : 0,
+                                focus_burned: card.type === 'MAGIC' ? card.stamina_cost : 0
                             })
                         });
 
@@ -181,7 +182,12 @@ export function ActionDeck() {
 
                         if (data.system_log) addChatMessage({ sender: 'SYSTEM', text: data.system_log.trim() });
                         if (data.narration) addChatMessage({ sender: 'AI_DIRECTOR', text: data.narration });
-                        if (data.updated_vitals) setPlayerVitals(data.updated_vitals);
+
+                        // Centralized update for HP sync and victory
+                        useGameStore.getState().syncCombatState({
+                            ...data,
+                            targetId: selectedTargetId
+                        });
 
                         // Catch injuries from the Clash Engine (attacker_injury_applied / defender_injury_applied)
                         if (data.new_injury || data.attacker_injury_applied) {

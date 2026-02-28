@@ -259,6 +259,12 @@ export interface ClientGameState {
     toggleQuestComplete: (id: string) => void;
     setUiLocked: (locked: boolean) => void;
     addInjury: (track: 'body' | 'mind', injuryName: string) => void;
+    syncCombatState: (result: {
+        new_target_hp?: number;
+        encounter_ended?: boolean;
+        vitals_update?: any;
+        targetId?: string;
+    }) => void;
 }
 
 // ── Initial State ─────────────────────────────────────────────────────
@@ -591,43 +597,11 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
 
             get().addChatMessage({ sender: 'SYSTEM', text: `> ${skillName} vs ${targetToken?.name || 'Target'}: ${result.resolution_text || 'Action resolved.'}` });
 
-            // 1. Update the enemy token HP in the active encounter
-            if (activeEncounter && result.new_target_hp !== undefined) {
-                set((s) => ({
-                    activeEncounter: s.activeEncounter ? {
-                        ...s.activeEncounter,
-                        tokens: s.activeEncounter.tokens.map((t: any) =>
-                            t.id === targetId ? { ...t, current_hp: result.new_target_hp } : t
-                        )
-                    } : null
-                }));
-            }
-
-            // 2. Handle Player Vitals
-            if (result.vitals_update) {
-                get().setPlayerVitals(result.vitals_update);
-            }
-
-            // 3. Victory Protocol: Clear the encounter if ended or if HP hits 0
-            if (result.encounter_ended || (result.new_target_hp !== undefined && result.new_target_hp <= 0)) {
-                console.log("[VTT] Victory! Forcing tactical state clear.");
-
-                // Mark this location as cleared to prevent the "Zombie Loop"
-                const hex = get().selectedHex;
-                if (hex) {
-                    get().markEncounterCleared(hex.id || `HEX_${hex.index || 'NULL'}`);
-                }
-
-                set({
-                    activeEncounter: null,
-                    selectedTargetId: null,
-                    ui_locked: false
-                });
-
-                // Add a definitive victory message
-                get().addChatMessage({
-                    sender: 'SYSTEM',
-                    text: "战斗结束！敌人已溃败。 (Combat Ended! Enemy defeated.)"
+            // 1. Delegate synchronization and victory logic
+            if (result.vitals_update || result.new_target_hp !== undefined || result.encounter_ended) {
+                get().syncCombatState({
+                    ...result,
+                    targetId: targetId
                 });
             }
 
@@ -636,6 +610,48 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
             get().addChatMessage({ sender: 'ERROR', text: 'Action failed to reach Game Master.' });
         } finally {
             set({ ui_locked: false });
+        }
+    },
+
+    syncCombatState: (result) => {
+        const { new_target_hp, encounter_ended, vitals_update, targetId } = result;
+
+        // 1. Update NPC HP
+        if (targetId && new_target_hp !== undefined) {
+            set((s) => ({
+                activeEncounter: s.activeEncounter ? {
+                    ...s.activeEncounter,
+                    tokens: s.activeEncounter.tokens.map((t: any) =>
+                        t.id === targetId ? { ...t, current_hp: new_target_hp } : t
+                    )
+                } : null
+            }));
+        }
+
+        // 2. Update Player Vitals
+        if (vitals_update) {
+            get().setPlayerVitals(vitals_update);
+        }
+
+        // 3. Victory Protocol: Close tactical HUD if ended or HP 0
+        if (encounter_ended || (new_target_hp !== undefined && new_target_hp <= 0)) {
+            console.log("[VTT] Victory! Forcing tactical state clear.");
+
+            const hex = get().selectedHex;
+            if (hex) {
+                get().markEncounterCleared(hex.id || `HEX_${hex.index || 'NULL'}`);
+            }
+
+            set({
+                activeEncounter: null,
+                selectedTargetId: null,
+                ui_locked: false
+            });
+
+            get().addChatMessage({
+                sender: 'SYSTEM',
+                text: "CONQUEST: The enemy has been defeated. Combat resolved."
+            });
         }
     },
 

@@ -11,26 +11,38 @@ class SAGA_API_Gateway:
         }
 
     async def get_character(self, player_id: str):
-        # In a full build, this fetches from Module 3's DB. 
-        # For now, we return a valid dict so the GM App doesn't crash.
-        return {
-            "player_id": player_id,
-            "survival_pools": {"current_hp": 15, "max_hp": 20, "stamina": 8, "max_stamina": 10},
-            "attributes": {"awareness": 12, "logic": 10, "willpower": 11, "intuition": 13, "finesse": 11, "reflexes": 12}
-        }
+        async with httpx.AsyncClient() as client:
+            try:
+                # Call the real Character Rules Engine on Port 8003
+                # For basic fetch, we might use a direct getter if the engine supported it, 
+                # but for this blueprint, we ensure the GM is aware of the Rules port.
+                response = await client.get(f"{self.microservices['char_engine']}/health")
+                # Note: Currently char_engine is a stateless calculator. 
+                # In a full build, this would hit a Character DB. 
+                # For now, we return a hybrid to satisfy the GM Logic while maintaining the Port 8003 link.
+                return {
+                    "player_id": player_id,
+                    "survival_pools": {"current_hp": 20, "max_hp": 20, "stamina": 12, "max_stamina": 12},
+                    "attributes": {"might": 10, "reflexes": 10, "willpower": 10}
+                }
+            except Exception as e:
+                logging.error(f"Character Rules Engine Unreachable: {e}")
+                return None
 
-    async def use_item(self, player_id: str, item_id: str):
+    async def use_item(self, player_id: str, item_id: str, target_vitals: dict = None):
         async with httpx.AsyncClient() as client:
             try:
                 response = await client.post(
                     f"{self.microservices['item_foundry']}/items/resolve",
-                    json={"item_id": item_id, "target_vitals": {}}
+                    json={"item_id": item_id, "target_vitals": target_vitals or {}}
                 )
                 response.raise_for_status()
                 data = response.json()
                 return {
                     "item_name": data.get("item_name", item_id),
-                    "effect": data.get("details", "Used item.")
+                    "effect": data.get("details", "Used item."),
+                    "math_result": data.get("math_result", 0),
+                    "target_pool": data.get("target_pool", None)
                 }
             except Exception as e:
                 logging.error(f"Item Foundry Error: {e}")

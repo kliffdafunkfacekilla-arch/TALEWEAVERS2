@@ -179,17 +179,29 @@ async def process_tactical_action(req: TacticalActionRequest):
     player_pool = int(req.attacker_attributes.get("might", 0)) + int(req.attacker_attributes.get("reflexes", 0))
     player_hp = int(req.attacker_vitals.get("hp", {}).get("current", 20))
     player_stamina = int(req.attacker_vitals.get("stamina", {}).get("current", 12))
+    player_focus = int(req.attacker_vitals.get("focus", {}).get("current", 9))
     
-    stamina_burn = 1
+    # ── Dynamic Loadout Resolution ──
+    # Look for the current weapon in the equipped items
+    equipped_weapon = next((item for item in req.equipped_items if item.get("type", "").upper() in ["MELEE", "RANGED", "MAGIC"]), None)
+    is_magic = equipped_weapon and equipped_weapon.get("type", "").upper() == "MAGIC"
+    
+    weapon_dice = equipped_weapon.get("dice", "1d6") if equipped_weapon else "1d4"
+    cost = equipped_weapon.get("stamina_cost", 1) if equipped_weapon else 1
+    
+    focus_burn = cost if is_magic else 0
+    stamina_burn = 0 if is_magic else cost
+    
     new_stamina = max(0, player_stamina - stamina_burn)
+    new_focus = max(0, player_focus - focus_burn)
     
     attacker_data = {
         "name": "Player",
         "current_hp": player_hp,
         "attack_or_defense_pool": player_pool,
-        "weapon_damage_dice": "1d8", # Default prototype weapon
+        "weapon_damage_dice": weapon_dice, 
         "stamina_burned": stamina_burn,
-        "focus_burned": 0
+        "focus_burned": focus_burn
     }
     
     # Stateful Defender Tracking
@@ -225,6 +237,8 @@ async def process_tactical_action(req: TacticalActionRequest):
         updated_vitals["stamina"]["current"] = new_stamina
     if "hp" in updated_vitals and isinstance(updated_vitals["hp"], dict):
         updated_vitals["hp"]["current"] = final_player_hp
+    if "focus" in updated_vitals and isinstance(updated_vitals["focus"], dict):
+        updated_vitals["focus"]["current"] = new_focus
         
     status_msg = f"Margin: {clash_result['margin']}. Damage dealt: {abs(dmg_dealt)}. Enemy HP: {active_enemies[target_id]}."
     if player_dmg_taken < 0:
