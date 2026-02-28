@@ -611,6 +611,13 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
             // 3. Victory Protocol: Clear the encounter if ended or if HP hits 0
             if (result.encounter_ended || (result.new_target_hp !== undefined && result.new_target_hp <= 0)) {
                 console.log("[VTT] Victory! Forcing tactical state clear.");
+
+                // Mark this location as cleared to prevent the "Zombie Loop"
+                const hex = get().selectedHex;
+                if (hex) {
+                    get().markEncounterCleared(hex.id || `HEX_${hex.index || 'NULL'}`);
+                }
+
                 set({
                     activeEncounter: null,
                     selectedTargetId: null,
