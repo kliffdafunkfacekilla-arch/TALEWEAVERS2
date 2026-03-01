@@ -4,30 +4,23 @@ from core.api_gateway import SAGA_API_Gateway
 import asyncio
 import json
 import logging
+import random
 
 api_gateway = SAGA_API_Gateway()
 
-# ── Initialize Local AI Brain via Ollama ──
-# Change "llama3" to whatever model you have downloaded (e.g., "mistral", "phi3", "gemma")
 try:
     from langchain_community.llms import Ollama
     local_llm = Ollama(model="llama3")
     OLLAMA_AVAILABLE = True
-    print("[NARRATOR] Ollama LLM initialized (model: llama3)")
 except ImportError:
     local_llm = None
     OLLAMA_AVAILABLE = False
-    print("[NARRATOR] langchain-community not installed. Falling back to prompt echo.")
 except Exception as e:
     local_llm = None
     OLLAMA_AVAILABLE = False
-    print(f"[NARRATOR] Ollama initialization failed: {e}. Falling back to prompt echo.")
-
 
 async def fetch_context_node(state: GameState):
     campaign_data = await api_gateway.get_campaign_state(state["player_id"])
-    
-    # DO NOT overwrite vitals if they already exist in state (preserves changes from mechanics)
     vitals = state.get("player_vitals")
     if not vitals:
         char_data = await api_gateway.get_character(state["player_id"])
@@ -36,7 +29,10 @@ async def fetch_context_node(state: GameState):
     return {
         "current_location": campaign_data["current_node_name"],
         "active_quests": campaign_data["active_quests"],
-        "player_vitals": vitals
+        "player_vitals": vitals,
+        "active_regional_arcs": state.get("active_regional_arcs") or [],
+        "active_local_quests": state.get("active_local_quests") or [],
+        "active_errands": state.get("active_errands") or []
     }
 
 async def resolve_mechanics_node(state: GameState):
@@ -48,7 +44,6 @@ async def resolve_mechanics_node(state: GameState):
         return {"math_log": f"[SYSTEM: {result['item_name']} consumed. {result['effect']} applied.]"}
     
     elif action == "ATTACK":
-        # Build CombatantState dicts from the real player_vitals
         vitals = state.get("player_vitals", {})
         attacker_data = {
             "name": state["player_id"],
@@ -59,271 +54,214 @@ async def resolve_mechanics_node(state: GameState):
             "focus_burned": 0
         }
         defender_data = {
-            "name": target,
-            "current_hp": 15,
-            "attack_or_defense_pool": 4,
-            "weapon_damage_dice": "1d6",
-            "stamina_burned": 0,
-            "focus_burned": 0
+            "name": target, "current_hp": 15, "attack_or_defense_pool": 4, "weapon_damage_dice": "1d6", "stamina_burned": 0, "focus_burned": 0
         }
         result = await api_gateway.resolve_clash(attacker_data, defender_data)
-        injury_text = f" Injury: {result['injury']}" if result.get("injury") else ""
-        return {"math_log": f"[SYSTEM: Clash Result: {result['margin']}. Damage: {result['dmg']}.{injury_text}]"}
+        return {"math_log": f"[SYSTEM: Clash Result: {result['clash_result']}. Damage: {result['defender_hp_change']}.]"}
     
-    elif action == "MOVE" or action == "TRAVEL":
+    elif action in ["MOVE", "TRAVEL"]:
         return {"math_log": f"[SYSTEM: Moving to {target}.]"}
     
-    elif action in ["PERSUADE", "INTIMIDATE"]:
-        # Social Combat Resolver
-        vitals = state.get("player_vitals", {})
-        enc = state.get("active_encounter")
-        if not enc or not enc["data"].get("npcs"):
-            return {"math_log": "[SYSTEM: No one here to talk to.]"}
-        
-        npc = enc["data"]["npcs"][0] # Target first NPC for now
-        attacker_pool = state.get("attributes", {}).get("charm" if action == "PERSUADE" else "might", 5) + state.get("stamina_burned", 0)
-        defender_pool = npc.get("willpower", 4)
-        
-        result = await api_gateway.resolve_clash(
-            {"name": state["player_id"], "attack_or_defense_pool": attacker_pool, "stamina_burned": state.get("stamina_burned", 0)},
-            {"name": npc["name"], "attack_or_defense_pool": defender_pool, "stamina_burned": 0}
-        )
-        
-        dmg = result["dmg"]
-        npc["composure_pool"] = max(0, npc["composure_pool"] - dmg)
-        
-        outcome = "SUCCESS" if npc["composure_pool"] == 0 else "CONTINUE"
-        return {
-            "math_log": f"[SYSTEM: Social Clash ({action}). Result: {result['margin']}. Composure Damage: {dmg}. {npc['name']} Composure: {npc['composure_pool']}]",
-            "active_encounter": enc if outcome == "CONTINUE" else None # Close encounter if composure breaks
-        }
-
-    elif action in ["DISARM", "EVADE"]:
-        # Hazard Resolver
-        enc = state.get("active_encounter")
-        if not enc or enc["data"].get("category") != "HAZARD":
-            return {"math_log": "[SYSTEM: No hazard detected.]"}
-        
-        hazard = enc["data"]
-        check = hazard["disarm_check"] if action == "DISARM" else hazard["detection_check"]
-        roll = random.randint(1, 20) + 5 # Mocking attribute bonus
-        
-        if roll >= check["dc"]:
-            return {
-                "math_log": f"[SYSTEM: Hazard {action} SUCCESS! Rolled {roll} vs DC {check['dc']}]",
-                "active_encounter": None 
-            }
-        else:
-            damage = hazard["trigger_effect"]["damage"]
-            injury = hazard["trigger_effect"]["injury"]
-            return {
-                "math_log": f"[SYSTEM: Hazard TRIGGERED! Rolled {roll} vs DC {check['dc']}. Damage: {damage}. Injury: {injury}]",
-                "active_encounter": None
-            }
-
-    elif action == "CHOICE":
-        # Dilemma Resolver
-        enc = state.get("active_encounter")
-        if not enc or enc["data"].get("category") != "DILEMMA":
-            return {"math_log": "[SYSTEM: No dilemma active.]"}
-        
-        # Apply mechanical effect (Mocked for now)
-        return {
-            "math_log": f"[SYSTEM: Choice '{target}' made. Applying consequences...]",
-            "active_encounter": None
-        }
-
     elif action == "SURVIVAL":
         vitals = state.get("player_vitals", {})
         text = state.get("raw_chat_text", "").lower()
-        
         math_msg = ""
-        if "fire" in text or "bonfire" in text:
-            # Restore some focus/stamina
+        if "fire" in text:
             vitals["stamina"] = min(vitals.get("max_stamina", 12), vitals.get("stamina", 0) + 2)
             math_msg = "Fire built. +2 Stamina."
-        if "cook" in text or "meal" in text or "eat" in text:
-            # Restore HP
-            vitals["current_hp"] = min(vitals.get("max_hp", 20), vitals.get("current_hp", 0) + 3)
-            math_msg += " Meal prepared. +3 HP."
-        if "rest" in text or "sleep" in text:
-            vitals["focus"] = min(vitals.get("max_focus", 10), vitals.get("focus", 0) + 4)
-            math_msg += " Rested. +4 Focus."
-            
-        return {
-            "math_log": f"[SYSTEM Survival: {math_msg}]",
-            "player_vitals": vitals
-        }
+        return {"math_log": f"[SYSTEM Survival: {math_msg}]", "player_vitals": vitals}
 
     return {"math_log": "[SYSTEM: Action requires no math.]"}
 
 async def director_node(state: GameState):
-    # Only roll for NEW encounters during movement
+    """Tiered Narrative Director: Pulls story detail based on zoom level."""
     if state["action_type"] not in ["MOVE", "TRAVEL"]:
-        return {
-            "math_log": "",
-            "director_override": None,
-            "vtt_commands": [],
-            "active_encounter": state.get("active_encounter"), # PERSIST EXISTING ENCOUNTER
-            "ai_narration": ""
-        }
+        return {"director_override": None, "vtt_commands": [], "active_encounter": state.get("active_encounter")}
     
-    coords = state["action_target"]
-    trigger = await api_gateway.check_quest_triggers(coords)
+    current_hex = state["action_target"]
+    is_regional_move = state["action_type"] == "TRAVEL" # Tier 2/3 Scale
     
+    # 1. Check for Regional Arc Generation (Tier 2/3)
+    # If moving between cities/regions and no arc is active, generate one.
+    if is_regional_move and not state.get("active_regional_arcs"):
+        print("[DIRECTOR] Generating Regional Arc (Tier 2)...")
+        idx = state["current_stage"]
+        saga_beat = state["campaign_framework"][idx] if state.get("campaign_framework") else {}
+        new_arcs = await api_gateway.generate_regional_arc(saga_beat, {"location": current_hex})
+        return {"active_regional_arcs": new_arcs}
+
+    # 2. Check for Local Side Quest (Tier 4)
+    # If exploring a hex (pacing phase) and chance hits, generate a sidequest.
+    pacing_goal = 2
+    if state.get("campaign_framework") and state["current_stage"] < len(state["campaign_framework"]):
+         pacing_goal = state["campaign_framework"][state["current_stage"]].get("pacing_milestones", 2)
+
+    if state["current_stage_progress"] < pacing_goal and random.random() < 0.3:
+        print("[DIRECTOR] Generating Local Side Quest (Tier 3)...")
+        side_quest = await api_gateway.generate_local_sidequest({"hex_id": current_hex})
+        if side_quest:
+            return {"active_local_quests": state.get("active_local_quests", []) + [side_quest]}
+
+    # 3. Check for Tactical Errand (Tier 5)
+    if random.random() < 0.1:
+        print("[DIRECTOR] Triggering Tactical Errand (Tier 4)...")
+        errand = await api_gateway.generate_tactical_errand(str(current_hex))
+        if errand:
+            return {"active_errands": state.get("active_errands", []) + [errand]}
+
+    # 4. Standard Encounters (Fallthrough)
+    trigger = await api_gateway.check_quest_triggers(current_hex)
     encounter_request = {
         "biome": state.get("current_location", "Wilderness"),
-        "threat_level": 2, # Fixed for now
+        "threat_level": 2,
         "faction_territory": "The Wolf Cult" if trigger else "Wilderness"
     }
 
+    encounter = None
     if trigger:
-        # 1. Prompted Generation (Quest/Event)
-        encounter_request.update({
-            "forced_type": trigger["type"],
-            "seed_prompt": trigger.get("seed")
-        })
+        encounter_request.update({"forced_type": trigger["type"], "seed_prompt": trigger.get("seed")})
         encounter = await api_gateway.generate_encounter(encounter_request)
     else:
-        # 2. Random Chance (Director Pulse)
-        import random
-        if random.random() < 0.15: # 15% chance for a random encounter per move
+        # Pacing awareness for random filler encounters
+        base_chance = 0.15
+        if state.get("current_stage_progress", 0) < pacing_goal:
+            base_chance = 0.40
+            print(f"[DIRECTOR] Pacing Mode: Chance raised to {base_chance}")
+
+        if random.random() < base_chance:
             encounter = await api_gateway.generate_encounter(encounter_request)
-        else:
-            encounter = None
 
     if encounter:
-        enc_data = encounter["data"]
-        
-        # --- NEW: Map enemies/NPCs to VTT Tokens ---
-        tokens = []
-        
-        # 1. Inject Player Token
-        vitals = state.get("player_vitals", {})
-        tokens.append({
-            "id": "PLAYER_001",
-            "name": state.get("player_id", "Player"),
-            "label": state.get("player_id", "Player"),
-            "x": 5, # Center of tactical grid
-            "y": 5,
-            "color": 0x4ade80,
-            "isPlayer": True,
-            "current_hp": vitals.get("current_hp", 20),
-            "max_hp": vitals.get("max_hp", 20),
-            "stamina": vitals.get("stamina", 12),
-            "composure": vitals.get("composure", 10)
-        })
-
-        # 2. Map Enemies or NPCs
-        if enc_data.get("category") == "COMBAT" and "enemies" in enc_data:
-            for idx, enemy in enumerate(enc_data["enemies"]):
-                spatial = enemy.get("spatial", {})
-                tokens.append({
-                    "id": f"enemy_{idx}",
-                    "name": enemy.get("name", "Enemy"),
-                    "label": enemy.get("name", "Enemy"),
-                    "x": 10 + idx, # Place enemies offset from player
-                    "y": 5,
-                    "color": 0xef4444,
-                    "isPlayer": False,
-                    "current_hp": enemy.get("hp", 15),
-                    "max_hp": enemy.get("hp", 15),
-                    "attack_or_defense_pool": enemy.get("stamina", 5),
-                    "weapon_dice": enemy.get("weapons", ["1d6"])[0] if enemy.get("weapons") else "1d6"
-                })
-        elif enc_data.get("category") == "SOCIAL" and "npcs" in enc_data:
-            for idx, npc in enumerate(enc_data["npcs"]):
-                tokens.append({
-                    "id": f"npc_{idx}",
-                    "name": npc.get("name", "NPC"),
-                    "label": npc.get("name", "NPC"),
-                    "x": 8,
-                    "y": 5,
-                    "color": 0x60a5fa,
-                    "isPlayer": False,
-                    "composure_pool": npc.get("composure_pool", 10),
-                    "willpower": npc.get("willpower", 4)
-                })
-
-        # Attach tokens to the encounter
+        tokens = [{"id": "PLAYER_001", "name": state.get("player_id", "Player"), "isPlayer": True, "current_hp": state.get("player_vitals", {}).get("current_hp", 20)}]
         encounter["tokens"] = tokens
-
-        override_prompt = f"""
-        [DIRECTOR OVERRIDE: {enc_data['category']} ENCOUNTER DETECTED]
-        Title: {enc_data['title']}
-        Initial Narrative: {enc_data['narrative_prompt']}
-        """
-        
-        commands = [f"START_ENCOUNTER:{encounter['encounter_id']}"]
         return {
-            "director_override": override_prompt,
-            "vtt_commands": commands,
+            "director_override": f"[DIRECTOR OVERRIDE: {encounter['data']['category']} ENCOUNTER] {encounter['data']['title']}",
+            "vtt_commands": [f"START_ENCOUNTER:{encounter['encounter_id']}"],
             "active_encounter": encounter
         }
     
     return {"director_override": None, "vtt_commands": [], "active_encounter": None}
 
 async def narrator_node(state: GameState):
-    """Node 3: The True AI Director — powered by local Ollama LLM."""
-    print("[GRAPH] Node 3: Generating Narration...")
+    print("[GRAPH] Node: Generating Narration with Foresight...")
     
-    # Build the prompt with mechanical context and history
     history_str = ""
     if state.get("chat_history"):
-        for msg in state["chat_history"]:
+        for msg in state["chat_history"][-5:]: # Last 5 for prompt efficiency
             role = "TRAVELER" if msg["role"] == "user" else "NARRATOR"
             history_str += f"{role}: {msg['content']}\n"
     
-    encounter_context = ""
-    if state.get("active_encounter"):
-        enc = state["active_encounter"]["data"]
-        encounter_context = f"\nACTIVE ENCOUNTER: {enc['title']} ({enc['category']})\nMechanical Data: {json.dumps(enc)}"
+    foresight_context = ""
+    if state.get("campaign_framework"):
+        idx = state["current_stage"]
+        saga = state["campaign_framework"][idx]
+        pacing_goal = saga.get('pacing_milestones', 2)
+        
+        # Build Hierarchy View for LLM
+        arcs = "\n- ".join([a['narrative_objective'] for a in state.get("active_regional_arcs", [])])
+        local = "\n- ".join([l['narrative_objective'] for l in state.get("active_local_quests", [])])
+        errands = "\n- ".join([e['narrative_objective'] for e in state.get("active_errands", [])])
+
+        foresight_context = f"""
+        --- SAGA STAGE: {saga['stage_name']} ---
+        Global Goal: {saga['narrative_objective']}
+        
+        --- ACTIVE REGIONAL ARCS (Tier 2) ---
+        - {arcs if arcs else "None"}
+        
+        --- LOCAL SIDE QUESTS (Tier 3) ---
+        - {local if local else "None"}
+        
+        --- TACTICAL ERRANDS (Tier 4) ---
+        - {errands if errands else "None"}
+
+        [PACING]: {state['current_stage_progress']}/{pacing_goal} filler events completed.
+        [FORESHADOWING]: {saga.get('foreshadowing_clue', 'None')}
+        """
 
     prompt = f"""
-    You are the Game Master of the S.A.G.A. Engine, a gritty, dark-fantasy survival game.
-    
-    --- CONVERSATION HISTORY ---
+    You are the GM of S.A.G.A. (Gritty/Brutal Tone).
     {history_str}
-
-    --- HIDDEN WORLD STATE ---
     Location: {state['current_location']}
-    Player Vitals: {state['player_vitals']}{encounter_context}
-    
-    --- MECHANICAL TRUTH (DO NOT CONTRADICT THIS) ---
-    {state['math_log']}
+    Vitals: {state['player_vitals']}
+    {foresight_context}
+    Result: {state['math_log']}
     """
     
     if state.get("director_override"):
-        prompt += f"\n\n{state['director_override']}\nWrite the narration in 2 to 3 sentences of gritty tone. Do not use UI terminology."
+        prompt += f"\n\n{state['director_override']}\nNarrate in 3 sentences."
     else:
-        prompt += f"\n\nPlayer Action: '{state['raw_chat_text']}'\nWrite exactly 2 to 3 sentences of visceral, gritty narration describing the outcome based strictly on the Mechanical Truth above."
+        prompt += f"\n\nAction: '{state['raw_chat_text']}'\nNarrate outcome in 3 gritty sentences. Drop foreshadowing if atmospheric."
 
-    # Try the real Ollama LLM first, fall back to prompt echo
-    if OLLAMA_AVAILABLE and local_llm is not None:
+    if OLLAMA_AVAILABLE and local_llm:
         try:
-            print("[GRAPH] Firing prompt to Ollama...")
             response = local_llm.invoke(prompt)
             narrative = response.strip()
-        except Exception as e:
-            print(f"[OLLAMA ERROR] {e}")
-            narrative = f"The {state['current_location']} remains silent. (Ollama Offline)"
+        except: narrative = f"Silence... (Offline)"
     else:
-        narrative = f"[AI LLM PROMPT GENERATED]:\n{prompt}"
+        narrative = f"[AI]: {prompt}"
         
     return {"ai_narration": narrative}
 
+async def check_narrative_shift_node(state: GameState):
+    """Detects progression or radical shifts requiring framework adjustment."""
+    current_text = state.get("ai_narration", "").lower()
+    history = state.get("chat_history", [])
+    current_stage_idx = state["current_stage"]
+    current_progress = state["current_stage_progress"]
+    
+    framework = state.get("campaign_framework", [])
+    pacing_goal = 2 # Default fallback
+    if framework and current_stage_idx < len(framework):
+        pacing_goal = framework[current_stage_idx].get("pacing_milestones", 2)
+
+    # 1. Pacing Tracking: Detect "Filler/Side" content completion
+    # If a micro-encounter or survival event happened, increment progress
+    if state.get("active_encounter") is None and ("objective complete" in current_text or "survived" in current_text):
+        current_progress += 1
+        print(f"[DIRECTOR] Pacing progress: {current_progress}/{pacing_goal}")
+
+    # 2. Main Plot Progression: Only allow if pacing goal met
+    if any(k in current_text for k in ["new chapter", "journey begins", "path revealed"]):
+        if current_progress >= pacing_goal:
+            new_stage = min(len(framework) - 1, current_stage_idx + 1)
+            print(f"[DIRECTOR] Pacing met. Advancing to Stage {new_stage}. Clearing old sub-arcs.")
+            return {
+                "current_stage": new_stage, 
+                "current_stage_progress": 0,
+                "active_regional_arcs": [],
+                "active_local_quests": [],
+                "active_errands": []
+            }
+        else:
+            print(f"[DIRECTOR] Progression blocked. Pacing {current_progress}/{pacing_goal} required.")
+            return {"current_stage_progress": current_progress}
+        
+    # 3. Radical Divergence Check (Patching)
+    if "enemy defeated" in state.get("math_log", "").lower() and "traitor" in current_text:
+        print("[DIRECTOR] Major Plot Conflict! Requesting Framework adjustment...")
+        updated_framework = await api_gateway.generate_framework(
+            characters=[{"name": state["player_id"]}],
+            world_state={}, 
+            settings={"difficulty": "STANDARD"},
+            history=history[-10:]
+        )
+        if updated_framework:
+             return {"campaign_framework": updated_framework["hero_journey"]}
+
+    return {"current_stage": current_stage_idx, "current_stage_progress": current_progress}
+
 def create_director_graph():
     workflow = StateGraph(GameState)
-    
     workflow.add_node("fetch_context", fetch_context_node)
     workflow.add_node("resolve_mechanics", resolve_mechanics_node)
     workflow.add_node("director", director_node)
     workflow.add_node("narrator", narrator_node)
-    
+    workflow.add_node("narrative_shift", check_narrative_shift_node)
     workflow.set_entry_point("fetch_context")
     workflow.add_edge("fetch_context", "resolve_mechanics")
     workflow.add_edge("resolve_mechanics", "director")
     workflow.add_edge("director", "narrator")
-    workflow.add_edge("narrator", END)
-    
+    workflow.add_edge("narrator", "narrative_shift")
+    workflow.add_edge("narrative_shift", END)
     return workflow.compile()

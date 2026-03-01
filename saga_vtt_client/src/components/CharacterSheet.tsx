@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useGameStore } from '../store/useGameStore';
+import { useCharacterStore } from '../store/useCharacterStore';
 import speciesSlots from '../data/Species_Slots.json';
 import speciesBases from '../data/species_base_stats.json';
 import evolutionMatrix from '../data/Evolution_Matrix.json';
@@ -414,7 +415,7 @@ export const CharacterSheet: React.FC = () => {
                         <div className="mt-8 pt-4 border-t border-zinc-800 flex justify-end">
                             <button
                                 onClick={() => {
-                                    useGameStore.getState().setCharacterSheet(compiledData);
+                                    useCharacterStore.getState().setCharacterSheet(compiledData);
                                     // For now, exit back to main menu. The user can then enter the VTT.
                                     useGameStore.getState().setScreen('MAIN_MENU');
                                 }}

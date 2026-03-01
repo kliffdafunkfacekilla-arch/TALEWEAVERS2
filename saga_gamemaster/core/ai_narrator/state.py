@@ -22,6 +22,14 @@ class GameState(TypedDict):
     director_override: Optional[str] # If populated, LLM must follow this
     vtt_commands: List[str]          # Instructions for React
     
-    # 5. Final Output
+    # 5. Narrative Foresight (Hero's Journey Hierarchy)
+    campaign_framework: Optional[List[Dict]] # The 8 SAGA stages
+    current_stage: int # Saga Stage Index (0-7)
+    current_stage_progress: int # Filler count
+    active_regional_arcs: List[Dict] # Tier 2/3 quests bridging saga beats
+    active_local_quests: List[Dict] # Tier 4 hex-based sidequests
+    active_errands: List[Dict] # Tier 5 tactical one-offs
+    
+    # 6. Final Output
     ai_narration: str
     chat_history: List[Dict[str, str]] # List of {"role": "user/assistant", "content": "..."}

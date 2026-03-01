@@ -1,7 +1,9 @@
-#include "core/Types.h"
+#include "../../deps/nlohmann/json.hpp"
+#include "../core/Types.h"
 #include <fstream>
 #include <iostream>
-#include <nlohmann/json.hpp>
+#include <map>
+#include <vector>
 
 using json = nlohmann::json;
 
@@ -80,8 +82,10 @@ public:
       cell_json["available_resources"] = cell.available_resources;
       cell_json["local_resources"] = cell.local_resources;
       cell_json["local_fauna"] = cell.local_fauna;
-      cell_json["local_flora"] = cell.local_flora;
       cell_json["threat_level"] = cell.threat_level;
+      cell_json["market_state"] = cell.market_state;
+      cell_json["production_rate"] = cell.production_rate;
+      cell_json["road_next_id"] = cell.road_next_id;
       jCells.push_back(cell_json);
     }
     j["macro_map"] = jCells;

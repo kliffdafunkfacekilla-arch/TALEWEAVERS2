@@ -1,18 +1,19 @@
+#include "../deps/nlohmann/json.hpp"
 #include "core/Types.h"
-#include <fstream>
-#include <iostream>
-#include <nlohmann/json.hpp>
-#include <string>
-#include <vector>
-
 #include "io/Exporter.cpp"
 #include "map/VoronoiGen.cpp"
 #include "simulation/AutoPopulate.cpp"
-#include "simulation/ResourcePopulator.cpp"
+#include "simulation/EconomyEngine.cpp"
+#include "simulation/EntityEngine.cpp"
+#include "simulation/VisibilityEngine.cpp"
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 
 using json = nlohmann::json;
 
-int main() {
+int main(int argc, char *argv[]) {
   std::cout << "==========================================\n";
   std::cout << "  T.A.L.E.W.E.A.V.E.R. World Architect    \n";
   std::cout << "==========================================\n";
@@ -73,6 +74,8 @@ int main() {
 
   // 4. PARSE CLIMATE & WORLD SETTINGS
   int num_hexes = config["world_settings"].value("num_hexes", 2000);
+  int world_width = config["world_settings"].value("width", 1000);
+  int world_height = config["world_settings"].value("height", 1000);
   int tectonic_plates = config["world_settings"].value("tectonic_plates", 12);
   std::string heightmap_file =
       config["world_settings"].value("heightmap_image", "");
@@ -146,9 +149,60 @@ int main() {
   VoronoiGen physicalEngine;
   AutoPopulate civEngine;
 
+  // New: Check for phase argument (if provided by Python API)
+  std::string phase = "all";
+  int target_hex = -1;
+  for (int i = 1; i < argc; ++i) {
+    std::string arg = argv[i];
+    if (arg == "--phase" && i + 1 < argc)
+      phase = argv[i + 1];
+    if (arg == "--hex" && i + 1 < argc)
+      target_hex = std::stoi(argv[i + 1]);
+  }
+
+  if (phase == "subgrid" && target_hex != -1) {
+    std::cout << "[PHASE] Generating Local SubGrid for Hex #" << target_hex
+              << "...\n";
+    // We need the macro-map loaded first to provide context
+    // (Simplified: for now, we assume 'all' was run and we are reloading or
+    // generating fresh)
+    physicalEngine.GenerateBaseMap(num_hexes, world_width, world_height);
+    physicalEngine.SimulateClimate(climate);
+    physicalEngine.SimulateHydrology();
+    physicalEngine.AssignBiomes(biomeRules);
+    civEngine.PopulateFactions(physicalEngine.cells, factions);
+    civEngine.GenerateRoads(physicalEngine.cells);
+
+    physicalEngine.GenerateSubGrid(target_hex);
+
+    // 3. Compute Visibility (LOS & FOW) starting from the center of the subgrid
+    // target_hex is the macro ID, we need to map it to a local index or just
+    // use a default center. However, the local cells are ordered, so we usually
+    // find the center-most node.
+    int local_center_idx = physicalEngine.local_cells_cache.size() / 2;
+    VisibilityEngine::ComputeLOS(physicalEngine.local_cells_cache,
+                                 local_center_idx, 10.0f);
+
+    // --- DYNAMIC ENTITY SPAWNING (Phase 34) ---
+    // Fetch threat level from the parent hex
+    int threat = 1;
+    if (target_hex >= 0 && target_hex < (int)physicalEngine.cells.size()) {
+      threat = physicalEngine.cells[target_hex].threat_level;
+    }
+    EntityEngine::PopulateEncounters(physicalEngine.local_cells_cache, threat);
+
+    // 4. Update Detection (Stealth & Proximity)
+    EntityEngine::UpdateDetection(physicalEngine.local_cells_cache,
+                                  local_center_idx);
+
+    // 5. Export to JSON
+    physicalEngine.ExportSubGrid("Saga_Local_SubGrid.json");
+    return 0;
+  }
+
   std::cout << "\n[PHASE 1] Building Physical Planet (" << num_hexes
             << " hexes)...\n";
-  physicalEngine.GenerateBaseMap(num_hexes);
+  physicalEngine.GenerateBaseMap(num_hexes, world_width, world_height);
 
   if (!heightmap_file.empty()) {
     physicalEngine.ImportHeightmap(heightmap_file);
@@ -163,6 +217,7 @@ int main() {
   }
 
   physicalEngine.SimulateClimate(climate);
+  physicalEngine.SimulateHydrology();
   physicalEngine.AssignBiomes(biomeRules);
 
   std::cout << "\n[PHASE 2] Simulating Civilization & Ecosystem...\n";
@@ -172,11 +227,17 @@ int main() {
   // Drop the animals and plants into the world!
   civEngine.PopulateEcosystem(physicalEngine.cells, ecosystem);
 
-  // Scatter Architect Palette (Resources, specific Flora/Fauna rules)
+  // [PHASE 4] Ecosystem & Resources
   civEngine.PopulateResourcesAndWildlife(physicalEngine.cells, biomeRules);
 
-  // 7. Export to JSON
-  std::cout << "\n[PHASE 3] Packaging Data...\n";
+  // [PHASE 5] Economy & Trade
+  std::cout << "[ECONOMY] Simulating market start...\n";
+  EconomyEngine::UpdateEconomy(physicalEngine.cells);
+  EconomyEngine::ResolveTrade(physicalEngine.cells);
+
+  // EXPORT FINAL WORLD
+  std::cout << "\n[EXPORT] Saving Planet to "
+               "saga_vtt_client/public/data/world_data.json...\n";
   std::string outputPath = "Saga_Master_World.json";
   MasterExporter::ExportWorld(outputPath, "Aethelgard", physicalEngine.cells,
                               factions);

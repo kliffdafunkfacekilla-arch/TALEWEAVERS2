@@ -20,7 +20,7 @@ processes = []
 
 try:
     print("========================================")
-    print("🚀 STARTING TALEWEAVERS ENGINE 🚀")
+    print("[+] STARTING TALEWEAVERS ENGINE [+]")
     print("========================================")
     
     # Start Python Backends
@@ -46,7 +46,7 @@ try:
     processes.append(p_vtt)
     
     print("\n========================================")
-    print("🟢 ALL SERVICES RUNNING 🟢")
+    print("[+] ALL SERVICES RUNNING [+]")
     print("-> Press Ctrl+C in this window to cleanly shut down everything.")
     print("========================================\n")
     

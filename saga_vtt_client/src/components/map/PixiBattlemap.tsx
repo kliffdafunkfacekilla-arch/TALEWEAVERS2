@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { Application, Graphics, Text, TextStyle, Container, Rectangle } from 'pixi.js';
 import { useGameStore } from '../../store/useGameStore';
+import { useCombatStore } from '../../store/useCombatStore';
 
 const TILE_SIZE = 50;
 
@@ -9,8 +10,8 @@ export function PixiBattlemap() {
     const appRef = useRef<Application | null>(null);
     const cameraRef = useRef<Container | null>(null);
 
-    const activeEncounter = useGameStore((s) => s.activeEncounter);
-    const selectedTargetId = useGameStore((s) => s.selectedTargetId);
+    const activeEncounter = useCombatStore((s) => s.activeEncounter);
+    const selectedTargetId = useCombatStore((s) => s.selectedTargetId);
 
     // ── REMOVED: Redundant Direct Fetch ──
     // Encounters are now managed by the Game Master (Port 8000) 
@@ -91,15 +92,15 @@ export function PixiBattlemap() {
             const clickedToken = currentEncounter.tokens.find(t => t.x === gridX && t.y === gridY);
             if (clickedToken && !clickedToken.isPlayer) {
                 // Target the enemy
-                const currentTarget = useGameStore.getState().selectedTargetId;
-                useGameStore.getState().setTarget(clickedToken.id === currentTarget ? null : clickedToken.id);
+                const currentTarget = useCombatStore.getState().selectedTargetId;
+                useCombatStore.getState().setSelectedTarget(clickedToken.id === currentTarget ? null : clickedToken.id);
                 console.log(`[VTT] Targeted: ${clickedToken.name} at [${gridX}, ${gridY}]`);
                 return;
             }
 
             // Move player + clear target
-            useGameStore.getState().moveToken('PLAYER_001', gridX, gridY);
-            useGameStore.getState().setTarget(null);
+            useCombatStore.getState().moveToken('PLAYER_001', gridX, gridY);
+            useCombatStore.getState().setSelectedTarget(null);
             console.log(`[VTT] Player moved to Grid [${gridX}, ${gridY}]`);
         });
 

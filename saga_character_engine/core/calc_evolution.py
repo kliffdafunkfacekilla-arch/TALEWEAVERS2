@@ -3,7 +3,7 @@ from pathlib import Path
 from .schemas import CoreAttributes, BiologicalEvolutions
 from typing import List, Dict
 
-# Safely point to the master data folder
+# Safely point to the master data folder (root /data)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = BASE_DIR / "data"
 

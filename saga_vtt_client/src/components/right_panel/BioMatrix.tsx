@@ -1,4 +1,4 @@
-import { useGameStore } from '../../store/useGameStore';
+import { useCharacterStore } from '../../store/useCharacterStore';
 
 // ── 12 Core Attributes Display ──────────────────────────────────────
 const PHYSICAL_STATS = [
@@ -100,8 +100,8 @@ function StaminaPips({ label, current, max, activeColor }: StaminaPipsProps) {
                     <div
                         key={i}
                         className={`flex-1 h-full border border-zinc-900 transition-colors duration-300 ${i < current
-                                ? `${activeColor} shadow-[0_0_6px_rgba(245,158,11,0.4)]`
-                                : 'bg-zinc-800/50'
+                            ? `${activeColor} shadow-[0_0_6px_rgba(245,158,11,0.4)]`
+                            : 'bg-zinc-800/50'
                             }`}
                     />
                 ))}
@@ -112,9 +112,9 @@ function StaminaPips({ label, current, max, activeColor }: StaminaPipsProps) {
 
 // ── Main Component ────────────────────────────────────────────────────
 export function BioMatrix() {
-    const attributes = useGameStore((s) => s.attributes);
-    const vitals = useGameStore((s) => s.vitals);
-    const characterName = useGameStore((s) => s.characterName);
+    const attributes = useCharacterStore((s) => s.attributes);
+    const vitals = useCharacterStore((s) => s.vitals);
+    const characterName = useCharacterStore((s) => s.characterName);
 
     return (
         <div className="space-y-5">

@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { useGameStore } from '../../store/useGameStore';
+import { useCharacterStore } from '../../store/useCharacterStore';
 
 export function DirectorLog() {
     const chatLog = useGameStore((s) => s.chat_log);
@@ -7,7 +8,7 @@ export function DirectorLog() {
     const campaignId = useGameStore((s) => s.activeCampaignId);
     const addChatMessage = useGameStore((s) => s.addChatMessage);
     const setUiLocked = useGameStore((s) => s.setUiLocked);
-    const setPlayerVitals = useGameStore((s) => s.setPlayerVitals);
+    const setPlayerVitals = useCharacterStore((s) => s.setPlayerVitals);
 
     const [inputText, setInputText] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);

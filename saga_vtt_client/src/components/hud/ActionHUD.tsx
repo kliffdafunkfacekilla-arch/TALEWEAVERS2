@@ -1,13 +1,15 @@
 import React from 'react';
 import { useGameStore } from '../../store/useGameStore';
+import { useCharacterStore } from '../../store/useCharacterStore';
+import { useCombatStore } from '../../store/useCombatStore';
 import { Sword, Target, Crosshair, Hexagon } from 'lucide-react';
 
 export const ActionHUD: React.FC = () => {
-    const skills = useGameStore(s => s.skills);
-    const selectedTargetId = useGameStore(s => s.selectedTargetId);
+    const skills = useCharacterStore(s => s.skills);
+    const selectedTargetId = useCombatStore(s => s.selectedTargetId);
+    const activeEncounter = useCombatStore(s => s.activeEncounter);
     const executeAction = useGameStore(s => s.executeAction);
     const ui_locked = useGameStore(s => s.ui_locked);
-    const activeEncounter = useGameStore(s => s.activeEncounter);
 
     // If there is no battlemap rendering, do not show the tactical HUD
     if (!activeEncounter) return null;

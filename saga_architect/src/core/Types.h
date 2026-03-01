@@ -109,7 +109,18 @@ struct VoronoiCell {
   std::string biome_tag;
   std::string faction_owner;
   std::string settlement_name;
-  bool has_river;
+  bool has_river = false;
+  int river_next_id = -1; // Downhill neighbor index
+  float flow_accumulation = 0.0f;
+  float river_size = 0.0f; // Width/intensity
+
+  // --- VISIBILITY & FOG OF WAR ---
+  bool is_visible = true;   // For real-time LOS
+  bool is_explored = false; // Persistent memory
+
+  bool has_road = false;
+  int road_next_id = -1; // Path to next settlement
+
   std::map<std::string, std::string>
       available_resources; // e.g., {"Iron": "infinite", "Wood": "450"}
 
@@ -123,5 +134,16 @@ struct VoronoiCell {
   std::vector<std::string>
       local_fauna; // e.g., ["Frost_Troll", "Scavenger_Pack"]
   std::vector<std::string> local_flora; // e.g., ["D-Dust_Fungus"]
-  int threat_level = 1;                 // 1 to 5
+  // --- ENTITY & DETECTION ---
+  bool has_entity = false;
+  std::string entity_type;
+  float detection_radius = 5.0f;
+  bool is_alerted = false;
+
+  // --- ECONOMY & TRADE ---
+  std::map<std::string, float>
+      market_state;             // Resource -> Supply (+ve) or Demand (-ve)
+  float production_rate = 0.0f; // Base units per tick
+
+  int threat_level = 1; // 1 to 5
 };

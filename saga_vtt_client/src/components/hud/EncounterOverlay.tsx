@@ -1,10 +1,11 @@
 import React from 'react';
 import { useGameStore } from '../../store/useGameStore';
+import { useCombatStore } from '../../store/useCombatStore';
 import { MessageSquare, Shield, AlertTriangle, Coins, X } from 'lucide-react';
 
 export const EncounterOverlay: React.FC = () => {
-    const activeEncounter = useGameStore((s) => s.activeEncounter);
-    const setActiveEncounter = useGameStore((s) => s.setActiveEncounter);
+    const activeEncounter = useCombatStore((s) => s.activeEncounter);
+    const setActiveEncounter = useCombatStore((s) => s.setActiveEncounter);
     const sendAction = useGameStore((s) => s.sendAction);
 
     if (!activeEncounter) return null;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useGameStore } from '../store/useGameStore';
+import { useWorldStore } from '../store/useWorldStore';
 import { MapRenderer } from './MapRenderer';
 import { EntityEditor } from './EntityEditor';
 import { CalendarEditor } from './CalendarEditor';
@@ -9,12 +9,12 @@ interface WorldArchitectProps {
 }
 
 export function WorldArchitect({ onBack }: WorldArchitectProps) {
-    const setWorldData = useGameStore((s) => s.setWorldData);
-    const selectedHex = useGameStore((s) => s.selectedHex);
+    const setWorldData = useWorldStore((s) => s.setWorldData);
+    const selectedHex = useWorldStore((s) => s.selectedHex);
 
     // THE MAP LENSES
-    const viewLens = useGameStore((s) => s.viewLens);
-    const setViewLens = useGameStore((s) => s.setViewLens);
+    const viewLens = useWorldStore((s) => s.viewLens);
+    const setViewLens = useWorldStore((s) => s.setViewLens);
 
     const [activeTab, setActiveTab] = useState<'PAINTING' | 'LORE' | 'GEOGRAPHY' | 'CLIMATE' | 'BIOMES' | 'RESOURCES' | 'ECOSYSTEM' | 'FACTIONS'>('PAINTING');
     const [isGenerating, setIsGenerating] = useState(false);
@@ -31,17 +31,17 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
 
 
     // --- ARCHITECT'S PALETTE (EDIT MODE) ---
-    const editMode = useGameStore((s) => s.editMode);
-    const setEditMode = useGameStore((s) => s.setEditMode);
-    const activeBrush = useGameStore((s) => s.activeBrush);
-    const setActiveBrush = useGameStore((s) => s.setActiveBrush);
-    const brushSize = useGameStore((s) => s.brushSize);
-    const setBrushSize = useGameStore((s) => s.setBrushSize);
-    const brushStrength = useGameStore((s) => s.brushStrength);
-    const setBrushStrength = useGameStore((s) => s.setBrushStrength);
+    const editMode = useWorldStore((s) => s.editMode);
+    const setEditMode = useWorldStore((s) => s.setEditMode);
+    const activeBrush = useWorldStore((s) => s.activeBrush);
+    const setActiveBrush = useWorldStore((s) => s.setActiveBrush);
+    const brushSize = useWorldStore((s) => s.brushSize);
+    const setBrushSize = useWorldStore((s) => s.setBrushSize);
+    const brushStrength = useWorldStore((s) => s.brushStrength);
+    const setBrushStrength = useWorldStore((s) => s.setBrushStrength);
 
     // --- 1. GEOGRAPHY STATE ---
-    const [hexCount, setHexCount] = useState(2500);
+    const [hexCount, setHexCount] = useState(400000);
     const [plateCount, setPlateCount] = useState(15);
     const [heightmap, setHeightmap] = useState("");
     const [heightmapSteps, setHeightmapSteps] = useState([
@@ -166,6 +166,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
         const payload = {
             world_settings: {
                 num_hexes: hexCount,
+                width: 1000,
+                height: 400,
                 tectonic_plates: plateCount,
                 heightmap_image: heightmap,
                 heightmap_steps: heightmapSteps
@@ -362,8 +364,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                     {activeTab === 'GEOGRAPHY' && (
                         <div className="space-y-4">
                             <div>
-                                <label className="text-zinc-400 font-bold uppercase mb-1 block">Map Resolution: {hexCount} Hexes</label>
-                                <input type="range" min="500" max="10000" step="100" value={hexCount} onChange={(e) => setHexCount(Number(e.target.value))} className="w-full accent-amber-500" />
+                                <label className="text-zinc-400 font-bold uppercase mb-1 block">Map Resolution: {hexCount.toLocaleString()} Hexes</label>
+                                <input type="range" min="500" max="400000" step="500" value={hexCount} onChange={(e) => setHexCount(Number(e.target.value))} className="w-full accent-amber-500" />
                             </div>
 
                             <div className="p-3 border border-zinc-800 bg-zinc-950">

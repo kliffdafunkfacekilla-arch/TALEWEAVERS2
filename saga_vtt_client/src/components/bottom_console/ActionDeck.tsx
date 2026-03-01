@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useGameStore } from '../../store/useGameStore';
-import type { LoadoutItem } from '../../store/useGameStore';
+import { useGameStore, type LoadoutItem } from '../../store/useGameStore';
+import { useCharacterStore } from '../../store/useCharacterStore';
+import { useCombatStore } from '../../store/useCombatStore';
 
 // ── Color Mappings ────────────────────────────────────────────────────
 const CARD_BORDER: Record<string, string> = {
@@ -44,16 +45,18 @@ function calculateDistance(encounter: { tokens: { id: string; x: number; y: numb
 export function ActionDeck() {
     const campaignId = useGameStore((s) => s.activeCampaignId);
     const uiLocked = useGameStore((s) => s.ui_locked);
-    const vitals = useGameStore((s) => s.vitals);
-    const activeEncounter = useGameStore((s) => s.activeEncounter);
-    const selectedTargetId = useGameStore((s) => s.selectedTargetId);
     const addChatMessage = useGameStore((s) => s.addChatMessage);
-    const setPlayerVitals = useGameStore((s) => s.setPlayerVitals);
     const setUiLocked = useGameStore((s) => s.setUiLocked);
     const inventorySlots = useGameStore((s) => s.inventory_slots);
     const clientLoadout = useGameStore((s) => s.clientLoadout);
-    const characterSheet = useGameStore((s) => s.characterSheet);
-    const addInjury = useGameStore((s) => s.addInjury);
+
+    const vitals = useCharacterStore((s) => s.vitals);
+    const characterSheet = useCharacterStore((s) => s.characterSheet);
+    const setPlayerVitals = useCharacterStore((s) => s.setPlayerVitals);
+    const addInjury = useCharacterStore((s) => s.addInjury);
+
+    const activeEncounter = useCombatStore((s) => s.activeEncounter);
+    const selectedTargetId = useCombatStore((s) => s.selectedTargetId);
 
     const [isProcessing, setIsProcessing] = useState(false);
 

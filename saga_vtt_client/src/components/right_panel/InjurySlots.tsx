@@ -1,10 +1,10 @@
-import { useGameStore } from '../../store/useGameStore';
+import { useCharacterStore } from '../../store/useCharacterStore';
 
 const MAX_BODY_SLOTS = 4;
 const MAX_MIND_SLOTS = 4;
 
 export function InjurySlots() {
-    const injuries = useGameStore((s) => s.injuries);
+    const injuries = useCharacterStore((s) => s.injuries);
 
     const renderSlots = (active: string[], maxSlots: number, trackColor: string, emptyLabel: string) => {
         const slots = [];
@@ -68,8 +68,8 @@ export function InjurySlots() {
                 <div className="flex justify-between text-[10px] text-zinc-600 uppercase tracking-wider">
                     <span>Total Wounds</span>
                     <span className={`font-bold ${injuries.body.length + injuries.mind.length > 4 ? 'text-red-400' :
-                            injuries.body.length + injuries.mind.length > 0 ? 'text-amber-400' :
-                                'text-emerald-400'
+                        injuries.body.length + injuries.mind.length > 0 ? 'text-amber-400' :
+                            'text-emerald-400'
                         }`}>
                         {injuries.body.length + injuries.mind.length} / {MAX_BODY_SLOTS + MAX_MIND_SLOTS}
                     </span>

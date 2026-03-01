@@ -1,4 +1,4 @@
-import { useGameStore, type ResourcePool } from '../../store/useGameStore';
+import { useCharacterStore, type ResourcePool } from '../../store/useCharacterStore';
 
 interface OrbProps {
     label: string;
@@ -43,7 +43,7 @@ function ResourceOrb({ label, pool, colorClass, glowColor, bgFill }: OrbProps) {
 }
 
 export function ResourceOrbs() {
-    const vitals = useGameStore((s) => s.vitals);
+    const vitals = useCharacterStore((s) => s.vitals);
 
     return (
         <div className="flex items-end gap-5">

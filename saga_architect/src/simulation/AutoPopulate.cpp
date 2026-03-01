@@ -1,4 +1,4 @@
-#include "core/Types.h"
+#include "../core/Types.h"
 #include <cmath>
 #include <iostream>
 #include <map>
@@ -321,6 +321,14 @@ private:
       openSet.pop();
 
       if (current == goal) {
+        // Backtrack to mark the road
+        int temp = goal;
+        while (temp != start) {
+          int parent = cameFrom[temp];
+          cells[parent].has_road = true;
+          cells[parent].road_next_id = temp;
+          temp = parent;
+        }
         return;
       }
 
