@@ -10,6 +10,7 @@ import { WorldArchitect } from './components/WorldArchitect';
 import { CharacterSheet } from './components/CharacterSheet';
 import { EncounterOverlay } from './components/hud/EncounterOverlay';
 import { ActionHUD } from './components/hud/ActionHUD';
+import { MapRenderer } from './components/MapRenderer';
 import { useGameStore } from './store/useGameStore';
 import type { LoadoutItem } from './store/useGameStore';
 import './App.css';
@@ -22,6 +23,8 @@ export default function App() {
   const setPlayerVitals = useGameStore((s) => s.setPlayerVitals);
   const setCharacterSheet = useGameStore((s) => s.setCharacterSheet);
   const setClientLoadout = useGameStore((s) => s.setClientLoadout);
+  const setWorldData = useGameStore((s) => s.setWorldData);
+  const activeEncounter = useGameStore((s) => s.activeEncounter);
   const [isBioMatrixOpen, setBioMatrixOpen] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
 
@@ -98,6 +101,18 @@ export default function App() {
       const campData = await campaignRes.json();
       setCampaignId(campData.campaign_id);
       console.log(`[VTT] Campaign ${campData.campaign_id} initialized.`);
+
+      // ── STEP 3.5: Fetch World Map from Port 8012 ──
+      try {
+        const worldRes = await fetch('http://localhost:8012/api/world/current');
+        if (worldRes.ok) {
+          const worldJson = await worldRes.json();
+          setWorldData(worldJson.world_data);
+          console.log("[VTT] Macro-map loaded from God Engine.");
+        }
+      } catch (wErr) {
+        console.error("[VTT] Failed to fetch map data:", wErr);
+      }
 
       // ── STEP 4: AI Director induction pulse ──
       // This ensures the Director checks for encounters at the starting hex immediately.
@@ -192,7 +207,11 @@ export default function App() {
 
         {/* CENTER: The Map */}
         <div className="flex-grow relative bg-black min-w-0">
-          <PixiBattlemap />
+          {activeEncounter ? (
+            <PixiBattlemap />
+          ) : (
+            <MapRenderer />
+          )}
           <EncounterOverlay />
           <ActionHUD />
 

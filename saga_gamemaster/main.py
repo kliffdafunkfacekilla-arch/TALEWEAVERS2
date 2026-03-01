@@ -4,6 +4,7 @@ from core.vtt_schemas import PlayerAction, VTTUpdate
 from core.database import get_session, init_db
 from core.ai_narrator.graph import create_director_graph
 from core.ai_narrator.state import GameState
+from core.api_gateway import SAGA_API_Gateway
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
@@ -26,6 +27,7 @@ app.add_middleware(
 )
 
 director_graph = create_director_graph()
+api_gateway = SAGA_API_Gateway()
 
 # --- IN-MEMORY CAMPAIGN TRACKER ---
 # In production, this is persisted via SQLAlchemy (database.py / models.py).
@@ -94,23 +96,28 @@ async def start_campaign(req: StartCampaignRequest):
     """Drops the player into the world and initializes the session tracker."""
     camp_id = f"CAMP_{uuid.uuid4().hex[:8].upper()}"
     
+    # Fetch real character data from Port 8003
+    char_data = await api_gateway.get_character(req.player_id)
+    vitals = char_data["survival_pools"] if char_data else {
+        "current_hp": 20, "max_hp": 20, 
+        "stamina": 12, "max_stamina": 12,
+        "composure": 10, "max_composure": 10,
+        "focus": 10, "max_focus": 10
+    }
+    
     import random
     ACTIVE_CAMPAIGNS[camp_id] = {
         "player_id": req.player_id,
         "current_hex": req.starting_hex_id,
         "day": 1,
-        "player_vitals": {
-            "current_hp": 20, "max_hp": 20, 
-            "stamina": 12, "max_stamina": 12,
-            "composure": 10, "max_composure": 10,
-            "focus": 10, "max_focus": 10
-        },
+        "player_vitals": vitals,
         "chaos_level": random.randint(1, 12),
         "active_encounter": None,
-        "injuries": []
+        "injuries": [],
+        "chat_history": [] # Memory of the journey
     }
     
-    print(f"[DIRECTOR] Campaign {camp_id} started at Hex {req.starting_hex_id}.")
+    print(f"[DIRECTOR] Campaign {camp_id} started at Hex {req.starting_hex_id} with real vitals.")
     return {"campaign_id": camp_id, "status": "World Initialized. Waiting for player."}
 
 @app.post("/api/campaign/action")
@@ -129,6 +136,8 @@ async def process_chat_action(req: PlayerChatRequest):
         action_type = "TRAVEL"
     elif any(word in text_lower for word in ["use", "drink", "eat", "consume", "apply"]):
         action_type = "USE_ITEM"
+    elif any(word in text_lower for word in ["fire", "bonfire", "cook", "meal", "rest", "sleep", "camp"]):
+        action_type = "SURVIVAL"
     else:
         action_type = "GENERAL"
     
@@ -139,14 +148,15 @@ async def process_chat_action(req: PlayerChatRequest):
         "action_target": str(state["current_hex"]),
         "raw_chat_text": req.player_input,
         "stamina_burned": 0,
-        "current_location": f"Hex #{state['current_hex']}",
+        "current_location": "Unknown",
         "active_quests": [],
         "player_vitals": state["player_vitals"],
         "math_log": "",
         "director_override": None,
         "vtt_commands": [],
         "active_encounter": state.get("active_encounter"),
-        "ai_narration": ""
+        "ai_narration": "",
+        "chat_history": state.get("chat_history", [])
     }
     
     # Run the exact same LangGraph pipeline as the structured endpoint
@@ -158,6 +168,12 @@ async def process_chat_action(req: PlayerChatRequest):
     # Update campaign tracker with new state
     ACTIVE_CAMPAIGNS[req.campaign_id]["player_vitals"] = final_state["player_vitals"]
     ACTIVE_CAMPAIGNS[req.campaign_id]["active_encounter"] = final_state.get("active_encounter")
+    
+    # Maintain Conversation History (last 10 messages)
+    history = state.get("chat_history", [])
+    history.append({"role": "user", "content": req.player_input})
+    history.append({"role": "assistant", "content": final_state["ai_narration"]})
+    ACTIVE_CAMPAIGNS[req.campaign_id]["chat_history"] = history[-10:]
     
     return {
         "narration": final_state["ai_narration"],

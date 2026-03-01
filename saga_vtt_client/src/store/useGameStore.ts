@@ -474,26 +474,27 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     setTarget: (id) => set({ selectedTargetId: id }),
 
     // Vitals — maps API response to all 4 pools
-    setPlayerVitals: (apiVitals) => set((state) => ({
-        vitals: {
-            hp: {
-                current: apiVitals.current_hp ?? ((apiVitals.hp as any)?.current) ?? state.vitals.hp.current,
-                max: apiVitals.max_hp ?? ((apiVitals.hp as any)?.max) ?? state.vitals.hp.max,
-            },
-            stamina: {
-                current: apiVitals.current_stamina ?? ((apiVitals.stamina as any)?.current) ?? state.vitals.stamina.current,
-                max: apiVitals.max_stamina ?? ((apiVitals.stamina as any)?.max) ?? state.vitals.stamina.max,
-            },
-            focus: {
-                current: apiVitals.current_focus ?? ((apiVitals.focus as any)?.current) ?? state.vitals.focus.current,
-                max: apiVitals.max_focus ?? ((apiVitals.focus as any)?.max) ?? state.vitals.focus.max,
-            },
-            composure: {
-                current: apiVitals.current_composure ?? ((apiVitals.composure as any)?.current) ?? state.vitals.composure.current,
-                max: apiVitals.max_composure ?? ((apiVitals.composure as any)?.max) ?? state.vitals.composure.max,
-            },
-        }
-    })),
+    setPlayerVitals: (apiVitals) => set((state) => {
+        const getV = (pool: 'hp' | 'stamina' | 'focus' | 'composure') => {
+            const flat = (apiVitals as any)[`current_${pool}`];
+            const nested = (apiVitals as any)[pool]?.current;
+            const direct = (apiVitals as any)[pool];
+            return flat ?? nested ?? (typeof direct === 'number' ? direct : state.vitals[pool].current);
+        };
+        const getM = (pool: 'hp' | 'stamina' | 'focus' | 'composure') => {
+            const flat = (apiVitals as any)[`max_${pool}`];
+            const nested = (apiVitals as any)[pool]?.max;
+            return flat ?? nested ?? state.vitals[pool].max;
+        };
+        return {
+            vitals: {
+                hp: { current: getV('hp'), max: getM('hp') },
+                stamina: { current: getV('stamina'), max: getM('stamina') },
+                focus: { current: getV('focus'), max: getM('focus') },
+                composure: { current: getV('composure'), max: getM('composure') },
+            }
+        };
+    }),
 
     // Dual-Track Injury System — permanently scar the character
     addInjury: (track, injuryName) => set((state) => {

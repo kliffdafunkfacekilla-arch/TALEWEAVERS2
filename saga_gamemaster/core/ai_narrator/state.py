@@ -24,3 +24,4 @@ class GameState(TypedDict):
     
     # 5. Final Output
     ai_narration: str
+    chat_history: List[Dict[str, str]] # List of {"role": "user/assistant", "content": "..."}

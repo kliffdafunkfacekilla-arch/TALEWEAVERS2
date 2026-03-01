@@ -118,6 +118,46 @@ async def generate_tectonics(req: GenerateRequest):
 async def generate_climate(req: GenerateRequest):
     return await run_cpp_engine(req, "climate")
 
+@app.get("/api/world/current")
+async def get_current_world():
+    """Reads the last generated world from disk and returns it."""
+    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Saga_Master_World.json")
+    if not os.path.exists(output_path):
+        # Fallback to root or current dir if not found in script dir
+        output_path = "Saga_Master_World.json"
+        
+    if not os.path.exists(output_path):
+        raise HTTPException(status_code=404, detail="No world has been generated yet.")
+        
+    with open(output_path, "r", encoding="utf-8") as f:
+        world_data = json.load(f)
+
+    # Translate C++ JSON schema to React Typescript Schema
+    if "macro_map" in world_data:
+        for cell in world_data["macro_map"]:
+            # Coordinate mapping
+            if "coord" in cell and len(cell["coord"]) == 2:
+                cell["x"] = cell["coord"][0]
+                cell["y"] = cell["coord"][1]
+            if "cell_id" in cell:
+                cell["id"] = cell["cell_id"]
+            if "biome" in cell:
+                cell["biome_tag"] = cell["biome"]
+            if "local_resources" not in cell:
+                cell["local_resources"] = []
+            if "local_fauna" not in cell:
+                cell["local_fauna"] = []
+            if "local_flora" not in cell:
+                cell["local_flora"] = []
+            if "available_resources" in cell and isinstance(cell["available_resources"], dict):
+                cell["local_resources"].extend(list(cell["available_resources"].keys()))
+            if "local_lifeforms" in cell and isinstance(cell["local_lifeforms"], list):
+                 for lf in cell["local_lifeforms"]:
+                     if lf not in cell["local_fauna"]:
+                         cell["local_fauna"].append(lf)
+    
+    return {"status": "SUCCESS", "world_data": world_data}
+
 @app.post("/api/world/generate/cultures")
 async def generate_cultures(req: GenerateRequest):
     return await run_cpp_engine(req, "cultures")

@@ -12,104 +12,12 @@ export function PixiBattlemap() {
     const activeEncounter = useGameStore((s) => s.activeEncounter);
     const selectedTargetId = useGameStore((s) => s.selectedTargetId);
 
-    // ── REAL ENCOUNTER FETCH (PORT 8004) ──
+    // ── REMOVED: Redundant Direct Fetch ──
+    // Encounters are now managed by the Game Master (Port 8000) 
+    // to ensure naration and mechanics are synced.
     useEffect(() => {
-        const fetchRealEncounter = async () => {
-            // 1. Only fetch if we don't already have an active encounter
-            if (activeEncounter) return;
-
-            // 2. Prevent "Zombie Loops": Don't fetch if this location was already cleared
-            const selectedHex = useGameStore.getState().selectedHex;
-            const hexId = selectedHex?.id || `HEX_${selectedHex?.index || 'NULL'}`;
-            const cleared = useGameStore.getState().encountersCleared;
-
-            if (cleared.has(hexId)) {
-                console.log(`[VTT] Encounter at ${hexId} already cleared. Skipping fetch.`);
-                return;
-            }
-
-            try {
-                // Read the current biome from the selected hex, or use a default
-                const currentBiome = selectedHex?.biome_tag || "Tundra";
-
-                console.log(`[VTT] Requesting encounter for biome: ${currentBiome}`);
-                const res = await fetch(`http://localhost:8009/api/encounter/generate`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        biome: currentBiome,
-                        threat_level: 4
-                    })
-                });
-
-                if (!res.ok) throw new Error("Encounter Engine offline.");
-                const data = await res.json();
-
-                // Always spawn the Player Token
-                const dynamicTokens = [
-                    { id: 'player_1', name: 'Scavenger', x: 2, y: 5, color: 0x3B82F6, isPlayer: true }
-                ];
-
-                // If this is a COMBAT encounter, spawn enemy tokens from the response
-                if (data.type === "COMBAT" && data.enemies && Array.isArray(data.enemies)) {
-                    data.enemies.forEach((enemy: any, index: number) => {
-                        dynamicTokens.push({
-                            id: `enemy_${index}`,
-                            name: enemy.name,
-                            x: 8 + (index * 2),
-                            y: 3 + index,
-                            color: 0xEF4444,
-                            isPlayer: false
-                        });
-                    });
-                }
-
-                // Save to Zustand
-                useGameStore.getState().setActiveEncounter({
-                    encounter_id: data.id || "ENC_DYNAMIC",
-                    gridWidth: data.grid_width || 15,
-                    gridHeight: data.grid_height || 10,
-                    tokens: dynamicTokens,
-                    grid: data.grid,
-                    data: {
-                        title: data.name,
-                        narrative_prompt: data.description,
-                        enemies: data.enemies
-                    },
-                    interactionHistory: []
-                });
-
-                // Post encounter description to Director Log
-                useGameStore.getState().addChatMessage({
-                    sender: 'SYSTEM',
-                    text: `ENCOUNTER: ${data.name}. ${data.description}`
-                });
-
-                console.log(`[VTT] Encounter loaded: ${data.name} (${data.type})`);
-
-            } catch (err) {
-                console.warn("Encounter Engine (Port 8004) unavailable. Loading fallback.", err);
-
-                // Fallback: spawn a basic encounter without the server
-                useGameStore.getState().setActiveEncounter({
-                    encounter_id: "ENC_FALLBACK",
-                    gridWidth: 15,
-                    gridHeight: 10,
-                    tokens: [
-                        { id: 'player_1', name: 'Scavenger', x: 2, y: 5, color: 0x3B82F6, isPlayer: true },
-                        { id: 'enemy_1', name: 'Unknown Entity', x: 8, y: 5, color: 0xEF4444, isPlayer: false }
-                    ],
-                    data: {
-                        title: "Wilderness Encounter",
-                        narrative_prompt: "You stumble across a hostile entity.",
-                        enemies: []
-                    },
-                    interactionHistory: []
-                });
-            }
-        };
-
-        fetchRealEncounter();
+        // If we want a default empty map if no encounter is active, we can handle it here.
+        // But we don't fetch from Port 8009 directly anymore.
     }, [activeEncounter]);
 
     const draw = useCallback(() => {
@@ -190,7 +98,7 @@ export function PixiBattlemap() {
             }
 
             // Move player + clear target
-            useGameStore.getState().moveToken('player_1', gridX, gridY);
+            useGameStore.getState().moveToken('PLAYER_001', gridX, gridY);
             useGameStore.getState().setTarget(null);
             console.log(`[VTT] Player moved to Grid [${gridX}, ${gridY}]`);
         });
@@ -239,8 +147,9 @@ export function PixiBattlemap() {
             }
 
             // Token body
+            const tokenColor = (token as any).color || (token as any).tint || 0x3B82F6;
             circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 3);
-            circle.fill(token.color);
+            circle.fill(tokenColor);
             circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 3);
             circle.stroke({ width: 2, color: 0x000000 });
 

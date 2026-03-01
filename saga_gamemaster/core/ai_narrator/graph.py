@@ -26,12 +26,17 @@ except Exception as e:
 
 async def fetch_context_node(state: GameState):
     campaign_data = await api_gateway.get_campaign_state(state["player_id"])
-    char_data = await api_gateway.get_character(state["player_id"])
+    
+    # DO NOT overwrite vitals if they already exist in state (preserves changes from mechanics)
+    vitals = state.get("player_vitals")
+    if not vitals:
+        char_data = await api_gateway.get_character(state["player_id"])
+        vitals = char_data["survival_pools"]
     
     return {
         "current_location": campaign_data["current_node_name"],
         "active_quests": campaign_data["active_quests"],
-        "player_vitals": char_data["survival_pools"]
+        "player_vitals": vitals
     }
 
 async def resolve_mechanics_node(state: GameState):
@@ -128,15 +133,38 @@ async def resolve_mechanics_node(state: GameState):
             "active_encounter": None
         }
 
+    elif action == "SURVIVAL":
+        vitals = state.get("player_vitals", {})
+        text = state.get("raw_chat_text", "").lower()
+        
+        math_msg = ""
+        if "fire" in text or "bonfire" in text:
+            # Restore some focus/stamina
+            vitals["stamina"] = min(vitals.get("max_stamina", 12), vitals.get("stamina", 0) + 2)
+            math_msg = "Fire built. +2 Stamina."
+        if "cook" in text or "meal" in text or "eat" in text:
+            # Restore HP
+            vitals["current_hp"] = min(vitals.get("max_hp", 20), vitals.get("current_hp", 0) + 3)
+            math_msg += " Meal prepared. +3 HP."
+        if "rest" in text or "sleep" in text:
+            vitals["focus"] = min(vitals.get("max_focus", 10), vitals.get("focus", 0) + 4)
+            math_msg += " Rested. +4 Focus."
+            
+        return {
+            "math_log": f"[SYSTEM Survival: {math_msg}]",
+            "player_vitals": vitals
+        }
+
     return {"math_log": "[SYSTEM: Action requires no math.]"}
 
 async def director_node(state: GameState):
+    # Only roll for NEW encounters during movement
     if state["action_type"] not in ["MOVE", "TRAVEL"]:
         return {
             "math_log": "",
             "director_override": None,
             "vtt_commands": [],
-            "active_encounter": None,
+            "active_encounter": state.get("active_encounter"), # PERSIST EXISTING ENCOUNTER
             "ai_narration": ""
         }
     
@@ -166,6 +194,60 @@ async def director_node(state: GameState):
 
     if encounter:
         enc_data = encounter["data"]
+        
+        # --- NEW: Map enemies/NPCs to VTT Tokens ---
+        tokens = []
+        
+        # 1. Inject Player Token
+        vitals = state.get("player_vitals", {})
+        tokens.append({
+            "id": "PLAYER_001",
+            "name": state.get("player_id", "Player"),
+            "label": state.get("player_id", "Player"),
+            "x": 5, # Center of tactical grid
+            "y": 5,
+            "color": 0x4ade80,
+            "isPlayer": True,
+            "current_hp": vitals.get("current_hp", 20),
+            "max_hp": vitals.get("max_hp", 20),
+            "stamina": vitals.get("stamina", 12),
+            "composure": vitals.get("composure", 10)
+        })
+
+        # 2. Map Enemies or NPCs
+        if enc_data.get("category") == "COMBAT" and "enemies" in enc_data:
+            for idx, enemy in enumerate(enc_data["enemies"]):
+                spatial = enemy.get("spatial", {})
+                tokens.append({
+                    "id": f"enemy_{idx}",
+                    "name": enemy.get("name", "Enemy"),
+                    "label": enemy.get("name", "Enemy"),
+                    "x": 10 + idx, # Place enemies offset from player
+                    "y": 5,
+                    "color": 0xef4444,
+                    "isPlayer": False,
+                    "current_hp": enemy.get("hp", 15),
+                    "max_hp": enemy.get("hp", 15),
+                    "attack_or_defense_pool": enemy.get("stamina", 5),
+                    "weapon_dice": enemy.get("weapons", ["1d6"])[0] if enemy.get("weapons") else "1d6"
+                })
+        elif enc_data.get("category") == "SOCIAL" and "npcs" in enc_data:
+            for idx, npc in enumerate(enc_data["npcs"]):
+                tokens.append({
+                    "id": f"npc_{idx}",
+                    "name": npc.get("name", "NPC"),
+                    "label": npc.get("name", "NPC"),
+                    "x": 8,
+                    "y": 5,
+                    "color": 0x60a5fa,
+                    "isPlayer": False,
+                    "composure_pool": npc.get("composure_pool", 10),
+                    "willpower": npc.get("willpower", 4)
+                })
+
+        # Attach tokens to the encounter
+        encounter["tokens"] = tokens
+
         override_prompt = f"""
         [DIRECTOR OVERRIDE: {enc_data['category']} ENCOUNTER DETECTED]
         Title: {enc_data['title']}
@@ -185,7 +267,13 @@ async def narrator_node(state: GameState):
     """Node 3: The True AI Director — powered by local Ollama LLM."""
     print("[GRAPH] Node 3: Generating Narration...")
     
-    # Build the prompt with mechanical context
+    # Build the prompt with mechanical context and history
+    history_str = ""
+    if state.get("chat_history"):
+        for msg in state["chat_history"]:
+            role = "TRAVELER" if msg["role"] == "user" else "NARRATOR"
+            history_str += f"{role}: {msg['content']}\n"
+    
     encounter_context = ""
     if state.get("active_encounter"):
         enc = state["active_encounter"]["data"]
@@ -194,6 +282,9 @@ async def narrator_node(state: GameState):
     prompt = f"""
     You are the Game Master of the S.A.G.A. Engine, a gritty, dark-fantasy survival game.
     
+    --- CONVERSATION HISTORY ---
+    {history_str}
+
     --- HIDDEN WORLD STATE ---
     Location: {state['current_location']}
     Player Vitals: {state['player_vitals']}{encounter_context}

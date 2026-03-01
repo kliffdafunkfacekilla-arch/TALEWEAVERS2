@@ -14,20 +14,43 @@ class SAGA_API_Gateway:
         async with httpx.AsyncClient() as client:
             try:
                 # Call the real Character Rules Engine on Port 8003
-                # For basic fetch, we might use a direct getter if the engine supported it, 
-                # but for this blueprint, we ensure the GM is aware of the Rules port.
-                response = await client.get(f"{self.microservices['char_engine']}/health")
-                # Note: Currently char_engine is a stateless calculator. 
-                # In a full build, this would hit a Character DB. 
-                # For now, we return a hybrid to satisfy the GM Logic while maintaining the Port 8003 link.
+                # We use a mock payload for the calculator since it doesn't have a DB yet
+                mock_payload = {
+                    "name": player_id,
+                    "base_attributes": {"might": 3, "endurance": 3, "vitality": 3, "fortitude": 3, "reflexes": 3, "finesse": 3, "knowledge": 3, "logic": 3, "charm": 3, "willpower": 3, "awareness": 3, "intuition": 3},
+                    "evolutions": {"species_base": "HUMAN"},
+                    "selected_powers": [],
+                    "equipped_loadout": {},
+                    "tactical_skills": {}
+                }
+                response = await client.post(f"{self.microservices['char_engine']}/api/rules/character/calculate", json=mock_payload)
+                if response.status_code == 200:
+                    data = response.json()
+                    v = data.get("vitals", {})
+                    return {
+                        "player_id": player_id,
+                        "survival_pools": {
+                            "current_hp": v.get("max_hp", 20), "max_hp": v.get("max_hp", 20),
+                            "stamina": v.get("max_stamina", 12), "max_stamina": v.get("max_stamina", 12),
+                            "focus": v.get("max_focus", 10), "max_focus": v.get("max_focus", 10),
+                            "composure": v.get("max_composure", 10), "max_composure": v.get("max_composure", 10)
+                        },
+                        "attributes": data.get("attributes", {})
+                    }
+                
+                # Fallback
                 return {
                     "player_id": player_id,
-                    "survival_pools": {"current_hp": 20, "max_hp": 20, "stamina": 12, "max_stamina": 12},
-                    "attributes": {"might": 10, "reflexes": 10, "willpower": 10}
+                    "survival_pools": {"current_hp": 20, "max_hp": 20, "stamina": 12, "max_stamina": 12, "focus": 10, "max_focus": 10, "composure": 10, "max_composure": 10},
+                    "attributes": {"might": 3, "reflexes": 3, "willpower": 3}
                 }
             except Exception as e:
-                logging.error(f"Character Rules Engine Unreachable: {e}")
-                return None
+                logging.error(f"Character Rules Engine Error: {e}")
+                return {
+                    "player_id": player_id,
+                    "survival_pools": {"current_hp": 20, "max_hp": 20, "stamina": 12, "max_stamina": 12, "focus": 10, "max_focus": 10, "composure": 10, "max_composure": 10},
+                    "attributes": {"might": 3, "reflexes": 3, "willpower": 3}
+                }
 
     async def use_item(self, player_id: str, item_id: str, target_vitals: dict = None):
         async with httpx.AsyncClient() as client:
