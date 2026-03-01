@@ -1,6 +1,8 @@
 {
   "world_settings": {
-    "num_hexes": 2500,
+    "num_hexes": 400000,
+    "width": 1000,
+    "height": 400,
     "tectonic_plates": 15,
     "heightmap_image": "",
     "heightmap_steps": [
