@@ -3,7 +3,6 @@ from pydantic import BaseModel, Field
 from typing import Optional, List
 from core.schemas import CampaignRoadmap, QuestNode, CampaignFramework
 from core.weaver import (
-    generate_roadmap, 
     generate_campaign_framework, 
     generate_regional_arc, 
     generate_local_sidequest, 

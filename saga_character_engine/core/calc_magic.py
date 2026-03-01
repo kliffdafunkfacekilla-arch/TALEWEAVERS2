@@ -18,9 +18,10 @@ def load_schools_of_power() -> Dict:
 
 def calculate_magic(attributes: CoreAttributes, selected_powers: List[Dict[str, str]]) -> List[Dict[str, str]]:
     """
-    Validates the selected powers based on the 12 Schools constraint:
-    - User can choose max 2 Tier 1 spells.
-    - User must have >= 12 in the corresponding attribute to unlock the school.
+    Validates selected powers and calculates tactical stats:
+    - Intensity = Governing Attribute // 3
+    - Focus Cost = 2 (Base) + Tier
+    - Aetherium Value = Tier * 50 (Resource cost for Item Foundry/Commerce)
     """
     if not selected_powers:
         return []
@@ -32,17 +33,6 @@ def calculate_magic(attributes: CoreAttributes, selected_powers: List[Dict[str, 
         )
         
     schools_db = load_schools_of_power()
-    
-    # Pre-map available spells for checking
-    valid_spells = {}
-    for attr, data in schools_db.items():
-        # Check if the player has >= 12 in the required stat
-        attr_val = getattr(attributes, attr.lower(), 0)
-        if attr_val >= 12:
-            school_name = data["school"]
-            for spell in data["spells"]:
-                valid_spells[spell] = school_name
-                
     compiled_powers = []
     
     for power in selected_powers:
@@ -50,16 +40,41 @@ def calculate_magic(attributes: CoreAttributes, selected_powers: List[Dict[str, 
         if not spell_name:
             continue
             
-        if spell_name in valid_spells:
-            compiled_powers.append({
-                "name": spell_name,
-                "school": valid_spells[spell_name],
-                "tier": "1"
-            })
-        else:
+        # Find the school this spell belongs to
+        target_school = None
+        governing_attr = None
+        for attr, data in schools_db.items():
+            if spell_name in data["spells"]:
+                target_school = data["school"]
+                governing_attr = attr.lower()
+                break
+        
+        if not target_school:
+            raise HTTPException(status_code=400, detail=f"Spell '{spell_name}' not found in any known School of Power.")
+
+        # Check Attribute Requirement (Base 12)
+        attr_val = getattr(attributes, governing_attr, 0)
+        if attr_val < 12:
             raise HTTPException(
                 status_code=400,
-                detail=f"Spell '{spell_name}' is either invalid, not a Tier 1 spell, or the character's Base Attribute is lower than 12 for its School."
+                detail=f"Attribute '{governing_attr.upper()}' ({attr_val}) is too low to cast '{spell_name}'. Required: 12."
             )
+
+        # Tactical Calculations
+        tier = int(power.get("tier", "1"))
+        intensity = attr_val // 3
+        focus_cost = 1 + tier # Scaling cost
+        aetherium_value = tier * 50
+
+        compiled_powers.append({
+            "name": spell_name,
+            "school": target_school,
+            "governing_attribute": governing_attr.upper(),
+            "tier": str(tier),
+            "intensity": intensity,
+            "focus_cost": focus_cost,
+            "aetherium_value": aetherium_value,
+            "description": f"A {target_school} power governed by {governing_attr.upper()}. Intensity {intensity}."
+        })
             
     return compiled_powers

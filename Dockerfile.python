@@ -1,0 +1,41 @@
+# Generic Dockerfile for TALEWEAVERS Python Services
+# Using a lighter base and only installing essential build tools if needed
+FROM python:3.10-slim
+
+ARG SERVICE_DIR
+
+# Install minimal system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy shared library
+COPY saga_common/ /app/saga_common/
+
+# Copy service code
+COPY ${SERVICE_DIR}/ /app/
+
+# Install requirements
+# We only install build-essential IF the requirements installation fails or known heavy services
+RUN if [ -f requirements.txt ]; then \
+    # Check if we need build-essential for heavy libraries
+    if grep -qE "chromadb|sentence-transformers|hnswlib" requirements.txt; then \
+    apt-get update && apt-get install -y --no-install-recommends build-essential && \
+    pip install --no-cache-dir -r requirements.txt && \
+    apt-get purge -y --auto-remove build-essential && \
+    rm -rf /var/lib/apt/lists/*; \
+    else \
+    pip install --no-cache-dir -r requirements.txt; \
+    fi \
+    fi
+
+# Standard light dependencies
+RUN pip install --no-cache-dir fastapi uvicorn pydantic httpx sqlalchemy aiosqlite python-dotenv
+
+ENV PYTHONPATH=/app
+
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -8,11 +8,13 @@ class GameState(TypedDict):
     action_target: str          # e.g., "[10, 15]", "ITEM_04", "NPC_99"
     raw_chat_text: Optional[str]
     stamina_burned: int
+    focus_burned: int
     
     # 2. Context (Injected automatically)
     current_location: str
     active_quests: List[Dict]
     player_vitals: Dict
+    player_powers: List[Dict]   # New: The character's tactical spell list
     active_encounter: Optional[Dict] # New: The mechanical data for the current threat
     
     # 3. Mechanical Results

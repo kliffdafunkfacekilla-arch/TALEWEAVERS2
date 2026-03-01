@@ -1,0 +1,8 @@
+saga_architect/Saga_Master_World.json
+saga_architect/build/
+saga_architect/__pycache__/
+saga_vtt_client/node_modules/
+saga_vtt_client/dist/
+.git/
+*.bak*
+*.tmp

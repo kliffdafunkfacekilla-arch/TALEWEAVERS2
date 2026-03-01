@@ -1,14 +1,15 @@
 import httpx
 import logging
+import os
 
 class SAGA_API_Gateway:
     def __init__(self):
         self.microservices = {
-            "char_engine": "http://localhost:8003",
-            "item_foundry": "http://localhost:8005",
-            "clash_engine": "http://localhost:8007",
-            "encounter_engine": "http://localhost:8009",
-            "campaign_weaver": "http://localhost:8010",
+            "char_engine": os.getenv("CHAR_ENGINE_URL", "http://localhost:8003"),
+            "item_foundry": os.getenv("ITEM_FOUNDRY_URL", "http://localhost:8005"),
+            "clash_engine": os.getenv("CLASH_ENGINE_URL", "http://localhost:8007"),
+            "encounter_engine": os.getenv("ENCOUNTER_ENGINE_URL", "http://localhost:8009"),
+            "campaign_weaver": os.getenv("CAMPAIGN_WEAVER_URL", "http://localhost:8010"),
         }
 
     async def get_character(self, player_id: str):
@@ -34,7 +35,8 @@ class SAGA_API_Gateway:
                             "focus": v.get("max_focus", 10), "max_focus": v.get("max_focus", 10),
                             "composure": v.get("max_composure", 10), "max_composure": v.get("max_composure", 10)
                         },
-                        "attributes": data.get("attributes", {})
+                        "attributes": data.get("attributes", {}),
+                        "powers": data.get("powers", [])
                     }
                 return {
                     "player_id": player_id,

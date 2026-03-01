@@ -1,0 +1,24 @@
+# Base Dockerfile for TALEWEAVERS Python Microservices
+FROM python:3.10-slim
+
+# Install system dependencies for build/runtime
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy common requirements and install
+# Note: We'll copy requirements.txt from each specific service in the individual Dockerfiles
+# but having a base with common ones can speed up builds.
+RUN pip install --no-cache-dir \
+    fastapi \
+    uvicorn \
+    pydantic \
+    httpx \
+    sqlalchemy \
+    aiosqlite
+
+# The specific service code will be copied in the service's own Dockerfile

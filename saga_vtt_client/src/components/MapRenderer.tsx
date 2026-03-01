@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { useGameStore } from '../store/useGameStore';
 import { useWorldStore } from '../store/useWorldStore';
-import { Delaunay } from 'd3-delauney';
+import { Delaunay } from 'd3-delaunay';
 
 export const MapRenderer: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);

@@ -22,14 +22,18 @@ except Exception as e:
 async def fetch_context_node(state: GameState):
     campaign_data = await api_gateway.get_campaign_state(state["player_id"])
     vitals = state.get("player_vitals")
-    if not vitals:
+    powers = state.get("player_powers")
+    
+    if not vitals or not powers:
         char_data = await api_gateway.get_character(state["player_id"])
-        vitals = char_data["survival_pools"]
+        vitals = vitals or char_data["survival_pools"]
+        powers = powers or char_data.get("powers", [])
     
     return {
         "current_location": campaign_data["current_node_name"],
         "active_quests": campaign_data["active_quests"],
         "player_vitals": vitals,
+        "player_powers": powers,
         "active_regional_arcs": state.get("active_regional_arcs") or [],
         "active_local_quests": state.get("active_local_quests") or [],
         "active_errands": state.get("active_errands") or []
@@ -62,6 +66,33 @@ async def resolve_mechanics_node(state: GameState):
     elif action in ["MOVE", "TRAVEL"]:
         return {"math_log": f"[SYSTEM: Moving to {target}.]"}
     
+    elif action == "SPELLCAST":
+        vitals = state.get("player_vitals", {})
+        powers = state.get("player_powers", [])
+        spell_name = target
+        
+        # Find the spell in the player's powers
+        power_data = next((p for p in powers if p["name"].lower() == spell_name.lower()), None)
+        
+        if not power_data:
+            return {"math_log": f"[SYSTEM: Action failed. Spell '{spell_name}' not found or not unlocked.]"}
+            
+        cost = power_data["focus_cost"]
+        current_focus = vitals.get("focus", 0)
+        
+        if current_focus < cost:
+             return {"math_log": f"[SYSTEM: Action failed. Insufficient Focus ({current_focus}/{cost}).]"}
+        
+        # Deduct pool
+        vitals["focus"] -= cost
+        intensity = power_data["intensity"]
+        school = power_data["school"]
+        
+        return {
+            "math_log": f"[SYSTEM: {spell_name} cast ({school}). Intensity: {intensity}. Cost: {cost} Focus.]",
+            "player_vitals": vitals
+        }
+
     elif action == "SURVIVAL":
         vitals = state.get("player_vitals", {})
         text = state.get("raw_chat_text", "").lower()
@@ -184,6 +215,7 @@ async def narrator_node(state: GameState):
     {history_str}
     Location: {state['current_location']}
     Vitals: {state['player_vitals']}
+    Powers: {state['player_powers']}
     {foresight_context}
     Result: {state['math_log']}
     """
