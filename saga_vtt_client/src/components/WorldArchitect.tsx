@@ -66,21 +66,29 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
         { name: "MUSHROOM_SWAMP", min_temp: 10.0, max_temp: 40.0, min_rain: 0.6, max_rain: 1.0 }
     ]);
     const [resources, setResources] = useState([
-        { name: "Iron", scarcity: 0.3, is_infinite: false },
-        { name: "Wood", scarcity: 0.8, is_infinite: true },
-        { name: "Aetherium", scarcity: 0.05, is_infinite: false }
+        { name: "Iron", scarcity: 0.3, is_infinite: false, type: "NATURAL", sources: ["MOUNTAIN", "HILL"] },
+        { name: "Wood", scarcity: 0.8, is_infinite: true, type: "NATURAL", sources: ["FOREST"] },
+        { name: "Aetherium", scarcity: 0.05, is_infinite: false, type: "NATURAL", sources: ["MUSHROOM_SWAMP"] }
     ]);
 
     // --- 4. ECOSYSTEM STATE ---
     const [lifeforms, setLifeforms] = useState([
-        { name: "Frost Troll", type: "FAUNA", is_aggressive: true, is_farmable: false, is_tameable: false, farm_yield_resource: "Hide", farm_yield_amount: 10, min_temp: -80, max_temp: 0, min_water: 0.0, max_water: 1.0, spawn_chance: 0.05, allowed_biomes: ["DEEP_TUNDRA"], diet: ["Meat"] },
-        { name: "Sand Cactus", type: "FLORA", is_aggressive: false, is_farmable: true, is_tameable: false, farm_yield_resource: "Water", farm_yield_amount: 50, min_temp: 30, max_temp: 80, min_water: 0.0, max_water: 0.3, spawn_chance: 0.40, allowed_biomes: ["SCORCHED_DESERT"], diet: ["Sunlight"] }
+        { name: "Frost Troll", type: "FAUNA", is_aggressive: true, is_farmable: false, is_tameable: false, farm_yield_resource: "Hide", farm_yield_amount: 10, harvest_resource: "Bones", harvest_amount: 2, is_harvest_fatal: true, min_temp: -80, max_temp: 0, min_water: 0.0, max_water: 1.0, spawn_chance: 0.05, allowed_biomes: ["DEEP_TUNDRA"], diet: ["Meat"] },
+        { name: "Sand Cactus", type: "FLORA", is_aggressive: false, is_farmable: true, is_tameable: false, farm_yield_resource: "Water", farm_yield_amount: 50, harvest_resource: "Cactus_Fruit", harvest_amount: 1, is_harvest_fatal: false, min_temp: 30, max_temp: 80, min_water: 0.0, max_water: 0.3, spawn_chance: 0.40, allowed_biomes: ["SCORCHED_DESERT"], diet: ["Sunlight"] }
     ]);
 
     // --- 5. FACTION STATE ---
     const [factions, setFactions] = useState([
         {
-            name: "The_Rot_Coven", aggression: 0.9, expansion_rate: 0.6, will_fight: true, will_farm: false, will_mine: true, will_hunt: true, will_trade: false, base_trade_value: 0.5,
+            name: "The_Rot_Coven",
+            type: "SECLUDED",
+            aggression: 0.9,
+            expansion_rate: 0.6,
+            food_consumption: 0.4,
+            wealth_consumption: 0.2,
+            min_temp: 0, max_temp: 50,
+            min_water: 0.5, max_water: 1.5,
+            will_fight: true, will_farm: false, will_mine: true, will_hunt: true, will_trade: false, base_trade_value: 0.5,
             loved_resources: ["Bones", "Swamp_Gas"], hated_resources: ["Iron"], required_resources: ["Swamp_Gas"], preferred_biomes: ["MUSHROOM_SWAMP"], building_preferences: ["Bone_Hut"]
         }
     ]);
@@ -238,6 +246,42 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
         const newList = [...heightmapSteps];
         newList[index] = { ...newList[index], [field]: value };
         setHeightmapSteps(newList);
+    };
+
+    const moveEntity = (fromType: 'FAUNA' | 'FLORA' | 'FACTION', index: number, targetType: 'FAUNA' | 'FLORA' | 'FACTION') => {
+        let entity: any;
+        if (fromType === 'FACTION') {
+            entity = factions[index];
+            setFactions(factions.filter((_, i) => i !== index));
+        } else {
+            entity = lifeforms[index];
+            setLifeforms(lifeforms.filter((_, i) => i !== index));
+        }
+
+        if (targetType === 'FACTION') {
+            setFactions([...factions, {
+                name: entity.name || "Moved_Entity",
+                type: "SETTLED",
+                aggression: 0.5,
+                expansion_rate: 0.5,
+                food_consumption: 0.5,
+                wealth_consumption: 0.5,
+                min_temp: 10, max_temp: 40,
+                min_water: 0.2, max_water: 1.2,
+                will_fight: true, will_farm: true, will_mine: false, will_hunt: true, will_trade: true,
+                base_trade_value: 1.0, required_resources: [], loved_resources: [], hated_resources: [], preferred_biomes: [], building_preferences: []
+            }]);
+        } else {
+            setLifeforms([...lifeforms, {
+                name: entity.name || "Moved_Entity",
+                type: targetType,
+                is_aggressive: false, is_farmable: targetType === 'FLORA', is_tameable: false,
+                farm_yield_resource: "", farm_yield_amount: 0,
+                harvest_resource: "", harvest_amount: 0, is_harvest_fatal: true,
+                min_temp: 10, max_temp: 40, min_water: 0.5, max_water: 1.2,
+                spawn_chance: 0.1, allowed_biomes: ["ANY"], diet: []
+            }]);
+        }
     };
 
     return (
@@ -484,10 +528,10 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                     {/* RESOURCES TAB */}
                     {activeTab === 'RESOURCES' && (
                         <div className="space-y-4">
-                            <label className="text-yellow-500 font-bold uppercase mb-2 block">Global Resources</label>
-                            {resources.map((r, i) => (
+                            <label className="text-yellow-500 font-bold uppercase mb-2 block tracking-widest">Global Resources</label>
+                            {resources.map((r: any, i: number) => (
                                 <div key={i} className="p-3 border border-zinc-800 bg-zinc-950 flex flex-col gap-3">
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-2 items-center">
                                         <div className="flex flex-grow items-center gap-2">
                                             <input
                                                 type="text"
@@ -497,19 +541,60 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                                 className="flex-grow bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold"
                                                 placeholder="Resource Name"
                                             />
-                                            <label className="flex items-center gap-1 text-[10px] text-zinc-400 uppercase cursor-pointer">
-                                                <input type="checkbox" checked={r.is_infinite} onChange={e => updateResource(i, 'is_infinite', e.target.checked)} className="accent-yellow-500" /> Infinite
-                                            </label>
+                                            <select
+                                                value={r.type || "NATURAL"}
+                                                onChange={e => updateResource(i, 'type', e.target.value)}
+                                                className="w-24 bg-zinc-900 border border-zinc-700 p-1 text-zinc-400 text-[10px] font-bold h-full"
+                                            >
+                                                <option value="NATURAL">NATURAL</option>
+                                                <option value="PRODUCED">PRODUCED</option>
+                                            </select>
+                                            <button onClick={() => setResources(resources.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2 border-l border-zinc-800 ml-1">X</button>
                                         </div>
-                                        <button onClick={() => setResources(resources.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2 border-l border-zinc-800 ml-1">X</button>
                                     </div>
-                                    <div>
-                                        <span className="text-zinc-500 block text-[10px] mb-1">Scarcity (0 = Rare, 1 = Common)</span>
-                                        <input type="range" min="0" max="1" step="0.05" value={r.scarcity} onChange={e => updateResource(i, 'scarcity', Number(e.target.value))} className="w-full accent-yellow-500" />
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <span className="text-zinc-500 block text-[10px] mb-1 uppercase font-bold">Scarcity (Rare ↔ Common)</span>
+                                            <input type="range" min="0" max="1" step="0.05" value={r.scarcity} onChange={e => updateResource(i, 'scarcity', Number(e.target.value))} className="w-full h-1 bg-zinc-800 accent-yellow-500" />
+                                        </div>
+                                        <label className="flex items-center gap-2 text-[10px] text-zinc-400 uppercase cursor-pointer mt-4">
+                                            <input type="checkbox" checked={r.is_infinite} onChange={e => updateResource(i, 'is_infinite', e.target.checked)} className="accent-yellow-500" /> Infinite
+                                        </label>
                                     </div>
+
+                                    {/* Sub-fields based on Resource Type */}
+                                    {r.type === 'PRODUCED' ? (
+                                        <div className="p-2 border border-zinc-900 bg-zinc-900/40 space-y-2">
+                                            <div className="flex items-center justify-between text-[10px] text-zinc-500 uppercase font-bold px-1">
+                                                <span>Production Rule</span>
+                                            </div>
+                                            <div className="flex gap-1 h-7">
+                                                <input type="text" list="lore-resources" placeholder="Precursor" value={r.precursor_resource || ""} onChange={e => updateResource(i, 'precursor_resource', e.target.value)} className="flex-grow bg-zinc-950 border border-zinc-800 p-1 text-white text-[10px]" />
+                                                <input type="number" placeholder="Wealth" value={r.wealth_cost || 0} onChange={e => updateResource(i, 'wealth_cost', Number(e.target.value))} className="w-12 bg-zinc-950 border border-zinc-800 p-1 text-white text-[10px] text-center" title="Wealth Cost" />
+                                                <input type="number" placeholder="Time" value={r.time_cost || 0} onChange={e => updateResource(i, 'time_cost', Number(e.target.value))} className="w-12 bg-zinc-950 border border-zinc-800 p-1 text-white text-[10px] text-center" title="Days to Produce" />
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="p-2 border border-zinc-900 bg-zinc-900/40">
+                                            <div className="flex items-center justify-between text-[10px] text-zinc-500 uppercase font-bold px-1 mb-1">
+                                                <span>Natural Sources</span>
+                                            </div>
+                                            <input
+                                                type="text"
+                                                placeholder="Biomes, Flora, Fauna sources..."
+                                                value={Array.isArray(r.sources) ? r.sources.join(', ') : r.sources || ""}
+                                                onChange={e => updateResource(i, 'sources', e.target.value.split(',').map(s => s.trim()))}
+                                                className="w-full bg-zinc-950 border border-zinc-800 p-1 text-white text-[10px]"
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             ))}
-                            <button onClick={() => setResources([...resources, { name: "New Resource", scarcity: 0.5, is_infinite: false }])} className="w-full border border-dashed border-yellow-800 text-yellow-500 py-2 hover:bg-yellow-900/20 transition-colors text-xs uppercase tracking-wider font-bold">+ Add Resource</button>
+                            <div className="grid grid-cols-2 gap-2">
+                                <button onClick={() => setResources([...resources, { name: "New Resource", scarcity: 0.5, is_infinite: false, type: "NATURAL", sources: [] }])} className="w-full border border-dashed border-yellow-800 text-yellow-500 py-2 hover:bg-yellow-900/20 transition-colors text-[10px] uppercase tracking-wider font-bold">+ Add Resource</button>
+                                <button onClick={() => setResources([...resources, { name: "", scarcity: 0.1, is_infinite: false, type: "NATURAL", sources: [] }])} className="w-full border border-dashed border-zinc-700 text-zinc-500 py-2 hover:bg-zinc-900/20 transition-colors text-[10px] uppercase tracking-wider font-bold">+ Blank</button>
+                            </div>
                         </div>
                     )}
 
@@ -585,6 +670,13 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                         </select>
                                         <button onClick={() => setLifeforms(lifeforms.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2 h-full border-l border-zinc-800">X</button>
                                     </div>
+
+                                    {/* Move Controls */}
+                                    <div className="flex gap-1 justify-end px-1">
+                                        <span className="text-[8px] text-zinc-600 uppercase font-bold self-center mr-1">Move To:</span>
+                                        <button onClick={() => moveEntity(lf.type, i, lf.type === 'FAUNA' ? 'FLORA' : 'FAUNA')} className="px-2 py-0.5 border border-zinc-800 text-[8px] text-zinc-400 hover:text-green-500 uppercase">{lf.type === 'FAUNA' ? 'Flora' : 'Fauna'}</button>
+                                        <button onClick={() => moveEntity(lf.type, i, 'FACTION')} className="px-2 py-0.5 border border-zinc-800 text-[8px] text-zinc-400 hover:text-red-500 uppercase">Faction</button>
+                                    </div>
                                     <div className="flex flex-col gap-3 mt-2 mb-2">
                                         <div className="flex flex-col gap-1 w-full text-xs">
                                             <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Temperature (°C)</span> <span className="text-white font-mono">[{lf.min_temp} to {lf.max_temp}]</span></div>
@@ -602,18 +694,32 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2 text-xs mt-1">
-                                        <span className="text-zinc-500 w-12 text-[10px]">Diet:</span>
+                                        <span className="text-zinc-500 w-12 text-[10px] uppercase font-bold">{lf.type === 'FLORA' ? 'NEEDS' : 'DIET'}:</span>
                                         <input type="text" list="lore-resources" value={(lf.diet || []).join(', ')}
                                             onChange={e => updateLifeform(i, 'diet', appendToListString(lf.diet || [], e.target.value, 'lore-resources'))}
-                                            className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder="Meat, Plants, Sunlight" />
+                                            className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" placeholder={lf.type === 'FLORA' ? "Sunlight, Water, Nutrients" : "Meat, Plants, Sunlight"} />
                                     </div>
                                     <div className="grid grid-cols-2 gap-2 mt-1">
                                         <label className="flex items-center gap-2 text-[10px] text-zinc-400 cursor-pointer">
                                             <input type="checkbox" checked={lf.is_farmable} onChange={e => updateLifeform(i, 'is_farmable', e.target.checked)} className="accent-green-500" /> Farmable
                                         </label>
                                         <label className="flex items-center gap-2 text-[10px] text-zinc-400 cursor-pointer">
-                                            <input type="checkbox" checked={lf.is_tameable} onChange={e => updateLifeform(i, 'is_tameable', e.target.checked)} className="accent-green-500" /> Tameable
+                                            <input type="checkbox" checked={lf.is_aggressive} onChange={e => updateLifeform(i, 'is_aggressive', e.target.checked)} className="accent-green-500" /> {lf.type === 'FLORA' ? 'Toxic / Encroaching' : 'Aggressive'}
                                         </label>
+                                    </div>
+
+                                    {/* Harvest Output Section */}
+                                    <div className="p-2 bg-zinc-900/50 border border-zinc-800 rounded mt-1 space-y-2">
+                                        <div className="flex justify-between items-center text-[10px] text-zinc-500 uppercase font-bold">
+                                            <span>{lf.type === 'FLORA' ? 'Gathering Output' : 'Hunting Output'}</span>
+                                            <label className="flex items-center gap-1 cursor-pointer text-zinc-400">
+                                                <input type="checkbox" checked={lf.is_harvest_fatal} onChange={e => updateLifeform(i, 'is_harvest_fatal', e.target.checked)} className="accent-red-500" /> Fatal
+                                            </label>
+                                        </div>
+                                        <div className="flex gap-2 text-xs">
+                                            <input type="text" list="lore-resources" placeholder="Resource (e.g. Meat)" value={lf.harvest_resource || ""} onChange={e => updateLifeform(i, 'harvest_resource', e.target.value)} className="flex-grow bg-zinc-900 border border-zinc-700 p-1 text-white" />
+                                            <input type="number" placeholder="Amt" value={lf.harvest_amount || 0} onChange={e => updateLifeform(i, 'harvest_amount', Number(e.target.value))} className="w-16 bg-zinc-900 border border-zinc-700 p-1 text-white text-center" />
+                                        </div>
                                     </div>
                                     {lf.is_farmable && (
                                         <div className="flex gap-2 text-xs mt-1">
@@ -630,7 +736,11 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                     </div>
                                 </div>
                             ))}
-                            <button onClick={() => setLifeforms([...lifeforms, { name: "New Creature", type: "FAUNA", is_aggressive: false, is_farmable: false, is_tameable: false, farm_yield_resource: "Meat", farm_yield_amount: 5, min_temp: 0, max_temp: 30, min_water: 0.1, max_water: 1.0, spawn_chance: 0.1, allowed_biomes: ["ANY"], diet: [] }])} className="w-full border border-dashed border-green-800 text-green-500 py-2 hover:bg-green-900/20 transition-colors text-xs uppercase tracking-wider font-bold">+ Add Lifeform</button>
+                            <div className="grid grid-cols-2 gap-2">
+                                <button onClick={() => setLifeforms([...lifeforms, { name: "New Fauna", type: "FAUNA", is_aggressive: false, is_farmable: false, is_tameable: false, farm_yield_resource: "Meat", farm_yield_amount: 5, harvest_resource: "Bones", harvest_amount: 2, is_harvest_fatal: true, min_temp: 0, max_temp: 30, min_water: 0.1, max_water: 1.0, spawn_chance: 0.1, allowed_biomes: ["ANY"], diet: [] }])} className="w-full border border-dashed border-green-800 text-green-500 py-2 hover:bg-green-900/20 transition-colors text-[10px] uppercase tracking-wider font-bold">+ Add Fauna</button>
+                                <button onClick={() => setLifeforms([...lifeforms, { name: "New Flora", type: "FLORA", is_aggressive: false, is_farmable: true, is_tameable: false, farm_yield_resource: "Fiber", farm_yield_amount: 10, harvest_resource: "Seeds", harvest_amount: 5, is_harvest_fatal: false, min_temp: 10, max_temp: 40, min_water: 0.5, max_water: 1.2, spawn_chance: 0.2, allowed_biomes: ["ANY"], diet: ["Sunlight"] }])} className="w-full border border-dashed border-emerald-800 text-emerald-500 py-2 hover:bg-emerald-900/20 transition-colors text-[10px] uppercase tracking-wider font-bold">+ Add Flora</button>
+                                <button onClick={() => setLifeforms([...lifeforms, { name: "", type: "FAUNA", is_aggressive: false, is_farmable: false }])} className="w-full col-span-2 border border-dashed border-zinc-700 text-zinc-500 py-1 hover:bg-zinc-900/20 transition-colors text-[10px] uppercase tracking-wider font-bold">+ Add Blank Entity</button>
+                            </div>
                         </div>
                     )}
 
@@ -646,26 +756,68 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                             list="lore-factions"
                                             value={f.name}
                                             onChange={e => updateFaction(i, 'name', e.target.value)}
-                                            className="w-full bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold"
+                                            className="flex-grow bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold"
                                             placeholder="Faction Name"
                                         />
-                                        <button onClick={() => setFactions(factions.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2">X</button>
+                                        <select
+                                            value={f.type ?? 'SETTLED'}
+                                            onChange={e => updateFaction(i, 'type', e.target.value)}
+                                            className="bg-zinc-900 border border-zinc-700 p-1.5 text-zinc-400 text-[10px] font-bold"
+                                        >
+                                            <option value="NOMADIC">NOMADIC</option>
+                                            <option value="SETTLED">SETTLED</option>
+                                            <option value="MILITARISTIC">MILITARISTIC</option>
+                                            <option value="MERCHANT">MERCHANT</option>
+                                            <option value="SECLUDED">SECLUDED</option>
+                                            <option value="INDUSTRIAL">INDUSTRIAL</option>
+                                        </select>
+                                        <button onClick={() => setFactions(factions.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2 border-l border-zinc-800 h-full">X</button>
                                     </div>
 
-                                    <div className="flex flex-col gap-3 mt-1 mb-2">
+                                    {/* Move Controls */}
+                                    <div className="flex gap-1 justify-end px-1 border-b border-zinc-900 pb-2">
+                                        <span className="text-[8px] text-zinc-600 uppercase font-bold self-center mr-1">Move To:</span>
+                                        <button onClick={() => moveEntity('FACTION', i, 'FAUNA')} className="px-2 py-0.5 border border-zinc-800 text-[8px] text-zinc-400 hover:text-red-500 uppercase">Fauna</button>
+                                        <button onClick={() => moveEntity('FACTION', i, 'FLORA')} className="px-2 py-0.5 border border-zinc-800 text-[8px] text-zinc-400 hover:text-green-500 uppercase">Flora</button>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-x-4 gap-y-3 mt-1 mb-2">
                                         <div className="flex flex-col gap-1 w-full text-xs">
                                             <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Aggression</span> <span className="text-white font-mono">{(f.aggression * 100).toFixed(0)}%</span></div>
                                             <input type="range" step="0.05" min="0" max="1" value={f.aggression} onChange={e => updateFaction(i, 'aggression', Number(e.target.value))} className="w-full h-1 bg-zinc-700 appearance-none accent-red-500" />
                                         </div>
 
                                         <div className="flex flex-col gap-1 w-full text-xs">
-                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Expansion Rate</span> <span className="text-white font-mono">{((f.expansion_rate ?? 0.5) * 100).toFixed(0)}%</span></div>
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Expansion</span> <span className="text-white font-mono">{((f.expansion_rate ?? 0.5) * 100).toFixed(0)}%</span></div>
                                             <input type="range" step="0.05" min="0" max="1" value={f.expansion_rate ?? 0.5} onChange={e => updateFaction(i, 'expansion_rate', Number(e.target.value))} className="w-full h-1 bg-zinc-700 appearance-none accent-red-500" />
                                         </div>
 
                                         <div className="flex flex-col gap-1 w-full text-xs">
-                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Base Trade Value</span> <span className="text-white font-mono">x{((f.base_trade_value ?? 1.0)).toFixed(1)}</span></div>
-                                            <input type="range" step="0.1" min="0" max="3" value={f.base_trade_value ?? 1.0} onChange={e => updateFaction(i, 'base_trade_value', Number(e.target.value))} className="w-full h-1 bg-zinc-700 appearance-none accent-red-500" />
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Food Needs</span> <span className="text-white font-mono">{(f.food_consumption ?? 0.5).toFixed(2)}</span></div>
+                                            <input type="range" step="0.05" min="0" max="1.0" value={f.food_consumption ?? 0.5} onChange={e => updateFaction(i, 'food_consumption', Number(e.target.value))} className="w-full h-1 bg-zinc-700 appearance-none accent-amber-500" />
+                                        </div>
+
+                                        <div className="flex flex-col gap-1 w-full text-xs">
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Wealth Needs</span> <span className="text-white font-mono">{(f.wealth_consumption ?? 0.5).toFixed(2)}</span></div>
+                                            <input type="range" step="0.05" min="0" max="1.0" value={f.wealth_consumption ?? 0.5} onChange={e => updateFaction(i, 'wealth_consumption', Number(e.target.value))} className="w-full h-1 bg-zinc-700 appearance-none accent-amber-500" />
+                                        </div>
+                                    </div>
+
+                                    {/* Environmental Ranges for Factions */}
+                                    <div className="grid grid-cols-2 gap-4 border-t border-zinc-800 pt-3">
+                                        <div className="flex flex-col gap-1 w-full text-xs">
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Temp Tolerance</span> <span className="text-white font-mono">[{f.min_temp ?? 0} to {f.max_temp ?? 40}]</span></div>
+                                            <div className="flex gap-2">
+                                                <input type="range" min="-50" max="50" value={f.min_temp ?? 0} onChange={e => updateFaction(i, 'min_temp', Number(e.target.value))} className="w-1/2 h-1 bg-zinc-800 accent-red-500" />
+                                                <input type="range" min="0" max="100" value={f.max_temp ?? 40} onChange={e => updateFaction(i, 'max_temp', Number(e.target.value))} className="w-1/2 h-1 bg-zinc-800 accent-red-500" />
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col gap-1 w-full text-xs">
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Water Need</span> <span className="text-white font-mono">[{f.min_water ?? 0} to {f.max_water ?? 1}]</span></div>
+                                            <div className="flex gap-2">
+                                                <input type="range" min="0" max="1" step="0.1" value={f.min_water ?? 0} onChange={e => updateFaction(i, 'min_water', Number(e.target.value))} className="w-1/2 h-1 bg-zinc-800 accent-blue-500" />
+                                                <input type="range" min="0.5" max="2" step="0.1" value={f.max_water ?? 1} onChange={e => updateFaction(i, 'max_water', Number(e.target.value))} className="w-1/2 h-1 bg-zinc-800 accent-blue-500" />
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-5 gap-2 text-[10px] mt-1">
@@ -720,7 +872,21 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                     </div>
                                 </div>
                             ))}
-                            <button onClick={() => setFactions([...factions, { name: "New_Faction", aggression: 0.5, expansion_rate: 0.5, will_fight: true, will_farm: true, will_mine: false, will_hunt: true, will_trade: true, base_trade_value: 1.0, required_resources: [], loved_resources: ["Wood"], hated_resources: [], preferred_biomes: [], building_preferences: [] }])} className="w-full border border-dashed border-red-800 text-red-500 py-2 hover:bg-red-900/20 transition-colors text-xs uppercase tracking-wider font-bold">+ Add Faction</button>
+                            <div className="grid grid-cols-2 gap-2">
+                                <button onClick={() => setFactions([...factions, {
+                                    name: "New_Faction",
+                                    type: "SETTLED",
+                                    aggression: 0.5,
+                                    expansion_rate: 0.5,
+                                    food_consumption: 0.5,
+                                    wealth_consumption: 0.5,
+                                    min_temp: 10, max_temp: 40,
+                                    min_water: 0.2, max_water: 1.2,
+                                    will_fight: true, will_farm: true, will_mine: false, will_hunt: true, will_trade: true,
+                                    base_trade_value: 1.0, required_resources: [], loved_resources: ["Wood"], hated_resources: [], preferred_biomes: [], building_preferences: []
+                                }])} className="w-full border border-dashed border-red-800 text-red-500 py-2 hover:bg-red-900/20 transition-colors text-xs uppercase tracking-wider font-bold">+ Add Faction</button>
+                                <button onClick={() => setFactions([...factions, { name: "", type: "SETTLED", aggression: 0.1, expansion_rate: 0.1 }])} className="w-full border border-dashed border-zinc-700 text-zinc-500 py-2 hover:bg-zinc-900/20 transition-colors text-xs uppercase tracking-wider font-bold">+ Blank</button>
+                            </div>
                         </div>
                     )}
 

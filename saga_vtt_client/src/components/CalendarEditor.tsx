@@ -20,12 +20,45 @@ export const CalendarEditor: React.FC = () => {
             .catch(() => alert("Save failed. Is Port 8004 running?"));
     };
 
+    const resetToStandard = () => {
+        const schools = [
+            "Abjuration", "Conjuration", "Divination", "Enchantment",
+            "Evocation", "Illusion", "Necromancy", "Transmutation",
+            "Chronomancy", "Graviturgy", "Sanguimancy", "Umbral",
+            "The_Aether_Void"
+        ];
+
+        const newMonths = schools.map((name, i) => {
+            let season = "Spring";
+            if (i >= 3 && i < 6) season = "Summer";
+            else if (i >= 6 && i < 9) season = "Autumn";
+            else if (i >= 9) season = "Winter";
+
+            return { name, days: 28, season };
+        });
+
+        const newCalendar = {
+            months: newMonths,
+            seasons: {
+                "Spring": { temp_band: "MID", precipitation_chance: 0.4, weather_type: "Rain" },
+                "Summer": { temp_band: "HIGH", precipitation_chance: 0.2, weather_type: "Rain" },
+                "Autumn": { temp_band: "MID", precipitation_chance: 0.6, weather_type: "Rain" },
+                "Winter": { temp_band: "LOW", precipitation_chance: 0.3, weather_type: "Snow" }
+            }
+        };
+
+        setCalendar(newCalendar);
+    };
+
     if (!calendar) return <div className="text-zinc-500 p-4 border-t border-zinc-800 bg-zinc-950 text-xs font-mono uppercase tracking-widest">Loading Chronos Config... (Port 8004)</div>;
 
     return (
         <div className="w-full h-full bg-zinc-900 border-t border-zinc-800 text-zinc-300 flex flex-col font-mono text-xs mt-2 relative">
             <div className="flex justify-between items-center p-3 bg-black border-b border-zinc-700">
-                <span className="font-bold text-blue-400 uppercase tracking-widest">Chronos Engine</span>
+                <div className="flex flex-col">
+                    <span className="font-bold text-blue-400 uppercase tracking-widest text-[10px]">Chronos Engine</span>
+                    <button onClick={resetToStandard} className="text-[8px] text-zinc-500 hover:text-amber-500 uppercase font-bold text-left mt-0.5">↺ Reset to Standard</button>
+                </div>
                 <button onClick={saveConfig} className="bg-blue-900 hover:bg-blue-700 text-white px-3 py-1 text-[10px] uppercase font-bold tracking-wider transition-colors">SAVE L.O.D. RULES</button>
             </div>
 

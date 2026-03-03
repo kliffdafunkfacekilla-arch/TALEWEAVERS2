@@ -117,6 +117,15 @@ export const MapRenderer: React.FC = () => {
             }
         };
 
+        const drawHexagon = (x: number, y: number, r: number) => {
+            const points = [];
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * 60 * Math.PI) / 180;
+                points.push(x + r * Math.cos(angle), y + r * Math.sin(angle));
+            }
+            mapGraphics.poly(points);
+        };
+
         if (vttTier === 4) {
             // Tier 4: Node Exploration (Dense 96x96 Grid)
             const worldState = useWorldStore.getState();
@@ -194,7 +203,14 @@ export const MapRenderer: React.FC = () => {
             visibleHexes.forEach((cell: any) => {
                 const color = vttTier === 1 ? getParchmentColor(cell.biome_tag, cell.elevation) : getVividColor(cell.biome_tag, cell.elevation);
                 mapGraphics.fill(color);
-                mapGraphics.circle(cell.x, cell.y, vttTier === 1 ? 0.5 : 0.7);
+
+                // Instead of circles (dots), draw actual hex polygons
+                const hexRadius = vttTier === 1 ? 3.5 : 5.0;
+                drawHexagon(cell.x, cell.y, hexRadius);
+
+                if (vttTier === 1) {
+                    mapGraphics.stroke({ width: 0.5, color: 0x000000, alpha: 0.1 });
+                }
                 mapGraphics.fill();
             });
         }
@@ -305,10 +321,10 @@ export const MapRenderer: React.FC = () => {
                     if (zoom < 0.15 && state.vttTier !== 1) {
                         state.setVttTier(1);
                         state.injectTierContext(1);
-                    } else if (zoom >= 0.15 && zoom < 1.5 && state.vttTier !== 2) {
+                    } else if (zoom >= 0.15 && zoom < 6.0 && state.vttTier !== 2) {
                         state.setVttTier(2);
                         state.injectTierContext(2);
-                    } else if (zoom >= 1.5 && state.vttTier !== 4) {
+                    } else if (zoom >= 6.0 && state.vttTier !== 4) {
                         state.setVttTier(4);
                         state.injectTierContext(4);
                     }

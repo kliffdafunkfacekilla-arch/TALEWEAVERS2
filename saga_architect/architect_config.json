@@ -117,8 +117,15 @@
   "factions": [
     {
       "name": "The_Rot_Coven",
+      "type": "SECLUDED",
       "aggression": 0.9,
       "expansion_rate": 0.6,
+      "food_consumption": 0.4,
+      "wealth_consumption": 0.2,
+      "min_temp": 0,
+      "max_temp": 50,
+      "min_water": 0.5,
+      "max_water": 1.5,
       "will_fight": true,
       "will_farm": false,
       "will_mine": true,
@@ -143,46 +150,5 @@
       ]
     }
   ],
-  "flora_fauna": [
-    {
-      "name": "Frost Troll",
-      "type": "FAUNA",
-      "is_aggressive": true,
-      "is_farmable": false,
-      "is_tameable": false,
-      "farm_yield_resource": "Hide",
-      "farm_yield_amount": 10,
-      "min_temp": -80,
-      "max_temp": 0,
-      "min_water": 0,
-      "max_water": 1,
-      "spawn_chance": 0.05,
-      "allowed_biomes": [
-        "DEEP_TUNDRA"
-      ],
-      "diet": [
-        "Meat"
-      ]
-    },
-    {
-      "name": "Sand Cactus",
-      "type": "FLORA",
-      "is_aggressive": false,
-      "is_farmable": true,
-      "is_tameable": false,
-      "farm_yield_resource": "Water",
-      "farm_yield_amount": 50,
-      "min_temp": 30,
-      "max_temp": 80,
-      "min_water": 0,
-      "max_water": 0.3,
-      "spawn_chance": 0.4,
-      "allowed_biomes": [
-        "SCORCHED_DESERT"
-      ],
-      "diet": [
-        "Sunlight"
-      ]
-    }
-  ]
+  "flora_fauna": []
 }
