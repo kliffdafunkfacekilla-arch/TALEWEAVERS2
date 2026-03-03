@@ -55,7 +55,7 @@ export const SurvivalScreen: React.FC = () => {
             {/* --- CENTRAL UI: Job Board --- */}
             <div className="z-10 bg-zinc-950/80 backdrop-blur-md border border-zinc-800 p-8 rounded-xl shadow-2xl w-[500px]">
                 <h2 className="text-xl font-bold tracking-widest text-white mb-2 uppercase border-b border-zinc-800 pb-2">
-                    Nightfall Protocol
+                    The Dusk Vigil
                 </h2>
                 <p className="text-xs text-zinc-400 mb-6 italic">
                     The sun dips below the horizon in the {selectedHex?.biome_tag.replace('_', ' ')}. Assign duties to survive the night.
@@ -105,7 +105,7 @@ export const SurvivalScreen: React.FC = () => {
             {/* --- BOTTOM HUD: Atmosphere --- */}
             <div className="absolute bottom-12 text-center pointer-events-none">
                 <div className="text-xs text-zinc-300 font-light tracking-[0.3em] uppercase opacity-60">
-                    Tier 3: Survival Sequence Alpha
+                    Threshold: Dark Horizon Manifest
                 </div>
             </div>
         </div>

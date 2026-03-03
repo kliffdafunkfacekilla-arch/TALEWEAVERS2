@@ -3,24 +3,24 @@
     {
       "skill": "Aggressive",
       "stat_pair": "Might + Knowledge",
-      "effect": "Advantage on damage vs Shields/Heavy Armor."
+      "effect": "Boon on damage vs Shields/Heavy Armor."
     },
     {
       "skill": "Calculated",
       "stat_pair": "Reflexes + Logic",
-      "effect": "On Advantage hit, attacker chooses enemy's Injury Resistance stat."
+      "effect": "On Boon hit, attacker chooses enemy's Injury Resistance stat."
     },
     {
       "skill": "Patient",
       "stat_pair": "Finesse + Intuition",
-      "effect": "Advantage on hit if user Defended/Yielded last turn."
+      "effect": "Boon on hit if user Defended/Yielded last turn."
     }
   ],
   "Coercion": [
     {
       "skill": "Intimidating",
       "stat_pair": "Vitality + Charm",
-      "effect": "Solid Hit forces Disadvantage on target's next Social/Resolve action."
+      "effect": "Solid Hit forces Bane on target's next Social/Resolve action."
     },
     {
       "skill": "Deception",
@@ -30,19 +30,19 @@
     {
       "skill": "Relentless",
       "stat_pair": "Fortitude + Awareness",
-      "effect": "Advantage on Coercion rolls vs already Broken/Shaken targets."
+      "effect": "Boon on Coercion rolls vs already Broken/Shaken targets."
     }
   ],
   "Ballistics": [
     {
       "skill": "Skirmish",
       "stat_pair": "Reflexes + Knowledge",
-      "effect": "Removes Disadvantage for firing within 5ft of enemies."
+      "effect": "Removes Bane for firing within 5ft of enemies."
     },
     {
       "skill": "Precise",
       "stat_pair": "Finesse + Logic",
-      "effect": "Spend 1 FP for Advantage on Critical Injury rolls."
+      "effect": "Spend 1 FP for Boon on Critical Injury rolls."
     },
     {
       "skill": "Thrown/Tossed",
@@ -59,19 +59,19 @@
     {
       "skill": "Impose",
       "stat_pair": "Fortitude + Willpower",
-      "effect": "Enemies in range suffer Disadvantage on Initiative actions."
+      "effect": "Enemies in range suffer Bane on Initiative actions."
     },
     {
       "skill": "Imply",
       "stat_pair": "Endurance + Charm",
-      "effect": "Target has Disadvantage on Offense if they don't move out of LoS."
+      "effect": "Target has Bane on Offense if they don't move out of LoS."
     }
   ],
   "Fortify": [
     {
       "skill": "Rooted",
       "stat_pair": "Endurance + Logic",
-      "effect": "Immune to Prone/Forced Move; Advantage vs Disarm."
+      "effect": "Immune to Prone/Forced Move; Boon vs Disarm."
     },
     {
       "skill": "Fluid",
@@ -81,14 +81,14 @@
     {
       "skill": "Dueling",
       "stat_pair": "Might + Intuition",
-      "effect": "Winning a Clash grants Advantage on next Assault action."
+      "effect": "Winning a Clash grants Boon on next Assault action."
     }
   ],
   "Resolve": [
     {
       "skill": "Confidence",
       "stat_pair": "Vitality + Willpower",
-      "effect": "Advantage on Social defense rolls while at Max CMP."
+      "effect": "Boon on Social defense rolls while at Max CMP."
     },
     {
       "skill": "Reasoning",
@@ -98,19 +98,19 @@
     {
       "skill": "Cavalier",
       "stat_pair": "Finesse + Charm",
-      "effect": "Nat 20 Defense deals 1d4 CMP damage to attacker."
+      "effect": "Critical Success on Defense deals 1d4 CMP damage to attacker."
     }
   ],
   "Operations": [
     {
       "skill": "Alter",
       "stat_pair": "Might + Logic",
-      "effect": "Advantage on rolls to destroy cover or create Difficult Terrain."
+      "effect": "Boon on rolls to destroy cover or create Difficult Terrain."
     },
     {
       "skill": "Utilize",
       "stat_pair": "Fortitude + Logic",
-      "effect": "Use environment to gain Advantage on next Fortify action."
+      "effect": "Use environment to gain Boon on next Fortify action."
     },
     {
       "skill": "Introduce",
@@ -139,12 +139,12 @@
     {
       "skill": "First Aid",
       "stat_pair": "Endurance + Intuition",
-      "effect": "Stitch wound as Move Action (Disadvantage) instead of Main."
+      "effect": "Stitch wound as Move Action (Bane) instead of Main."
     },
     {
       "skill": "Medicine",
       "stat_pair": "Vitality + Knowledge",
-      "effect": "Advantage on rolls to remove Bleeding or Poison status."
+      "effect": "Boon on rolls to remove Bleeding or Poison status."
     },
     {
       "skill": "Surgery",
@@ -156,12 +156,12 @@
     {
       "skill": "Self-Awareness",
       "stat_pair": "Finesse + Willpower",
-      "effect": "Spend 1 FP for Advantage to resist Mental Fractures."
+      "effect": "Spend 1 FP for Boon to resist Mental Fractures."
     },
     {
       "skill": "Detached",
       "stat_pair": "Endurance + Knowledge",
-      "effect": "Ignore Disadvantage penalty for low CMP (<50%) for 1 turn."
+      "effect": "Ignore Bane penalty for low CMP (<50%) for 1 turn."
     },
     {
       "skill": "Mindfulness",
@@ -173,7 +173,7 @@
     {
       "skill": "Charge",
       "stat_pair": "Reflexes + Willpower",
-      "effect": "Move 15ft in straight line for Advantage on next Assault."
+      "effect": "Move 15ft in straight line for Boon on next Assault."
     },
     {
       "skill": "Flanking",
@@ -190,7 +190,7 @@
     {
       "skill": "Commitment",
       "stat_pair": "Might + Charm",
-      "effect": "Advantage on Resolve rolls while adjacent to an enemy."
+      "effect": "Boon on Resolve rolls while adjacent to an enemy."
     },
     {
       "skill": "Determined",

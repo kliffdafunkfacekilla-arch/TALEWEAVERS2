@@ -161,15 +161,15 @@ export const CharacterSheet: React.FC = () => {
             <div className="w-1/2 overflow-y-auto p-6 border-r border-zinc-700 space-y-6 bg-zinc-900 custom-scrollbar">
                 <div className="pb-4 border-b border-zinc-700">
                     <h1 className="text-2xl font-bold text-yellow-500 uppercase tracking-widest leading-tight">
-                        T.A.L.E.W.E.A.V.E.R. <br /><span className="text-white">Origin Forge v2</span>
+                        T.A.L.E.W.E.A.V.E.R. <br /><span className="text-white">Soulweave Origin</span>
                     </h1>
-                    <p className="text-[10px] text-zinc-500 mt-1 italic">Latin Square Configuration Protocol Active</p>
+                    <p className="text-[10px] text-zinc-500 mt-1 italic">Aetheric Configuration Active</p>
                 </div>
 
                 {/* BASIC INFO */}
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="text-[10px] text-zinc-500 uppercase">Designation</label>
+                        <label className="text-[10px] text-zinc-500 uppercase">True Name / Identity</label>
                         <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-black border border-zinc-700 p-2 text-white outline-none focus:border-yellow-500 transition-colors" />
                     </div>
                     <div>
@@ -188,7 +188,7 @@ export const CharacterSheet: React.FC = () => {
                 {/* DYNAMIC ATTRIBUTE PREVIEW */}
                 <div className="bg-black p-4 border border-zinc-800 shadow-xl">
                     <h2 className="text-yellow-500 font-bold uppercase mb-4 text-xs tracking-widest border-l-2 border-yellow-600 pl-2">
-                        Calculated Genetics
+                        Innate Soul Attributes
                     </h2>
                     <div className="grid grid-cols-2 gap-x-8 gap-y-1">
                         {Object.entries(currentStats).map(([stat, val]) => (
@@ -319,7 +319,7 @@ export const CharacterSheet: React.FC = () => {
                     onClick={calculateCharacter} disabled={isCalculating}
                     className="w-full bg-yellow-600 hover:bg-yellow-500 disabled:bg-zinc-800 text-black font-bold py-4 uppercase tracking-[0.2em] transition-all shadow-lg active:scale-95"
                 >
-                    {isCalculating ? "Sequencing DNA..." : "Finalize Species Origin"}
+                    {isCalculating ? "Weaving Soul Strands..." : "Finalize Species Origin"}
                 </button>
             </div>
 
@@ -331,7 +331,7 @@ export const CharacterSheet: React.FC = () => {
                             <h2 className="text-4xl font-black text-white uppercase tracking-tighter italic">{compiledData.name}</h2>
                             <div className="flex gap-4 mt-2">
                                 <span className="text-yellow-500 font-bold bg-yellow-950/20 px-2 py-0.5 border border-yellow-900 text-[10px]">{compiledData.evolutions?.species_base}</span>
-                                <span className="text-zinc-500 text-[10px] uppercase py-0.5">Origin Fork v2.4</span>
+                                <span className="text-zinc-500 text-[10px] uppercase py-0.5">Soul Fork v2.4</span>
                             </div>
                         </div>
 
@@ -428,7 +428,7 @@ export const CharacterSheet: React.FC = () => {
                 ) : (
                     <div className="h-full flex flex-col items-center justify-center text-zinc-800">
                         <div className="w-16 h-16 border-4 border-zinc-900 border-t-yellow-900 rounded-full animate-spin mb-4"></div>
-                        <p className="text-[10px] uppercase tracking-[0.5em] animate-pulse">Awaiting DNA Sequence</p>
+                        <p className="text-[10px] uppercase tracking-[0.5em] animate-pulse">Awaiting Soul Resonance</p>
                     </div>
                 )}
             </div>

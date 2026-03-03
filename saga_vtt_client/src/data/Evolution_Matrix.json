@@ -10,7 +10,7 @@
             {
                 "name": "Small Frame Trait",
                 "type": "Biological Trait",
-                "effect": "Squeeze: Move through 4-inch gaps. +Advantage on Stealth."
+                "effect": "Squeeze: Move through 4-inch gaps. +Boon on Stealth."
             }
         ]
     },
@@ -82,7 +82,7 @@
             {
                 "name": "Arboreal Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Hard Bark (AC), Branch-Arms, Root-Legs, Photosynthesis."
+                "effect": "Includes: Hard Bark, Branch-Arms, Root-Legs, Photosynthesis."
             }
         ]
     },
@@ -232,7 +232,7 @@
             {
                 "name": "Scent-Glands Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Empathy (Communicate emotions via scent. Advantage on Insight)."
+                "effect": "Passive: Empathy (Communicate emotions via scent. Boon on Insight)."
             }
         ]
     },
@@ -292,7 +292,7 @@
             {
                 "name": "Sweet-Nectar Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Entice (Target must Wis Save or move closer to you)."
+                "effect": "Active: Entice (Target must resist with Willpower or move closer to you)."
             }
         ]
     },
@@ -397,7 +397,7 @@
             {
                 "name": "Sticky Palms Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Adhesive (Advantage on Grapple. Climb without checks)."
+                "effect": "Passive: Adhesive (Boon on Grapple. Climb without checks)."
             }
         ]
     },
@@ -651,7 +651,7 @@
             {
                 "name": "Reed-Structure Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Lightweight (Float on water. Advantage to Jump)."
+                "effect": "Passive: Lightweight (Float on water. Boon to Jump)."
             }
         ]
     },
@@ -710,7 +710,7 @@
             {
                 "name": "Goodberry Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Harvest (Produce 1d4 healing berries per Long Rest)."
+                "effect": "Active: Harvest (Produce 1d4 healing berries per Full Recovery)."
             }
         ]
     },
@@ -725,7 +725,7 @@
             {
                 "name": "Pollen-Cloud Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Drowse (20ft Radius. Con Save or Sleep)."
+                "effect": "Active: Drowse (20ft Radius. Fortitude Resistance or Sleep)."
             }
         ]
     },
@@ -799,7 +799,7 @@
             {
                 "name": "Small Frame Trait",
                 "type": "Biological Trait",
-                "effect": "Squeeze: Move through 4-inch gaps. +Advantage on Stealth."
+                "effect": "Squeeze: Move through 4-inch gaps. +Boon on Stealth."
             }
         ]
     },
@@ -1006,7 +1006,7 @@
             {
                 "name": "Tubular Eyes Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Low-Light (Darkvision 120ft, but Disadvantage in bright sun)."
+                "effect": "Passive: Low-Light (Darkvision 120ft, but Bane in bright sun)."
             }
         ]
     },
@@ -1184,7 +1184,7 @@
             {
                 "name": "Serrated Fringes Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Owl-Flight (Flight makes 0 sound. Advantage on Stealth)."
+                "effect": "Passive: Owl-Flight (Flight makes 0 sound. Boon on Stealth)."
             }
         ]
     },
@@ -1398,7 +1398,7 @@
             {
                 "name": "Iridescent Plume Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Dazzle (Target Disadvantage on Attack rolls due to flash)."
+                "effect": "Active: Dazzle (Target Bane on Attack rolls due to flash)."
             }
         ]
     },
@@ -1427,7 +1427,7 @@
             {
                 "name": "Hollow Bones Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Lift (Advantage on Acrobatics and Fly checks)."
+                "effect": "Passive: Lift (Boon on Acrobatics and Fly checks)."
             }
         ]
     },
@@ -1517,7 +1517,7 @@
             {
                 "name": "Counter-Tail Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Wire-Walk (Advantage on Balance. Cannot be knocked Prone)."
+                "effect": "Passive: Wire-Walk (Boon on Balance. Cannot be knocked Prone)."
             }
         ]
     },
@@ -1592,7 +1592,7 @@
             {
                 "name": "Small Frame Trait",
                 "type": "Biological Trait",
-                "effect": "Squeeze: Move through 4-inch gaps. +Advantage on Stealth."
+                "effect": "Squeeze: Move through 4-inch gaps. +Boon on Stealth."
             }
         ]
     },
@@ -1803,7 +1803,7 @@
             {
                 "name": "Tracker",
                 "type": "Passive",
-                "effect": "You gain Advantage on Survival checks to track a creature you have smelled before."
+                "effect": "You gain Boon on Survival checks to track a creature you have smelled before."
             }
         ]
     },
@@ -1817,7 +1817,7 @@
             {
                 "name": "Swivel Eyes Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Target-Lock (Next attack has Advantage and ignores Cover)."
+                "effect": "Active: Target-Lock (Next attack has Boon and ignores Cover)."
             }
         ]
     },
@@ -2286,7 +2286,7 @@
             {
                 "name": "Lure",
                 "type": "Bonus",
-                "effect": "Shake softly to mimic an insect buzz, distracting a target to give an ally Advantage on their next attack."
+                "effect": "Shake softly to mimic an insect buzz, distracting a target to give an ally Boon on their next attack."
             }
         ]
     },
@@ -2316,7 +2316,7 @@
             {
                 "name": "Poison Sacs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Envenom (Coat weapon. Con Save or Paralyzed)."
+                "effect": "Active: Envenom (Coat weapon. Fortitude Resistance or Paralyzed)."
             }
         ]
     },
@@ -2361,7 +2361,7 @@
             {
                 "name": "Constrictor Coils Trait",
                 "type": "Biological Trait",
-                "effect": "Passive:Crush (Advantage on all Grapple Checks)."
+                "effect": "Passive:Crush (Boon on all Grapple Checks)."
             }
         ]
     },
@@ -2390,7 +2390,7 @@
             {
                 "name": "Small Frame Trait",
                 "type": "Biological Trait",
-                "effect": "Squeeze: Move through 4-inch gaps. +Advantage on Stealth."
+                "effect": "Squeeze: Move through 4-inch gaps. +Boon on Stealth."
             }
         ]
     },
@@ -2782,7 +2782,7 @@
             {
                 "name": "Tiny Claws Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Latch (Advantage on Climbing and hanging on giant foes)."
+                "effect": "Passive: Latch (Boon on Climbing and hanging on giant foes)."
             }
         ]
     },
@@ -2812,7 +2812,7 @@
             {
                 "name": "Hypodermic Spurs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Inject (Apply Toxin. Con Save or Sleep)."
+                "effect": "Active: Inject (Apply Toxin. Fortitude Resistance or Sleep)."
             }
         ]
     },
@@ -3022,7 +3022,7 @@
             {
                 "name": "Abdominal Light Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Lure (Target must make Wis save or move toward you)."
+                "effect": "Active: Lure (Target must resist with Willpower or move toward you)."
             }
         ]
     },
@@ -3052,7 +3052,7 @@
             {
                 "name": "Molting Hormones Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Molt (Short Rest: Regain full HP, lose AC bonus for 1 hour)."
+                "effect": "Active: Molt (Brief Respite: Regain full HP, lose protection bonus for 1 hour)."
             }
         ]
     },
@@ -3187,7 +3187,7 @@
             {
                 "name": "Small Frame Trait",
                 "type": "Biological Trait",
-                "effect": "Squeeze: Move through 4-inch gaps. +Advantage on Stealth."
+                "effect": "Squeeze: Move through 4-inch gaps. +Boon on Stealth."
             }
         ]
     },
@@ -3274,7 +3274,7 @@
             {
                 "name": "Crustacean Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Hard Carapace (AC), Pincers, Gills, Bipedal/Quad Stance."
+                "effect": "Includes: Hard Carapace, Pincers, Gills, Bipedal/Quad Stance."
             }
         ]
     },
@@ -3514,7 +3514,7 @@
             {
                 "name": "Suction Fingers Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Entangle (Reach 10ft. Grapple with Advantage)."
+                "effect": "Active: Entangle (Reach 10ft. Grapple with Boon)."
             }
         ]
     },
@@ -3653,7 +3653,7 @@
             {
                 "name": "Armored Greaves Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Stable-Stance (Advantage vs Shove. Full speed sideways)."
+                "effect": "Passive: Stable-Stance (Boon vs Shove. Full speed sideways)."
             }
         ]
     },
@@ -3772,7 +3772,7 @@
             {
                 "name": "Mucus Coat Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Evasion (Advantage to escape Grapples. Fire Resist)."
+                "effect": "Passive: Evasion (Boon to escape Grapples. Fire Resist)."
             }
         ]
     },
@@ -3867,7 +3867,7 @@
         ]
     },
     {
-        "name": "Starfish DNA",
+        "name": "Starfish Essence",
         "species": "Aquatic",
         "stats": {
             "intuition": 1,
@@ -3875,9 +3875,9 @@
         },
         "passives": [
             {
-                "name": "Starfish DNA Trait",
+                "name": "Starfish Essence Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Regrow (Heal limb or massive HP over Short Rest)."
+                "effect": "Active: Regrow (Heal limb or massive HP over Brief Respite)."
             }
         ]
     },
@@ -3892,7 +3892,7 @@
             {
                 "name": "Nacre Gland Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Luster (Advantage on Social/Barter. Look valuable)."
+                "effect": "Passive: Luster (Boon on Social/Barter. Look valuable)."
             }
         ]
     },
@@ -4197,7 +4197,7 @@
             {
                 "name": "Mobile Brow Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Empathy (Advantage on Insight/Social)."
+                "effect": "Passive: Empathy (Boon on Insight/Social)."
             }
         ]
     },
@@ -4227,7 +4227,7 @@
             {
                 "name": "Gut Rake",
                 "type": "Bonus",
-                "effect": "If you have a target Grappled, make a free claw attack against them with Advantage."
+                "effect": "If you have a target Grappled, make a free claw attack against them with Boon."
             },
             {
                 "name": "Climber",
@@ -4612,7 +4612,7 @@
             {
                 "name": "Hangman",
                 "type": "Action",
-                "effect": "Hang upside down from a stable point; Ranged attacks against you have Disadvantage."
+                "effect": "Hang upside down from a stable point; Ranged attacks against you have Bane."
             },
             {
                 "name": "Third Hand",
@@ -4706,7 +4706,7 @@
             {
                 "name": "Counter-Tail Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Tightrope (Advantage on Acrobatics)."
+                "effect": "Passive: Tightrope (Boon on Acrobatics)."
             }
         ]
     },
