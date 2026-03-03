@@ -16,6 +16,7 @@ class QuestNode(BaseModel):
     step_number: int = Field(..., description="The sequence order of this quest step")
     narrative_objective: str = Field(..., description="E.g., 'Find the Wolf Cult's hideout.'")
     trigger_location: str = Field(..., description="The exact hex ID or Settlement ID from Module 2")
+    target_node_id: Optional[str] = Field(None, description="The specific Tier 4 node ID (POI) associated with this objective")
     encounter_type: str = Field(..., description="'SOCIAL', 'HAZARD', 'COMBAT' (Fed to Module 4)")
     description: Optional[str] = Field(None, description="Detailed description")
     success_state_change: str = Field(..., description="E.g., 'UNLOCK_STEP_2'")

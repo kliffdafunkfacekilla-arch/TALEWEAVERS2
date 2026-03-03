@@ -23,6 +23,8 @@ The project is divided into several specialized "Saga" modules, each serving a d
 | **08** | **Chronos** | 9000 | Time-tracking and event scheduling. |
 | **09** | **Game Master** | 8000 | The "Director" node using LangGraph to weave it all together. |
 | **10** | **Campaign Weaver** | 8010 | Procedural quest and campaign roadmap generator. |
+| **11** | **Chaos Engine** | N/A | Integrated "Fate Engine" for unpredictable world shifts. |
+| **12** | **Asset Foundry** | 8012 | High-performance texture server and atlas optimizer. |
 
 ## 🛠️ Getting Started
 

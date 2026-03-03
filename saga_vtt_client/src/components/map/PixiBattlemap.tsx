@@ -1,5 +1,5 @@
-import { useEffect, useRef, useCallback } from 'react';
-import { Application, Graphics, Text, TextStyle, Container, Rectangle } from 'pixi.js';
+import { useEffect, useRef, useCallback, useState } from 'react';
+import { Application, Graphics, Text, TextStyle, Container, Rectangle, Sprite, Texture, TilingSprite, Assets, Spritesheet } from 'pixi.js';
 import { useGameStore } from '../../store/useGameStore';
 import { useCombatStore } from '../../store/useCombatStore';
 
@@ -12,6 +12,7 @@ export function PixiBattlemap() {
 
     const activeEncounter = useCombatStore((s) => s.activeEncounter);
     const selectedTargetId = useCombatStore((s) => s.selectedTargetId);
+    const [atlas, setAtlas] = useState<Spritesheet | null>(null);
 
     // ── REMOVED: Redundant Direct Fetch ──
     // Encounters are now managed by the Game Master (Port 8000) 
@@ -36,6 +37,34 @@ export function PixiBattlemap() {
         const GRID_W = activeEncounter.gridWidth ?? 15;
         const GRID_H = activeEncounter.gridHeight ?? 10;
 
+        // ── 0. Draw Seamless Biome Background Layer ──
+        const mainBiome = activeEncounter.data?.category === "COMBAT" ? (activeEncounter as any).biome || "FOREST" : "FOREST";
+
+        let bgTexture: Texture | null = null;
+        if (atlas) {
+            const biomeKeyMap: Record<string, string> = {
+                "FOREST": "floor/grass_full_new",
+                "RUINS": "tiles/floor_stone",
+                "MOUNTAIN": "floor/floor_sand_rock_0",
+                "SWAMP": "floor/swamp_0_new",
+                "TUNDRA": "floor/ice_0_new",
+                "DESERT": "floor/sand_1",
+                "DUNGEON": "floor/crypt_10"
+            };
+            const key = biomeKeyMap[mainBiome] || "floor/grass_0_new";
+            bgTexture = atlas.textures[key];
+        }
+
+        if (bgTexture) {
+            const tilingBG = new TilingSprite({
+                texture: bgTexture,
+                width: GRID_W * TILE_SIZE,
+                height: GRID_H * TILE_SIZE,
+            });
+            tilingBG.alpha = 0.4;
+            camera.addChild(tilingBG);
+        }
+
         // ── 1. Draw Checkerboard Grid & Terrain ──
         const gridGraphics = new Graphics();
         const terrainGrid = activeEncounter.grid || [];
@@ -45,31 +74,36 @@ export function PixiBattlemap() {
                 const isLight = (row + col) % 2 === 0;
                 const tileType = (terrainGrid[row] ? terrainGrid[row][col] : "EMPTY") as string;
 
-                // Base Tile Color
-                let bgColor = isLight ? 0x1c1c1c : 0x171717;
-                if (tileType === "SNOW") bgColor = isLight ? 0xe0e0e0 : 0xd0d0d0;
-                if (tileType === "SAND_DUNES") bgColor = isLight ? 0xd4a373 : 0xbc8a5f;
-                if (tileType === "WATER") bgColor = 0x2244aa;
-
+                // Simple grid lines (textures are behind this)
                 gridGraphics.rect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                gridGraphics.fill(bgColor);
-                gridGraphics.rect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                gridGraphics.stroke({ width: 1, color: 0x2a2a2a });
+                gridGraphics.stroke({ width: 1, color: 0x2a2a2a, alpha: 0.5 });
 
-                // Render Obstacles
-                if (tileType === "TREE") {
-                    gridGraphics.circle(col * TILE_SIZE + TILE_SIZE / 2, row * TILE_SIZE + TILE_SIZE / 2, TILE_SIZE / 3);
-                    gridGraphics.fill({ color: 0x064e3b, alpha: 0.8 });
-                    gridGraphics.circle(col * TILE_SIZE + TILE_SIZE / 2, row * TILE_SIZE + TILE_SIZE / 2, TILE_SIZE / 3);
-                    gridGraphics.stroke({ width: 2, color: 0x022c22 });
-                } else if (tileType === "ROCK") {
-                    gridGraphics.poly([
-                        col * TILE_SIZE + 10, row * TILE_SIZE + 10,
-                        col * TILE_SIZE + 40, row * TILE_SIZE + 15,
-                        col * TILE_SIZE + 35, row * TILE_SIZE + 40,
-                        col * TILE_SIZE + 15, row * TILE_SIZE + 35
-                    ]);
-                    gridGraphics.fill({ color: 0x4b5563, alpha: 0.9 });
+                // Render Obstacles & Interactive Objects
+                if (tileType !== "EMPTY" && atlas) {
+                    const objectKeyMap: Record<string, string> = {
+                        "TREE": "trees/tree_1_red",
+                        "WALL": "tiles/wall_stone",
+                        "ROCK": "floor/pebble_brown_0_new",
+                        "BARREL": "objects/barrel",
+                        "CRATE": "objects/crate",
+                        "TABLE": "objects/table",
+                        "CHEST": "objects/chest"
+                    };
+
+                    const tex = atlas.textures[objectKeyMap[tileType]];
+                    if (tex) {
+                        const sprite = new Sprite(tex);
+                        sprite.anchor.set(0.5);
+                        sprite.x = col * TILE_SIZE + TILE_SIZE / 2;
+                        sprite.y = row * TILE_SIZE + TILE_SIZE / 2;
+
+                        // Objects slightly smaller than the tile to show floor under them
+                        const scaleFactor = ["BARREL", "CRATE", "CHEST", "TABLE"].includes(tileType) ? 0.7 : 0.9;
+                        sprite.width = TILE_SIZE * scaleFactor;
+                        sprite.height = TILE_SIZE * scaleFactor;
+
+                        camera.addChild(sprite);
+                    }
                 }
             }
         }
@@ -277,11 +311,20 @@ export function PixiBattlemap() {
             antialias: true,
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
-        }).then(() => {
+        }).then(async () => {
             if (cancelled) {
                 app.destroy(true);
                 return;
             }
+
+            // Load Texture Atlas
+            try {
+                const sheet = await Assets.load('http://localhost:8012/public/../assets/atlas.json');
+                if (!cancelled) setAtlas(sheet);
+            } catch (e) {
+                console.error("Failed to load texture atlas:", e);
+            }
+
             el.appendChild(app.canvas as HTMLCanvasElement);
             appRef.current = app;
 

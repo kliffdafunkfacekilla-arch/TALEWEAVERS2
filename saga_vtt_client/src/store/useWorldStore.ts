@@ -86,7 +86,7 @@ export const useWorldStore = create<WorldState>((set) => ({
 
     fetchMapChunk: async (x, y, radius) => {
         try {
-            const res = await fetch(`http://localhost:8012/api/world/chunk?x=${x}&y=${y}&radius=${radius}`);
+            const res = await fetch(`http://localhost:8002/api/world/chunk?x=${x}&y=${y}&radius=${radius}`);
             if (!res.ok) throw new Error("Chunk fetch failed");
             const update = await res.json();
 
@@ -117,7 +117,7 @@ export const useWorldStore = create<WorldState>((set) => ({
                 biomes: [], factions: []
             };
 
-            const res = await fetch(`http://localhost:8012/api/world/subgrid/${hexId}`, {
+            const res = await fetch(`http://localhost:8002/api/world/subgrid/${hexId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

@@ -28,6 +28,7 @@ class SocialNPC(BaseModel):
     awareness: int
     trade_inventory: Optional[List[str]] = []
     spatial: SpatialData = Field(default_factory=SpatialData)
+    tags: List[str] = [] # New: Semantic tags
 
 class SocialEncounter(BaseModel):
     category: Literal[EncounterCategory.SOCIAL] = EncounterCategory.SOCIAL
@@ -45,6 +46,10 @@ class HazardEncounter(BaseModel):
     disarm_check: Optional[Dict[str, Union[str, int]]] = None
     trigger_effect: Dict[str, str]
     spatial: SpatialData = Field(default_factory=SpatialData)
+    environmental_tags: List[str] = []
+    grid: Optional[List[List[str]]] = None
+    grid_width: int = 15
+    grid_height: int = 10
 
 # --- 3. DILEMMA / HARD CHOICE SCHEMA ---
 class DilemmaOption(BaseModel):
@@ -57,6 +62,7 @@ class DilemmaEncounter(BaseModel):
     title: str
     narrative_prompt: str
     options: List[DilemmaOption]
+    environmental_tags: List[str] = [] # Added
 
 # --- 4. COMBAT SCHEMA ---
 class Combatant(BaseModel):
@@ -68,6 +74,7 @@ class Combatant(BaseModel):
     weapons: List[str]
     armor: int
     spatial: SpatialData = Field(default_factory=SpatialData)
+    tags: List[str] = [] # New: Semantic tags (climbable, flammable, etc.)
 
 class CombatEncounter(BaseModel):
     category: Literal[EncounterCategory.COMBAT] = EncounterCategory.COMBAT
@@ -76,6 +83,10 @@ class CombatEncounter(BaseModel):
     enemies: List[Combatant]
     terrain_difficulty: int
     escape_dc: int
+    environmental_tags: List[str] = []
+    grid: Optional[List[List[str]]] = None
+    grid_width: int = 15
+    grid_height: int = 10
 
 # --- 5. PUZZLE SCHEMA ---
 class PuzzleEncounter(BaseModel):
@@ -87,6 +98,7 @@ class PuzzleEncounter(BaseModel):
     dc: int
     failure_cost: str
     spatial: SpatialData = Field(default_factory=SpatialData)
+    environmental_tags: List[str] = [] # Added
 
 # --- 6. DISCOVERY SCHEMA ---
 class DiscoveryEncounter(BaseModel):
@@ -96,6 +108,7 @@ class DiscoveryEncounter(BaseModel):
     loot_tags: List[str]
     interaction_required: bool
     spatial: SpatialData = Field(default_factory=SpatialData)
+    environmental_tags: List[str] = [] # Added
 
 # --- THE POLYMORPHIC UNION ---
 EncounterData = Union[

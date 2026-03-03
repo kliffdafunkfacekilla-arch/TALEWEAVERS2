@@ -13,6 +13,11 @@ class ItemCategory(str, Enum):
     INFO = "INFO"
 
 # --- CORE CHARACTER SCHEMAS ---
+class PipBank(BaseModel):
+    stars: int = 0
+    scars: int = 0
+    survivors: int = 0
+
 class CoreAttributes(BaseModel):
     # Sector I: Physical
     might: int = 0

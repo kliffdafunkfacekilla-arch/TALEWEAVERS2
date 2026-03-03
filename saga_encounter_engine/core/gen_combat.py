@@ -32,19 +32,40 @@ MONSTER_TEMPLATES = [
     }
 ]
 
-def generate_hostile_threat(threat_level: int, seed: str = None) -> CombatEncounter:
-    # If seed mentions a specific name, try to match it
+def generate_tactical_grid(biome: str, difficulty: int, width: int = 15, height: int = 10) -> List[List[str]]:
+    grid = [["EMPTY" for _ in range(width)] for _ in range(height)]
+    
+    # Obstacle frequency based on difficulty and biome
+    obstacle_chance = 0.05 + (difficulty * 0.03)
+    
+    for r in range(height):
+        for c in range(width):
+            if random.random() < obstacle_chance:
+                if biome == "Forest":
+                    grid[r][c] = "TREE"
+                elif biome == "Ruins" or biome == "Dungeon":
+                    grid[r][c] = "WALL"
+                elif biome == "Mountain":
+                    grid[r][c] = "ROCK"
+                    
+            # Random Interactive Objects
+            if random.random() < 0.03:
+                grid[r][c] = random.choice(["BARREL", "CRATE", "TABLE", "CHEST"])
+                
+    return grid
+
+def generate_hostile_threat(threat_level: int, seed: str = None, biome: str = "Forest") -> CombatEncounter:
+    # ... (template selection)
     template = None
     if seed:
         for t in MONSTER_TEMPLATES:
-            if t["name"].lower() in seed.lower():
+            if t["name"].lower() in (seed or "").lower():
                 template = t
                 break
     
     if not template:
-        # Pick based on threat level
         if threat_level >= 4:
-            template = MONSTER_TEMPLATES[2] # Marauder
+            template = MONSTER_TEMPLATES[2]
         else:
             template = random.choice(MONSTER_TEMPLATES[:2])
 
@@ -61,16 +82,19 @@ def generate_hostile_threat(threat_level: int, seed: str = None) -> CombatEncoun
             weapons=template["weapons"],
             armor=template["armor_base"] + (threat_level // 2),
             spatial=SpatialData(
-                x_offset=random.uniform(-15.0, 15.0),
-                y_offset=random.uniform(-15.0, 15.0),
+                x_offset=random.uniform(-10.0, 10.0),
+                y_offset=random.uniform(-10.0, 10.0),
                 footprint_radius=1.0
             )
         ))
+
+    grid = generate_tactical_grid(biome, threat_level)
 
     return CombatEncounter(
         title=f"{template['name']} Ambush",
         narrative_prompt=f"Shadows detach themselves from the surroundings. {count} {template['name']}s are closing in!",
         enemies=enemies,
         terrain_difficulty=threat_level,
-        escape_dc=10 + threat_level
+        escape_dc=10 + threat_level,
+        grid=grid
     )

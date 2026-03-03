@@ -92,9 +92,9 @@ async def advance_clock(req: TickRequest):
         
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "module": "Chronos Engine", "port": 8004}
+    return {"status": "healthy", "module": "Chronos Engine", "port": 9000}
 
 if __name__ == "__main__":
     import uvicorn
-    # Module 4 runs on Port 8004
-    uvicorn.run(app, host="0.0.0.0", port=8004)
+    # Module 4 runs on Port 9000
+    uvicorn.run(app, host="0.0.0.0", port=9000)

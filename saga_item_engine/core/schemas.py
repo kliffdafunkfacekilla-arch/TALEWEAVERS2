@@ -15,6 +15,7 @@ class BaseItem(BaseModel):
     category: ItemCategory
     weight: float
     base_value_aetherium: int
+    tags: List[str] = [] # New: Semantic tags (e.g., ["flammable", "climbable"])
 
 # 1. WEAPONS (Tied to the 36 Tactical Triads)
 class WeaponItem(BaseItem):

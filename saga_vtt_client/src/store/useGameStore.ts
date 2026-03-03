@@ -25,6 +25,7 @@ export interface QuestItem {
     id: string;
     title: string;
     completed: boolean;
+    target_node_id?: string;
 }
 
 export interface InventorySlot {
@@ -44,6 +45,7 @@ export interface ExplorationNode {
     y: number;
     type: 'POI' | 'TRANSITION' | 'DANGER' | 'RESOURCE';
     connections: string[];
+    visual_url?: string; // New: Hex-specific background texture
 }
 
 export interface ClientGameState {
@@ -68,6 +70,14 @@ export interface ClientGameState {
     currentNodeId: string | null;
     setExplorationNodes: (nodes: ExplorationNode[]) => void;
     moveNode: (nodeId: string) => void;
+
+    // Narrative & World Engagement
+    weather: string;
+    tension: number;
+    chaosNumbers: number[]; // New: Active chaos strike targets
+    currentSagaStage: string;
+    pacingProgress: { current: number; goal: number };
+    visualAssets: Record<string, string>; // New: asset_id -> url
 
     ui_locked: boolean;
     chat_log: ChatMessage[];
@@ -100,6 +110,13 @@ const INITIAL_STATE: Omit<ClientGameState,
     explorationNodes: [],
     currentNodeId: null,
 
+    weather: 'Loading weather...',
+    tension: 0,
+    chaosNumbers: [],
+    currentSagaStage: 'Prologue',
+    pacingProgress: { current: 0, goal: 2 },
+    visualAssets: {},
+
     ui_locked: false,
     chat_log: [],
     map_tokens: [
@@ -108,8 +125,6 @@ const INITIAL_STATE: Omit<ClientGameState,
     selectedTokenId: null,
     quests: [
         { id: 'q1', title: 'Reach the Waystation', completed: false },
-        { id: 'q2', title: 'Survive the wolf ambush', completed: false },
-        { id: 'q3', title: 'Find the hidden cache', completed: false },
     ],
     inventory_slots: [
         { id: 1, itemName: 'Mending Salve' },
@@ -161,17 +176,27 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
             if (!res.ok) throw new Error("Action failed");
             const update = await res.json();
 
-            set((s) => ({
-                ui_locked: false,
-                chat_log: [
-                    ...s.chat_log,
-                    { sender: 'AI_DIRECTOR', text: update.narration || 'The world awaits.' },
-                ]
-            }));
+            // Update complex state from GM response
+            if (update.narration) {
+                set((s) => ({
+                    chat_log: [
+                        ...s.chat_log,
+                        { sender: 'AI_DIRECTOR', text: update.narration },
+                    ]
+                }));
+            }
 
-            // Orchestrate cross-store updates
+            // Sync mechanical updates
             if (update.updated_vitals) useCharacterStore.getState().setPlayerVitals(update.updated_vitals);
             if (update.current_hex !== undefined) get().setPlayerHex(update.current_hex);
+
+            // New World State Sync
+            if (update.weather) set({ weather: update.weather });
+            if (update.tension !== undefined) set({ tension: update.tension });
+            if (update.chaos_numbers) set({ chaosNumbers: update.chaos_numbers });
+            if (update.saga_stage) set({ currentSagaStage: update.saga_stage });
+            if (update.pacing) set({ pacingProgress: update.pacing });
+            if (update.visual_assets) set({ visualAssets: update.visual_assets });
 
             if (update.active_encounter) {
                 useCombatStore.getState().setActiveEncounter(update.active_encounter);
@@ -186,6 +211,8 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
 
         } catch (err) {
             console.error(err);
+            set({ chat_log: [...get().chat_log, { sender: 'ERROR', text: 'Communication with GameMaster lost.' }] });
+        } finally {
             set({ ui_locked: false });
         }
     },
@@ -233,6 +260,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
                 target: { id: targetId, name: targetToken?.name || 'Unknown', type: targetToken?.isPlayer ? 'Player' : 'Enemy' },
                 attacker_attributes: charState.attributes,
                 attacker_vitals: charState.vitals,
+                equipped_items: []
             };
 
             const res = await fetch('http://localhost:8000/api/player/action', {

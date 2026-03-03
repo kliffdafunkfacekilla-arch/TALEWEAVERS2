@@ -229,4 +229,4 @@ async def generate_subgrid(hex_id: int, req: GenerateRequest):
 if __name__ == "__main__":
     import uvicorn
     # Module 2 runs on Port 8012!
-    uvicorn.run(app, host="0.0.0.0", port=8012)
+    uvicorn.run(app, host="0.0.0.0", port=8002)

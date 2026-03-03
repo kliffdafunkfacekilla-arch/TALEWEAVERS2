@@ -16,6 +16,12 @@ export interface Injuries {
     mind: string[];
 }
 
+export interface PipBank {
+    stars: number;
+    scars: number;
+    survivors: number;
+}
+
 export interface CharacterSheet {
     name: string;
     attributes: CoreAttributes;
@@ -33,6 +39,7 @@ export interface CharacterSheet {
     powers: string[];
     loadout: Record<string, string>;
     holding_fees: { stamina: number; focus: number };
+    pip_bank?: PipBank;
 }
 
 interface CharacterState {
@@ -47,10 +54,14 @@ interface CharacterState {
     attributes: CoreAttributes;
     injuries: Injuries;
     skills: string[];
+    pip_bank: PipBank;
 
     setCharacterSheet: (sheet: CharacterSheet) => void;
     setPlayerVitals: (apiVitals: Record<string, number>) => void;
     addInjury: (track: 'body' | 'mind', injuryName: string) => void;
+    updatePipBank: (pips: Partial<PipBank>) => void;
+    evolveAttribute: (stat: string) => Promise<void>;
+    evolveSkill: (skill: string) => Promise<void>;
 }
 
 export const useCharacterStore = create<CharacterState>((set, get) => ({
@@ -71,6 +82,7 @@ export const useCharacterStore = create<CharacterState>((set, get) => ({
         mind: [],
     },
     skills: ['Assault', 'Coercion', 'Mobility', 'Precise Shot', 'Endure', 'Deceive'],
+    pip_bank: { stars: 0, scars: 0, survivors: 0 },
 
     setCharacterSheet: (sheet) => set({
         characterSheet: sheet,
@@ -82,7 +94,8 @@ export const useCharacterStore = create<CharacterState>((set, get) => ({
             stamina: { current: sheet.vitals.max_stamina, max: sheet.vitals.max_stamina },
             focus: { current: sheet.vitals.max_focus, max: sheet.vitals.max_focus },
             composure: { current: sheet.vitals.max_composure, max: sheet.vitals.max_composure }
-        } : get().vitals
+        } : get().vitals,
+        pip_bank: sheet.pip_bank || { stars: 0, scars: 0, survivors: 0 }
     }),
 
     setPlayerVitals: (apiVitals) => set((state) => {
@@ -116,4 +129,36 @@ export const useCharacterStore = create<CharacterState>((set, get) => ({
             }
         };
     }),
+
+    updatePipBank: (pips) => set((state) => ({
+        pip_bank: { ...state.pip_bank, ...pips }
+    })),
+
+    evolveAttribute: async (stat) => {
+        const state = get();
+        if (!state.characterSheet) return;
+        const res = await fetch('http://localhost:8003/api/rules/character/evolve', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                sheet: { ...state.characterSheet, attributes: state.attributes, pip_bank: state.pip_bank },
+                expenditure: { type: 'STAR', target: stat }
+            })
+        });
+        if (res.ok) state.setCharacterSheet(await res.json());
+    },
+
+    evolveSkill: async (skill) => {
+        const state = get();
+        if (!state.characterSheet) return;
+        const res = await fetch('http://localhost:8003/api/rules/character/evolve', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                sheet: { ...state.characterSheet, attributes: state.attributes, pip_bank: state.pip_bank },
+                expenditure: { type: 'SCAR', target: skill }
+            })
+        });
+        if (res.ok) state.setCharacterSheet(await res.json());
+    }
 }));

@@ -71,6 +71,7 @@ async def generate_regional_arc(saga_beat: dict, region_context: dict) -> List[Q
     prompt = ChatPromptTemplate.from_messages([
         ("system", "You are the T.A.L.E.W.E.A.V.E.R. Campaign Weaver (Tier: ARC). "
                    "Generate a 2-step 'Regional Arc' that bridges the player's current position to the next Saga Beat. "
+                   "Include a 'target_node_id' if the objective is tied to a specific landmark. "
                    "Output ONLY raw JSON as a list of QuestNodes."),
         ("user", "Saga Beat: {saga}\nRegion: {region}")
     ])
@@ -86,11 +87,6 @@ async def generate_local_sidequest(hex_context: dict) -> QuestNode:
 
 async def generate_tactical_errand(location_context: str) -> QuestNode:
     """Tier 4: Generates a one-off immediate task."""
-    llm = Ollama(model="llama3")
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", "Generate a one-off 'Errand' (Tier: ERRAND). These are minute-to-minute tasks. "
-                   "Output ONLY raw JSON matching the QuestNode schema.")
-    ])
     return QuestNode(
         step_number=1, 
         narrative_objective="A sudden task arises in the area.", 
@@ -106,6 +102,7 @@ async def generate_mini_quest(seed: str, location: str) -> QuestNode:
     prompt = ChatPromptTemplate.from_messages([
         ("system", "You are the T.A.L.E.W.E.A.V.E.R. Campaign Weaver (Tier: SIDE_QUEST). "
                    "Generate a single, self-contained mini-quest step. "
+                   "REQUIRED: Assign a 'target_node_id' (e.g., 'NODE_A', 'POI_1') if the quest involves a specific location. "
                    "Output ONLY raw JSON matching the QuestNode schema."),
         ("user", "Seed: {seed}\nLocation: {location}")
     ])

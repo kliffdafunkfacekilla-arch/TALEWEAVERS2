@@ -10,6 +10,8 @@ import { WorldArchitect } from './components/WorldArchitect';
 import { CharacterSheet } from './components/CharacterSheet';
 import { EncounterOverlay } from './components/hud/EncounterOverlay';
 import { ActionHUD } from './components/hud/ActionHUD';
+import { EvolutionUI } from './components/hud/EvolutionUI';
+import { ExplorationNodeMap } from './components/map/ExplorationNodeMap';
 import { MapRenderer } from './components/MapRenderer';
 import { SurvivalScreen } from './components/survival/SurvivalScreen';
 import { SettlementInspector } from './components/SettlementInspector';
@@ -31,6 +33,7 @@ export default function App() {
   const activeEncounter = useCombatStore((s) => s.activeEncounter);
 
   const [isBioMatrixOpen, setBioMatrixOpen] = useState(false);
+  const [isEvolutionOpen, setEvolutionOpen] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
 
   // ── THE REAL STARTUP SEQUENCE ──────────────────────────────────────
@@ -118,7 +121,7 @@ export default function App() {
       case 3:
         return <SurvivalScreen />;
       case 4:
-        return <div className="flex items-center justify-center h-full text-zinc-600 bg-zinc-950 uppercase tracking-[0.5em] text-sm italic">Exploration Node Map Interface [Tier 4] Pending Implementation</div>;
+        return <ExplorationNodeMap />;
       default:
         return <MapRenderer />;
     }
@@ -161,6 +164,7 @@ export default function App() {
           <EncounterOverlay />
           <ActionHUD />
           <SettlementInspector />
+          {isEvolutionOpen && <EvolutionUI onClose={() => setEvolutionOpen(false)} />}
 
           {/* Tier Breadcrumb / Zoom Control (Dev) */}
           <div className="absolute top-4 left-4 z-50 flex gap-2">
@@ -197,6 +201,13 @@ export default function App() {
           onClick={() => setBioMatrixOpen(!isBioMatrixOpen)}
         >
           {isBioMatrixOpen ? '✕' : 'Matrix'}
+        </button>
+
+        <button
+          className="absolute top-14 right-4 z-40 bg-zinc-800/90 px-3 py-1.5 rounded text-xs font-bold uppercase border border-amber-900/50 text-amber-500 hover:bg-amber-900/20 transition-all"
+          onClick={() => setEvolutionOpen(true)}
+        >
+          Evolve
         </button>
 
         {/* Navigation */}

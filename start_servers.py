@@ -5,15 +5,17 @@ import sys
 # Define all the backend microservices
 services = [
     ("Lore Vault", 8001, "saga_lore_module"),
-    ("World Architect", 8012, "saga_architect"),
+    ("World Architect", 8002, "saga_architect"),
     ("Character Engine", 8003, "saga_character_engine"),
-    ("Chronos Engine", 8004, "saga_chronos"),
+    ("Encounter Engine", 8004, "saga_encounter_engine"),
     ("Item Foundry", 8005, "saga_item_engine"),
     ("Skill Engine", 8006, "saga_skill_engine"),
     ("Clash Engine", 8007, "saga_clash_engine"),
-    ("Encounter Engine", 8009, "saga_encounter_engine"),
+    ("Tactical Magic", 8008, "saga_dmag_engine"),
     ("Core Game Master", 8000, "saga_gamemaster"),
     ("Campaign Weaver", 8010, "saga_campaign_weaver"),
+    ("Asset Foundry", 8012, "saga_asset_foundry"),
+    ("Chronos Engine", 9000, "saga_chronos"),
 ]
 
 processes = []

@@ -5,7 +5,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 
 from pydantic import BaseModel, Field
 from typing import List, Dict, Optional
-from saga_common.models.core import CoreAttributes, DerivedVitals
+from saga_common.models.core import CoreAttributes, DerivedVitals, PipBank
 
 class BiologicalEvolutions(BaseModel):
     species_base: str    # e.g., "PLANT", "AVIAN"
@@ -26,6 +26,7 @@ class CharacterBuildRequest(BaseModel):
     tactical_skills: Dict[str, str] = {} # e.g. {"Aggressive": "Body", "Command": "Mind"}
     selected_powers: List[Dict[str, str]] = [] # Expecting full power obj or strings
     equipped_loadout: Dict[str, str] = {}
+    pip_bank: PipBank = Field(default_factory=PipBank)
 
 class CompiledSkill(BaseModel):
     rank: int
@@ -42,3 +43,4 @@ class CompiledCharacterSheet(BaseModel):
     powers: List[Dict[str, str]] = []
     loadout: Dict[str, str] = {}
     holding_fees: Dict[str, int] = {"stamina": 0, "focus": 0}
+    pip_bank: PipBank = Field(default_factory=PipBank)

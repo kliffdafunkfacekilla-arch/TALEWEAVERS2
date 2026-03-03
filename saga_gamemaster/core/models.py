@@ -13,6 +13,11 @@ class CampaignState(Base):
     day = Column(Integer, default=1)
     chaos_level = Column(Integer, default=1)
     
+    # World state
+    tension = Column(Integer, default=0)
+    weather = Column(String, default="Clear Skies")
+    chaos_numbers = Column(JSON, default=[]) # New: Active chaos strike targets (d12)
+    
     # Complex blobs
     player_vitals = Column(JSON, default={})
     active_encounter = Column(JSON, nullable=True)
@@ -54,5 +59,5 @@ class ActiveQuest(Base):
     title = Column(String)
     giver_faction = Column(String)
     
-    # E.g., [{"objective": "Find the cave", "is_complete": False, "target_hex": "[10, 15]"}]
+    # E.g., [{"objective": "Find the cave", "is_complete": False, "target_hex": "[10, 15]", "target_node_id": "POI_1"}]
     objectives = Column(JSON, default=[])

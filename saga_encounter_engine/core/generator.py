@@ -36,7 +36,7 @@ def generate_encounter(request: EncounterRequest) -> EncounterResponse:
     elif enc_type == EncounterCategory.HAZARD:
         data = generate_tactical_hazard(request.threat_level)
     elif enc_type == EncounterCategory.COMBAT:
-        data = generate_hostile_threat(request.threat_level, request.seed_prompt)
+        data = generate_hostile_threat(request.threat_level, request.seed_prompt, request.biome or "Forest")
     elif enc_type == EncounterCategory.PUZZLE:
         data = _gen_puzzle_fallback(request)
     elif enc_type == EncounterCategory.DILEMMA:

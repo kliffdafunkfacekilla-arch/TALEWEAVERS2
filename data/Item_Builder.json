@@ -10,7 +10,8 @@
         "lead_stat_required": "Might",
         "traits": [
             "Heavy"
-        ]
+        ],
+        "tags": ["metal", "sharp"]
     },
     {
         "id": "wpn_bone_dagger",
@@ -24,7 +25,8 @@
         "traits": [
             "Light",
             "Concealable"
-        ]
+        ],
+        "tags": ["bone", "biological"]
     },
     {
         "id": "csm_ddust",
@@ -35,7 +37,8 @@
         "effect_type": "HEAL",
         "effect_math": "Regain 1d4+2 Health",
         "resist_save": null,
-        "is_unstable": true
+        "is_unstable": true,
+        "tags": ["alchemical", "unstable"]
     },
     {
         "id": "csm_stamina_tea",
@@ -46,7 +49,8 @@
         "effect_type": "HEAL",
         "effect_math": "Regain 1d6 Stamina",
         "resist_save": null,
-        "is_unstable": false
+        "is_unstable": false,
+        "tags": ["herbal", "soothing"]
     },
     {
         "id": "csm_focus_salve",
@@ -57,7 +61,8 @@
         "effect_type": "HEAL",
         "effect_math": "Regain 1d4 Focus",
         "resist_save": null,
-        "is_unstable": false
+        "is_unstable": false,
+        "tags": ["alchemical", "nootropic"]
     },
     {
         "id": "csm_fire_flask",
@@ -68,7 +73,8 @@
         "effect_type": "DAMAGE",
         "effect_math": "2d6 Fire Dmg 10ft radius",
         "resist_save": "Reflex Half",
-        "is_unstable": true
+        "is_unstable": true,
+        "tags": ["flammable", "incendiary", "fragile"]
     },
     {
         "id": "arm_leather_vest",
@@ -78,6 +84,17 @@
         "base_value_aetherium": 15,
         "defense_bonus": 1,
         "stamina_lock": 0,
-        "focus_lock": 0
+        "focus_lock": 0,
+        "tags": ["leather", "flexible"]
+    },
+    {
+        "id": "tool_climbing_gear",
+        "name": "Pitons & Rope",
+        "category": "TOOL",
+        "weight": 4.0,
+        "base_value_aetherium": 20,
+        "skill_triad_buff": "+1 to Mobility",
+        "durability": 5,
+        "tags": ["climbing_aid", "climbable_hook"]
     }
 ]

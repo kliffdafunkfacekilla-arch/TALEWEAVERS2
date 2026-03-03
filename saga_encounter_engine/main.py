@@ -15,7 +15,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"module": "Encounter Engine", "status": "Online", "port": 8009}
+    return {"module": "Encounter Engine", "status": "Online", "port": 8004}
 
 @app.post("/api/encounter/generate", response_model=EncounterResponse)
 async def api_generate_encounter(request: EncounterRequest):
@@ -28,4 +28,4 @@ async def api_generate_encounter(request: EncounterRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8009)
+    uvicorn.run(app, host="0.0.0.0", port=8004)
