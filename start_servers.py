@@ -12,7 +12,7 @@ services = [
     ("Skill Engine", 8006, "saga_skill_engine"),
     ("Clash Engine", 8007, "saga_clash_engine"),
     ("Tactical Magic", 8008, "saga_dmag_engine"),
-    ("Core Game Master", 8000, "saga_gamemaster"),
+    ("Saga Director", 8000, "saga_director"),
     ("Campaign Weaver", 8010, "saga_campaign_weaver"),
     ("Asset Foundry", 8012, "saga_asset_foundry"),
     ("Chronos Engine", 9000, "saga_chronos"),

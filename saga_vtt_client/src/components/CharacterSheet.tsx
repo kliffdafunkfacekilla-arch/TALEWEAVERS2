@@ -115,6 +115,21 @@ export const CharacterSheet: React.FC = () => {
         });
     };
 
+    const bodyLeads = Object.values(selectedSkills).filter(s => s.lead === "Body").length;
+    const mindLeads = Object.values(selectedSkills).length - bodyLeads;
+
+    // Sprite Mapping from implementation plan
+    const spriteMapping: Record<string, { x: number, y: number }> = {
+        'MAMMAL': { x: 0, y: 0 },
+        'AVIAN': { x: 32, y: 64 },
+        'REPTILE': { x: 64, y: 0 },
+        'INSECT': { x: 96, y: 0 },
+        'PLANT': { x: 0, y: 128 },
+        'AQUATIC': { x: 192, y: 0 }
+    };
+
+    const currentSprite = spriteMapping[species] || { x: 0, y: 0 };
+
     const calculateCharacter = async () => {
         if (Object.keys(selectedSkills).length !== 12) {
             alert("Please select 1 skill from EACH of the 12 triads.");
@@ -140,7 +155,14 @@ export const CharacterSheet: React.FC = () => {
                     evolutions: { species_base: species, ...evolutions },
                     tactical_skills: payloadSkillMap,
                     selected_powers: selectedSpells.map(s => ({ name: s })),
-                    equipped_loadout: { armor: "None", weapon: "None" }
+                    equipped_loadout: { armor: "None", weapon: "None" },
+                    avatar_sprite: {
+                        sheet_url: "/assets/sprites/zx22mammal.png",
+                        x: currentSprite.x,
+                        y: currentSprite.y,
+                        w: 32,
+                        h: 32
+                    }
                 })
             });
             const data = await response.json();
@@ -150,9 +172,6 @@ export const CharacterSheet: React.FC = () => {
         }
         setIsCalculating(false);
     };
-
-    const bodyLeads = Object.values(selectedSkills).filter(s => s.lead === "Body").length;
-    const mindLeads = Object.values(selectedSkills).length - bodyLeads;
 
     return (
         <div className="flex w-full h-full bg-black text-zinc-300 font-mono text-sm overflow-hidden">
@@ -174,14 +193,28 @@ export const CharacterSheet: React.FC = () => {
                     </div>
                     <div>
                         <label className="text-[10px] text-zinc-500 uppercase">Species Base</label>
-                        <select value={species} onChange={e => setSpecies(e.target.value)} className="w-full bg-black border border-zinc-700 p-2 text-white outline-none focus:border-yellow-500">
-                            <option value="PLANT">Plant</option>
-                            <option value="AVIAN">Avian</option>
-                            <option value="REPTILE">Reptile</option>
-                            <option value="INSECT">Insect</option>
-                            <option value="MAMMAL">Mammal</option>
-                            <option value="AQUATIC">Aquatic</option>
-                        </select>
+                        <div className="flex gap-2">
+                            <select value={species} onChange={e => setSpecies(e.target.value)} className="flex-grow bg-black border border-zinc-700 p-2 text-white outline-none focus:border-yellow-500">
+                                <option value="PLANT">Plant</option>
+                                <option value="AVIAN">Avian</option>
+                                <option value="REPTILE">Reptile</option>
+                                <option value="INSECT">Insect</option>
+                                <option value="MAMMAL">Mammal</option>
+                                <option value="AQUATIC">Aquatic</option>
+                            </select>
+                            <div className="w-10 h-10 border border-zinc-700 bg-zinc-950 flex items-center justify-center overflow-hidden">
+                                <div
+                                    style={{
+                                        width: '32px',
+                                        height: '32px',
+                                        backgroundImage: 'url(/assets/sprites/zx22mammal.png)',
+                                        backgroundPosition: `-${currentSprite.x}px -${currentSprite.y}px`,
+                                        imageRendering: 'pixelated',
+                                        transform: 'scale(1.2)'
+                                    }}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -36,7 +36,7 @@ def resolve(req: ClashRequest) -> ClashResolution:
     4. Margin-of-Victory thresholds determine the result.
     5. injury_applier.py checks if the blow was lethal (dropped to 0 HP)
        and assigns a Dual-Track Injury slot.
-    6. Final ClashResolution JSON is returned to the GM App.
+    6. Final ClashResolution JSON is returned to the Saga Director App.
     """
     # 1. Calculate the raw damage and margin
     resolution = resolve_clash(req)

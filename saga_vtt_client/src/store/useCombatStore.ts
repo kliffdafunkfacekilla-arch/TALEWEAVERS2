@@ -1,5 +1,13 @@
 import { create } from 'zustand';
 
+export interface SpriteMetadata {
+    sheet_url: string;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+}
+
 export interface EncounterToken {
     id: string;
     name: string;
@@ -7,6 +15,7 @@ export interface EncounterToken {
     y: number;
     color: number;
     isPlayer: boolean;
+    avatar_sprite?: SpriteMetadata;
     radius?: number;
     direction?: number; // 0=N, 1=E, 2=S, 3=W
     is_prone?: boolean;

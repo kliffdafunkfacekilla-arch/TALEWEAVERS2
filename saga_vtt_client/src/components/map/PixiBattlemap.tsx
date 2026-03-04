@@ -15,7 +15,7 @@ export function PixiBattlemap() {
     const [atlas, setAtlas] = useState<Spritesheet | null>(null);
 
     // ── REMOVED: Redundant Direct Fetch ──
-    // Encounters are now managed by the Game Master (Port 8000) 
+    // Encounters are now managed by the Saga Director (Port 8000) 
     // to ensure naration and mechanics are synced.
     useEffect(() => {
         // If we want a default empty map if no encounter is active, we can handle it here.
@@ -165,32 +165,70 @@ export function PixiBattlemap() {
                 targetCenterY = centerY;
             }
 
-            const circle = new Graphics();
+            // ── TOKEN VISUALS (Sprite or Disc) ──
+            const tokenContainer = new Container();
+            tokenGroup.addChild(tokenContainer);
 
-            // Targeting reticle (red square around targeted enemy)
+            if ((token as any).avatar_sprite) {
+                const meta = (token as any).avatar_sprite;
+                // Create a cropped texture for the sprite
+                Assets.load(`http://localhost:8012${meta.sheet_url}`).then((tex: Texture) => {
+                    const spriteTex = new Texture({
+                        baseTexture: tex.baseTexture,
+                        frame: new Rectangle(meta.x, meta.y, meta.w, meta.h)
+                    });
+                    const sprite = new Sprite(spriteTex);
+                    sprite.anchor.set(0.5);
+                    sprite.x = TILE_SIZE / 2;
+                    sprite.y = TILE_SIZE / 2;
+                    sprite.width = TILE_SIZE * 0.9;
+                    sprite.height = TILE_SIZE * 0.9;
+                    tokenContainer.addChild(sprite);
+                });
+            } else {
+                // Fallback to stylized disc
+                const circle = new Graphics();
+                const tokenColor = (token as any).color || (token as any).tint || 0x3B82F6;
+                circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 3);
+                circle.fill(tokenColor);
+                circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 3);
+                circle.stroke({ width: 2, color: 0x000000 });
+                tokenContainer.addChild(circle);
+
+                // Token initial letter
+                const label = new Text({
+                    text: token.name.charAt(0),
+                    style: new TextStyle({
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        fill: 0xffffff,
+                    }),
+                });
+                label.anchor.set(0.5);
+                label.x = TILE_SIZE / 2;
+                label.y = TILE_SIZE / 2;
+                tokenContainer.addChild(label);
+            }
+
+            // --- S.A.G.A Visuals: HP, Composure, etc. ---
+            const fx = new Graphics();
+
+            // Targeting reticle
             if (isTargeted) {
-                circle.rect(2, 2, TILE_SIZE - 4, TILE_SIZE - 4);
-                circle.stroke({ width: 3, color: 0xFF0000, alpha: 0.8 });
+                fx.rect(2, 2, TILE_SIZE - 4, TILE_SIZE - 4);
+                fx.stroke({ width: 3, color: 0xFF0000, alpha: 0.8 });
             }
 
             // Selection ring for player
             if (token.isPlayer) {
-                circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2 - 2);
-                circle.fill({ color: token.color, alpha: 0.1 });
-                circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2 - 2);
-                circle.stroke({ width: 2, color: 0x3B82F6, alpha: 0.6 });
+                fx.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 2 - 2);
+                fx.stroke({ width: 2, color: 0x3B82F6, alpha: 0.6 });
             }
+            tokenGroup.addChild(fx);
 
-            // Token body
-            const tokenColor = (token as any).color || (token as any).tint || 0x3B82F6;
-            circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 3);
-            circle.fill(tokenColor);
-            circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 3);
-            circle.stroke({ width: 2, color: 0x000000 });
-
-            // --- S.A.G.A Visuals: Orientation, HP, Composure ---
-            // 1. Directional Indicator (Triangle pointing Front)
-            const dir = token.direction || 0; // 0=N, 1=E, 2=S, 3=W
+            // 1. Directional Indicator
+            const dir = token.direction || 0;
             const indicator = new Graphics();
             indicator.poly([-6, 0, 6, 0, 0, -10]);
             indicator.fill(0xffffff);
@@ -199,47 +237,25 @@ export function PixiBattlemap() {
             indicator.rotation = (dir * Math.PI) / 2;
             tokenGroup.addChild(indicator);
 
-            // 2. Health & Composure Bars (Small bars below token)
+            // 2. Health & Composure Bars
             const bars = new Graphics();
             const barW = TILE_SIZE - 10;
-            // HP Bar (Green)
+            const healthPercent = (token as any).current_hp / ((token as any).max_hp || 10);
             bars.rect(5, TILE_SIZE - 8, barW, 3);
             bars.fill(0x333333);
-            bars.rect(5, TILE_SIZE - 8, barW * 0.7, 3); // 70% fill for demo
+            bars.rect(5, TILE_SIZE - 8, barW * healthPercent, 3);
             bars.fill(0x22c55e);
-            // Composure Bar (Purple/Blue)
-            bars.rect(5, TILE_SIZE - 4, barW, 2);
-            bars.fill(0x333333);
-            bars.rect(5, TILE_SIZE - 4, barW * 0.8, 2);
-            bars.fill(0x8b5cf6);
             tokenGroup.addChild(bars);
 
             // 3. Prone indicator
             if (token.is_prone) {
-                circle.alpha = 0.5;
+                tokenContainer.alpha = 0.5;
                 const proneText = new Text({ text: "PRONE", style: { fontSize: 8, fill: 0xff4444, fontWeight: 'bold' } });
                 proneText.anchor.set(0.5);
                 proneText.x = TILE_SIZE / 2;
                 proneText.y = TILE_SIZE / 2 + 10;
                 tokenGroup.addChild(proneText);
             }
-
-            tokenGroup.addChild(circle);
-
-            // Token initial letter
-            const label = new Text({
-                text: token.name.charAt(0),
-                style: new TextStyle({
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: 18,
-                    fontWeight: 'bold',
-                    fill: 0xffffff,
-                }),
-            });
-            label.anchor.set(0.5);
-            label.x = TILE_SIZE / 2;
-            label.y = TILE_SIZE / 2;
-            tokenGroup.addChild(label);
 
             // Token name label below
             const nameLabel = new Text({

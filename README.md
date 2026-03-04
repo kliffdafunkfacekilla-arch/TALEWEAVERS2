@@ -1,8 +1,8 @@
 # 🧶 TALEWEAVERS
 
-**The Ultimate Storytelling & Game Master Orchestration Engine**
+**The Ultimate Storytelling & Saga Director Orchestration Engine**
 
-TALEWEAVERS is a suite of AI-driven microservices designed to facilitate deep, immersive tabletop roleplaying experiences. From procedural world architecture to dynamic encounter resolution and AI-narrated campaigns, TALEWEAVERS handles the "math and lore" so GMs and players can focus on the story.
+TALEWEAVERS is a suite of AI-driven microservices designed to facilitate deep, immersive tabletop roleplaying experiences. From procedural world architecture to dynamic encounter resolution and AI-narrated campaigns, TALEWEAVERS handles the "math and lore" so Directors and players can focus on the story.
 
 ---
 
@@ -12,7 +12,7 @@ The project is divided into several specialized "Saga" modules, each serving a d
 
 | Module | Name | Port | Description |
 | :--- | :--- | :--- | :--- |
-| **00** | **VTT Client** | 5173 | The visual interface for players and GMs (React/PixiJS). |
+| **00** | **VTT Client** | 5173 | The visual interface for players and Directors (React/PixiJS). |
 | **01** | **Lore Vault** | 8001 | Central repository for world facts, cultures, and history. |
 | **02** | **World Architect** | 8002 | Prodecural map and physics/calendar simulator (C++ Engine). |
 | **03** | **Character Engine** | 8003 | Survial pools, evolution, and loadout calculations. |
@@ -21,7 +21,7 @@ The project is divided into several specialized "Saga" modules, each serving a d
 | **06** | **Skill Engine** | 8006 | Tactical triad calculations (Aggressive, Skirmish, etc.). |
 | **07** | **Clash Engine** | 8007 | Margin-of-Victory resolution for combat actions. |
 | **08** | **Chronos** | 9000 | Time-tracking and event scheduling. |
-| **09** | **Game Master** | 8000 | The "Director" node using LangGraph to weave it all together. |
+| **09** | **Saga Director** | 8000 | The "Director" node using LangGraph to weave it all together. |
 | **10** | **Campaign Weaver** | 8010 | Procedural quest and campaign roadmap generator. |
 | **11** | **Chaos Engine** | N/A | Integrated "Fate Engine" for unpredictable world shifts. |
 | **12** | **Asset Foundry** | 8012 | High-performance texture server and atlas optimizer. |
@@ -31,7 +31,7 @@ The project is divided into several specialized "Saga" modules, each serving a d
 ### Prerequisites
 - **Python 3.10+**
 - **Node.js 18+** (for VTT Client)
-- **Local LLM** (Ollama recommended for Campaign Weaver/GM)
+- **Local LLM** (Ollama recommended for Campaign Weaver/Director)
 
 ### Installation & Launch
 The easiest way to start the entire ecosystem on Windows is using the provided batch script:

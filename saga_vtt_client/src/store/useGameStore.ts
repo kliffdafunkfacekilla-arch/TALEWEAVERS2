@@ -19,6 +19,13 @@ export interface MapToken {
     y: number;
     tint: number;
     isPlayer: boolean;
+    avatar_sprite?: {
+        sheet_url: string;
+        x: number;
+        y: number;
+        w: number;
+        h: number;
+    };
 }
 
 export interface QuestItem {
@@ -127,7 +134,8 @@ const INITIAL_STATE: Omit<ClientGameState,
         { id: 'q1', title: 'Reach the Waystation', completed: false },
     ],
     inventory_slots: [
-        { id: 1, itemName: 'Mending Salve' },
+        { id: 1, itemName: 'Steel Rapier' },
+        { id: 2, itemName: 'Traveler\'s Bread' },
     ],
 };
 
@@ -176,7 +184,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
             if (!res.ok) throw new Error("Action failed");
             const update = await res.json();
 
-            // Update complex state from GM response
+            // Update complex state from Director response
             if (update.narration) {
                 set((s) => ({
                     chat_log: [
@@ -211,7 +219,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
 
         } catch (err) {
             console.error(err);
-            set({ chat_log: [...get().chat_log, { sender: 'ERROR', text: 'Communication with GameMaster lost.' }] });
+            set({ chat_log: [...get().chat_log, { sender: 'ERROR', text: 'Communication with Saga Director lost.' }] });
         } finally {
             set({ ui_locked: false });
         }

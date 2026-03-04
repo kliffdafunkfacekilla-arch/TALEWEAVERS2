@@ -40,6 +40,13 @@ export interface CharacterSheet {
     loadout: Record<string, string>;
     holding_fees: { stamina: number; focus: number };
     pip_bank?: PipBank;
+    avatar_sprite?: {
+        sheet_url: string;
+        x: number;
+        y: number;
+        w: number;
+        h: number;
+    };
 }
 
 interface CharacterState {

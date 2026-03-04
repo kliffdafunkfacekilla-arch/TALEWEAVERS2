@@ -4,6 +4,7 @@ import { DirectorLog } from './components/left_panel/DirectorLog';
 import { ActionDeck } from './components/bottom_console/ActionDeck';
 import { ResourceOrbs } from './components/bottom_console/ResourceOrbs';
 import { BioMatrix } from './components/right_panel/BioMatrix';
+import { InventoryPanel } from './components/right_panel/InventoryPanel';
 import { InjurySlots } from './components/right_panel/InjurySlots';
 import { QuestTracker } from './components/hud/QuestTracker';
 import { WorldArchitect } from './components/WorldArchitect';
@@ -72,11 +73,9 @@ export default function App() {
       }
 
       const STARTING_LOADOUT: LoadoutItem[] = [
-        { id: 'wpn_rusted_cleaver', name: 'Rusted Cleaver', type: 'MELEE', target: 'ADJACENT', range: 1, stamina_cost: 1, dice: '1d8', desc: 'A heavy, brutal swing.' },
+        { id: 'wpn_steel_rapier', name: 'Steel Rapier', type: 'MELEE', target: 'ADJACENT', range: 1, stamina_cost: 1, dice: '1d8', desc: 'A swift, elegant thrust.' },
         { id: 'sk_snap_dodge', name: 'Snap Dodge', type: 'MOBILITY', target: 'SELF', range: 0, stamina_cost: 2, dice: 'None', desc: 'Evade an incoming blow.', lead_stat: 'reflexes', trail_stat: 'awareness', skill_rank: 2, target_dc: 15 },
-        { id: 'sk_intimidate', name: 'Intimidate', type: 'SOCIAL', target: 'RANGED', range: 3, stamina_cost: 1, dice: 'None', desc: 'Break their composure.', lead_stat: 'might', trail_stat: 'charm', skill_rank: 1, target_dc: 12 },
-        { id: 'csm_ddust', name: 'D-Dust Stim', type: 'CONSUMABLE', target: 'SELF', range: 0, stamina_cost: 0, dice: '+HP', desc: 'Raw healing dust.' },
-        { id: 'csm_stamina_tea', name: 'Iron Root Tea', type: 'CONSUMABLE', target: 'SELF', range: 0, stamina_cost: 0, dice: '+STM', desc: 'Restores endurance.' },
+        { id: 'csm_travelers_bread', name: 'Traveler\'s Bread', type: 'CONSUMABLE', target: 'SELF', range: 0, stamina_cost: 0, dice: '+STM', desc: 'Restores stamina.' },
       ];
 
       setClientLoadout(STARTING_LOADOUT);
@@ -84,10 +83,15 @@ export default function App() {
       const campaignRes = await fetch('http://localhost:8000/api/campaign/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ world_id: 'W_001', starting_hex_id: 200500, player_id: 'PLAYER_001' })
+        body: JSON.stringify({
+          world_id: 'W_001',
+          starting_hex_id: 200500,
+          player_id: 'PLAYER_001',
+          player_sprite: useCharacterStore.getState().characterSheet?.avatar_sprite
+        })
       });
 
-      if (!campaignRes.ok) throw new Error("GM API failed.");
+      if (!campaignRes.ok) throw new Error("Saga Director API failed.");
 
       const campData = await campaignRes.json();
       setCampaignId(campData.campaign_id);
@@ -104,7 +108,7 @@ export default function App() {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to reach Game Master Engine. Is your server running?");
+      alert("Failed to reach Saga Director Engine. Is your server running?");
     } finally {
       setIsStarting(false);
     }
@@ -188,8 +192,9 @@ export default function App() {
         {/* RIGHT DRAWER: Bio-Matrix */}
         <div className={`bg-zinc-900/95 border-l border-zinc-800 z-30 overflow-y-auto flex-shrink-0 transition-all duration-300 ease-in-out ${isBioMatrixOpen ? 'w-80 p-4 opacity-100' : 'w-0 p-0 opacity-0 overflow-hidden'}`}>
           {isBioMatrixOpen && (
-            <div>
+            <div className="space-y-8">
               <BioMatrix />
+              <InventoryPanel />
               <InjurySlots />
             </div>
           )}

@@ -30,7 +30,7 @@ export function DirectorLog() {
         // 1. Log the player's intent instantly
         addChatMessage({ sender: 'PLAYER', text: actionText });
 
-        // 2. If we have a campaign ID, send to the Game Master Engine
+        // 2. If we have a campaign ID, send to the Saga Director Engine
         if (campaignId) {
             try {
                 const res = await fetch('http://localhost:8000/api/campaign/action', {
@@ -39,7 +39,7 @@ export function DirectorLog() {
                     body: JSON.stringify({ campaign_id: campaignId, player_input: actionText })
                 });
 
-                if (!res.ok) throw new Error("Game Master unreachable");
+                if (!res.ok) throw new Error("Saga Director unreachable");
                 const data = await res.json();
 
                 // 3. Print the math log (Rules Engine)
@@ -57,7 +57,7 @@ export function DirectorLog() {
                     setPlayerVitals(data.updated_vitals);
                 }
             } catch (err) {
-                addChatMessage({ sender: 'SYSTEM', text: 'ERROR: Game Master Engine connection severed.' });
+                addChatMessage({ sender: 'SYSTEM', text: 'ERROR: Saga Director Engine connection severed.' });
             }
         } else {
             // No campaign active — local mock response

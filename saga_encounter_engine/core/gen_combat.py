@@ -1,4 +1,5 @@
 import random
+from typing import List
 from .schemas import CombatEncounter, Combatant, SpatialData
 
 # Combatant templates that scale with threat level

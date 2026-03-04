@@ -154,7 +154,7 @@ async def evolve_character(
         if pips.survivors <= 0:
             raise HTTPException(status_code=400, detail="No SURVIVOR pips available.")
         # Survivors act as a "Full Recovery" of a pool
-        # For now, just deduct the pip. The actual recovery is handled by the VTT/GM state.
+        # For now, just deduct the pip. The actual recovery is handled by the VTT/Director state.
         pips.survivors -= 1
     
     # Re-calculate derived values

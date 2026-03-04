@@ -14,7 +14,7 @@ class SkillCheckRequest(BaseModel):
     skill_rank: int            # 0 to 5
     target_dc: int
     roll_state: RollState
-    is_life_or_death: bool = False # GM toggles this to allow "Survivor" pips
+    is_life_or_death: bool = False # Director toggles this to allow "Survivor" pips
 
 class SkillCheckResult(BaseModel):
     roll_total: int

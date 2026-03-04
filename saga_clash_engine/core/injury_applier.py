@@ -2,7 +2,7 @@ import random
 from core.schemas import ClashResolution, ClashRequest
 
 # A gritty list of visceral consequences for hitting 0 HP.
-# The GM App's AI Narrator will read these and describe the gore natively.
+# The Saga Director App's AI Narrator will read these and describe the gore natively.
 BODY_TRAUMA_DB = [
     "1 Major Body Injury (Shattered Ribs)",
     "1 Major Body Injury (Severed Artery)",

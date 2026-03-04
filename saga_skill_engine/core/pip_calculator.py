@@ -13,7 +13,7 @@ def check_for_pips(
     Returns:
         "STAR"     - Nat 20: Perfection under fire.
         "SCAR"     - Nat 1: Disastrous failure, painful lesson learned.
-        "SURVIVOR" - A success on a life-or-death check (GM-flagged). MVP moment.
+        "SURVIVOR" - A success on a life-or-death check (Director-flagged). MVP moment.
         None       - Routine checks yield no pip progression.
 
     Priority: Nat 20 is always a STAR. Nat 1 is always a SCAR.

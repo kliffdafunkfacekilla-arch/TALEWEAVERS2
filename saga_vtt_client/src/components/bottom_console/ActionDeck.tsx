@@ -144,7 +144,7 @@ export function ActionDeck() {
                     addChatMessage({ sender: 'SYSTEM', text: `[ERROR] Item Foundry offline: ${err}` });
                 }
 
-                // Also notify the Game Master for narration
+                // Also notify the Saga Director for narration
                 if (campaignId) {
                     try {
                         const gmRes = await fetch('http://localhost:8000/api/campaign/action', {
@@ -155,13 +155,13 @@ export function ActionDeck() {
                         const gmData = await gmRes.json();
                         if (gmData.narration) addChatMessage({ sender: 'AI_DIRECTOR', text: gmData.narration });
                     } catch {
-                        // Game Master narration is non-critical
+                        // Saga Director narration is non-critical
                     }
                 }
             }
 
             // ══════════════════════════════════════════════════
-            // BRANCH B: WEAPONS → Game Master (Port 8000) → Clash Engine (Port 8007)
+            // BRANCH B: WEAPONS → Saga Director (Port 8000) → Clash Engine (Port 8007)
             // ══════════════════════════════════════════════════
             else if (card.type === 'MELEE' || card.type === 'RANGED' || card.type === 'MAGIC') {
                 const actionText = `I attack ${targetName} with my ${card.name}.`;
@@ -180,7 +180,7 @@ export function ActionDeck() {
                             })
                         });
 
-                        if (!res.ok) throw new Error("Game Master unreachable");
+                        if (!res.ok) throw new Error("Saga Director unreachable");
                         const data = await res.json();
 
                         if (data.system_log) addChatMessage({ sender: 'SYSTEM', text: data.system_log.trim() });
@@ -203,7 +203,7 @@ export function ActionDeck() {
                             });
                         }
                     } catch (err) {
-                        addChatMessage({ sender: 'SYSTEM', text: 'ERROR: Action aborted. Game Master Engine offline.' });
+                        addChatMessage({ sender: 'SYSTEM', text: 'ERROR: Action aborted. Saga Director Engine offline.' });
                     }
                 } else {
                     addChatMessage({ sender: 'SYSTEM', text: `[LOCAL] Used: ${card.name} (${card.dice})` });
@@ -256,7 +256,7 @@ export function ActionDeck() {
                     }
                     addChatMessage({ sender: 'SYSTEM', text: sysMsg });
 
-                    // Ask the Game Master (Port 8000) to narrate the success/failure
+                    // Ask the Saga Director (Port 8000) to narrate the success/failure
                     if (campaignId) {
                         try {
                             const gmRes = await fetch('http://localhost:8000/api/campaign/action', {

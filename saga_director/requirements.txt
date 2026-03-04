@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+langgraph
+langchain-core
+langchain-openai
+langchain-community
+httpx
+pytest
+aiosqlite

@@ -33,7 +33,7 @@ def roll_skill_check(req: SkillCheckRequest) -> SkillCheckResult:
     1. dice_roller.py rolls 1d20 (rolling twice if Advantage/Disadvantage).
     2. It adds the lead_stat_value, trail_stat_value, and skill_rank.
     3. It checks pip_calculator.py using the raw die face.
-    4. Returns the final JSON to the GM App.
+    4. Returns the final JSON to the Saga Director App.
     """
     raw_die, _ = roll_d20(
         is_advantage=req.roll_state.is_advantage,

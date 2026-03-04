@@ -11,7 +11,7 @@ services = [
     ("Skill Engine", "http://localhost:8006/"),
     ("Clash Engine", "http://localhost:8007/"),
     ("Tactical Magic", "http://localhost:8008/"),
-    ("Core Game Master", "http://localhost:8000/"),
+    ("Saga Director", "http://localhost:8000/"),
     ("Campaign Weaver", "http://localhost:8010/"),
     ("Asset Foundry", "http://localhost:8012/api/assets/map/object/barrel"),
     ("Chronos Engine", "http://localhost:9000/health"),

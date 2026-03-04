@@ -51,9 +51,17 @@ class WealthState(BaseModel):
     d_dust_grams: float = 0.0
     current_exchange_rate: float = 1.0
 
+class SpriteMetadata(BaseModel):
+    sheet_url: str            # e.g., "/assets/icons/weapons1.png"
+    x: int = 0                # Top-left X in pixels
+    y: int = 0                # Top-left Y in pixels
+    w: int = 32               # Width in pixels
+    h: int = 32               # Height in pixels
+
 # --- CLASH & COMBAT SCHEMAS ---
 class CombatantState(BaseModel):
     name: str
+    avatar_sprite: Optional[SpriteMetadata] = None
     current_hp: int = 10
     attack_or_defense_pool: int = 0
     skill_rank: int = 0
