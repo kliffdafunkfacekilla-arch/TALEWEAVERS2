@@ -5,36 +5,38 @@ export const CalendarEditor: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'months' | 'seasons'>('months');
 
     useEffect(() => {
-        fetch('http://localhost:8004/api/config/calendar')
+        const chronosUrl = import.meta.env.VITE_SAGA_CHRONOS_URL || 'http://localhost:9000';
+        fetch(`${chronosUrl}/api/config/calendar`)
             .then(res => res.json())
             .then(data => setCalendar(data))
-            .catch(() => console.error("Failed to load Calendar config. Is Port 8004 running?"));
+            .catch(() => console.error("Failed to load Calendar config. Is Port 9000 running?"));
     }, []);
 
     const saveConfig = () => {
-        fetch('http://localhost:8004/api/config/calendar', {
+        const chronosUrl = import.meta.env.VITE_SAGA_CHRONOS_URL || 'http://localhost:9000';
+        fetch(`${chronosUrl}/api/config/calendar`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(calendar)
         }).then(() => alert("God Engine Calendar Updated!"))
-            .catch(() => alert("Save failed. Is Port 8004 running?"));
+            .catch(() => alert("Save failed. Is Port 9000 running?"));
     };
 
     const resetToStandard = () => {
-        const schools = [
-            "Abjuration", "Conjuration", "Divination", "Enchantment",
-            "Evocation", "Illusion", "Necromancy", "Transmutation",
-            "Chronomancy", "Graviturgy", "Sanguimancy", "Umbral",
-            "The_Aether_Void"
+        const monthNames = [
+            "Dawnspire", "Floralis", "Greenbloom",
+            "Goldensun", "Highfever", "Sunsear",
+            "Harvestride", "Embershake", "Leafsfall",
+            "Frostveil", "Deepbite", "Ironwind"
         ];
 
-        const newMonths = schools.map((name, i) => {
+        const newMonths = monthNames.map((name, i) => {
             let season = "Spring";
             if (i >= 3 && i < 6) season = "Summer";
             else if (i >= 6 && i < 9) season = "Autumn";
             else if (i >= 9) season = "Winter";
 
-            return { name, days: 28, season };
+            return { name, days: 30, season };
         });
 
         const newCalendar = {

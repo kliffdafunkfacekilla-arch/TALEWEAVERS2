@@ -28,6 +28,22 @@ export interface MapToken {
     };
 }
 
+export interface LoadoutItem {
+    id: string;
+    name: string;
+    type: 'MELEE' | 'RANGED' | 'MAGIC' | 'MOBILITY' | 'SOCIAL' | 'UTILITY' | 'CONSUMABLE';
+    target: string;
+    range: number;
+    stamina_cost?: number;
+    focus_cost?: number;
+    dice?: string;
+    desc: string;
+    lead_stat?: string;
+    trail_stat?: string;
+    skill_rank?: number;
+    target_dc?: number;
+}
+
 export interface QuestItem {
     id: string;
     title: string;
@@ -100,10 +116,17 @@ export interface ClientGameState {
     toggleQuestComplete: (id: string) => void;
     setUiLocked: (locked: boolean) => void;
     injectTierContext: (tier: VTTTier) => Promise<void>;
+
+    characterSheet?: any;
+    syncCombatState?: (state: any) => void;
+    attributes?: any;
+
+    clientLoadout: LoadoutItem[];
+    setClientLoadout: (loadout: LoadoutItem[]) => void;
 }
 
 const INITIAL_STATE: Omit<ClientGameState,
-    'sendAction' | 'executeAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setCampaignId' | 'setPlayerHex' | 'setVttTier' | 'assignSurvivalJob' | 'setSurvivalResources' | 'setExplorationNodes' | 'moveNode' | 'injectTierContext'
+    'sendAction' | 'executeAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setCampaignId' | 'setPlayerHex' | 'setVttTier' | 'assignSurvivalJob' | 'setSurvivalResources' | 'setExplorationNodes' | 'moveNode' | 'injectTierContext' | 'setClientLoadout'
 > = {
     vttTier: 2,
     currentScreen: 'MAIN_MENU',
@@ -137,6 +160,7 @@ const INITIAL_STATE: Omit<ClientGameState,
         { id: 1, itemName: 'Steel Rapier' },
         { id: 2, itemName: 'Traveler\'s Bread' },
     ],
+    clientLoadout: [],
 };
 
 export const useGameStore = create<ClientGameState>((set, get) => ({
@@ -146,6 +170,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     setPlayerHex: (hexId: number) => set({ currentHexId: hexId }),
     setScreen: (screen) => set({ currentScreen: screen }),
     setCampaignId: (id) => set({ activeCampaignId: id }),
+    setClientLoadout: (loadout) => set({ clientLoadout: loadout }),
 
     assignSurvivalJob: (character, job) => set((s) => ({
         survivalJobs: [...s.survivalJobs.filter(j => j.characterName !== character), { characterName: character, jobName: job }]
@@ -175,7 +200,8 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
         };
 
         try {
-            const res = await fetch('http://localhost:8000/api/campaign/action', {
+            const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8000';
+            const res = await fetch(`${directorUrl}/api/campaign/action`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -271,7 +297,8 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
                 equipped_items: []
             };
 
-            const res = await fetch('http://localhost:8000/api/player/action', {
+            const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8000';
+            const res = await fetch(`${directorUrl}/api/player/action`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

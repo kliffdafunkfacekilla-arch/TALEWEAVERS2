@@ -60,7 +60,7 @@ export default function App() {
           tactical_skills: {}
         };
 
-        const charRes = await fetch('http://localhost:8003/api/rules/character/calculate', {
+        const charRes = await fetch(`${import.meta.env.VITE_SAGA_CHAR_ENGINE_URL || "http://localhost:8003"}/api/rules/character/calculate`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(buildRequest)
@@ -80,7 +80,7 @@ export default function App() {
 
       setClientLoadout(STARTING_LOADOUT);
 
-      const campaignRes = await fetch('http://localhost:8000/api/campaign/start', {
+      const campaignRes = await fetch(`${import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8000"}/api/campaign/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

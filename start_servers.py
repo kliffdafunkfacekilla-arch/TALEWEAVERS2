@@ -1,64 +1,96 @@
 import subprocess
 import time
 import sys
+import os
+import json
 
-# Define all the backend microservices
-services = [
-    ("Lore Vault", 8001, "saga_lore_module"),
-    ("World Architect", 8002, "saga_architect"),
-    ("Character Engine", 8003, "saga_character_engine"),
-    ("Encounter Engine", 8004, "saga_encounter_engine"),
-    ("Item Foundry", 8005, "saga_item_engine"),
-    ("Skill Engine", 8006, "saga_skill_engine"),
-    ("Clash Engine", 8007, "saga_clash_engine"),
-    ("Tactical Magic", 8008, "saga_dmag_engine"),
-    ("Saga Director", 8000, "saga_director"),
-    ("Campaign Weaver", 8010, "saga_campaign_weaver"),
-    ("Asset Foundry", 8012, "saga_asset_foundry"),
-    ("Chronos Engine", 9000, "saga_chronos"),
-]
+# Load the dynamic registry if it exists
+REGISTRY_FILE = "saga_registry.json"
+registry = {}
+if os.path.exists(REGISTRY_FILE):
+    try:
+        with open(REGISTRY_FILE, "r") as f:
+            registry = json.load(f)
+            print(f"[BOOT] Loaded dynamic service registry from {REGISTRY_FILE}")
+    except Exception as e:
+        print(f"[BOOT] Error loading registry: {e}")
+
+# Map of service keys in registry to their folder names
+SERVICE_MAP = {
+    "director": ("saga_director", 8000),
+    "lore_vault": ("saga_lore_module", 8001),
+    "world_architect": ("saga_architect", 8002),
+    "char_engine": ("saga_character_engine", 8003),
+    "encounter_engine": ("saga_encounter_engine", 8004),
+    "item_foundry": ("saga_item_engine", 8005),
+    "skill_engine": ("saga_skill_engine", 8006),
+    "clash_engine": ("saga_clash_engine", 8007),
+    "dmag_engine": ("saga_dmag_engine", 8008),
+    "campaign_weaver": ("saga_campaign_weaver", 8010),
+    "asset_foundry": ("saga_asset_foundry", 8012),
+    "chronos": ("saga_chronos", 9000)
+}
 
 processes = []
 
-try:
-    print("========================================")
-    print("[+] STARTING TALEWEAVERS ENGINE [+]")
-    print("========================================")
-    
-    # Start Python Backends
-    for name, port, folder in services:
-        print(f"[*] Starting {name} (Port {port})")
+def start_services():
+    # 1. Build the ENV mapping for sibling discovery
+    peer_env = os.environ.copy()
+    for key, port in registry.items():
+        # Map registry keys to the ENV names used in microservices
+        env_key = f"{key.upper()}_URL"
+        peer_env[env_key] = f"http://localhost:{port}"
+
+    # 2. Spawn each service on its assigned port
+    for key, (folder, default_port) in SERVICE_MAP.items():
+        port = registry.get(key, default_port)
         
-        # We redirect stdout and stderr to DEVNULL so the console isn't 
-        # completely spammed with 10 different APIs printing "INFO: Application startup complete"
-        # but we keep the main window clean.
+        if not os.path.exists(folder):
+            print(f"[!] Warning: Folder {folder} not found. Skipping {key}.")
+            continue
+            
+        print(f"[BOOT] Launching {key} on Port {port}...")
+        
+        # Inject the peer environment into the microservice
         p = subprocess.Popen(
-            [sys.executable, "-m", "uvicorn", "main:app", "--port", str(port), "--reload"],
-            cwd=folder
+            [sys.executable, "-m", "uvicorn", "main:app", "--port", str(port)],
+            cwd=folder,
+            env=peer_env
         )
         processes.append(p)
-    
-    print("\n[*] Starting VTT Client (Frontend)")
-    # We let the React frontend print to the console so the user can see the localhost URL
-    p_vtt = subprocess.Popen(
-        ["npm", "run", "dev"],
-        cwd="saga_vtt_client",
-        shell=True
-    )
-    processes.append(p_vtt)
-    
-    print("\n========================================")
-    print("[+] ALL SERVICES RUNNING [+]")
-    print("-> Press Ctrl+C in this window to cleanly shut down everything.")
-    print("========================================\n")
-    
-    # Keep the script alive
-    while True:
-        time.sleep(1)
 
-except KeyboardInterrupt:
-    print("\n[!] Shutting down all TALEWEAVERS services...")
-    for p in processes:
-        p.terminate()
-    print("Goodbye!")
-    sys.exit(0)
+    # 3. Launch VTT Client (Vite)
+    vtt_folder = "saga_vtt_client"
+    if os.path.exists(vtt_folder):
+        vtt_port = registry.get("vtt", 5173)
+        print(f"[BOOT] Launching VTT Frontend on Port {vtt_port}...")
+        try:
+            # Note: Using shell=True for npm on Windows
+            vtt_p = subprocess.Popen(
+                ["npm.cmd", "run", "dev", "--", "--port", str(vtt_port)],
+                cwd=vtt_folder,
+                shell=True,
+                env=peer_env
+            )
+            processes.append(vtt_p)
+        except Exception as e:
+            print(f"[!] Vite failed to start: {e}")
+
+    print("\n[READY] All SAGA systems ignited. Press Ctrl+C to collapse the tower.")
+
+if __name__ == "__main__":
+    try:
+        start_services()
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("\n[SHUTDOWN] Collapsing process tree...")
+        for p in processes:
+            try:
+                if sys.platform == "win32":
+                    subprocess.run(["taskkill", "/F", "/T", "/PID", str(p.pid)], capture_output=True)
+                else:
+                    p.terminate()
+            except:
+                pass
+        print("[DONE] System offline.")

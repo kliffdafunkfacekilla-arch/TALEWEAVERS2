@@ -33,7 +33,8 @@ export function DirectorLog() {
         // 2. If we have a campaign ID, send to the Saga Director Engine
         if (campaignId) {
             try {
-                const res = await fetch('http://localhost:8000/api/campaign/action', {
+                const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8000';
+                const res = await fetch(`${directorUrl}/api/campaign/action`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ campaign_id: campaignId, player_input: actionText })

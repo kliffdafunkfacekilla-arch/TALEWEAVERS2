@@ -89,11 +89,11 @@ async def process_chat_action(request: Request):
         "chaos_strike": False,
         "chaos_narrative": "",
         "visual_assets": {
-            "forest": "http://localhost:8012/public/floor/grass_full_new.png",
-            "ruins": "http://localhost:8012/public/tiles/floor_stone.png",
-            "mountain": "http://localhost:8012/public/floor/floor_sand_rock_0.png",
-            "swamp": "http://localhost:8012/public/floor/swamp_0_new.png",
-            "tundra": "http://localhost:8012/public/floor/ice_0_new.png"
+            "forest": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8012')}/public/floor/grass_full_new.png",
+            "ruins": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8012')}/public/tiles/floor_stone.png",
+            "mountain": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8012')}/public/floor/floor_sand_rock_0.png",
+            "swamp": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8012')}/public/floor/swamp_0_new.png",
+            "tundra": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8012')}/public/floor/ice_0_new.png"
         },
         "director_override": None,
         "vtt_commands": [],

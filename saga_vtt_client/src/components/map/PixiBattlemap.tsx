@@ -1,6 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { Application, Graphics, Text, TextStyle, Container, Rectangle, Sprite, Texture, TilingSprite, Assets, Spritesheet } from 'pixi.js';
-import { useGameStore } from '../../store/useGameStore';
 import { useCombatStore } from '../../store/useCombatStore';
 
 const TILE_SIZE = 50;
@@ -71,7 +70,7 @@ export function PixiBattlemap() {
 
         for (let row = 0; row < GRID_H; row++) {
             for (let col = 0; col < GRID_W; col++) {
-                const isLight = (row + col) % 2 === 0;
+                // const isLight = (row + col) % 2 === 0;
                 const tileType = (terrainGrid[row] ? terrainGrid[row][col] : "EMPTY") as string;
 
                 // Simple grid lines (textures are behind this)
@@ -120,20 +119,23 @@ export function PixiBattlemap() {
             if (gridX < 0 || gridX >= GRID_W || gridY < 0 || gridY >= GRID_H) return;
 
             // Check if clicking on an enemy token → target it
-            const currentEncounter = useGameStore.getState().activeEncounter;
+            const currentEncounter = useCombatStore.getState().activeEncounter;
             if (!currentEncounter) return;
 
-            const clickedToken = currentEncounter.tokens.find(t => t.x === gridX && t.y === gridY);
+            const clickedToken = currentEncounter.tokens.find((t: any) => t.x === gridX && t.y === gridY);
             if (clickedToken && !clickedToken.isPlayer) {
                 // Target the enemy
                 const currentTarget = useCombatStore.getState().selectedTargetId;
+                // @ts-ignore
                 useCombatStore.getState().setSelectedTarget(clickedToken.id === currentTarget ? null : clickedToken.id);
                 console.log(`[VTT] Targeted: ${clickedToken.name} at [${gridX}, ${gridY}]`);
                 return;
             }
 
             // Move player + clear target
+            // @ts-ignore
             useCombatStore.getState().moveToken('PLAYER_001', gridX, gridY);
+            // @ts-ignore
             useCombatStore.getState().setSelectedTarget(null);
             console.log(`[VTT] Player moved to Grid [${gridX}, ${gridY}]`);
         });
@@ -174,7 +176,7 @@ export function PixiBattlemap() {
                 // Create a cropped texture for the sprite
                 Assets.load(`http://localhost:8012${meta.sheet_url}`).then((tex: Texture) => {
                     const spriteTex = new Texture({
-                        baseTexture: tex.baseTexture,
+                        source: tex.source,
                         frame: new Rectangle(meta.x, meta.y, meta.w, meta.h)
                     });
                     const sprite = new Sprite(spriteTex);

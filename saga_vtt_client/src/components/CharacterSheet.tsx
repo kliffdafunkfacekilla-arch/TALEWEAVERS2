@@ -146,7 +146,8 @@ export const CharacterSheet: React.FC = () => {
             const payloadSkillMap: { [key: string]: string } = {};
             Object.values(selectedSkills).forEach(s => payloadSkillMap[s.skill] = s.lead);
 
-            const response = await fetch('http://localhost:8003/api/rules/character/calculate', {
+            const charEngineUrl = import.meta.env.VITE_SAGA_CHAR_ENGINE_URL || 'http://localhost:8003';
+            const response = await fetch(`${charEngineUrl}/api/rules/character/calculate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

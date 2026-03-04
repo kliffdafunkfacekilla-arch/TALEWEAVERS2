@@ -17,7 +17,7 @@ export const SurvivalScreen: React.FC = () => {
 
     useEffect(() => {
         if (!selectedHex) return;
-        if (selectedHex.elevation > 0.8 || selectedHex.biome_tag === 'DEEP_TUNDRA') {
+        if ((selectedHex.elevation || 0) > 0.8 || selectedHex.biome_tag === 'DEEP_TUNDRA') {
             setBgImage('/assets/parallax/mountain_bg.png');
         } else {
             setBgImage('/assets/parallax/forest_bg.png');
@@ -58,7 +58,7 @@ export const SurvivalScreen: React.FC = () => {
                     The Dusk Vigil
                 </h2>
                 <p className="text-xs text-zinc-400 mb-6 italic">
-                    The sun dips below the horizon in the {selectedHex?.biome_tag.replace('_', ' ')}. Assign duties to survive the night.
+                    The sun dips below the horizon in the {(selectedHex?.biome_tag || 'Unknown Biome').replace('_', ' ')}. Assign duties to survive the night.
                 </p>
 
                 <div className="space-y-6">

@@ -5,12 +5,12 @@ import { Coins, Package, TrendingUp, TrendingDown } from 'lucide-react';
 export const SettlementInspector: React.FC = () => {
     const selectedHex = useWorldStore(state => state.selectedHex);
 
-    if (!selectedHex || (!selectedHex.settlement_name && selectedHex.biome_tag !== 'SETTLEMENT')) {
+    if (!selectedHex || (!selectedHex.settlement && selectedHex.biome_tag !== 'SETTLEMENT')) {
         return null;
     }
 
     const market = selectedHex.market_state || {};
-    const resources = Object.entries(market);
+    const resources = Object.entries(market) as [string, any][];
 
     return (
         <div className="absolute right-4 top-24 w-80 bg-slate-900/90 border border-amber-500/30 rounded-lg p-4 text-slate-200 shadow-2xl backdrop-blur-md">
@@ -20,7 +20,7 @@ export const SettlementInspector: React.FC = () => {
                 </div>
                 <div>
                     <h3 className="text-lg font-bold text-amber-200 uppercase tracking-wider">
-                        {selectedHex.settlement_name || "Outpost"}
+                        {selectedHex.settlement || "Outpost"}
                     </h3>
                     <p className="text-xs text-slate-400">Economic Hub</p>
                 </div>
@@ -39,17 +39,20 @@ export const SettlementInspector: React.FC = () => {
                         <Package className="w-3 h-3" /> Market Inventory
                     </h4>
                     <div className="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
-                        {resources.length > 0 ? resources.map(([item, supply]) => (
-                            <div key={item} className="flex items-center justify-between bg-white/5 p-2 rounded border border-white/5 hover:border-amber-500/20 transition-colors">
-                                <span className="text-sm capitalize text-slate-300">{item.replace('_', ' ')}</span>
-                                <div className="flex items-center gap-2">
-                                    <span className={`text-sm font-mono ${supply >= 0 ? 'text-blue-400' : 'text-red-400'}`}>
-                                        {supply.toFixed(1)}
-                                    </span>
-                                    {supply < 0 && <TrendingDown className="w-3 h-3 text-red-400 animate-pulse" />}
+                        {resources.length > 0 ? resources.map(([item, supplyObj]) => {
+                            const supply = typeof supplyObj === 'number' ? supplyObj : (supplyObj?.supply || 0);
+                            return (
+                                <div key={item} className="flex items-center justify-between bg-white/5 p-2 rounded border border-white/5 hover:border-amber-500/20 transition-colors">
+                                    <span className="text-sm capitalize text-slate-300">{item.replace('_', ' ')}</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className={`text-sm font-mono ${supply >= 0 ? 'text-blue-400' : 'text-red-400'}`}>
+                                            {supply.toFixed(1)}
+                                        </span>
+                                        {supply < 0 && <TrendingDown className="w-3 h-3 text-red-400 animate-pulse" />}
+                                    </div>
                                 </div>
-                            </div>
-                        )) : (
+                            );
+                        }) : (
                             <p className="text-xs text-slate-600 italic">No resources available for trade.</p>
                         )}
                     </div>

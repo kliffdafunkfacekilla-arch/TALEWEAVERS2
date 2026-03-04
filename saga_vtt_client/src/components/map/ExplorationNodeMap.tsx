@@ -125,7 +125,7 @@ export function ExplorationNodeMap() {
                                 }`}>
                                 {node.label}
                             </span>
-                            {isQuestTarget && !currentNodeId === node.id && (
+                            {isQuestTarget && currentNodeId !== node.id && (
                                 <span className="text-[8px] text-cyan-400 font-bold uppercase tracking-tighter mt-1 drop-shadow-md">Active Objective</span>
                             )}
                         </div>

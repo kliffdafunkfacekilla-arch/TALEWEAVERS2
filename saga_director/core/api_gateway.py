@@ -57,10 +57,17 @@ class SAGA_API_Gateway:
         except: return None
 
     async def get_hex_details(self, hex_id: int):
-        DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
-        MAP_FILE = os.path.join(DATA_DIR, "Saga_Master_World.json")
-        
-        node_data = {
+        try:
+            async with httpx.AsyncClient() as client:
+                res = await client.get(f"{self.microservices['world_architect']}/api/world/hex/{hex_id}")
+                if res.status_code == 200:
+                    data = res.json()
+                    return data.get("hex", {})
+        except Exception as e:
+            logging.error(f"[GATEWAY] Hex ID lookup failed: {e}")
+            
+        # Fallback to empty node data if API fails
+        return {
             "cell_id": hex_id,
             "biome": "Wilderness",
             "threat_level": 1,
@@ -68,14 +75,3 @@ class SAGA_API_Gateway:
             "tags": [],
             "visual_url": None
         }
-
-        if os.path.exists(MAP_FILE):
-            try:
-                with open(MAP_FILE, "r") as f:
-                    world = json.load(f)
-                    for node in world.get("macro_map", []):
-                        if node.get("cell_id") == hex_id:
-                            node_data.update(node)
-            except: pass
-            
-        return node_data

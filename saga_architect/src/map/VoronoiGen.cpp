@@ -777,6 +777,12 @@ public:
         continue;
       }
 
+      // MOUNTAIN check: High elevation peaks get MOUNTAIN tag priority
+      if (cell.elevation > 0.70f) {
+        cell.biome_tag = "MOUNTAIN";
+        continue;
+      }
+
       cell.biome_tag = "WASTELAND"; // Default fallback
 
       for (const auto &b : biomeDefs) {

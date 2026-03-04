@@ -23,15 +23,27 @@ CALENDAR_FILE = os.path.join(DATA_DIR, "calendar_rules.json")
 # Default template if the file doesn't exist yet
 DEFAULT_CALENDAR = {
   "months": [
-    {"name": "Dawnspire", "days": 32, "season": "Spring"},
-    {"name": "The_Long_Dark", "days": 40, "season": "Winter"}
+    {"name": "Dawnspire", "days": 30, "season": "Spring"},
+    {"name": "Floralis", "days": 30, "season": "Spring"},
+    {"name": "Greenbloom", "days": 30, "season": "Spring"},
+    {"name": "Goldensun", "days": 30, "season": "Summer"},
+    {"name": "Highfever", "days": 30, "season": "Summer"},
+    {"name": "Sunsear", "days": 30, "season": "Summer"},
+    {"name": "Harvestride", "days": 30, "season": "Autumn"},
+    {"name": "Embershake", "days": 30, "season": "Autumn"},
+    {"name": "Leafsfall", "days": 30, "season": "Autumn"},
+    {"name": "Frostveil", "days": 30, "season": "Winter"},
+    {"name": "Deepbite", "days": 30, "season": "Winter"},
+    {"name": "Ironwind", "days": 30, "season": "Winter"}
   ],
   "seasons": {
     "Spring": { "temp_band": "MID", "precipitation_chance": 0.4, "weather_type": "Rain" },
-    "Winter": { "temp_band": "LOW", "precipitation_chance": 0.6, "weather_type": "Snow" }
+    "Summer": { "temp_band": "HIGH", "precipitation_chance": 0.2, "weather_type": "Rain" },
+    "Autumn": { "temp_band": "MID", "precipitation_chance": 0.6, "weather_type": "Rain" },
+    "Winter": { "temp_band": "LOW", "precipitation_chance": 0.3, "weather_type": "Snow" }
   },
   "moons": [{"name": "Aetheris", "color": "Pale Blue"}],
-  "days_of_week": ["Firstday", "Midday", "Restday"]
+  "days_of_week": ["Firstday", "Midday", "Thirdday", "Moonday", "Titansday", "Starday", "Restday"]
 }
 
 def load_calendar():

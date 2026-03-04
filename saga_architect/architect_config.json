@@ -116,39 +116,80 @@
   ],
   "factions": [
     {
-      "name": "The_Rot_Coven",
-      "type": "SECLUDED",
-      "aggression": 0.9,
-      "expansion_rate": 0.6,
-      "food_consumption": 0.4,
-      "wealth_consumption": 0.2,
+      "name": "The_Empire",
+      "category": "NATION",
+      "type": "Empire",
+      "main_drive": "Growth",
+      "tech_level": 0.7,
+      "expansion_rate": 0.8,
+      "aggression": 0.5,
+      "resource_drive": "Iron",
+      "min_temp": -10,
+      "max_temp": 40,
+      "min_water": 0.2,
+      "max_water": 1.2
+    },
+    {
+      "name": "The_Order",
+      "category": "RELIGION",
+      "type": "Order",
+      "main_drive": "Morale/Happiness",
+      "tech_level": 0.4,
+      "expansion_rate": 0.2,
+      "aggression": 0.1,
+      "resource_drive": "Aetherium",
       "min_temp": 0,
       "max_temp": 50,
       "min_water": 0.5,
-      "max_water": 1.5,
-      "will_fight": true,
-      "will_farm": false,
-      "will_mine": true,
-      "will_hunt": true,
-      "will_trade": false,
-      "base_trade_value": 0.5,
-      "loved_resources": [
-        "Bones",
-        "Swamp_Gas"
-      ],
-      "hated_resources": [
-        "Iron"
-      ],
-      "required_resources": [
-        "Swamp_Gas"
-      ],
-      "preferred_biomes": [
-        "MUSHROOM_SWAMP"
-      ],
-      "building_preferences": [
-        "Bone_Hut"
-      ]
+      "max_water": 1.5
     }
   ],
-  "flora_fauna": []
+  "flora_fauna": [
+    {
+      "name": "Frost Troll",
+      "type": "FAUNA",
+      "is_aggressive": true,
+      "is_farmable": false,
+      "is_tameable": false,
+      "farm_yield_resource": "Hide",
+      "farm_yield_amount": 10,
+      "harvest_resource": "Bones",
+      "harvest_amount": 2,
+      "is_harvest_fatal": true,
+      "min_temp": -80,
+      "max_temp": 0,
+      "min_water": 0,
+      "max_water": 1,
+      "spawn_chance": 0.05,
+      "allowed_biomes": [
+        "DEEP_TUNDRA"
+      ],
+      "diet": [
+        "Meat"
+      ]
+    },
+    {
+      "name": "Sand Cactus",
+      "type": "FLORA",
+      "is_aggressive": false,
+      "is_farmable": true,
+      "is_tameable": false,
+      "farm_yield_resource": "Water",
+      "farm_yield_amount": 50,
+      "harvest_resource": "Cactus_Fruit",
+      "harvest_amount": 1,
+      "is_harvest_fatal": false,
+      "min_temp": 30,
+      "max_temp": 80,
+      "min_water": 0,
+      "max_water": 0.3,
+      "spawn_chance": 0.4,
+      "allowed_biomes": [
+        "SCORCHED_DESERT"
+      ],
+      "diet": [
+        "Sunlight"
+      ]
+    }
+  ]
 }

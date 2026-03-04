@@ -70,12 +70,14 @@ public:
     json jCells = json::array();
     for (const auto &cell : cells) {
       json cell_json;
-      cell_json["cell_id"] = cell.id;
-      cell_json["coord"] = {cell.x, cell.y};
+      cell_json["id"] = cell.id;
+      cell_json["x"] = cell.x;
+      cell_json["y"] = cell.y;
       cell_json["elevation"] = cell.elevation;
       cell_json["temperature"] = cell.temperature;
       cell_json["moisture"] = cell.moisture;
       cell_json["biome"] = cell.biome_tag;
+      cell_json["biome_tag"] = cell.biome_tag;
       cell_json["faction_owner"] = cell.faction_owner;
       cell_json["has_river"] = cell.has_river;
       cell_json["settlement"] = cell.settlement_name;

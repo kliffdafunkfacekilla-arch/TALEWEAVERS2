@@ -98,7 +98,8 @@ export function ActionDeck() {
                 addChatMessage({ sender: 'PLAYER', text: `I use ${card.name}.` });
 
                 try {
-                    const itemRes = await fetch('http://localhost:8005/items/resolve', {
+                    const itemFoundryUrl = import.meta.env.VITE_SAGA_ITEM_FOUNDRY_URL || 'http://localhost:8005';
+                    const itemRes = await fetch(`${itemFoundryUrl}/items/resolve`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -147,7 +148,8 @@ export function ActionDeck() {
                 // Also notify the Saga Director for narration
                 if (campaignId) {
                     try {
-                        const gmRes = await fetch('http://localhost:8000/api/campaign/action', {
+                        const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8000';
+                        const gmRes = await fetch(`${directorUrl}/api/campaign/action`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ campaign_id: campaignId, player_input: `I consumed the ${card.name}.` })
@@ -169,14 +171,15 @@ export function ActionDeck() {
 
                 if (campaignId) {
                     try {
-                        const res = await fetch('http://localhost:8000/api/campaign/action', {
+                        const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8000';
+                        const res = await fetch(`${directorUrl}/api/campaign/action`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 campaign_id: campaignId,
                                 player_input: actionText,
-                                stamina_burned: card.type !== 'MAGIC' ? card.stamina_cost : 0,
-                                focus_burned: card.type === 'MAGIC' ? card.stamina_cost : 0
+                                stamina_burned: card.type !== 'MAGIC' ? (card.stamina_cost || 0) : 0,
+                                focus_burned: card.type === 'MAGIC' ? (card.stamina_cost || 0) : 0
                             })
                         });
 
@@ -187,7 +190,7 @@ export function ActionDeck() {
                         if (data.narration) addChatMessage({ sender: 'AI_DIRECTOR', text: data.narration });
 
                         // Centralized update for HP sync and victory
-                        useGameStore.getState().syncCombatState({
+                        useGameStore.getState().syncCombatState?.({
                             ...data,
                             targetId: selectedTargetId
                         });
@@ -222,7 +225,8 @@ export function ActionDeck() {
                     const leadVal = card.lead_stat ? (attrs[card.lead_stat] || 0) : 0;
                     const trailVal = card.trail_stat ? (attrs[card.trail_stat] || 0) : 0;
 
-                    const skillRes = await fetch('http://localhost:8006/api/skills/roll', {
+                    const skillEngineUrl = import.meta.env.VITE_SAGA_SKILL_ENGINE_URL || 'http://localhost:8006';
+                    const skillRes = await fetch(`${skillEngineUrl}/api/skills/roll`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -241,8 +245,8 @@ export function ActionDeck() {
                     const skillData = await skillRes.json();
 
                     // Deduct stamina cost
-                    if (card.stamina_cost > 0) {
-                        const newStamina = Math.max(0, vitals.stamina.current - card.stamina_cost);
+                    if ((card.stamina_cost || 0) > 0) {
+                        const newStamina = Math.max(0, vitals.stamina.current - (card.stamina_cost || 0));
                         setPlayerVitals({ current_stamina: newStamina });
                     }
 
@@ -259,7 +263,8 @@ export function ActionDeck() {
                     // Ask the Saga Director (Port 8000) to narrate the success/failure
                     if (campaignId) {
                         try {
-                            const gmRes = await fetch('http://localhost:8000/api/campaign/action', {
+                            const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8000';
+                            const gmRes = await fetch(`${directorUrl}/api/campaign/action`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
@@ -277,11 +282,11 @@ export function ActionDeck() {
                     addChatMessage({ sender: 'SYSTEM', text: `[ERROR] Skill Engine offline: ${err}` });
 
                     // Fallback: deduct stamina locally even if port 8006 is down
-                    if (card.stamina_cost > 0) {
-                        const newStamina = Math.max(0, vitals.stamina.current - card.stamina_cost);
+                    if ((card.stamina_cost || 0) > 0) {
+                        const newStamina = Math.max(0, vitals.stamina.current - (card.stamina_cost || 0));
                         setPlayerVitals({ current_stamina: newStamina });
                     }
-                    addChatMessage({ sender: 'SYSTEM', text: `SKILL: ${card.name} activated locally. −${card.stamina_cost} Stamina.` });
+                    addChatMessage({ sender: 'SYSTEM', text: `SKILL: ${card.name} activated locally. −${card.stamina_cost || 0} Stamina.` });
                 }
             }
 
@@ -376,7 +381,7 @@ export function ActionDeck() {
                                     <div className="flex justify-between items-center bg-zinc-950 p-1 px-2 border border-zinc-800">
                                         <span className="text-[9px] text-zinc-500 uppercase">Cost</span>
                                         <div className="flex gap-1 font-mono text-[10px] font-bold">
-                                            {card.stamina_cost > 0 ? <span className="text-amber-500">{card.stamina_cost} STM</span> : <span className="text-zinc-500">FREE</span>}
+                                            {(card.stamina_cost || 0) > 0 ? <span className="text-amber-500">{card.stamina_cost} STM</span> : <span className="text-zinc-500">FREE</span>}
                                         </div>
                                     </div>
 
