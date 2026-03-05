@@ -48,7 +48,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const viewLens = useWorldStore((s) => s.viewLens);
     const setViewLens = useWorldStore((s) => s.setViewLens);
 
-    const [activeTab, setActiveTab] = useState<'PAINTING' | 'LORE' | 'GEOGRAPHY' | 'CLIMATE' | 'BIOMES' | 'RESOURCES' | 'ECOSYSTEM' | 'CULTURES' | 'FACTIONS' | 'CHRONOS'>('PAINTING');
+    const [activeTab, setActiveTab] = useState<'PAINTING' | 'LORE' | 'GEOGRAPHY' | 'CLIMATE' | 'BIOMES' | 'RESOURCES' | 'ECOSYSTEM' | 'CULTURES' | 'FACTIONS' | 'CHRONOS' | 'BUILDINGS' | 'RELIGIONS'>('PAINTING');
     const [isGenerating, setIsGenerating] = useState(false);
 
     // --- LORE VAULT STATE (PORT 8001) ---
@@ -91,11 +91,20 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const [windBands, setWindBands] = useState(["E", "NE", "W", "E", "W", "SE", "E"]);
 
     // --- 3. BIOME & RESOURCE STATE ---
+    // --- 3. BIOME & RESOURCE STATE ---
+    // Complete Whittaker Biome Diagram to prevent WASTELAND fallback gaps
     const [biomes, setBiomes] = useState([
         { name: "DEEP_TUNDRA", min_temp: -80.0, max_temp: -5.0, min_rain: 0.0, max_rain: 1.0 },
-        { name: "SCORCHED_DESERT", min_temp: 30.0, max_temp: 60.0, min_rain: 0.0, max_rain: 0.3 },
-        { name: "LUSH_JUNGLE", min_temp: 20.0, max_temp: 50.0, min_rain: 0.7, max_rain: 1.0 },
-        { name: "MUSHROOM_SWAMP", min_temp: 10.0, max_temp: 40.0, min_rain: 0.6, max_rain: 1.0 }
+        { name: "TUNDRA", min_temp: -5.0, max_temp: 5.0, min_rain: 0.0, max_rain: 1.0 },
+        { name: "BOREAL_FOREST", min_temp: 5.0, max_temp: 15.0, min_rain: 0.3, max_rain: 1.0 },
+        { name: "TAIGA", min_temp: 5.0, max_temp: 15.0, min_rain: 0.0, max_rain: 0.3 },
+        { name: "TEMPERATE_FOREST", min_temp: 15.0, max_temp: 25.0, min_rain: 0.4, max_rain: 1.0 },
+        { name: "GRASSLAND", min_temp: 15.0, max_temp: 25.0, min_rain: 0.1, max_rain: 0.4 },
+        { name: "WASTELAND", min_temp: 15.0, max_temp: 25.0, min_rain: 0.0, max_rain: 0.1 },
+        { name: "LUSH_JUNGLE", min_temp: 25.0, max_temp: 60.0, min_rain: 0.6, max_rain: 1.0 },
+        { name: "SAVANNA", min_temp: 25.0, max_temp: 60.0, min_rain: 0.2, max_rain: 0.6 },
+        { name: "SCORCHED_DESERT", min_temp: 25.0, max_temp: 60.0, min_rain: 0.0, max_rain: 0.2 },
+        { name: "MUSHROOM_SWAMP", min_temp: 10.0, max_temp: 40.0, min_rain: 0.8, max_rain: 1.0 }
     ]);
     const [resources, setResources] = useState([
         { name: "Iron", scarcity: 0.3, is_infinite: false, type: "NATURAL", sources: ["MOUNTAIN", "HILL"] },
@@ -104,13 +113,13 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     ]);
 
     // --- 4. ECOSYSTEM STATE ---
-    const [lifeforms, setLifeforms] = useState([
+    const [lifeforms, setLifeforms] = useState<any[]>([
         { name: "Frost Troll", type: "FAUNA", is_aggressive: true, is_farmable: false, is_tameable: false, farm_yield_resource: "Hide", farm_yield_amount: 10, harvest_resource: "Bones", harvest_amount: 2, is_harvest_fatal: true, min_temp: -80, max_temp: 0, min_water: 0.0, max_water: 1.0, spawn_chance: 0.05, allowed_biomes: ["DEEP_TUNDRA"], diet: ["Meat"] },
         { name: "Sand Cactus", type: "FLORA", is_aggressive: false, is_farmable: true, is_tameable: false, farm_yield_resource: "Water", farm_yield_amount: 50, harvest_resource: "Cactus_Fruit", harvest_amount: 1, is_harvest_fatal: false, min_temp: 30, max_temp: 80, min_water: 0.0, max_water: 0.3, spawn_chance: 0.40, allowed_biomes: ["SCORCHED_DESERT"], diet: ["Sunlight"] }
     ]);
 
     // --- 5. CULTURE STATE ---
-    const [cultures, setCultures] = useState([
+    const [cultures, setCultures] = useState<any[]>([
         {
             name: "Humans",
             resource_dependencies: ["Wood", "Food"],
@@ -123,7 +132,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     ]);
 
     // --- 6. FACTION STATE ---
-    const [factions, setFactions] = useState([
+    const [factions, setFactions] = useState<any[]>([
         {
             name: "The_Empire",
             category: "NATION",
@@ -148,6 +157,42 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             min_temp: 0, max_temp: 50,
             min_water: 0.5, max_water: 1.5
         }
+    ]);
+
+    // --- 7. RELIGION STATE ---
+    const [religions, setReligions] = useState<any[]>([
+        {
+            name: "Animism",
+            deity: "The Earth Mother",
+            expansion_rate: 1.0,
+            core_tenets: ["Respect Nature", "Balance"]
+        },
+        {
+            name: "The_Light",
+            deity: "Sol",
+            expansion_rate: 2.0,
+            core_tenets: ["Purge the Dark", "Order above all"]
+        }
+    ]);
+
+    // --- 8. BUILDING STATE ---
+    const [buildings, setBuildings] = useState<any[]>([
+        { name: "Lumber_Camp", type: "Economic", minimum_tier: 1, build_cost: { Wood: 50 }, upkeep: { Food: 2 }, production: { Wood: 10 } },
+        { name: "Mine", type: "Economic", minimum_tier: 2, build_cost: { Wood: 100, Stone: 50 }, upkeep: { Food: 5 }, production: { Iron_Ore: 5, Coal: 5 } },
+        { name: "Quarry", type: "Economic", minimum_tier: 1, build_cost: { Wood: 50 }, upkeep: { Food: 3 }, production: { Stone: 15 } },
+        { name: "Farm", type: "Economic", minimum_tier: 1, build_cost: { Wood: 20 }, upkeep: { Water: 5 }, production: { Food: 20 } },
+        { name: "Fishing_Village", type: "Economic", minimum_tier: 1, build_cost: { Wood: 80 }, upkeep: { Wood: 2 }, production: { Food: 15 } },
+        { name: "Church", type: "Civic", minimum_tier: 2, build_cost: { Stone: 150, Wood: 50 }, upkeep: { Wealth: 5 }, production: { Faith: 10 } },
+        { name: "Graveyard", type: "Civic", minimum_tier: 1, build_cost: { Stone: 30 }, upkeep: { Wealth: 1 }, production: { Morale: 2 } },
+        { name: "Cave", type: "Adventure", minimum_tier: 0, build_cost: {}, upkeep: {}, production: {} },
+        { name: "Ruins", type: "Adventure", minimum_tier: 0, build_cost: {}, upkeep: {}, production: {} },
+        { name: "Hideout", type: "Adventure", minimum_tier: 0, build_cost: {}, upkeep: {}, production: {} },
+        { name: "Monster_Lair", type: "Adventure", minimum_tier: 0, build_cost: {}, upkeep: {}, production: {} },
+        { name: "Beast_Den", type: "Adventure", minimum_tier: 0, build_cost: {}, upkeep: {}, production: {} },
+        { name: "Dungeon", type: "Adventure", minimum_tier: 0, build_cost: {}, upkeep: {}, production: {} },
+        { name: "Crypt", type: "Adventure", minimum_tier: 0, build_cost: {}, upkeep: {}, production: {} },
+        { name: "Underground_Tunnel", type: "Adventure", minimum_tier: 0, build_cost: {}, upkeep: {}, production: {} },
+        { name: "Ancient_Sewer", type: "Adventure", minimum_tier: 0, build_cost: {}, upkeep: {}, production: {} },
     ]);
 
     const fetchLoreEntities = async () => {
@@ -248,7 +293,9 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             resources: resources,
             flora_fauna: lifeforms,
             cultures: cultures,
-            factions: factions
+            factions: factions,
+            religions: religions,
+            buildings: buildings
         };
 
 
@@ -260,8 +307,16 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             });
             if (!response.ok) throw new Error("C++ Engine Error");
             const result = await response.json();
-            setWorldData(result.world_data);
-            console.log("[VTT] God Engine Simulation Complete. Saved to Zustand.");
+            console.log("[VTT] God Engine Complete.", result.world_data?.hex_count, "hexes generated");
+
+            // Load visual-only map layer (~12MB instead of 252MB full data)
+            const architectUrl = import.meta.env.VITE_SAGA_ARCHITECT_URL || "http://localhost:8002";
+            const visRes = await fetch(architectUrl + "/api/world/visual");
+            if (visRes.ok) {
+                const visData = await visRes.json();
+                setWorldData({ metadata: result.world_data?.metadata || { world_name: "Generated", map_type: "voronoi", cell_count: visData.hex_count }, time_rules: result.world_data?.time_rules, factions: result.world_data?.factions, macro_map: visData.macro_map, road_network: [] });
+                console.log("[VTT] Visual layer loaded:", visData.hex_count, "hexes");
+            }
         } catch (err) {
             console.error("API Call failed:", err);
             alert(`Failed to reach World Architect at ${import.meta.env.VITE_SAGA_ARCHITECT_URL || "http://localhost:8002"}. Is saga_architect running?`);
@@ -316,6 +371,18 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
         setFactions(newList);
     };
 
+    const updateReligion = (index: number, field: string, value: any) => {
+        const newList = [...religions];
+        newList[index] = { ...newList[index], [field]: value };
+        setReligions(newList);
+    };
+
+    const updateBuilding = (index: number, field: string, value: any) => {
+        const newList = [...buildings];
+        newList[index] = { ...newList[index], [field]: value };
+        setBuildings(newList);
+    };
+
     const updateHeightmapStep = (index: number, field: string, value: any) => {
         const newList = [...heightmapSteps];
         newList[index] = { ...newList[index], [field]: value };
@@ -358,7 +425,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     };
 
     return (
-        <div className="w-full h-full flex bg-zinc-950 text-white font-sans overflow-hidden">
+        <div className="w-screen h-screen flex bg-zinc-950 text-white font-sans overflow-hidden">
             <datalist id="lore-factions">
                 {loreFactions.map((f, idx) => <option key={idx} value={f.title} />)}
             </datalist>
@@ -384,6 +451,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                         { id: 'ECOSYSTEM', icon: Leaf, label: 'Ecosystem' },
                         { id: 'CULTURES', icon: Users, label: 'Cultures' },
                         { id: 'FACTIONS', icon: Flag, label: 'Factions' },
+                        { id: 'RELIGIONS', icon: CloudSun, label: 'Religions' },
+                        { id: 'BUILDINGS', icon: Pickaxe, label: 'Buildings' },
                         { id: 'CHRONOS', icon: Timer, label: 'Chronos' },
                     ].map((tab) => {
                         const Icon = tab.icon;
@@ -777,8 +846,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                                         {/* Move Controls */}
                                         <div className="flex gap-1 justify-end px-1">
                                             <span className="text-[8px] text-zinc-600 uppercase font-bold self-center mr-1">Move To:</span>
-                                            <button onClick={() => moveEntity(lf.type, i, lf.type === 'FAUNA' ? 'FLORA' : 'FAUNA')} className="px-2 py-0.5 border border-zinc-800 text-[8px] text-zinc-400 hover:text-green-500 uppercase">{lf.type === 'FAUNA' ? 'Flora' : 'Fauna'}</button>
-                                            <button onClick={() => moveEntity(lf.type, i, 'FACTION')} className="px-2 py-0.5 border border-zinc-800 text-[8px] text-zinc-400 hover:text-red-500 uppercase">Faction</button>
+                                            <button onClick={() => moveEntity(lf.type as any, i, lf.type === 'FAUNA' ? 'FLORA' : 'FAUNA')} className="px-2 py-0.5 border border-zinc-800 text-[8px] text-zinc-400 hover:text-green-500 uppercase">{lf.type === 'FAUNA' ? 'Flora' : 'Fauna'}</button>
+                                            <button onClick={() => moveEntity(lf.type as any, i, 'FACTION')} className="px-2 py-0.5 border border-zinc-800 text-[8px] text-zinc-400 hover:text-red-500 uppercase">Faction</button>
                                         </div>
                                         <div className="flex flex-col gap-3 mt-2 mb-2">
                                             <div className="flex flex-col gap-1 w-full text-xs">
@@ -1049,6 +1118,148 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                             </div>
                         )}
 
+                        {/* RELIGIONS TAB */}
+                        {activeTab === 'RELIGIONS' && (
+                            <div className="space-y-4">
+                                <label className="text-purple-400 font-bold uppercase mb-2 block tracking-widest">Global Religions</label>
+                                {religions.map((r: any, i) => (
+                                    <div key={i} className="p-3 border border-zinc-800 bg-zinc-950 flex flex-col gap-3">
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                value={r.name}
+                                                onChange={e => updateReligion(i, 'name', e.target.value)}
+                                                className="flex-grow bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold"
+                                                placeholder="Religion Name"
+                                            />
+                                            <button onClick={() => setReligions(religions.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2 h-full border-l border-zinc-800">X</button>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                value={r.deity || ""}
+                                                onChange={e => updateReligion(i, 'deity', e.target.value)}
+                                                className="w-full bg-zinc-900 border border-zinc-700 p-1.5 text-white text-[10px]"
+                                                placeholder="Deity / Focus"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-1 w-full text-xs border-t border-zinc-900 pt-2">
+                                            <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase"><span>Expansion Rate</span> <span className="text-white font-mono">{Number(r.expansion_rate).toFixed(1)}x</span></div>
+                                            <input type="range" step="0.1" min="0" max="5" value={r.expansion_rate} onChange={e => updateReligion(i, 'expansion_rate', Number(e.target.value))} className="w-full h-1 bg-zinc-700 appearance-none accent-purple-500" />
+                                        </div>
+                                        <div className="flex flex-col gap-1 text-xs">
+                                            <span className="text-zinc-500 text-[9px] uppercase font-bold">Core Tenets:</span>
+                                            <input
+                                                type="text"
+                                                value={r.core_tenets?.join(', ') || ""}
+                                                onChange={e => updateReligion(i, 'core_tenets', e.target.value.split(',').map(s => s.trim()))}
+                                                className="w-full bg-zinc-900 border border-zinc-700 p-1 text-white placeholder:text-zinc-700"
+                                                placeholder="Tenet 1, Tenet 2..."
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                                <div className="grid grid-cols-1 gap-2">
+                                    <button onClick={() => setReligions([...religions, { name: "New Religion", deity: "Unknown", expansion_rate: 1.0, core_tenets: [] }])} className="w-full border border-dashed border-purple-800 text-purple-400 py-2 hover:bg-purple-900/20 transition-colors text-xs uppercase tracking-wider font-bold">+ Add Religion</button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* BUILDINGS TAB */}
+                        {activeTab === 'BUILDINGS' && (
+                            <div className="space-y-4">
+                                <label className="text-orange-400 font-bold uppercase mb-2 block tracking-widest">Building Templates & Resource Gatherers</label>
+                                <p className="text-[10px] text-zinc-400 leading-tight mb-2">Define the structures that logic instances will place to harvest resources.</p>
+                                {buildings.map((b: any, i) => (
+                                    <div key={i} className="p-3 border border-zinc-800 bg-zinc-950 flex flex-col gap-3">
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                value={b.name}
+                                                onChange={e => updateBuilding(i, 'name', e.target.value)}
+                                                className="flex-grow bg-zinc-900 border border-zinc-700 p-1.5 text-white text-xs font-bold"
+                                                placeholder="Building Name"
+                                            />
+                                            <select
+                                                value={b.type || "Economic"}
+                                                onChange={e => updateBuilding(i, 'type', e.target.value)}
+                                                className="w-24 bg-zinc-900 border border-zinc-700 p-1 text-zinc-400 text-[10px] font-bold h-full"
+                                            >
+                                                <option value="Economic">Economic</option>
+                                                <option value="Military">Military</option>
+                                                <option value="Civic">Civic</option>
+                                            </select>
+                                            <button onClick={() => setBuildings(buildings.filter((_, idx) => idx !== i))} className="text-zinc-500 hover:text-red-500 font-bold px-2 h-full border-l border-zinc-800">X</button>
+                                        </div>
+
+                                        <div className="flex items-center gap-2 text-xs border-t border-zinc-900 pt-2">
+                                            <span className="text-zinc-500 w-24 text-[9px] uppercase font-bold">Min Tier (1-5):</span>
+                                            <input
+                                                type="number" min="1" max="5"
+                                                value={b.minimum_tier}
+                                                onChange={e => updateBuilding(i, 'minimum_tier', Number(e.target.value))}
+                                                className="w-16 bg-zinc-900 border border-zinc-700 p-1 text-white text-center text-[10px]"
+                                            />
+                                        </div>
+
+                                        <div className="bg-zinc-900/50 p-2 border border-zinc-900 space-y-2">
+                                            <span className="text-orange-500 text-[9px] uppercase font-bold block mb-1">Production (Yield):</span>
+                                            <div className="flex gap-2">
+                                                <input
+                                                    type="text" placeholder="Resource (e.g. Iron_Ore)"
+                                                    value={Object.keys(b.production || {})[0] || ""}
+                                                    onChange={e => {
+                                                        const key = e.target.value;
+                                                        const val = Object.values(b.production || {})[0] || 1;
+                                                        updateBuilding(i, 'production', key ? { [key]: val } : {});
+                                                    }}
+                                                    className="flex-grow bg-zinc-950 border border-zinc-800 p-1 text-white text-[10px]"
+                                                />
+                                                <input
+                                                    type="number" placeholder="Amt"
+                                                    value={Number(Object.values(b.production || {})[0] || 0)}
+                                                    onChange={e => {
+                                                        const key = Object.keys(b.production || {})[0] || "Custom_Resource";
+                                                        updateBuilding(i, 'production', { [key]: Number(e.target.value) });
+                                                    }}
+                                                    className="w-16 bg-zinc-950 border border-zinc-800 p-1 text-white text-center text-[10px]"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-zinc-900/50 p-2 border border-zinc-900 space-y-2">
+                                            <span className="text-red-400 text-[9px] uppercase font-bold block mb-1">Upkeep / Cost:</span>
+                                            <div className="flex gap-2">
+                                                <input
+                                                    type="text" placeholder="Resource (e.g. Food)"
+                                                    value={Object.keys(b.upkeep || {})[0] || ""}
+                                                    onChange={e => {
+                                                        const key = e.target.value;
+                                                        const val = Object.values(b.upkeep || {})[0] || 1;
+                                                        updateBuilding(i, 'upkeep', key ? { [key]: val } : {});
+                                                    }}
+                                                    className="flex-grow bg-zinc-950 border border-zinc-800 p-1 text-white text-[10px]"
+                                                />
+                                                <input
+                                                    type="number" placeholder="Amt"
+                                                    value={Number(Object.values(b.upkeep || {})[0] || 0)}
+                                                    onChange={e => {
+                                                        const key = Object.keys(b.upkeep || {})[0] || "Food";
+                                                        updateBuilding(i, 'upkeep', { [key]: Number(e.target.value) });
+                                                    }}
+                                                    className="w-16 bg-zinc-950 border border-zinc-800 p-1 text-white text-center text-[10px]"
+                                                />
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                ))}
+                                <div className="grid grid-cols-1 gap-2">
+                                    <button onClick={() => setBuildings([...buildings, { name: "New Extractor", type: "Economic", minimum_tier: 1, build_cost: { Wood: 50 }, upkeep: { Food: 1 }, production: { Custom_Resource: 10 } }])} className="w-full border border-dashed border-orange-800 text-orange-400 py-2 hover:bg-orange-900/20 transition-colors text-xs uppercase tracking-wider font-bold">+ Add Custom Extractor</button>
+                                </div>
+                            </div>
+                        )}
+
                         {/* PAINTING TAB (The Architect's Palette) */}
                         {activeTab === 'PAINTING' && (
                             <div className="space-y-6">
@@ -1142,85 +1353,85 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                 </div>
             </div>
 
-                {/* CENTER: The Map Canvas */}
-                <div className="flex-grow relative bg-[#050505] overflow-hidden">
-                    <MapRenderer />
+            {/* CENTER: The Map Canvas */}
+            <div className="flex-grow relative bg-[#050505] overflow-hidden">
+                <MapRenderer />
 
-                    {/* --- TOP LEFT: VIEW LENSES --- */}
-                    <div className="absolute top-4 left-4 flex flex-col space-y-2 z-20">
-                        {['PHYSICAL', 'POLITICAL', 'RESOURCE', 'THREAT'].map(lens => (
-                            <button
-                                key={lens}
-                                onClick={() => setViewLens(lens as any)}
-                                className={`px-3 py-2 text-[10px] font-bold uppercase tracking-widest border transition-all ${viewLens === lens ? 'bg-amber-600 text-black border-amber-500' : 'bg-zinc-900/80 text-zinc-400 border-zinc-700 hover:text-white'}`}
-                            >
-                                {lens} LENS
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* --- TOP LEFT: VIEW LENSES --- */}
-
-                    {/* Hex Inspector HUD */}
-                    {selectedHex && (
-                        <div className="absolute top-6 right-6 w-72 bg-zinc-900/95 border border-amber-900/50 p-5 shadow-2xl backdrop-blur-md z-20">
-                            <h4 className="text-sm font-bold text-amber-500 uppercase tracking-widest mb-3 border-b border-zinc-800 pb-2 flex justify-between">
-                                <span>Hex #{selectedHex.id}</span>
-                                <span className="text-zinc-500">[{Math.round(selectedHex.x)}, {Math.round(selectedHex.y)}]</span>
-                            </h4>
-
-                            <ul className="text-xs font-mono space-y-2">
-                                <li className="flex justify-between"><span className="text-zinc-500">Biome</span><span className="text-white font-bold">{selectedHex.biome_tag || "Unknown"}</span></li>
-                                <li className="flex justify-between"><span className="text-zinc-500">Elevation</span><span className="text-white">{((selectedHex.elevation || 0) * 100).toFixed(1)}%</span></li>
-                                <li className="flex justify-between"><span className="text-zinc-500">Temp</span><span className="text-red-400">{(selectedHex.temperature || 0).toFixed(1)}°C</span></li>
-                                <li className="flex justify-between"><span className="text-zinc-500">Moisture</span><span className="text-blue-400">{((selectedHex.moisture || 0) * 100).toFixed(0)}%</span></li>
-                                <li className="flex justify-between"><span className="text-zinc-500">Wind</span><span className="text-zinc-300">[{(selectedHex.wind_dx || 0).toFixed(1)}, {(selectedHex.wind_dy || 0).toFixed(1)}]</span></li>
-                            </ul>
-
-                            <div className="mt-4 pt-3 border-t border-zinc-800 space-y-3">
-                                {selectedHex.faction_owner ? (
-                                    <div>
-                                        <span className="text-[10px] text-zinc-500 uppercase block">Territory</span>
-                                        <span className="text-xs font-bold text-red-400">{selectedHex.faction_owner}</span>
-                                    </div>
-                                ) : <span className="text-[10px] text-zinc-600 uppercase italic block mb-2">Unclaimed Territory</span>}
-
-                                {selectedHex.local_fauna?.length > 0 && (
-                                    <div>
-                                        <span className="text-[10px] text-zinc-500 uppercase block mb-1">Local Fauna</span>
-                                        <div className="flex flex-wrap gap-1">
-                                            {selectedHex.local_fauna.map((lf: string) => (
-                                                <span key={lf} className="px-2 py-1 bg-zinc-950 border border-zinc-800 text-[10px] text-red-400">{lf}</span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {selectedHex.local_flora?.length > 0 && (
-                                    <div>
-                                        <span className="text-[10px] text-zinc-500 uppercase block mb-1 mt-2">Local Flora</span>
-                                        <div className="flex flex-wrap gap-1">
-                                            {selectedHex.local_flora.map((lf: string) => (
-                                                <span key={lf} className="px-2 py-1 bg-zinc-950 border border-zinc-800 text-[10px] text-green-400">{lf}</span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {selectedHex.local_resources?.length > 0 && (
-                                    <div>
-                                        <span className="text-[10px] text-zinc-500 uppercase block mb-1 mt-2">Natural Resources</span>
-                                        <div className="flex flex-wrap gap-1">
-                                            {selectedHex.local_resources.map((lf: string) => (
-                                                <span key={lf} className="px-2 py-1 bg-zinc-950 border border-amber-900/40 text-[10px] text-yellow-500">{lf}</span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
+                {/* --- TOP LEFT: VIEW LENSES --- */}
+                <div className="absolute top-4 left-4 flex flex-col space-y-2 z-20">
+                    {['PHYSICAL', 'POLITICAL', 'RESOURCE', 'THREAT'].map(lens => (
+                        <button
+                            key={lens}
+                            onClick={() => setViewLens(lens as any)}
+                            className={`px-3 py-2 text-[10px] font-bold uppercase tracking-widest border transition-all ${viewLens === lens ? 'bg-amber-600 text-black border-amber-500' : 'bg-zinc-900/80 text-zinc-400 border-zinc-700 hover:text-white'}`}
+                        >
+                            {lens} LENS
+                        </button>
+                    ))}
                 </div>
+
+                {/* --- TOP LEFT: VIEW LENSES --- */}
+
+                {/* Hex Inspector HUD */}
+                {selectedHex && (
+                    <div className="absolute top-6 right-6 w-72 bg-zinc-900/95 border border-amber-900/50 p-5 shadow-2xl backdrop-blur-md z-20">
+                        <h4 className="text-sm font-bold text-amber-500 uppercase tracking-widest mb-3 border-b border-zinc-800 pb-2 flex justify-between">
+                            <span>Hex #{selectedHex.id}</span>
+                            <span className="text-zinc-500">[{Math.round(selectedHex.x)}, {Math.round(selectedHex.y)}]</span>
+                        </h4>
+
+                        <ul className="text-xs font-mono space-y-2">
+                            <li className="flex justify-between"><span className="text-zinc-500">Biome</span><span className="text-white font-bold">{selectedHex.biome_tag || "Unknown"}</span></li>
+                            <li className="flex justify-between"><span className="text-zinc-500">Elevation</span><span className="text-white">{((selectedHex.elevation || 0) * 100).toFixed(1)}%</span></li>
+                            <li className="flex justify-between"><span className="text-zinc-500">Temp</span><span className="text-red-400">{(selectedHex.temperature || 0).toFixed(1)}°C</span></li>
+                            <li className="flex justify-between"><span className="text-zinc-500">Moisture</span><span className="text-blue-400">{((selectedHex.moisture || 0) * 100).toFixed(0)}%</span></li>
+                            <li className="flex justify-between"><span className="text-zinc-500">Wind</span><span className="text-zinc-300">[{(selectedHex.wind_dx || 0).toFixed(1)}, {(selectedHex.wind_dy || 0).toFixed(1)}]</span></li>
+                        </ul>
+
+                        <div className="mt-4 pt-3 border-t border-zinc-800 space-y-3">
+                            {selectedHex.faction_owner ? (
+                                <div>
+                                    <span className="text-[10px] text-zinc-500 uppercase block">Territory</span>
+                                    <span className="text-xs font-bold text-red-400">{selectedHex.faction_owner}</span>
+                                </div>
+                            ) : <span className="text-[10px] text-zinc-600 uppercase italic block mb-2">Unclaimed Territory</span>}
+
+                            {selectedHex.local_fauna?.length > 0 && (
+                                <div>
+                                    <span className="text-[10px] text-zinc-500 uppercase block mb-1">Local Fauna</span>
+                                    <div className="flex flex-wrap gap-1">
+                                        {selectedHex.local_fauna.map((lf: string) => (
+                                            <span key={lf} className="px-2 py-1 bg-zinc-950 border border-zinc-800 text-[10px] text-red-400">{lf}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {selectedHex.local_flora?.length > 0 && (
+                                <div>
+                                    <span className="text-[10px] text-zinc-500 uppercase block mb-1 mt-2">Local Flora</span>
+                                    <div className="flex flex-wrap gap-1">
+                                        {selectedHex.local_flora.map((lf: string) => (
+                                            <span key={lf} className="px-2 py-1 bg-zinc-950 border border-zinc-800 text-[10px] text-green-400">{lf}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {selectedHex.local_resources?.length > 0 && (
+                                <div>
+                                    <span className="text-[10px] text-zinc-500 uppercase block mb-1 mt-2">Natural Resources</span>
+                                    <div className="flex flex-wrap gap-1">
+                                        {selectedHex.local_resources.map((lf: string) => (
+                                            <span key={lf} className="px-2 py-1 bg-zinc-950 border border-amber-900/40 text-[10px] text-yellow-500">{lf}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

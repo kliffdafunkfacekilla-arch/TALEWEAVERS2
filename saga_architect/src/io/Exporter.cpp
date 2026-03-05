@@ -81,6 +81,9 @@ public:
       cell_json["faction_owner"] = cell.faction_owner;
       cell_json["has_river"] = cell.has_river;
       cell_json["settlement"] = cell.settlement_name;
+      cell_json["settlement_tier"] = cell.settlement_tier;
+      cell_json["dominant_religion"] = cell.dominant_religion;
+      cell_json["constructed_buildings"] = cell.constructed_buildings;
       cell_json["available_resources"] = cell.available_resources;
       cell_json["local_resources"] = cell.local_resources;
       cell_json["local_fauna"] = cell.local_fauna;

@@ -2,16 +2,17 @@
 #include <algorithm>
 #include <iostream>
 
-
-void EconomyEngine::UpdateEconomy(std::vector<VoronoiCell> &cells) {
+void EconomyEngine::UpdateEconomy(std::vector<VoronoiCell> &cells,
+                                  const std::vector<BuildingDef> &buildings) {
   for (auto &cell : cells) {
     if (!cell.settlement_name.empty() || cell.is_city) {
-      Produce(cell);
+      Produce(cell, buildings);
     }
   }
 }
 
-void EconomyEngine::Produce(VoronoiCell &cell) {
+void EconomyEngine::Produce(VoronoiCell &cell,
+                            const std::vector<BuildingDef> &buildings) {
   // Basic production logic: iterate through local resources and generate supply
   for (const auto &res : cell.local_resources) {
     // Simple increment for now, could be scaled by production_rate
@@ -26,6 +27,23 @@ void EconomyEngine::Produce(VoronoiCell &cell) {
   if (cell.is_city) {
     cell.market_state["Luxury_Goods"] -= 0.1f;
     cell.market_state["Aetherium"] -= 0.05f;
+  }
+
+  // DEEP BUILDING LOGIC (Consume upkeep, yield production)
+  for (const std::string &b_name : cell.constructed_buildings) {
+    for (const auto &bdef : buildings) {
+      if (bdef.name == b_name) {
+        // Upkeep (Consumption)
+        for (const auto &[req_res, amount] : bdef.upkeep) {
+          cell.market_state[req_res] -= amount;
+        }
+        // Production (Yield)
+        for (const auto &[prod_res, amount] : bdef.production) {
+          cell.market_state[prod_res] += amount;
+        }
+        break;
+      }
+    }
   }
 }
 

@@ -5,60 +5,7 @@
     "height": 400,
     "tectonic_plates": 15,
     "heightmap_image": "",
-    "heightmap_steps": [
-      {
-        "tool": "Hill",
-        "count": 200,
-        "height": 0.15,
-        "range_x": [
-          0,
-          1
-        ],
-        "range_y": [
-          0,
-          1
-        ]
-      },
-      {
-        "tool": "Range",
-        "count": 10,
-        "height": 0.4,
-        "range_x": [
-          0.1,
-          0.9
-        ],
-        "range_y": [
-          0.1,
-          0.9
-        ]
-      },
-      {
-        "tool": "Pit",
-        "count": 50,
-        "height": 0.1,
-        "range_x": [
-          0,
-          1
-        ],
-        "range_y": [
-          0,
-          1
-        ]
-      },
-      {
-        "tool": "Smooth",
-        "count": 2,
-        "height": 0,
-        "range_x": [
-          0,
-          1
-        ],
-        "range_y": [
-          0,
-          1
-        ]
-      }
-    ]
+    "heightmap_steps": []
   },
   "climate": {
     "north_pole": [
@@ -93,24 +40,73 @@
       "max_rain": 1
     },
     {
-      "name": "SCORCHED_DESERT",
-      "min_temp": 30,
-      "max_temp": 60,
+      "name": "TUNDRA",
+      "min_temp": -5,
+      "max_temp": 5,
+      "min_rain": 0,
+      "max_rain": 1
+    },
+    {
+      "name": "BOREAL_FOREST",
+      "min_temp": 5,
+      "max_temp": 15,
+      "min_rain": 0.3,
+      "max_rain": 1
+    },
+    {
+      "name": "TAIGA",
+      "min_temp": 5,
+      "max_temp": 15,
       "min_rain": 0,
       "max_rain": 0.3
     },
     {
-      "name": "LUSH_JUNGLE",
-      "min_temp": 20,
-      "max_temp": 50,
-      "min_rain": 0.7,
+      "name": "TEMPERATE_FOREST",
+      "min_temp": 15,
+      "max_temp": 25,
+      "min_rain": 0.4,
       "max_rain": 1
+    },
+    {
+      "name": "GRASSLAND",
+      "min_temp": 15,
+      "max_temp": 25,
+      "min_rain": 0.1,
+      "max_rain": 0.4
+    },
+    {
+      "name": "WASTELAND",
+      "min_temp": 15,
+      "max_temp": 25,
+      "min_rain": 0,
+      "max_rain": 0.1
+    },
+    {
+      "name": "LUSH_JUNGLE",
+      "min_temp": 25,
+      "max_temp": 60,
+      "min_rain": 0.6,
+      "max_rain": 1
+    },
+    {
+      "name": "SAVANNA",
+      "min_temp": 25,
+      "max_temp": 60,
+      "min_rain": 0.2,
+      "max_rain": 0.6
+    },
+    {
+      "name": "SCORCHED_DESERT",
+      "min_temp": 25,
+      "max_temp": 60,
+      "min_rain": 0,
+      "max_rain": 0.2
     },
     {
       "name": "MUSHROOM_SWAMP",
       "min_temp": 10,
       "max_temp": 40,
-      "min_rain": 0.6,
+      "min_rain": 0.8,
       "max_rain": 1
     }
   ],

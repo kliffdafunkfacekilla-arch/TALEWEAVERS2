@@ -5,7 +5,7 @@ import { Coins, Package, TrendingUp, TrendingDown } from 'lucide-react';
 export const SettlementInspector: React.FC = () => {
     const selectedHex = useWorldStore(state => state.selectedHex);
 
-    if (!selectedHex || (!selectedHex.settlement && selectedHex.biome_tag !== 'SETTLEMENT')) {
+    if (!selectedHex || (!selectedHex.settlement_name && selectedHex.biome_tag !== 'SETTLEMENT')) {
         return null;
     }
 
@@ -20,7 +20,7 @@ export const SettlementInspector: React.FC = () => {
                 </div>
                 <div>
                     <h3 className="text-lg font-bold text-amber-200 uppercase tracking-wider">
-                        {selectedHex.settlement || "Outpost"}
+                        {selectedHex.settlement_name || "Outpost"}
                     </h3>
                     <p className="text-xs text-slate-400">Economic Hub</p>
                 </div>

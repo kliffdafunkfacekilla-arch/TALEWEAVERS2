@@ -40,6 +40,14 @@ export const MapRenderer: React.FC = () => {
             case 'SCORCHED_DESERT': return 0xfde047;
             case 'LUSH_JUNGLE': return 0x166534;
             case 'MUSHROOM_SWAMP': return 0x9333ea;
+            case 'WASTELAND': return 0x78716c;
+            case 'BOREAL_FOREST': return 0x065f46;
+            case 'TEMPERATE_FOREST': return 0x15803d;
+            case 'SAVANNA': return 0xa3e635;
+            case 'TAIGA': return 0x0d9488;
+            case 'GRASSLAND': return 0x4ade80;
+            case 'MOUNTAIN': return 0x57534e;
+            case 'TUNDRA': return 0xcbd5e1;
             default: return 0x4ade80;
         }
     };
@@ -63,68 +71,46 @@ export const MapRenderer: React.FC = () => {
 
         const USE_FAST_DRAW = visibleHexes.length > 2500 || vttTier === 1;
 
+        // FIX: PIXI v8 uses poly() THEN fill(), not fill() then poly() then fill()
         const renderCell = (cell: any, drawPoints: number[]) => {
             if (vttTier === 1) {
-                // Tier 1: Ancient Paper Style
                 const color = getParchmentColor(cell.biome_tag, cell.elevation);
-                mapGraphics.fill(color);
                 mapGraphics.poly(drawPoints);
+                mapGraphics.fill(color);
                 mapGraphics.stroke({ width: 0.5, color: 0x78716c, alpha: 0.4 });
-                mapGraphics.fill();
                 return;
             }
 
-            // Tier 2: Regional / Tactical View
             if (viewLens === 'PHYSICAL') {
-                let color = getVividColor(cell.biome_tag, cell.elevation);
-                let texture = null;
-
-                if (cell.biome_tag === 'LUSH_JUNGLE') texture = textureCache.current.forest;
-                if (cell.biome_tag === 'SCORCHED_DESERT') texture = textureCache.current.desert;
-                if (cell.elevation > 0.8) texture = textureCache.current.mountain;
-
-                if (texture && texturesLoaded) {
-                    mapGraphics.fill({ texture, color: 0xFFFFFF });
-                } else {
-                    mapGraphics.fill(color);
-                }
-
+                const color = getVividColor(cell.biome_tag, cell.elevation);
                 mapGraphics.poly(drawPoints);
+                mapGraphics.fill(color);
                 if (cell.elevation <= 0.2) {
                     mapGraphics.stroke({ width: 0.5, color: 0x0ea5e9, alpha: 0.3 });
                 } else {
                     mapGraphics.stroke({ width: 0.2, color: 0x000000, alpha: 0.1 });
                 }
-                mapGraphics.fill();
             }
             else if (viewLens === 'POLITICAL') {
                 let color = cell.elevation <= 0.2 ? 0x050505 : 0x1f1f22;
                 if (cell.faction_owner === 'The_Rot_Coven') color = 0x7f1d1d;
                 if (cell.faction_owner === 'Iron_Empire') color = 0x1e3a8a;
-                mapGraphics.fill(color);
                 mapGraphics.poly(drawPoints);
+                mapGraphics.fill(color);
                 mapGraphics.stroke({ width: 1, color: 0x000000, alpha: 0.5 });
-                mapGraphics.fill();
             }
             else if (viewLens === 'RESOURCE') {
-                mapGraphics.fill(0x09090b);
                 mapGraphics.poly(drawPoints);
+                mapGraphics.fill(0x09090b);
                 mapGraphics.stroke({ width: 1, color: 0x27272a, alpha: 0.5 });
-                mapGraphics.fill();
                 if (cell.local_resources?.includes('Iron_Ore')) {
-                    mapGraphics.fill(0xf97316); mapGraphics.circle(cell.x, cell.y, 4); mapGraphics.fill();
+                    mapGraphics.circle(cell.x, cell.y, 4);
+                    mapGraphics.fill(0xf97316);
                 }
             }
         };
 
-        const drawHexagon = (x: number, y: number, r: number) => {
-            const points = [];
-            for (let i = 0; i < 6; i++) {
-                const angle = (i * 60 * Math.PI) / 180;
-                points.push(x + r * Math.cos(angle), y + r * Math.sin(angle));
-            }
-            mapGraphics.poly(points);
-        };
+
 
         if (vttTier === 4) {
             // Tier 4: Node Exploration (Dense 96x96 Grid)
@@ -133,15 +119,14 @@ export const MapRenderer: React.FC = () => {
             const nodes = worldState.subGridNodes;
             if (nodes.length === 0) return;
 
-            const nodeScale = 4; // Zoom factor for local nodes
+            const nodeScale = 4;
 
             nodes.forEach((node: any) => {
-                let color = 0x4ade80; // Default grass
+                let color = 0x4ade80;
                 if (node.biome === 'OCEAN') color = 0x0284c7;
                 if (node.biome === 'MOUNTAIN') color = 0x78716c;
                 if (node.biome === 'LOCAL_RIVER') color = 0x0ea5e9;
 
-                // Highlight Structures
                 if (node.settlement === 'STRATEGIC_DEFENSE') color = 0xef4444;
                 if (node.settlement === 'SETTLEMENT_HUB') color = 0xf59e0b;
                 if (node.settlement === 'TRADE_ROUTE') color = 0xd97706;
@@ -153,9 +138,6 @@ export const MapRenderer: React.FC = () => {
                     mapGraphics.stroke({ width: 0, color: 0x000000, alpha: 0 });
                 }
 
-                mapGraphics.fill(color);
-
-                // --- VISIBILITY & FOG OF WAR ---
                 let alpha = 1.0;
                 if (!node.is_explored) {
                     alpha = 0.05;
@@ -164,30 +146,27 @@ export const MapRenderer: React.FC = () => {
                 }
                 mapGraphics.alpha = alpha;
 
-                // --- ENTITIES & DETECTION RINGS ---
                 if (node.has_entity) {
                     const nx = node.x * nodeScale;
                     const ny = node.y * nodeScale;
-                    mapGraphics.fill({ color: node.is_alerted ? 0xff0000 : 0x00ff00, alpha: 0.8 });
                     mapGraphics.circle(nx, ny, 5);
-                    mapGraphics.fill();
+                    mapGraphics.fill({ color: node.is_alerted ? 0xff0000 : 0x00ff00, alpha: 0.8 });
 
                     if (node.is_visible) {
-                        mapGraphics.stroke({ width: 2, color: node.is_alerted ? 0xff3333 : 0xffffff, alpha: 0.4 });
                         mapGraphics.circle(nx, ny, node.detection_radius * nodeScale);
-                        mapGraphics.stroke();
+                        mapGraphics.stroke({ width: 2, color: node.is_alerted ? 0xff3333 : 0xffffff, alpha: 0.4 });
                     }
                 }
 
                 mapGraphics.rect(node.x * nodeScale, node.y * nodeScale, nodeScale, nodeScale);
-                mapGraphics.fill();
+                mapGraphics.fill(color);
             });
             return;
         }
 
         if (!USE_FAST_DRAW) {
-            const points = Float64Array.from(visibleHexes.flatMap((c: any) => [c.x, c.y]));
-            const delaunay = Delaunay.from(points);
+            // FIX: Use accessor functions, not flat Float64Array
+            const delaunay = Delaunay.from(visibleHexes, (c: any) => c.x, (c: any) => c.y);
             const voronoi = delaunay.voronoi([bounds.x - 50, bounds.y - 50, bounds.x + bounds.width + 50, bounds.y + bounds.height + 50]);
 
             visibleHexes.forEach((cell: any, i: number) => {
@@ -200,18 +179,12 @@ export const MapRenderer: React.FC = () => {
                 renderCell(cell, drawPoints);
             });
         } else {
+            // Fast draw: 2.8x2.8 pixel rects to ensure the organically scattered Voronoi float points 
+            // overlap and hide the dark background.
             visibleHexes.forEach((cell: any) => {
                 const color = vttTier === 1 ? getParchmentColor(cell.biome_tag, cell.elevation) : getVividColor(cell.biome_tag, cell.elevation);
+                mapGraphics.rect(cell.x - 1, cell.y - 1, 2.8, 2.8);
                 mapGraphics.fill(color);
-
-                // Instead of circles (dots), draw actual hex polygons
-                const hexRadius = vttTier === 1 ? 3.5 : 5.0;
-                drawHexagon(cell.x, cell.y, hexRadius);
-
-                if (vttTier === 1) {
-                    mapGraphics.stroke({ width: 0.5, color: 0x000000, alpha: 0.1 });
-                }
-                mapGraphics.fill();
             });
         }
 
@@ -226,13 +199,11 @@ export const MapRenderer: React.FC = () => {
                         const cx = cell.x + (next.x - cell.x) * progress;
                         const cy = cell.y + (next.y - cell.y) * progress;
 
-                        mapGraphics.fill({ color: 0xf59e0b, alpha: 0.8 });
                         mapGraphics.circle(cx, cy, 2);
-                        mapGraphics.fill();
+                        mapGraphics.fill({ color: 0xf59e0b, alpha: 0.8 });
 
-                        mapGraphics.fill({ color: 0xf59e0b, alpha: 0.2 });
                         mapGraphics.circle(cx, cy, 5);
-                        mapGraphics.fill();
+                        mapGraphics.fill({ color: 0xf59e0b, alpha: 0.2 });
                     }
                 }
             });
@@ -242,13 +213,11 @@ export const MapRenderer: React.FC = () => {
         if (currentHexId !== null) {
             const playerHex = loadedHexes.find((c: any) => c.id === currentHexId);
             if (playerHex) {
-                mapGraphics.fill({ color: 0xf59e0b, alpha: 0.3 });
                 mapGraphics.circle(playerHex.x, playerHex.y, 8);
-                mapGraphics.fill();
-                mapGraphics.fill({ color: 0xf59e0b, alpha: 1 });
+                mapGraphics.fill({ color: 0xf59e0b, alpha: 0.3 });
                 mapGraphics.circle(playerHex.x, playerHex.y, 4);
+                mapGraphics.fill({ color: 0xf59e0b, alpha: 1 });
                 mapGraphics.stroke({ width: 2, color: 0xffffff, alpha: 1 });
-                mapGraphics.fill();
             }
         }
     };
@@ -265,13 +234,16 @@ export const MapRenderer: React.FC = () => {
             const app = new PIXI.Application();
 
             try {
-                // Load Tier 2 Textures
-                const forest = await PIXI.Assets.load('/assets/forest_hex.png');
-                const mountain = await PIXI.Assets.load('/assets/mountain_hex.png');
-                const desert = await PIXI.Assets.load('/assets/desert_hex.png');
-
-                textureCache.current = { forest, mountain, desert };
-                setTexturesLoaded(true);
+                // FIX: Wrap texture loading in try/catch so missing assets don't crash init
+                try {
+                    const forest = await PIXI.Assets.load('/assets/forest_hex.png');
+                    const mountain = await PIXI.Assets.load('/assets/mountain_hex.png');
+                    const desert = await PIXI.Assets.load('/assets/desert_hex.png');
+                    textureCache.current = { forest, mountain, desert };
+                    setTexturesLoaded(true);
+                } catch {
+                    console.warn("[MapRenderer] Texture assets not found, using solid colors");
+                }
 
                 await app.init({
                     background: 0x050505,
@@ -303,16 +275,13 @@ export const MapRenderer: React.FC = () => {
                 viewport.drag().pinch().wheel().decelerate();
 
                 viewport.moveCenter(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
-                viewport.setZoom(0.5, true);
 
-                // Animation Loop for Caravans
-                app.ticker.add(() => {
-                    const state = useGameStore.getState();
-                    if (state.vttTier === 2) {
-                        draw();
-                    }
-                });
+                // FIX: Auto-fit zoom to fill the screen
+                const zoomX = container.clientWidth / WORLD_WIDTH;
+                const zoomY = container.clientHeight / WORLD_HEIGHT;
+                viewport.setZoom(Math.min(zoomX, zoomY) * 0.95, true);
 
+                // FIX: No per-frame ticker — only redraw on pan/zoom/data change
                 viewport.on('moved', () => draw());
                 viewport.on('zoomed', () => {
                     const zoom = viewport.scale.x;
@@ -328,6 +297,7 @@ export const MapRenderer: React.FC = () => {
                         state.setVttTier(4);
                         state.injectTierContext(4);
                     }
+                    draw();
                 });
 
                 const mapGraphics = new PIXI.Graphics();

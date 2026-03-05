@@ -293,6 +293,174 @@ public:
     std::cout << "[S.A.G.A. PORT] Resource generation complete." << std::endl;
   }
 
+  // 6. Simulate Religion (Spreads organically based on habitability and
+  // contact)
+  void SimulateReligion(std::vector<VoronoiCell> &cells,
+                        const std::vector<Religion> &religions,
+                        const std::vector<Faction> &factions) {
+    if (religions.empty())
+      return;
+    std::cout << "[AZGAAR PORT] Spreading Religions..." << std::endl;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> rel_dist(0, religions.size() - 1);
+
+    // Randomly assign a dominant religion to each capital city
+    for (int city_idx : city_nodes) {
+      cells[city_idx].dominant_religion = religions[rel_dist(gen)].name;
+    }
+
+    // Simple flood-fill diffusion for religion
+    int spread_passes = 10;
+    for (int p = 0; p < spread_passes; ++p) {
+      std::vector<std::string> next_religion(cells.size(), "");
+      for (size_t i = 0; i < cells.size(); ++i) {
+        if (cells[i].dominant_religion.empty() &&
+            !cells[i].faction_owner.empty()) {
+          // Count neighbor religions
+          std::map<std::string, int> rel_counts;
+          for (int n : cells[i].neighbors) {
+            if (!cells[n].dominant_religion.empty()) {
+              rel_counts[cells[n].dominant_religion]++;
+            }
+          }
+          if (!rel_counts.empty()) {
+            std::string best_rel = "";
+            int max_c = 0;
+            for (auto const &[rel, count] : rel_counts) {
+              if (count > max_c) {
+                max_c = count;
+                best_rel = rel;
+              }
+            }
+            next_religion[i] = best_rel;
+          }
+        }
+      }
+      // Apply spreading
+      for (size_t i = 0; i < cells.size(); ++i) {
+        if (cells[i].dominant_religion.empty() && !next_religion[i].empty()) {
+          cells[i].dominant_religion = next_religion[i];
+        }
+      }
+    }
+  }
+
+  // 7. Develop Settlements (Upgrade Tiers and Construct Buildings)
+  void DevelopSettlements(std::vector<VoronoiCell> &cells,
+                          const std::vector<BuildingDef> &buildings,
+                          const std::vector<Faction> &factions) {
+    std::cout << "[AZGAAR PORT] Developing Settlements and Buildings..."
+              << std::endl;
+
+    // Create a fast lookup for factions
+    std::map<std::string, const Faction *> fac_map;
+    for (const auto &f : factions) {
+      fac_map[f.name] = &f;
+    }
+
+    for (int i : city_nodes) {
+      VoronoiCell &city = cells[i];
+      city.settlement_tier = 4; // Capital starts at City tier 4
+
+      const Faction *fac = fac_map[city.faction_owner];
+      if (!fac)
+        continue;
+
+      // Build starting preferred buildings
+      for (const std::string &pref : fac->culture.building_preferences) {
+        // Ensure we only build things that exist in the BuildingDef and meet
+        // the tier
+        for (const auto &bdef : buildings) {
+          if (bdef.name == pref && city.settlement_tier >= bdef.minimum_tier) {
+            city.constructed_buildings.push_back(pref);
+            break;
+          }
+        }
+      }
+    }
+
+    // Also create minor settlements on high habitability nodes
+    for (size_t i = 0; i < cells.size(); ++i) {
+      VoronoiCell &cell = cells[i];
+      if (!cell.faction_owner.empty() && cell.habitability > 50.0f &&
+          !cell.is_city) {
+        // 10% chance to form a minor settlement (Village/Town)
+        if ((rand() % 100) < 10) {
+          cell.settlement_name = cell.faction_owner + "_Outpost";
+          cell.settlement_tier = (rand() % 2) + 1; // Tier 1 or 2
+
+          // Maybe build a basic structure
+          const Faction *fac = fac_map[cell.faction_owner];
+          if (fac && !fac->culture.building_preferences.empty()) {
+            std::string pref = fac->culture.building_preferences[0];
+            for (const auto &bdef : buildings) {
+              if (bdef.name == pref &&
+                  cell.settlement_tier >= bdef.minimum_tier) {
+                cell.constructed_buildings.push_back(pref);
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 8. Seed Points of Interest (Adventure Locations outside of Settlements)
+  void SeedPointsOfInterest(std::vector<VoronoiCell> &cells,
+                            const std::vector<BuildingDef> &buildings) {
+    std::cout << "[AZGAAR PORT] Seeding Points of Interest (Lairs, Ruins, "
+                 "Dungeons)..."
+              << std::endl;
+
+    std::vector<const BuildingDef *> adventure_buildings;
+    for (const auto &b : buildings) {
+      if (b.type == "Adventure") {
+        adventure_buildings.push_back(&b);
+      }
+    }
+
+    if (adventure_buildings.empty())
+      return;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> b_dist(0,
+                                              adventure_buildings.size() - 1);
+    std::uniform_int_distribution<int> chance_dist(1, 100);
+
+    for (size_t i = 0; i < cells.size(); ++i) {
+      VoronoiCell &cell = cells[i];
+
+      // POIs only spawn on land and usually away from big cities
+      if (cell.elevation <= 0.2f || cell.settlement_tier >= 3)
+        continue;
+
+      int spawn_chance = 0;
+
+      // Higher threat = higher chance of POIs (Lairs, Dungeons)
+      if (cell.threat_level > 50) {
+        spawn_chance += 10;
+      }
+      // Extreme biomes have higher chance for Caves/Ruins (less civilized)
+      if (cell.biome_tag == "SCORCHED_DESERT" ||
+          cell.biome_tag == "DEEP_TUNDRA" || cell.biome_tag == "MOUNTAIN") {
+        spawn_chance += 15;
+      }
+      // General wilderness baseline
+      if (cell.faction_owner.empty() && cell.settlement_tier == 0) {
+        spawn_chance += 5;
+      }
+
+      if (spawn_chance > 0 && chance_dist(gen) <= spawn_chance) {
+        const BuildingDef *poi = adventure_buildings[b_dist(gen)];
+        cell.constructed_buildings.push_back(poi->name);
+      }
+    }
+  }
+
 private:
   // Helper structure for A* Priority Queue
   struct AStarNode {

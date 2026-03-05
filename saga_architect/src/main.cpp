@@ -145,6 +145,50 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  // 5b. PARSE RELIGIONS & BUILDINGS
+  std::vector<Religion> world_religions;
+  if (config.contains("religions")) {
+    for (const auto &r : config["religions"]) {
+      Religion rel;
+      rel.name = r.value("name", "Unknown Faith");
+      rel.deity = r.value("deity", "Animism");
+      rel.expansion_rate = r.value("expansion_rate", 1.0f);
+      for (const auto &tenet : r.value("core_tenets", json::array())) {
+        rel.core_tenets.push_back(tenet);
+      }
+      world_religions.push_back(rel);
+    }
+  }
+
+  std::vector<BuildingDef> world_buildings;
+  if (config.contains("buildings")) {
+    for (const auto &b : config["buildings"]) {
+      BuildingDef bdef;
+      bdef.name = b.value("name", "Structure");
+      bdef.type = b.value("type", "Economic");
+      bdef.minimum_tier = b.value("minimum_tier", 1);
+
+      if (b.contains("build_cost")) {
+        for (auto it = b["build_cost"].begin(); it != b["build_cost"].end();
+             ++it) {
+          bdef.build_cost[it.key()] = it.value();
+        }
+      }
+      if (b.contains("upkeep")) {
+        for (auto it = b["upkeep"].begin(); it != b["upkeep"].end(); ++it) {
+          bdef.upkeep[it.key()] = it.value();
+        }
+      }
+      if (b.contains("production")) {
+        for (auto it = b["production"].begin(); it != b["production"].end();
+             ++it) {
+          bdef.production[it.key()] = it.value();
+        }
+      }
+      world_buildings.push_back(bdef);
+    }
+  }
+
   // 6. INITIALIZE ENGINES
   VoronoiGen physicalEngine;
   AutoPopulate civEngine;
@@ -227,12 +271,17 @@ int main(int argc, char *argv[]) {
   // Drop the animals and plants into the world!
   civEngine.PopulateEcosystem(physicalEngine.cells, ecosystem);
 
+  // [PHASE 3] Religion & Deep Settlements
+  civEngine.SimulateReligion(physicalEngine.cells, world_religions, factions);
+  civEngine.DevelopSettlements(physicalEngine.cells, world_buildings, factions);
+  civEngine.SeedPointsOfInterest(physicalEngine.cells, world_buildings);
+
   // [PHASE 4] Ecosystem & Resources
   civEngine.PopulateResourcesAndWildlife(physicalEngine.cells, biomeRules);
 
   // [PHASE 5] Economy & Trade
   std::cout << "[ECONOMY] Simulating market start...\n";
-  EconomyEngine::UpdateEconomy(physicalEngine.cells);
+  EconomyEngine::UpdateEconomy(physicalEngine.cells, world_buildings);
   EconomyEngine::ResolveTrade(physicalEngine.cells);
 
   // EXPORT FINAL WORLD

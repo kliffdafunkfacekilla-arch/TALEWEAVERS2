@@ -31,108 +31,97 @@ public:
               << "x" << worldHeight << " space..." << std::endl;
     cells.resize(cellCount);
 
-    // If it's a square count, or specifically planetary dimensions (630x630 or
-    // 1000x400)
-    int side = static_cast<int>(std::sqrt(cellCount));
-    if (side * side == cellCount || (worldWidth == 630 && worldHeight == 630) ||
-        (worldWidth == 1000 && worldHeight == 400)) {
-      int cols = static_cast<int>(worldWidth);
-      int rows = static_cast<int>(worldHeight);
+    std::cout
+        << "[INFO] Distributing random points for Delaunay Triangulation..."
+        << std::endl;
 
-      std::cout << "[INFO] Planetary Scale detected (" << cols << "x" << rows
-                << "). Generating Hexagonal Grid..." << std::endl;
+    // Always use random Voronoi logic to avoid 6-way grid artifacts
+    for (int i = 0; i < cellCount; ++i) {
+      cells[i].id = i;
+      cells[i].x = static_cast<float>(rand() % (int)worldWidth);
+      cells[i].y = static_cast<float>(rand() % (int)worldHeight);
+      cells[i].elevation = 0.2f;
+      cells[i].temperature = 20.0f;
+      cells[i].moisture = 0.5f;
+    }
 
-      for (int r = 0; r < rows; ++r) {
-        for (int c = 0; c < cols; ++c) {
-          int i = r * cols + c;
-          if (i >= cellCount)
-            break;
-          cells[i].id = i;
-          // Hexagonal offset: every other row is shifted
-          float x_offset = (r % 2 == 0) ? 0.0f : 0.5f;
-          cells[i].x = (static_cast<float>(c) + x_offset);
-          cells[i].y =
-              static_cast<float>(r) * 0.866f; // sqrt(3)/2 for equilateral hexes
-
-          cells[i].elevation = 0.2f;
-          cells[i].temperature = 20.0f;
-          cells[i].moisture = 0.5f;
-        }
-      }
-
-      // Establish Hex Neighbors (6-way connectivity)
-      for (int r = 0; r < rows; ++r) {
-        for (int c = 0; c < cols; ++c) {
-          int i = r * cols + c;
-          if (i >= cellCount)
-            break;
-
-          // neighbor offsets depending on even/odd row
-          int oddRow = r % 2;
-          int n_offsets[6][2] = {
-              {-1, 0},          {1, 0},       // Left, Right
-              {oddRow - 1, -1}, {oddRow, -1}, // Top-Left, Top-Right
-              {oddRow - 1, 1},  {oddRow, 1}   // Bottom-Left, Bottom-Right
-          };
-
-          for (int n = 0; n < 6; ++n) {
-            int nc = c + n_offsets[n][0];
-            int nr = r + n_offsets[n][1];
-
-            // Horizontal wrapping (Spherical planet)
-            if (nc < 0)
-              nc = cols - 1;
-            if (nc >= cols)
-              nc = 0;
-
-            if (nr >= 0 && nr < rows) {
-              cells[i].neighbors.push_back(nr * cols + nc);
-            }
-          }
-        }
-      }
-    } else {
-      // Fallback to random Voronoi
-      for (int i = 0; i < cellCount; ++i) {
-        cells[i].id = i;
-        cells[i].x = static_cast<float>(rand() % (int)worldWidth);
-        cells[i].y = static_cast<float>(rand() % (int)worldHeight);
-        cells[i].elevation = 0.2f;
-        cells[i].temperature = 20.0f;
-        cells[i].moisture = 0.5f;
-      }
-
+    // Lloyd's Relaxation (2 passes to smooth the "TV static" noise)
+    std::cout << "[INFO] Applying Lloyd's Relaxation..." << std::endl;
+    int relaxation_passes = 2;
+    for (int pass = 0; pass < relaxation_passes; ++pass) {
       std::vector<double> coords;
       for (const auto &c : cells) {
         coords.push_back(c.x);
         coords.push_back(c.y);
       }
-
       delaunator::Delaunator d(coords);
+
+      std::vector<std::vector<int>> temp_neighbors(cellCount);
       for (std::size_t i = 0; i < d.triangles.size(); i += 3) {
         int t0 = d.triangles[i];
         int t1 = d.triangles[i + 1];
         int t2 = d.triangles[i + 2];
-        if (std::find(cells[t0].neighbors.begin(), cells[t0].neighbors.end(),
-                      t1) == cells[t0].neighbors.end())
-          cells[t0].neighbors.push_back(t1);
-        if (std::find(cells[t0].neighbors.begin(), cells[t0].neighbors.end(),
-                      t2) == cells[t0].neighbors.end())
-          cells[t0].neighbors.push_back(t2);
-        if (std::find(cells[t1].neighbors.begin(), cells[t1].neighbors.end(),
-                      t0) == cells[t1].neighbors.end())
-          cells[t1].neighbors.push_back(t0);
-        if (std::find(cells[t1].neighbors.begin(), cells[t1].neighbors.end(),
-                      t2) == cells[t1].neighbors.end())
-          cells[t1].neighbors.push_back(t2);
-        if (std::find(cells[t2].neighbors.begin(), cells[t2].neighbors.end(),
-                      t0) == cells[t2].neighbors.end())
-          cells[t2].neighbors.push_back(t0);
-        if (std::find(cells[t2].neighbors.begin(), cells[t2].neighbors.end(),
-                      t1) == cells[t2].neighbors.end())
-          cells[t2].neighbors.push_back(t1);
+
+        auto add_n = [&](int c_id, int n_id) {
+          if (std::find(temp_neighbors[c_id].begin(),
+                        temp_neighbors[c_id].end(),
+                        n_id) == temp_neighbors[c_id].end()) {
+            temp_neighbors[c_id].push_back(n_id);
+          }
+        };
+        add_n(t0, t1);
+        add_n(t0, t2);
+        add_n(t1, t0);
+        add_n(t1, t2);
+        add_n(t2, t0);
+        add_n(t2, t1);
+      }
+
+      for (int i = 0; i < cellCount; ++i) {
+        if (temp_neighbors[i].empty())
+          continue;
+        float sum_x = 0;
+        float sum_y = 0;
+        for (int n : temp_neighbors[i]) {
+          sum_x += cells[n].x;
+          sum_y += cells[n].y;
+        }
+        // Move halfway to the centroid of neighbors
+        cells[i].x = (cells[i].x + (sum_x / temp_neighbors[i].size())) / 2.0f;
+        cells[i].y = (cells[i].y + (sum_y / temp_neighbors[i].size())) / 2.0f;
       }
     }
+
+    std::vector<double> final_coords;
+    for (const auto &c : cells) {
+      final_coords.push_back(c.x);
+      final_coords.push_back(c.y);
+    }
+
+    std::cout << "[INFO] Triangulating final points..." << std::endl;
+    delaunator::Delaunator d(final_coords);
+
+    for (std::size_t i = 0; i < d.triangles.size(); i += 3) {
+      int t0 = d.triangles[i];
+      int t1 = d.triangles[i + 1];
+      int t2 = d.triangles[i + 2];
+
+      auto add_neighbor = [&](int cell_id, int neighbor_id) {
+        if (std::find(cells[cell_id].neighbors.begin(),
+                      cells[cell_id].neighbors.end(),
+                      neighbor_id) == cells[cell_id].neighbors.end()) {
+          cells[cell_id].neighbors.push_back(neighbor_id);
+        }
+      };
+
+      add_neighbor(t0, t1);
+      add_neighbor(t0, t2);
+      add_neighbor(t1, t0);
+      add_neighbor(t1, t2);
+      add_neighbor(t2, t0);
+      add_neighbor(t2, t1);
+    }
+
     std::cout << "Topology graph established." << std::endl;
   }
 
@@ -419,12 +408,19 @@ public:
     };
 
     std::vector<Plate> plates;
-    std::queue<int> frontier; // For BFS expansion
-
-    // Reset plate_ids just in case
-    for (auto &cell : cells) {
-      cell.plate_id = -1;
-    }
+    // Use a randomized priority queue for Organic Plate Growth
+    // Instead of perfect BFS rings, plates expand unevenly, creating jagged
+    // natural coastlines.
+    struct FrontierCell {
+      int id;
+      float priority;
+      bool operator<(const FrontierCell &other) const {
+        return priority >
+               other
+                   .priority; // Min-heap (lowest priority number expands first)
+      }
+    };
+    std::priority_queue<FrontierCell> frontier;
 
     // STEP 1: Seed the Tectonic Plates (Azgaar's Blob Centers)
     for (int i = 0; i < num_plates; i++) {
@@ -460,20 +456,25 @@ public:
       // If we are near the center, 70% chance to be Land
       float land_chance = 0.7f - (dist_from_center * 0.6f);
       p.base_elevation =
-          (vector_dist(gen) < (land_chance * 2.0f - 1.0f)) ? 0.5f : 0.05f;
+          (vector_dist(gen) < (land_chance * 2.0f - 1.0f)) ? 0.35f : 0.05f;
 
       plates.push_back(p);
 
       cells[seed_idx].plate_id = i;
       cells[seed_idx].elevation = p.base_elevation;
-      frontier.push(seed_idx);
+      frontier.push({seed_idx, 0.0f});
     }
 
-    // STEP 2: Grow the plates outward (Azgaar's Breadth-First Expansion)
+    // STEP 2: Grow the plates outward (Organic Expansion)
+    // We track total added priority to ensure plates keep growing outward
+    std::uniform_real_distribution<float> noise_dist(
+        0.1f, 4.0f); // INCREASED NOISE SPREAD for jaggedness
+
     while (!frontier.empty()) {
-      int current_idx = frontier.front();
+      FrontierCell current = frontier.top();
       frontier.pop();
 
+      int current_idx = current.id;
       int current_plate = cells[current_idx].plate_id;
 
       // Iterate through all physical neighbors of this hex
@@ -483,11 +484,14 @@ public:
           cells[neighbor_idx].plate_id = current_plate;
 
           // Add minor organic jitter to elevation (Azgaar's noise pass)
-          float jitter = vector_dist(gen) * 0.05f;
+          float jitter = vector_dist(gen) * 0.10f; // INCREASED JITTER
           cells[neighbor_idx].elevation =
               plates[current_plate].base_elevation + jitter;
 
-          frontier.push(neighbor_idx);
+          // Push neighbor with base cost + random noise
+          // This makes the plate "reach" organically instead of perfect circles
+          float added_cost = noise_dist(gen);
+          frontier.push({neighbor_idx, current.priority + added_cost});
         }
       }
     }
@@ -518,9 +522,9 @@ public:
               CalculateCollisionImpact(p1.dx, p1.dy, p2.dx, p2.dy, nx, ny);
 
           // DRASTICALLY INCREASE IMPACT TO MAKE JAGGED CONTINENT SHAPES
-          if (impact > 0.1f) {
+          if (impact > 0.05f) {
             // Convergent Boundary: CRUNCH! Form a violent mountain range.
-            cell.elevation += impact * 1.5f; // Push way up
+            cell.elevation += impact * 2.0f; // Push way up
             if (cell.elevation > 1.0f)
               cell.elevation = 1.0f;
           } else if (impact < -0.1f) {
@@ -533,11 +537,12 @@ public:
       }
     }
 
-    // STEP 4: Coastal Smoothing (Optional but highly recommended)
+    // Additional continent-wide smoothing pass (averages out 1x1 hex spikes)
     // Runs a simple 3x3 blur kernel over the hexes so mountains smoothly roll
     // down into beaches
     std::cout << "[AZGAAR PORT] Smoothing Coastal Shelves..." << std::endl;
-    int smoothing_passes = 3;
+    int smoothing_passes =
+        12; // More passes = smoother coastlines on a 1x1 grid
     for (int p = 0; p < smoothing_passes; p++) {
       std::vector<float> smoothed_elevation(cells.size());
       for (size_t i = 0; i < cells.size(); i++) {
@@ -594,6 +599,14 @@ public:
     std::cout << "[AZGAAR PORT] Simulating Orographic Precipitation & Wind..."
               << std::endl;
 
+    // Use a random distribution for climate noise
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> temp_noise(
+        -12.0f, 12.0f); // ±12 degrees of noise
+    std::uniform_real_distribution<float> rain_noise(
+        -0.15f, 0.15f); // ±0.15 moisture noise
+
     // STEP 1: Base Temperature & Initialization
     // We assume the map Y coordinates go from 0.0 (North Pole) to 1000.0 (South
     // Pole)
@@ -615,19 +628,23 @@ public:
       // Base temp based on latitude (Equator is at y=0.5)
       float dist_to_equator =
           std::abs(norm_y - 0.5f) * 2.0f; // 0.0 at equator, 1.0 at poles
+
+      // ADD ORGANIC NOISE TO BREAK LATTITUDINAL STRIPING
+      float local_temp_noise = temp_noise(gen);
       cell.temperature =
-          40.0f - (dist_to_equator * 80.0f); // 40C at equator, -40C at poles
+          40.0f - (dist_to_equator * 80.0f) +
+          local_temp_noise; // 40C at equator, -40C at poles, plus noise
 
       // Altitude Lapse Rate: Temperature drops as elevation rises
       if (cell.elevation > 0.2f) { // 0.2 is our "sea level"
         cell.temperature -= (cell.elevation - 0.2f) * 30.0f;
       }
 
-      // Initialize oceans with max moisture
+      // Initialize oceans with max moisture, land with noise
       if (cell.elevation <= 0.2f) {
         cell.moisture = 1.0f;
       } else {
-        cell.moisture = 0.0f;
+        cell.moisture = std::max(0.0f, rain_noise(gen));
       }
     }
 
@@ -706,6 +723,36 @@ public:
         if (cells[i].elevation > 0.2f) {
           cells[i].moisture =
               std::min(1.0f, cells[i].moisture + next_moisture[i]);
+        }
+      }
+    }
+
+    // AZGAAR PORT: Smooth Climate (Low-Pass Filter)
+    // Converts raw "TV static" white noise into continuous procedural blobs
+    std::cout << "[AZGAAR PORT] Smoothing Climate Matrices..." << std::endl;
+    int climate_smoothing_passes = 4;
+    for (int p = 0; p < climate_smoothing_passes; p++) {
+      std::vector<float> smoothed_temp(cells.size());
+      std::vector<float> smoothed_moist(cells.size());
+      for (size_t i = 0; i < cells.size(); i++) {
+        float sum_t = cells[i].temperature;
+        float sum_m = cells[i].moisture;
+        int count = 1;
+
+        for (int n : cells[i].neighbors) {
+          sum_t += cells[n].temperature;
+          sum_m += cells[n].moisture;
+          count++;
+        }
+
+        smoothed_temp[i] = sum_t / (float)count;
+        smoothed_moist[i] = sum_m / (float)count;
+      }
+      for (size_t i = 0; i < cells.size(); i++) {
+        cells[i].temperature = smoothed_temp[i];
+        if (cells[i].elevation >
+            0.2f) { // don't smooth ocean moisture, keep it 1.0
+          cells[i].moisture = smoothed_moist[i];
         }
       }
     }

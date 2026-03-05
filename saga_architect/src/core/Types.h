@@ -71,9 +71,17 @@ struct Lifeform {
   float farm_yield_amount;         // How much does it base-yield
 };
 
-// 4. CULTURE & FACTIONS
+// 4. CULTURE, RELIGION & FACTIONS
+struct Religion {
+  std::string name;
+  std::string deity;
+  std::vector<std::string> core_tenets;
+  float expansion_rate; // Spread through trade/proximity
+};
+
 struct Culture {
   std::string name;
+  std::string parent_culture; // For branching cultures
   bool will_fight;
   bool will_farm;
   bool will_mine;
@@ -82,6 +90,16 @@ struct Culture {
   float base_trade_value; // Economy multiplier
   std::vector<std::string>
       building_preferences; // e.g., ["Wood_Huts", "Stone_Keeps"]
+};
+
+// 4b. BUILDING & SETTLEMENT LOGIC
+struct BuildingDef {
+  std::string name;
+  std::string type; // "Military", "Economic", "Religious", "Housing"
+  std::map<std::string, float> build_cost; // Materials required
+  std::map<std::string, float> upkeep;     // Consumed per turn (e.g. Food: 5)
+  std::map<std::string, float> production; // Yielded per turn (e.g. Weapons: 2)
+  int minimum_tier; // 1 (Outpost), 2 (Village), 3 (Town), 4 (City)
 };
 
 struct Faction {
@@ -127,6 +145,10 @@ struct VoronoiCell {
   // CULTURAL EXPANSION PROPERTIES
   float habitability = 0.0f;
   bool is_city = false;
+  int settlement_tier =
+      0; // 0 (None), 1 (Camp), 2 (Village), 3 (Town), 4 (City), 5 (Capital)
+  std::string dominant_religion;
+  std::vector<std::string> constructed_buildings;
 
   // THE FINER DETAILS (Architect's Palette)
   std::vector<std::string>
