@@ -1,0 +1,19 @@
+{
+    "Entity Name": "Sylas the Swift",
+    "Aliases": [
+        "Sylas",
+        "The Swift"
+    ],
+    "Tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Flux",
+        "Finesse"
+    ],
+    "Attributes": {
+        "Former Master": "Magistar Aurgenas",
+        "Role": "Spymaster",
+        "Defection Event": "The Flux Escape"
+    }
+}

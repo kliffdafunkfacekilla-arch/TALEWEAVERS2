@@ -16,6 +16,7 @@ class SAGA_API_Gateway:
             "dmag_engine": os.getenv("DMAG_ENGINE_URL", "http://localhost:8008"),
             "asset_foundry": os.getenv("ASSET_FOUNDRY_URL", "http://localhost:8012"),
             "chronos": os.getenv("CHRONOS_URL", "http://localhost:9000"),
+            "lore": os.getenv("LORE_MODULE_URL", "http://localhost:8001"),
         }
 
     async def get_character(self, player_id: str):
@@ -47,6 +48,35 @@ class SAGA_API_Gateway:
                 return res.json()
         except: return None
 
+    async def generate_regional_arc(self, saga_beat: dict, region_context: dict, context_packet: dict = None):
+        """Tier 2: Generates a 2-3 step sub-plot bridging two Saga Beats."""
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                payload = {
+                    "saga_beat": saga_beat,
+                    "region_context": region_context,
+                    "context_packet": context_packet
+                }
+                res = await client.post(f"{self.microservices['campaign_weaver']}/api/weaver/arc", json=payload)
+                return res.json() if res.status_code == 200 else []
+        except Exception as e:
+            logging.error(f"[GATEWAY] Regional arc generation failed: {e}")
+            return []
+
+    async def generate_local_sidequest(self, hex_context: dict, context_packet: dict = None):
+        """Tier 3: Generates a hex-specific side quest."""
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                payload = {
+                    "hex_context": hex_context,
+                    "context_packet": context_packet
+                }
+                res = await client.post(f"{self.microservices['campaign_weaver']}/api/weaver/sidequest", json=payload)
+                return res.json() if res.status_code == 200 else None
+        except Exception as e:
+            logging.error(f"[GATEWAY] Local sidequest generation failed: {e}")
+            return None
+
     async def register_asset(self, asset_id: str, file_path: str):
         """Registers a generated image with the Asset Foundry."""
         try:
@@ -55,6 +85,16 @@ class SAGA_API_Gateway:
                 res = await client.post(f"{self.microservices['asset_foundry']}/api/assets/register", json=payload)
                 return res.json() if res.status_code == 200 else None
         except: return None
+
+    async def generate_campaign_framework(self, request_payload: dict):
+        """Builds the 8-stage mastery plot upon campaign setup."""
+        try:
+            async with httpx.AsyncClient(timeout=60.0) as client:
+                res = await client.post(f"{self.microservices['campaign_weaver']}/api/weaver/framework", json=request_payload)
+                return res.json() if res.status_code == 200 else None
+        except Exception as e:
+            logging.error(f"[GATEWAY] Campaign framework generation failed: {e}")
+            return None
 
     async def get_hex_details(self, hex_id: int):
         try:

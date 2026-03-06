@@ -1,0 +1,61 @@
+{
+    "Name": "Reliance",
+    "Philosophy": {
+        "Material Basicness": true,
+        "Stoicism": true,
+        "Self-Sufficiency": true,
+        "Sacrifice": true
+    },
+    "Biology": {
+        "Life Cycle": {
+            "Sproutling": true,
+            "Growth": true,
+            "Rooting": true,
+            "Rebirth": true
+        },
+        "Longevity": 150,
+        "Memory": {
+            "Cumulative": true,
+            "Generational": true
+        },
+        "Vulnerability": {
+            "Rooting": true,
+            "Physical": true,
+            "Cultural": true
+        }
+    },
+    "Society": {
+        "Labyrinthine Domain": true,
+        "Defenses": {
+            "Disorientation": true,
+            "Engineered Collapse": true,
+            "Decay as a Weapon": true
+        },
+        "Subterranean": true,
+        "Secure": true
+    },
+    "Culture": {
+        "Simple Tools": true,
+        "Non-Technological": true,
+        "Patient Approach": true,
+        "Long-term Focus": true
+    },
+    "Values": {
+        "Self-Sufficiency": true,
+        "Greed": false
+    },
+    "Rituals": {
+        "Ritual of Sporing": {
+            "Calling": true,
+            "Breeders": true,
+            "Transformation": true,
+            "Birth": true
+        },
+        "Spore Formation": true
+    },
+    "Chaos Immunity": true,
+    "Trade Value": {
+        "High": true,
+        "Selective": true
+    }
+}

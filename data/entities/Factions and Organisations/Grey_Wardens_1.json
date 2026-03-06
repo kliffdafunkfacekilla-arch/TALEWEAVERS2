@@ -1,0 +1,75 @@
+{
+    "Name": "Grey Wardens",
+    "Type": "Faction",
+    "Recruitment": {
+        "Method": "Silent Bell",
+        "Effect": {
+            "Trigger": "latent magical potential",
+            "Perspective Shift": {
+                "Revelation": "Aetheric Tension",
+                "Alienation": "isolation from petty concerns"
+            }
+        }
+    },
+    "Structure": {
+        "Sacred Spire": {
+            "Material": "Divine Matter",
+            "Layout": {
+                "Upper Spire": {
+                    "Purpose": "High Command"
+                },
+                "Thorax": {
+                    "Purpose": "Barracks"
+                },
+                "Roots": {
+                    "Purpose": "Forges"
+                }
+            }
+        }
+    },
+    "Vaults": {
+        "Library of Lost Tongues": {
+            "Contents": [
+                "Unified Dominion schematics",
+                "Chaos Dragon names",
+                "First Wardens' journals"
+            ],
+            "Language": "Old Dominion"
+        }
+    },
+    "Tombs": [
+        {
+            "Name": "The Architect",
+            "Puzzle": "logic-cipher"
+        },
+        {
+            "Name": "The Prophet",
+            "Vibration": "low, constant vibration"
+        },
+        {
+            "Name": "The First Kamikaze",
+            "State": "scorched, blackened crater"
+        }
+    ],
+    "Sigil-Threads": {
+        "Absorption": "ambient Chaos energy",
+        "Release": "devastating raw magic",
+        "Cost": "physical burn, consumption of fat, muscle, and bone density"
+    },
+    "Legacy": {
+        "Three Pillars": [
+            {
+                "Name": "The Architect",
+                "Legacy": "Stability"
+            },
+            {
+                "Name": "The Prophet",
+                "Legacy": "Purpose"
+            },
+            {
+                "Name": "The Mage",
+                "Legacy": "The Weapon"
+            }
+        ]
+    }
+}

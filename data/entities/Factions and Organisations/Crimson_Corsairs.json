@@ -1,0 +1,114 @@
+{
+    "name": "Crimson Corsairs",
+    "type": "Faction",
+    "description": "A sophisticated privateer corporation with a ruthless reputation for legal manipulation and military intimidation.",
+    "leadership": {
+        "captain": "Captain Valerius",
+        "title": "Lord Valerius"
+    },
+    "operatives": {
+        "ink-stains": {
+            "type": "Shock troops",
+            "description": "Heavily armored and trained for rapid crew suppression, not prolonged combat."
+        }
+    },
+    "reputation": {
+        "cartel": {
+            "status": "Antagonist",
+            "reason": "Predatory model makes them a primary antagonist to Cartel interests."
+        },
+        "independent captains": {
+            "status": "Threat",
+            "reason": "Practice of hiding piracy and brutality behind a shield of iron-clad, often fabricated, contracts and legal pretexts."
+        }
+    },
+    "modus operandi": {
+        "doctrine": "Hostile Takeover",
+        "stages": [
+            {
+                "name": "The Intercept",
+                "description": "A massive, red, and heavily armed War Skiff blocks a trade lane or pulls alongside a target vessel, matching its speed."
+            },
+            {
+                "name": "The Hail",
+                "description": "A formal, officious announcement citing a fabricated violation, such as a breach of contract or navigation violation."
+            },
+            {
+                "name": "The Shakedown",
+                "description": "The target's captain is presented with a false choice, effectively a contract for their own robbery."
+            },
+            {
+                "name": "The Boarding Action",
+                "description": "The Ink-Stains initiate a boarding action, using flash-bangs, tear gas, and shotguns to swiftly overwhelm and neutralize any crew resistance."
+            },
+            {
+                "name": "The Severance",
+                "description": "The fate of a non-compliant captain and crew is grim, with options including destruction, indentured servitude, or abandonment."
+            }
+        ]
+    },
+    "economic engine": {
+        "pillars": [
+            {
+                "name": "Geopolitical Contracting",
+                "description": "Serving as deniable corporate mercenaries for major powers, allowing them to monetize fear and legal ambiguity."
+            },
+            {
+                "name": "The Crimson Shield Racket",
+                "description": "A protection racket, offering a 'Crimson Shield Policy' that grants exemption from audits and harassment."
+            },
+            {
+                "name": "Grey Market Fencing",
+                "description": "Efficiently laundering and selling seized goods through black markets operated by the River Folk."
+            }
+        ]
+    },
+    "military assessment": {
+        "strengths": [
+            {
+                "name": "Blood-Resin armor",
+                "description": "Exceptionally heavy plating provides immense protection, making them formidable foes."
+            }
+        ],
+        "vulnerabilities": [
+            {
+                "name": "Lack of speed",
+                "description": "Their slow War Skiffs make them vulnerable to faster, more agile vessels."
+            }
+        ]
+    },
+    "geopolitical standing": {
+        "clients": [
+            {
+                "name": "Vaneer Concord",
+                "description": "Regularly contracts the Corsairs to conduct deniable operations against Heartland Alliance grain shipments."
+            }
+        ],
+        "rivals": [
+            {
+                "name": "Ghostwind Raiders",
+                "description": "Fast, untraceable ships represent a tactical and philosophical threat to the Corsairs."
+            }
+        ],
+        "business partners": [
+            {
+                "name": "River Folk",
+                "description": "Primary business partners for illicit trade, providing the liquidity necessary to fund the Corsair operation."
+            }
+        ]
+    },
+    "strategic implications": [
+        {
+            "name": "Economic Disruption",
+            "description": "Their 'hindrance' tactics can cripple time-sensitive supply chains, directly impacting Cartel profits and partner viability."
+        },
+        {
+            "name": "Network Erosion",
+            "description": "Predation on smaller, independent captains weakens the logistical network upon which the Cartel relies."
+        },
+        {
+            "name": "Corporate Infiltration",
+            "description": "The long-term risk of Lord Valerius acquiring legitimate power within the Cartel represents an unacceptable existential threat."
+        }
+    ]
+}

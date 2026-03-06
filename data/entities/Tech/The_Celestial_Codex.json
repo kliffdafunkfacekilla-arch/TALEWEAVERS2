@@ -1,0 +1,14 @@
+{
+    "tech_tier": 3,
+    "energy_cost": 250,
+    "cooldown": 180,
+    "range": 500,
+    "radius": 150,
+    "duration": 10,
+    "effect": "The Celestial Codex",
+    "description": "A celestial body with a profound impact on the world's timekeeping and historical eras. Its wobble causes seasonal cycles, affecting the world's weather and magic.",
+    "aliases": [
+        "The Celestial Codex"
+    ],
+    "tags": []
+}

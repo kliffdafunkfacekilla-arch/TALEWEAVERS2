@@ -1,0 +1,35 @@
+{
+    "Faction": "Seahorse Courier",
+    "Type": "Faction",
+    "Name": "Seahorse People",
+    "Description": "Premier couriers and messengers, operating a de facto intelligence network and exclusive brokers for the 'Devil's Choice' mercenary unit.",
+    "Economic Niche": "Information brokerage, courier services, and mercenary contracts",
+    "Unique Assets": {
+        "Steeds": {
+            "Aquatic": "Sting and manta rays",
+            "Terrestrial": "Nimble mountain goats of unknown origin"
+        },
+        "Logistics": {
+            "Water": "Supernatural speed in water",
+            "Land": "Reliable, if slower, pace"
+        }
+    },
+    "Services": {
+        "Courier": "Delivery of messages with an ironclad guarantee of security",
+        "Intelligence Network": "Primary source of news and gossip along the river systems",
+        "Mercenary Brokerage": "Exclusive brokers for the 'Devil's Choice' mercenary unit"
+    },
+    "Relationships": {
+        "Coastal Theocracy": {
+            "Origin": "Designated servant class",
+            "Independence": "Fully independent order"
+        },
+        "Devil's Choice": {
+            "Exclusive Brokerage": "Strategic codependence"
+        }
+    },
+    "Reputation": {
+        "Security": "Never compromised",
+        "Discretion": "Absolute discretion"
+    }
+}

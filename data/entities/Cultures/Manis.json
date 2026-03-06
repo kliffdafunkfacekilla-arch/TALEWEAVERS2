@@ -1,0 +1,42 @@
+{
+    "name": "Manis",
+    "category": "Cultures",
+    "stats": {
+        "stability": 4,
+        "communication": 2,
+        "loyalty": 5,
+        "industry": {
+            "mining": {
+                "stone_root": true,
+                "fireproof": true,
+                "stronger_than_granite": true
+            },
+            "construction": {
+                "foundation": true,
+                "roofing": true
+            }
+        },
+        "military": {
+            "infantry": true,
+            "tank_warfare": true,
+            "siege_breaking": true,
+            "weaponry": {
+                "siege_pick": true,
+                "scale_shields": true
+            },
+            "tactics": {
+                "rolling_thunder": true
+            }
+        },
+        "social": {
+            "claw_lock": true,
+            "diet": {
+                "insectivore": true,
+                "snack": "dried termites"
+            },
+            "stress_response": {
+                "curl_into_ball": true
+            }
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "Name": "Omen1",
+    "Category": "Magic and Religion",
+    "Type": "Quantum Variable",
+    "Abilities": {
+        "Offense": {
+            "type": "Necrotic",
+            "description": "Accelerate entropy, steal future time, or jinx attacks"
+        },
+        "Defense": {
+            "description": "Cloak self in probability, jam enemy's attacks"
+        },
+        "Utility": {
+            "description": "Force success, predict danger, speak with echoes of the dead"
+        }
+    },
+    "Stats": {
+        "Entropy_Manipulation": 8,
+        "Timeline_Warping": 6,
+        "Probability_Cloak": 7,
+        "Future_Vision": 5
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "name": "Honey Trade",
+    "type": "Resource",
+    "description": "Exclusive control over the production of Ichor-Honey",
+    "properties": {
+        "Value": 10000,
+        "Difficulty": 80,
+        "Rarity": 90,
+        "Weight": 10,
+        "Volume": 1,
+        "Purity": 50,
+        "Addiction_Risk": 70,
+        "Handling_Hazard": 90,
+        "Mental_Effects": [
+            "stimulating",
+            "profound psychosis"
+        ],
+        "Physical_Effects": [
+            "physically numbing",
+            "slowed reaction times"
+        ],
+        "Potency": 1,
+        "Duration": 2,
+        "Side_Effects": [
+            "numbness",
+            "disorientation"
+        ],
+        "Addictive_Potential": 80
+    },
+    "uses": [
+        {
+            "name": "River Guides",
+            "description": "Guides for outsiders navigating treacherous, fog-shrouded riverways"
+        },
+        {
+            "name": "Airship Crew",
+            "description": "Crew members on airships, known for their skills and good luck"
+        }
+    ],
+    "cultivation": {
+        "ecological_trap": true,
+        "rare_flowers": true,
+        "water_mineral_balance": true
+    },
+    "harvesting": {
+        "flight": true,
+        "exile_bug_armor": true,
+        "specialized_equipment": true
+    }
+}

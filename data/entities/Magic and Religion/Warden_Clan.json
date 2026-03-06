@@ -1,0 +1,31 @@
+{
+    "Name": "Warden Clan",
+    "Type": "Magic and Religion",
+    "Divine Imprint": true,
+    "Legacy": "Divine Mandate and the Secret History of the First Wardens",
+    "Ritual": "Chaos Sight",
+    "Initiation": {
+        "Blind": true,
+        "Reforging": true,
+        "Draft Pick": true
+    },
+    "Core Branches": {
+        "Heart": true,
+        "Fist": true,
+        "Eyes": true,
+        "Mind": true
+    },
+    "Specialized Clandestine Units": {
+        "Recruiters": true,
+        "Tail": true
+    },
+    "Combat Doctrine": {
+        "Modular Arsenal": true,
+        "Master Scimitar": true,
+        "Sigil-Thread System": true,
+        "Kamikaze Run": true
+    },
+    "Philosophy": {
+        "See, Decide, React": true
+    }
+}

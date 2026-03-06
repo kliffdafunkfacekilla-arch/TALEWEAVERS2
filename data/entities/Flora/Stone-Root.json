@@ -1,0 +1,20 @@
+{
+    "entity_name": "Stone-Root",
+    "primary_cultivator": "The Manis",
+    "harvest_zone": "The Deep Mines",
+    "biological": {
+        "grain": true,
+        "workability": true
+    },
+    "industrial": {
+        "fireproof": true,
+        "gunstocks": true
+    },
+    "harvest": {
+        "method": "mining"
+    },
+    "dangers": [
+        "cave-ins",
+        "hitting_swamp_gas_pockets"
+    ]
+}

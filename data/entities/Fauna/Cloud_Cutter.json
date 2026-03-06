@@ -1,0 +1,57 @@
+{
+    "base_health": 10,
+    "speed": 15,
+    "diet": [
+        "flying fish",
+        "aerial insects"
+    ],
+    "size": 2.5,
+    "attack_type": "ramming",
+    "attack_effect": "stunning",
+    "defense": {
+        "natural_armor": {
+            "crest": {
+                "strength": 5,
+                "vulnerability": "light skiff hull"
+            }
+        }
+    },
+    "special_ability": {
+        "stinger": {
+            "effect": "total paralysis",
+            "range": "self only"
+        }
+    },
+    "passive_ability": {
+        "camouflage": {
+            "function": "match time of day",
+            "range": "visual only"
+        }
+    },
+    "unique_trait": {
+        "active_chromatophores": {
+            "function": "shimmer wake",
+            "range": "visual only"
+        }
+    },
+    "behavior": {
+        "playful": {
+            "condition": "fair weather",
+            "actions": [
+                "ride pressure wakes",
+                "play with airships"
+            ]
+        },
+        "aggressive": {
+            "condition": "storm weather",
+            "actions": [
+                "ram airships",
+                "attack crew"
+            ]
+        }
+    },
+    "nesting": {
+        "function": "secrete mucus",
+        "effect": "hard cloud"
+    }
+}

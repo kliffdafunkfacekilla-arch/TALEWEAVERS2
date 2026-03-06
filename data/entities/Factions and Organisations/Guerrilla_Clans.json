@@ -1,0 +1,34 @@
+{
+    "Name": "Guerrilla Clans",
+    "Type": "Faction",
+    "Description": "Masters of Disappearance",
+    "Core Philosophy": "A Culture of Quiet Observation",
+    "Tactical Doctrine": "The Unseen Hand",
+    "Specialties": [
+        {
+            "name": "Leap-Charms",
+            "description": "Provides the user with a single, silent 50-foot jump."
+        },
+        {
+            "name": "Pop-Bolts",
+            "description": "A standard crossbow bolt enchanted to explode in a silent, concussive burst upon impact."
+        }
+    ],
+    "Structure": [
+        {
+            "name": "Settlement Patterns",
+            "description": "Villages are either semi-nomadic or entirely subterranean and camouflaged."
+        },
+        {
+            "name": "Communication Methods",
+            "description": "The Whispering Network: a complex language of natural sounds, specific animal calls, and subtle trail markers."
+        }
+    ],
+    "Geopolitical Role": {
+        "Primary Alliance": "The Free Sky-Baronies",
+        "Protocol for Engagement": "A rigid and specific protocol, including the use of a non-invisible tent and escorted access."
+    },
+    "Reputation": {
+        "Mercenaries and Scouts": "Formidable reputation for destabilizing superior enemies, securing objectives through unconventional means, or providing peerless reconnaissance."
+    }
+}

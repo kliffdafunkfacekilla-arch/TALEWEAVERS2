@@ -1,0 +1,17 @@
+{
+    "species": "Peregrine Falcon",
+    "visuals": "Small, aerodynamic, and twitchy. She wears a tight leather flight suit rather than admiral's robes. She has wind-burn scars around her eyes from flying without goggles at high altitude",
+    "command_profile": "1.0",
+    "tags": [
+        "NPC",
+        "Avian Empire",
+        "Military",
+        "Felicitous Falcon"
+    ],
+    "quirk": "The Falcon's Quirk: Her barge has only one Cutter Bay",
+    "tactic": "The Tactic: Unlike other Admirals who command from the bridge, Vira pilots the single deployed Cutter herself. She is famous for the \"Needle-Thread\" maneuver\u2014flying her fighter *through* the superstructure of an enemy airship to drop a Black-Powder charge internally",
+    "aliases": [
+        "The Dive-Bomber",
+        "Sky-Sister Vira"
+    ]
+}

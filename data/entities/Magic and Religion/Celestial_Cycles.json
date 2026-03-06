@@ -1,0 +1,90 @@
+{
+    "Name": "Celestial Cycles",
+    "Category": "Magic and Religion",
+    "Properties": {
+        "Unstable Seasons and Tides": {
+            "Effect": "Chaotic tides, extreme weather, and unpredictable seasons",
+            "Intensity": "Moderate to High",
+            "Range": "Global",
+            "Duration": "Ongoing"
+        },
+        "Dragonstone": {
+            "Source": "Meteor showers originating from the Broken Moon",
+            "Effect": "Fuels [[Aether-Tech]]",
+            "Intensity": "High",
+            "Range": "Global",
+            "Duration": "Ongoing"
+        },
+        "Eclipses": {
+            "Effect": "Total darkness, extreme tides, and unpredictable weather",
+            "Intensity": "High",
+            "Range": "Global",
+            "Duration": "7 days"
+        },
+        "Shadow Week": {
+            "Effect": "Global test of resilience, ingenuity, and core values",
+            "Intensity": "High",
+            "Range": "Global",
+            "Duration": "7 days"
+        },
+        "Calendar": {
+            "Type": "Celestial-based",
+            "Properties": {
+                "Predictive": "Moderate",
+                "Immutable": "High",
+                "Range": "Global",
+                "Duration": "Ongoing"
+            }
+        }
+    },
+    "Responses": {
+        "Ironborn": {
+            "Type": "Defiance through Celebration",
+            "Properties": {
+                "Intensity": "High",
+                "Range": "Local",
+                "Duration": "7 days"
+            }
+        },
+        "Ursine Hegemony": {
+            "Type": "Vigilance as a Rite of Passage",
+            "Properties": {
+                "Intensity": "High",
+                "Range": "Local",
+                "Duration": "7 days"
+            }
+        },
+        "River Folk": {
+            "Type": "Communal Watchfulness",
+            "Properties": {
+                "Intensity": "Moderate",
+                "Range": "Local",
+                "Duration": "7 days"
+            }
+        },
+        "Coastal Theocracy": {
+            "Type": "Prayer and Fortification",
+            "Properties": {
+                "Intensity": "High",
+                "Range": "Local",
+                "Duration": "7 days"
+            }
+        },
+        "Vaneer Concord": {
+            "Type": "Logic and Logistics in the Dark",
+            "Properties": {
+                "Intensity": "Moderate",
+                "Range": "Local",
+                "Duration": "7 days"
+            }
+        },
+        "Avian Empire": {
+            "Type": "Economic Opportunity and Fortification",
+            "Properties": {
+                "Intensity": "High",
+                "Range": "Global",
+                "Duration": "7 days"
+            }
+        }
+    }
+}

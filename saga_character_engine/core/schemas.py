@@ -23,7 +23,7 @@ class CharacterBuildRequest(BaseModel):
     base_attributes: Optional[CoreAttributes] = None
     evolutions: BiologicalEvolutions
     background_training: str = "None"
-    tactical_skills: Dict[str, str] = {} # e.g. {"Aggressive": "Body", "Command": "Mind"}
+    tactical_skills: Dict[str, Dict[str, int]] = {} # e.g. {"Aggressive": {"rank": 1, "pips": 0}}
     selected_powers: List[Dict[str, str]] = [] # Expecting full power obj or strings
     equipped_loadout: Dict[str, str] = {}
     pip_bank: PipBank = Field(default_factory=PipBank)

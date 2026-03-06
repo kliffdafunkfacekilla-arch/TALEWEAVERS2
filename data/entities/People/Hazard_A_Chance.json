@@ -1,0 +1,24 @@
+{
+    "Name": "Hazard A Chance",
+    "Type": "People",
+    "Strengths": {
+        "Celesstial Musicology": 85,
+        "Insider Knowledge": 75
+    },
+    "Weaknesses": {
+        "The Great Correction": 60,
+        "Grounded Vertigo": 50
+    },
+    "Quirks": {
+        "Card Shuffling": 80,
+        "The Long Holder": 90
+    },
+    "Backstory": {
+        "The First Love & The Year of Ill-Luck": 90,
+        "The Rogue's Mask": 85
+    },
+    "Lore": {
+        "Appearance & Mannerisms": 70,
+        "The Card Player's Logic": 80
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "name": "Storm-Lancers",
+    "type": "Factions and Organisations",
+    "habitat": "High-altitude 'Hard Clouds' and jagged peaks of the Scute Archipelago",
+    "biology": {
+        "chroma-skin": true,
+        "stinger": {
+            "function": "injects a volatile biological fluid that causes rapid necrosis or combustion",
+            "mechanism": "absorbs ambient Chaos radiation and converts it into a biological fluid stored in the tail sac"
+        }
+    },
+    "lifecycle": {
+        "hatchling": "abandoned by parents, dull, muddy scales",
+        "fledgling": "makes first flight to the peaks, can be tamed",
+        "adult": "sheds scales to reveal Chroma-Skin, bonds with a Rider"
+    },
+    "unit": {
+        "role": "Anti-Airship Cavalry and Stealth Bombers",
+        "recruitment": "The Nest-Heist",
+        "gear": {
+            "saddle": "carved from light pumice stone and lined with leather",
+            "grounding chain": "heavy copper chain drags from the saddle to ground any residual static charge when landing"
+        },
+        "weaponry": {
+            "ram": "uses its bone crest to smash through the wooden hulls of enemy airships",
+            "stinger-whip": "injects chaos-fluid into enemy engines, discharging a massive chaos-shock that disables Aether-Tech",
+            "ray-daggers": "carries harvested stingers in stone sheaths as single-use biological grenades"
+        }
+    },
+    "law": {
+        "philosophy": "The Knife's Edge",
+        "grounded": {
+            "status": "a Rider who outlives their mount never flies again",
+            "role": "becomes Mentors, teaching the next generation"
+        },
+        "poaching law": {
+            "crime": "to a Scute, poaching a Ray is kidnapping a citizen",
+            "judgment": {
+                "the chain": "life slavery in the deepest stone quarries",
+                "the blade": "immediate execution (fed to Divination Pit)"
+            }
+        }
+    }
+}

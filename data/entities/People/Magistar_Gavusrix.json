@@ -1,0 +1,43 @@
+{
+    "Name": "Magistar Gavusrix",
+    "Aliases": [
+        "Magistar Gavusrix",
+        "The Alchemist",
+        "The Quicksilver Mother"
+    ],
+    "Tags": [
+        "Magistar",
+        "Vita",
+        "Vitality",
+        "Dragon/Silver",
+        "NPC"
+    ],
+    "School": "Vita",
+    "Element": "Silver",
+    "Original Title": "The Alchemist",
+    "Dragon Form": "The Quicksilver Mother",
+    "Pre-Corruption Name": "Sorel",
+    "Health": 500,
+    "Mana": 800,
+    "Strength": 18,
+    "Agility": 12,
+    "Intelligence": 20,
+    "Willpower": 16,
+    "Perception": 14,
+    "Endurance": 18,
+    "Speed": 10,
+    "Defense": 12,
+    "Special Abilities": [
+        "Biomancy",
+        "Elixir Brewing",
+        "Life-Force Collection"
+    ],
+    "Corruption": {
+        "Type": "Corrupting Influence",
+        "Effect": "Tumors, Mutations, and Uncontrollable Growth"
+    },
+    "Dragon Form Abilities": [
+        "Radiates Chaotic Vitality",
+        "Causes Tumors, Mutations, and Uncontrollable Growth"
+    ]
+}

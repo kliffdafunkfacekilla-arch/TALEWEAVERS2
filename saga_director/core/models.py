@@ -11,7 +11,9 @@ class CampaignState(Base):
     player_id = Column(String)
     current_hex = Column(Integer, default=402)
     day = Column(Integer, default=1)
+    day_phase = Column(String, default="MORNING") # DAWN, MORNING, AFTERNOON, EVENING, NIGHT
     chaos_level = Column(Integer, default=1)
+    reputation = Column(JSON, default={}) # Faction attitude scores: {"Iron Caldera": 20, ...}
     
     # World state
     tension = Column(Integer, default=0)
@@ -19,6 +21,12 @@ class CampaignState(Base):
     chaos_numbers = Column(JSON, default=[]) # New: Active chaos strike targets (d12)
     pacing_current = Column(Integer, default=0)
     pacing_goal = Column(Integer, default=2)
+    
+    # Session Zero Config
+    difficulty = Column(String, default="STANDARD")
+    style = Column(String, default="GRITTY_SURVIVAL")
+    length_type = Column(String, default="SAGA")
+    no_fly_list = Column(JSON, default=[])
     
     # Complex blobs
     player_vitals = Column(JSON, default={})
@@ -34,12 +42,23 @@ class CampaignState(Base):
 class CampaignFrameworkTable(Base):
     __tablename__ = 'campaign_frameworks'
     
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     campaign_id = Column(String, ForeignKey("campaign_states.id"))
     arc_name = Column(String)
     theme = Column(String)
-    hero_journey = Column(JSON) # List of StoryArcStage
-    character_hooks = Column(JSON)
+    hero_journey = Column(JSON, default=[]) # List of StoryArcStage dicts
+    character_hooks = Column(JSON, default=[])
+    # current_stage_index = Column(Integer, default=0) # Moved to WorldEventsLog
+    # current_stage_progress = Column(Integer, default=0) # Tracks side-quests/filler counts # Moved to WorldEventsLog
+
+class WorldEventsLog(Base):
+    __tablename__ = "world_events_log"
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    campaign_id = Column(String, ForeignKey("campaign_states.id"))
+    turn_number = Column(Integer, default=1)
+    event_description = Column(String)
+    associated_faction = Column(String, nullable=True)
+    location_hex_id = Column(String, nullable=True)
     current_stage_index = Column(Integer, default=0)
     current_stage_progress = Column(Integer, default=0) # Tracks side-quests/filler counts
 

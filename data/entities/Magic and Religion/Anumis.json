@@ -1,0 +1,21 @@
+{
+    "entity_name": "Anumis",
+    "category": "Magic and Religion",
+    "power": "The Source Code of reality",
+    "description": "The 'Magic' that exists outside of physics",
+    "functions": {
+        "offense": {
+            "type": "Arcane",
+            "effect": "Fires beams of raw, violet data that rewrite the target's existence, bypassing physical armor to delete their Hit Points directly, or binding them with runic chains"
+        },
+        "defense": {
+            "type": "Counter Spell",
+            "effect": "Writes sub-routines that counter enemy spells, create wards that forbid entry to supernatural creatures, or shield yourself in geometric force fields"
+        },
+        "utility": {
+            "type": "Data Access",
+            "effect": "Summons entities from the database of other planes, teleports across vast distances via the network, or reads any language by accessing the universal lexicon"
+        }
+    },
+    "tags": []
+}

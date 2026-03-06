@@ -1,0 +1,51 @@
+{
+    "aliases": [
+        "The Sunken Theocracy",
+        "The Net-Keepers",
+        "The Coral Empire"
+    ],
+    "tags": [],
+    "capital": "The Abyssal Trench",
+    "key_export": [
+        "Advanced Airships (Chitin-Hulls)",
+        "Caviar"
+    ],
+    "power": "Aura",
+    "patron": "Magistar Virantor, The Burning Soul",
+    "industry": "Coral-Chitin Composite",
+    "foreign_policy": "Cynical",
+    "theological_doctrine": "The Dogma of the Deep",
+    "caste_system": {
+        "rulers": [
+            "Whale Folk"
+        ],
+        "priesthood": [
+            "Dolphin Folk"
+        ],
+        "military": [
+            "Shark-Folk"
+        ],
+        "artisans": [
+            "Crab/Lobster Folk"
+        ],
+        "messengers": [
+            "Seahorse Courier"
+        ]
+    },
+    "defenses": {
+        "wall": "Submerged Monofilament Wire Net",
+        "purpose": "Stop Submarines and Sea-Monsters",
+        "cost": "Mandatory Service on the Net Line"
+    },
+    "shadow_week_protocol": {
+        "ritual": "Chanting during Global Eclipse",
+        "belief": "Amplify Virantor's Influence to Keep the Heart of the World Alive"
+    },
+    "threat": {
+        "devil's_island_insurgency": {
+            "mistake": "Exiling Mutants and Dissidents",
+            "reality": "Organized Insurgency",
+            "insurgency": "Liberate Vassal Islands"
+        }
+    }
+}

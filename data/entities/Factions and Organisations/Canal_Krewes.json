@@ -1,0 +1,90 @@
+{
+    "Name": "Canal Krewes",
+    "Type": "Faction",
+    "Category": "Organisation",
+    "Members": [
+        {
+            "Role": "Pilot",
+            "Description": "Masters of the barge. They know the 'Sunken Roads'\u2014the hidden currents and deep channels that allow them to move contraband faster than any patrol boat."
+        },
+        {
+            "Role": "Runner",
+            "Description": "The foot soldiers. They wear newsie caps and work the docks. They are expert knife-fighters and swimmers."
+        },
+        {
+            "Role": "Frogman",
+            "Description": "The 'SEAL Team' equivalent. They wear black neoprene and rebreathers made of hollow reeds. They use large crawfish species as underwater cargo movers or personal propulsion units."
+        },
+        {
+            "Role": "Singer",
+            "Description": "Rare few born with 'The Delta Gift.' They are Specialist Assets used for high-stakes missions. They hum low, vibrating dissonant chords that interact with the water."
+        }
+    ],
+    "Magic": {
+        "Type": "Atmospherics",
+        "Description": "They don't throw fireballs. They hum low, vibrating dissonant chords that interact with the water. They can call up a thick, unnatural River Fog in minutes to cover an escape or a raid."
+    },
+    "Tools": [
+        {
+            "Name": "Dock-Oil",
+            "Description": "A grease used to water treat timbers that can make an Aquatic uncomfortable when covered in it, making them hydrophobic."
+        },
+        {
+            "Name": "Whisper-Pearls",
+            "Description": "Rare, ritually attuned pearls. If you hold one and whisper, the matching pearl vibrates. It's a short-range, magical walkie-talkie used by infiltration teams."
+        }
+    ],
+    "Structure": {
+        "Type": "Hierarchical",
+        "Levels": [
+            {
+                "Name": "Papa/Mama",
+                "Description": "Community leaders. They hold court in the back rooms of Taverns, eating crawfish and listening to requests."
+            },
+            {
+                "Name": "Pilot",
+                "Description": "Masters of the barge. They know the 'Sunken Roads'\u2014the hidden currents and deep channels that allow them to move contraband faster than any patrol boat."
+            },
+            {
+                "Name": "Runner",
+                "Description": "The foot soldiers. They wear newsie caps and work the docks. They are expert knife-fighters and swimmers."
+            },
+            {
+                "Name": "Frogman",
+                "Description": "The 'SEAL Team' equivalent. They wear black neoprene and rebreathers made of hollow reeds. They use large crawfish species as underwater cargo movers or personal propulsion units."
+            }
+        ]
+    },
+    "Traditions": [
+        {
+            "Name": "Gris-Gris",
+            "Description": "Every Otter wears a Mojo bag around their neck. It contains dried mud, specific bones, and herbs."
+        },
+        {
+            "Name": "Tavern Culture",
+            "Description": "They run 'Dens'\u2014wooden structures built half-over the water. The air is thick with smoke from 'Marsh-Weed' pipes."
+        }
+    ],
+    "Operations": [
+        {
+            "Name": "Ghost Barges",
+            "Description": "They run barges that don't officially exist. They are painted matte black and have reeds and bits of foliage and fake bits of turf, so they look like part of the shallows or bank."
+        },
+        {
+            "Name": "Sink-Holes",
+            "Description": "If a body needs to disappear, the Syndicate has specific spots in the river with dangerous undertows."
+        }
+    ],
+    "Relationships": [
+        {
+            "Type": "Vs",
+            "Entity": "Rats",
+            "Description": "The Rats think Otter superstitions are 'quaint nonsense.' The Otters think the Rats are soulless."
+        },
+        {
+            "Type": "Vs",
+            "Entity": "Beavers",
+            "Description": "A Beaver Engineer builds a dam. An Otter Shaman hangs a chicken bone on it to 'bless the flow.'"
+        }
+    ]
+}

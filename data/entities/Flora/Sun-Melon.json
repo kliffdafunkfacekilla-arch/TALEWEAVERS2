@@ -1,0 +1,40 @@
+{
+    "Name": "Sun-Melon",
+    "Scientific Name": "Cucumis Durus",
+    "Cultivator": "Simians (Monkeys)",
+    "Grow Zone": "Upper Canopy (Full Sunlight)",
+    "Appearance": {
+        "type": "Thick, woody vine",
+        "size": "Vine that strangles other branches"
+    },
+    "Features": {
+        "fruit": {
+            "type": "Football-sized yellow melons",
+            "size": "Football-sized",
+            "rind": "Hard as oak wood"
+        },
+        "interior": {
+            "water": {
+                "type": "Electrolyte-rich water",
+                "amount": "Liter"
+            },
+            "meat": {
+                "type": "Sweet, firm yellow"
+            }
+        }
+    },
+    "Utility": {
+        "hydration": "Standard water-source for travelers",
+        "shell": {
+            "use": "Bowls, helmets for children, ladles",
+            "strength": "Doesn't break when dropped, doesn't spoil for months"
+        }
+    },
+    "Harvest": {
+        "method": "Saw or heavy machete to cut stem",
+        "risk": {
+            "type": "Falling fruit",
+            "severity": "Can crack a skull"
+        }
+    }
+}

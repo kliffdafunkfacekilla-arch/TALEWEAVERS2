@@ -67,7 +67,7 @@
             {
                 "name": "Siege Frame Trait",
                 "type": "Biological Trait",
-                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space."
+                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft spNatural Defensee."
             }
         ]
     },
@@ -82,7 +82,7 @@
             {
                 "name": "Arboreal Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Hard Bark (AC), Branch-Arms, Root-Legs, Photosynthesis."
+                "effect": "Includes: Hard Bark (Natural Defense), Branch-Arms, Root-Legs, Photosynthesis."
             }
         ]
     },
@@ -247,7 +247,7 @@
             {
                 "name": "Mycelium-Brain Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Hive-Mind (Share senses with willing allies within 60ft)."
+                "effect": "Natural Defensetive: Hive-Mind (Share senses with willing allies within 60ft)."
             }
         ]
     },
@@ -292,7 +292,7 @@
             {
                 "name": "Sweet-Nectar Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Entice (Target must Wis Save or move closer to you)."
+                "effect": "Natural Defensetive: Entice (Target must Willpower/Fortitude Check or move closer to you)."
             }
         ]
     },
@@ -322,7 +322,7 @@
             {
                 "name": "Heavy Branches Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Slam (Melee Attack. High Dmg + Knockback)."
+                "effect": "Natural Defensetive: Slam (Melee AttNatural Defensek. High Dmg + KnockbNatural Defensek)."
             }
         ]
     },
@@ -337,7 +337,7 @@
             {
                 "name": "Whip-Limbs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Lash (Reach 10ft. Trip or Disarm target)."
+                "effect": "Natural Defensetive: Lash (ReNatural Defenseh 10ft. Trip or Disarm target)."
             }
         ]
     },
@@ -352,7 +352,7 @@
             {
                 "name": "Needle-Fingers Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Pierce (Melee Unarmed. Ignores Light Armor)."
+                "effect": "Natural Defensetive: Pierce (Melee Unarmed. Ignores Light Armor)."
             }
         ]
     },
@@ -367,7 +367,7 @@
             {
                 "name": "Puff-Ball Hands Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Dust (Cone Spray. Poison, Sleep, or Hallucinate)."
+                "effect": "Natural Defensetive: Dust (Cone Spray. Poison, Sleep, or Hallucinate)."
             }
         ]
     },
@@ -382,7 +382,7 @@
             {
                 "name": "Fly-Trap Jaws Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Snap (Grapple. If successful, swallow hand/weapon for auto-dmg)."
+                "effect": "Natural Defensetive: Snap (Grapple. If successful, swallow hand/weapon for auto-dmg)."
             }
         ]
     },
@@ -402,7 +402,7 @@
         ]
     },
     {
-        "name": "Cactus-Spines",
+        "name": "CNatural Defensetus-Spines",
         "species": "Plant",
         "stats": {
             "willpower": 1,
@@ -410,9 +410,9 @@
         },
         "passives": [
             {
-                "name": "Cactus-Spines Trait",
+                "name": "CNatural Defensetus-Spines Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Barrage (Ranged Attack. Fire volley of needles)."
+                "effect": "Natural Defensetive: Barrage (Ranged AttNatural Defensek. Fire volley of needles)."
             }
         ]
     },
@@ -427,7 +427,7 @@
             {
                 "name": "Root-Fists Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Entangle (Hit restrains target)."
+                "effect": "Natural Defensetive: Entangle (Hit restrains target)."
             }
         ]
     },
@@ -472,7 +472,7 @@
             {
                 "name": "Spore-Cloud Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Float (Hover 5ft off ground. Slow fall)."
+                "effect": "Natural Defensetive: Float (Hover 5ft off ground. Slow fall)."
             }
         ]
     },
@@ -487,21 +487,21 @@
             {
                 "name": "Roll-Cage Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Roll-Out (Move 2x Speed in straight line. Must stop to act)."
+                "effect": "Natural Defensetive: Roll-Out (Move 2x Speed in straight line. Must stop to Natural Defenset)."
             }
         ]
     },
     {
-        "name": "Sub-Surface",
+        "name": "Sub-SurfNatural Defensee",
         "species": "Plant",
         "stats": {
             "might": 2
         },
         "passives": [
             {
-                "name": "Sub-Surface Trait",
+                "name": "Sub-SurfNatural Defensee Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Shift (Bonus Action. Teleport 15ft via ground network)."
+                "effect": "Natural Defensetive: Shift (Bonus Natural Defensetion. Teleport 15ft via ground network)."
             }
         ]
     },
@@ -531,7 +531,7 @@
             {
                 "name": "Drill-Roots Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Dig (Burrow Speed = Half Walk Speed)."
+                "effect": "Natural Defensetive: Dig (Burrow Speed = Half Walk Speed)."
             }
         ]
     },
@@ -561,7 +561,7 @@
             {
                 "name": "Iron-Wood Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Hardwood (+3 Natural AC. Vulnerable to Fire)."
+                "effect": "Passive: Hardwood (+3 Natural Natural Defense. Vulnerable to Fire)."
             }
         ]
     },
@@ -591,7 +591,7 @@
             {
                 "name": "Spiked-Skin Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Barbed (Grapplers/Melee attackers take 1d4 Pierce)."
+                "effect": "Passive: Barbed (Grapplers/Melee attNatural Defensekers take 1d4 Pierce)."
             }
         ]
     },
@@ -621,7 +621,7 @@
             {
                 "name": "Cuticle-Layer Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Sealed (Immune to dehydration. Resistance to Acid)."
+                "effect": "Passive: Sealed (Immune to dehydration. Resistance to Natural Defenseid)."
             }
         ]
     },
@@ -636,7 +636,7 @@
             {
                 "name": "Hydraulic-Vines Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Pump (Bonus Action. Increase Reach by 5ft for 1 turn)."
+                "effect": "Natural Defensetive: Pump (Bonus Natural Defensetion. Increase ReNatural Defenseh by 5ft for 1 turn)."
             }
         ]
     },
@@ -681,7 +681,7 @@
             {
                 "name": "Rapid-Cell Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Photosynthesis (Heal 25% HP in sunlight over 1 min)."
+                "effect": "Natural Defensetive: Photosynthesis (Heal 25% HP in sunlight over 1 min)."
             }
         ]
     },
@@ -695,7 +695,7 @@
             {
                 "name": "Poison-Sap Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Bad-Blood (Melee attackers making contact are Poisoned)."
+                "effect": "Passive: Bad-Blood (Melee attNatural Defensekers making contNatural Defenset are Poisoned)."
             }
         ]
     },
@@ -710,7 +710,7 @@
             {
                 "name": "Goodberry Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Harvest (Produce 1d4 healing berries per Long Rest)."
+                "effect": "Natural Defensetive: Harvest (Produce 1d4 healing berries per Long Rest)."
             }
         ]
     },
@@ -725,7 +725,7 @@
             {
                 "name": "Pollen-Cloud Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Drowse (20ft Radius. Con Save or Sleep)."
+                "effect": "Natural Defensetive: Drowse (20ft Radius. Fortitude Check or Sleep)."
             }
         ]
     },
@@ -740,7 +740,7 @@
             {
                 "name": "Mandrake-Root Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Scream (AOE Psychic Damage/Stun)."
+                "effect": "Natural Defensetive: Scream (AOE Psychic Damage/Stun)."
             }
         ]
     },
@@ -755,7 +755,7 @@
             {
                 "name": "Root-Burst Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Overgrowth (Restrain all enemies within 10ft radius)."
+                "effect": "Natural Defensetive: Overgrowth (Restrain all enemies within 10ft radius)."
             }
         ]
     },
@@ -784,7 +784,7 @@
             {
                 "name": "Pollen-Link Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Bolster (Ally gains temp HP or advantage)."
+                "effect": "Natural Defensetive: Bolster (Ally gains temp HP or advantage)."
             }
         ]
     },
@@ -856,12 +856,12 @@
             {
                 "name": "Siege Frame Trait",
                 "type": "Biological Trait",
-                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space."
+                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft spNatural Defensee."
             }
         ]
     },
     {
-        "name": "Accipiter Anatomy",
+        "name": "Natural Defensecipiter Anatomy",
         "species": "Avian",
         "stats": {
             "awareness": 1,
@@ -869,7 +869,7 @@
         },
         "passives": [
             {
-                "name": "Accipiter Anatomy Trait",
+                "name": "Natural Defensecipiter Anatomy Trait",
                 "type": "Biological Trait",
                 "effect": "Includes: Hooked Beak, Talons, Broad Wings, Hunter Eyes."
             }
@@ -886,7 +886,7 @@
             {
                 "name": "Corvus Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Tool-Using Beak, Dexterous Feet, Voice Mimicry, Black Plumage."
+                "effect": "Includes: Tool-Using Beak, Dexterous Feet, Voice Mimicry, BlNatural Defensek Plumage."
             }
         ]
     },
@@ -906,7 +906,7 @@
         ]
     },
     {
-        "name": "Psittacine Anatomy",
+        "name": "PsittNatural Defenseine Anatomy",
         "species": "Avian",
         "stats": {
             "reflexes": 1,
@@ -914,9 +914,9 @@
         },
         "passives": [
             {
-                "name": "Psittacine Anatomy Trait",
+                "name": "PsittNatural Defenseine Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Crushing Beak, Zygodactyl Feet (Climb), Vocal Mimicry."
+                "effect": "Includes: Crushing Beak, ZygodNatural Defensetyl Feet (Climb), Vocal Mimicry."
             }
         ]
     },
@@ -1041,7 +1041,7 @@
         ]
     },
     {
-        "name": "Olfactory Bulb",
+        "name": "OlfNatural Defensetory Bulb",
         "species": "Avian",
         "stats": {
             "finesse": 1,
@@ -1049,7 +1049,7 @@
         },
         "passives": [
             {
-                "name": "Olfactory Bulb Trait",
+                "name": "OlfNatural Defensetory Bulb Trait",
                 "type": "Biological Trait",
                 "effect": "Passive: Scavenger-Scent (Smell decay/blood from 1 mile away)."
             }
@@ -1065,12 +1065,12 @@
             {
                 "name": "Gyro-Head Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Lock-On (Move at full speed while keeping Aim on a target)."
+                "effect": "Natural Defensetive: Lock-On (Move at full speed while keeping Aim on a target)."
             }
         ]
     },
     {
-        "name": "Facial Disk",
+        "name": "FNatural Defenseial Disk",
         "species": "Avian",
         "stats": {
             "awareness": 1,
@@ -1078,9 +1078,9 @@
         },
         "passives": [
             {
-                "name": "Facial Disk Trait",
+                "name": "FNatural Defenseial Disk Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Pinpoint (Hearing-based Blindsight 30ft)."
+                "effect": "Natural Defensetive: Pinpoint (Hearing-based Blindsight 30ft)."
             }
         ]
     },
@@ -1095,7 +1095,7 @@
             {
                 "name": "Crest Display Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Startle (Flare crest. Target within 10ft loses Reaction)."
+                "effect": "Natural Defensetive: Startle (Flare crest. Target within 10ft loses ReNatural Defensetion)."
             }
         ]
     },
@@ -1110,7 +1110,7 @@
             {
                 "name": "Spurred Wrists Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Wing-Slash (Melee Attack. Deal Slashing + Bleed)."
+                "effect": "Natural Defensetive: Wing-Slash (Melee AttNatural Defensek. Deal Slashing + Bleed)."
             }
         ]
     },
@@ -1124,7 +1124,7 @@
             {
                 "name": "Heavy Pinions Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Gust (Cone Attack. Knock targets Prone with wind/impact)."
+                "effect": "Natural Defensetive: Gust (Cone AttNatural Defensek. Knock targets Prone with wind/impNatural Defenset)."
             }
         ]
     },
@@ -1139,7 +1139,7 @@
             {
                 "name": "Bone-Wings Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Mantle (Use Wings as Shield. +2 AC against Ranged Attacks)."
+                "effect": "Passive: Mantle (Use Wings as Shield. +2 Natural Defense against Ranged AttNatural Defenseks)."
             }
         ]
     },
@@ -1154,7 +1154,7 @@
             {
                 "name": "Clawed Digits Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Manipulate (Archaeopteryx claws allow item use while flying)."
+                "effect": "Natural Defensetive: Manipulate (Archaeopteryx claws allow item use while flying)."
             }
         ]
     },
@@ -1169,7 +1169,7 @@
             {
                 "name": "Swept Wings Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Stoop (Dive Attack. +1d6 Dmg for every 10ft fallen)."
+                "effect": "Natural Defensetive: Stoop (Dive AttNatural Defensek. +1d6 Dmg for every 10ft fallen)."
             }
         ]
     },
@@ -1199,7 +1199,7 @@
             {
                 "name": "Strong Shoulders Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Vertical-Takeoff (Launch into air without running start)."
+                "effect": "Natural Defensetive: Vertical-Takeoff (Launch into air without running start)."
             }
         ]
     },
@@ -1229,7 +1229,7 @@
             {
                 "name": "Raptor Claws Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Snatch (Grapple Check. On success, restrain target)."
+                "effect": "Natural Defensetive: Snatch (Grapple Check. On success, restrain target)."
             }
         ]
     },
@@ -1244,12 +1244,12 @@
             {
                 "name": "Running Struts Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Dash (Move 3x Speed on ground)."
+                "effect": "Natural Defensetive: Dash (Move 3x Speed on ground)."
             }
         ]
     },
     {
-        "name": "Zygodactyl Toes",
+        "name": "ZygodNatural Defensetyl Toes",
         "species": "Avian",
         "stats": {
             "knowledge": 1,
@@ -1257,7 +1257,7 @@
         },
         "passives": [
             {
-                "name": "Zygodactyl Toes Trait",
+                "name": "ZygodNatural Defensetyl Toes Trait",
                 "type": "Biological Trait",
                 "effect": "Passive: Tree-Walker (Climb Speed = Walk Speed. Hang upside down)."
             }
@@ -1288,7 +1288,7 @@
             {
                 "name": "Cassowary Claw Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Eviscerate (Melee Kick. High Dmg + Knockback)."
+                "effect": "Natural Defensetive: Eviscerate (Melee Kick. High Dmg + KnockbNatural Defensek)."
             }
         ]
     },
@@ -1316,9 +1316,9 @@
         },
         "passives": [
             {
-                "name": "Surface Dash",
-                "type": "Action",
-                "effect": "You can run across the surface of water for one turn without sinking."
+                "name": "SurfNatural Defensee Dash",
+                "type": "Natural Defensetion",
+                "effect": "You can run Natural Defenseross the surfNatural Defensee of water for one turn without sinking."
             },
             {
                 "name": "Paddle",
@@ -1383,7 +1383,7 @@
             {
                 "name": "Keratin Scales Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Hard-Feather (+2 Natural AC. Flight speed -10ft)."
+                "effect": "Passive: Hard-Feather (+2 Natural Natural Defense. Flight speed -10ft)."
             }
         ]
     },
@@ -1398,7 +1398,7 @@
             {
                 "name": "Iridescent Plume Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Dazzle (Target Disadvantage on Attack rolls due to flash)."
+                "effect": "Natural Defensetive: Dazzle (Target Disadvantage on AttNatural Defensek rolls due to flash)."
             }
         ]
     },
@@ -1427,7 +1427,7 @@
             {
                 "name": "Hollow Bones Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Lift (Advantage on Acrobatics and Fly checks)."
+                "effect": "Passive: Lift (Advantage on Natural Defenserobatics and Fly checks)."
             }
         ]
     },
@@ -1442,7 +1442,7 @@
             {
                 "name": "Crop Pouch Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Cache (Store items/food safely in throat pouch)."
+                "effect": "Passive: CNatural Defensehe (Store items/food safely in throat pouch)."
             }
         ]
     },
@@ -1472,7 +1472,7 @@
             {
                 "name": "Syrinx Box Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Voice-Thief (Perfectly mimic any sound or voice heard)."
+                "effect": "Natural Defensetive: Voice-Thief (Perfectly mimic any sound or voice heard)."
             }
         ]
     },
@@ -1487,7 +1487,7 @@
             {
                 "name": "Song-Throat Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Bardic-Chirp (Allies within 30ft gain +1d4 to next Save)."
+                "effect": "Natural Defensetive: Bardic-Chirp (Allies within 30ft gain +1d4 to next Save)."
             }
         ]
     },
@@ -1532,12 +1532,12 @@
             {
                 "name": "Hooked Bill Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Tear (Melee Attack. Auto-Crit against Prone targets)."
+                "effect": "Natural Defensetive: Tear (Melee AttNatural Defensek. Auto-Crit against Prone targets)."
             }
         ]
     },
     {
-        "name": "Nut-Cracker Bill",
+        "name": "Nut-CrNatural Defenseker Bill",
         "species": "Avian",
         "stats": {
             "reflexes": 1,
@@ -1545,14 +1545,14 @@
         },
         "passives": [
             {
-                "name": "Nut-Cracker Bill Trait",
+                "name": "Nut-CrNatural Defenseker Bill Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Break (Double damage against objects/armor)."
+                "effect": "Natural Defensetive: Break (Double damage against objects/armor)."
             }
         ]
     },
     {
-        "name": "Throat Sac",
+        "name": "Throat SNatural Defense",
         "species": "Avian",
         "stats": {
             "intuition": 1,
@@ -1560,14 +1560,14 @@
         },
         "passives": [
             {
-                "name": "Throat Sac Trait",
+                "name": "Throat SNatural Defense Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Scoop (Grapple tiny/small target and hold in mouth)."
+                "effect": "Natural Defensetive: Scoop (Grapple tiny/small target and hold in mouth)."
             }
         ]
     },
     {
-        "name": "Boom-Sack",
+        "name": "Boom-SNatural Defensek",
         "species": "Avian",
         "stats": {
             "reflexes": 1,
@@ -1575,9 +1575,9 @@
         },
         "passives": [
             {
-                "name": "Boom-Sack Trait",
+                "name": "Boom-SNatural Defensek Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Resonate (AOE Thunder Damage in 15ft cone)."
+                "effect": "Natural Defensetive: Resonate (AOE Thunder Damage in 15ft cone)."
             }
         ]
     },
@@ -1649,7 +1649,7 @@
             {
                 "name": "Siege Frame Trait",
                 "type": "Biological Trait",
-                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space."
+                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft spNatural Defensee."
             }
         ]
     },
@@ -1709,7 +1709,7 @@
             {
                 "name": "Climbing Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Sticky Pads (Climb), Detachable Tail, Night-Pupils."
+                "effect": "Includes: Sticky Pads (Climb), DetNatural Defensehable Tail, Night-Pupils."
             }
         ]
     },
@@ -1724,7 +1724,7 @@
             {
                 "name": "Varanid Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Forked Tongue (Tracker), Rending Claws, Whip Tail."
+                "effect": "Includes: Forked Tongue (TrNatural Defenseker), Rending Claws, Whip Tail."
             }
         ]
     },
@@ -1739,7 +1739,7 @@
             {
                 "name": "Arboreal Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Independent Eyes, Color-Shift Skin, Zodactyl Feet."
+                "effect": "Includes: Independent Eyes, Color-Shift Skin, ZodNatural Defensetyl Feet."
             }
         ]
     },
@@ -1797,13 +1797,13 @@
         "passives": [
             {
                 "name": "Taste the Air",
-                "type": "Action",
+                "type": "Natural Defensetion",
                 "effect": "Detect the presence of poisons, magic, or fresh blood within 60ft by tasting scent particles."
             },
             {
-                "name": "Tracker",
+                "name": "TrNatural Defenseker",
                 "type": "Passive",
-                "effect": "You gain Advantage on Survival checks to track a creature you have smelled before."
+                "effect": "You gain Advantage on Survival checks to trNatural Defensek a creature you have smelled before."
             }
         ]
     },
@@ -1817,7 +1817,7 @@
             {
                 "name": "Swivel Eyes Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Target-Lock (Next attack has Advantage and ignores Cover)."
+                "effect": "Natural Defensetive: Target-Lock (Next attNatural Defensek has Advantage and ignores Cover)."
             }
         ]
     },
@@ -1837,7 +1837,7 @@
         ]
     },
     {
-        "name": "Spectacle Hood",
+        "name": "SpectNatural Defensele Hood",
         "species": "Reptile",
         "stats": {
             "intuition": 1,
@@ -1845,9 +1845,9 @@
         },
         "passives": [
             {
-                "name": "Spectacle Hood Trait",
+                "name": "SpectNatural Defensele Hood Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Mesmerize (Target makes Will save or is Stunned 1 turn)."
+                "effect": "Natural Defensetive: Mesmerize (Target makes Will save or is Stunned 1 turn)."
             }
         ]
     },
@@ -1877,7 +1877,7 @@
             {
                 "name": "Locking Jaw Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Death-Roll (Grapple. If successful, auto-crit damage)."
+                "effect": "Natural Defensetive: Death-Roll (Grapple. If successful, auto-crit damage)."
             }
         ]
     },
@@ -1892,7 +1892,7 @@
             {
                 "name": "Venom Glands Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Blind (Ranged Attack. Target is Blinded for 1d4 rounds)."
+                "effect": "Natural Defensetive: Blind (Ranged AttNatural Defensek. Target is Blinded for 1d4 rounds)."
             }
         ]
     },
@@ -1907,7 +1907,7 @@
             {
                 "name": "Muscular Coils Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Squeeze (Grappled targets take 1d6 Bludgeoning per turn)."
+                "effect": "Natural Defensetive: Squeeze (Grappled targets take 1d6 Bludgeoning per turn)."
             }
         ]
     },
@@ -1922,7 +1922,7 @@
             {
                 "name": "Sickle Claws Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Eviscerate (Apply Deep Wound: Healing is halved for target)."
+                "effect": "Natural Defensetive: Eviscerate (Apply Deep Wound: Healing is halved for target)."
             }
         ]
     },
@@ -1952,7 +1952,7 @@
             {
                 "name": "Club-Fists Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Smash (Melee Attack. Knock target back 10ft)."
+                "effect": "Natural Defensetive: Smash (Melee AttNatural Defensek. Knock target bNatural Defensek 10ft)."
             }
         ]
     },
@@ -1967,7 +1967,7 @@
             {
                 "name": "Hollow Spurs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Neurotoxin (Melee Hit: Target Speed is 0 for 1 turn)."
+                "effect": "Natural Defensetive: Neurotoxin (Melee Hit: Target Speed is 0 for 1 turn)."
             }
         ]
     },
@@ -1982,7 +1982,7 @@
             {
                 "name": "Spade Claws Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Trench (Create Cover/Terrain modifiers instantly)."
+                "effect": "Natural Defensetive: Trench (Create Cover/Terrain modifiers instantly)."
             }
         ]
     },
@@ -1997,7 +1997,7 @@
             {
                 "name": "Rib-Wings Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Draco-Glide (Negate fall damage. 3:1 Travel ratio)."
+                "effect": "Passive: DrNatural Defenseo-Glide (Negate fall damage. 3:1 Travel ratio)."
             }
         ]
     },
@@ -2012,7 +2012,7 @@
             {
                 "name": "Change-Skin Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Camo-Strike (Turn Invisible for 1 turn, attack breaks it)."
+                "effect": "Natural Defensetive: Camo-Strike (Turn Invisible for 1 turn, attNatural Defensek breaks it)."
             }
         ]
     },
@@ -2027,7 +2027,7 @@
             {
                 "name": "Bipedal Hips Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Burst (Move 4x Speed, but Lethargic next turn)."
+                "effect": "Natural Defensetive: Burst (Move 4x Speed, but Lethargic next turn)."
             }
         ]
     },
@@ -2057,7 +2057,7 @@
             {
                 "name": "Coiled Muscles Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Strike-Jump (Jump 20ft instantly as part of an attack)."
+                "effect": "Natural Defensetive: Strike-Jump (Jump 20ft instantly as part of an attNatural Defensek)."
             }
         ]
     },
@@ -2102,7 +2102,7 @@
             {
                 "name": "Hooked Toes Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Skitter (Move across vertical surfaces without slowing)."
+                "effect": "Passive: Skitter (Move Natural Defenseross vertical surfNatural Defensees without slowing)."
             }
         ]
     },
@@ -2117,7 +2117,7 @@
             {
                 "name": "Webbed Fringe Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Water-Walk (Run across liquid surfaces if you don't stop)."
+                "effect": "Passive: Water-Walk (Run Natural Defenseross liquid surfNatural Defensees if you don't stop)."
             }
         ]
     },
@@ -2147,7 +2147,7 @@
             {
                 "name": "Osteoderms Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Heavy Plate (+3 Natural AC, -5 Speed)."
+                "effect": "Passive: Heavy Plate (+3 Natural Natural Defense, -5 Speed)."
             }
         ]
     },
@@ -2162,7 +2162,7 @@
             {
                 "name": "Stem-Cell Biology Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Shed (Bonus Action. Heal 25% HP, remove all Status Effects)."
+                "effect": "Natural Defensetive: Shed (Bonus Natural Defensetion. Heal 25% HP, remove all Status Effects)."
             }
         ]
     },
@@ -2177,7 +2177,7 @@
             {
                 "name": "Color-Shift Scales Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Active Camo (+5 Stealth if you moved less than 5ft)."
+                "effect": "Passive: Natural Defensetive Camo (+5 Stealth if you moved less than 5ft)."
             }
         ]
     },
@@ -2192,7 +2192,7 @@
             {
                 "name": "Dorsal Spines Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Thorns (Grapplers/Melee attackers take 1d4 Pierce)."
+                "effect": "Passive: Thorns (Grapplers/Melee attNatural Defensekers take 1d4 Pierce)."
             }
         ]
     },
@@ -2221,7 +2221,7 @@
             {
                 "name": "Mucus Coat Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Evasion (Take half damage from AOE/Breath attacks)."
+                "effect": "Passive: Evasion (Take half damage from AOE/Breath attNatural Defenseks)."
             }
         ]
     },
@@ -2251,7 +2251,7 @@
             {
                 "name": "Elastic Hide Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Impact (Resistance to Bludgeoning damage)."
+                "effect": "Passive: ImpNatural Defenset (Resistance to Bludgeoning damage)."
             }
         ]
     },
@@ -2266,7 +2266,7 @@
             {
                 "name": "Prehensile Tail Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Trip (Bonus Action. Knock target Prone at 10ft range)."
+                "effect": "Natural Defensetive: Trip (Bonus Natural Defensetion. Knock target Prone at 10ft range)."
             }
         ]
     },
@@ -2280,13 +2280,13 @@
         "passives": [
             {
                 "name": "Warning Shake",
-                "type": "Action",
+                "type": "Natural Defensetion",
                 "effect": "Rattle loudly. Enemies within 15ft must save (Willpower) or be Frightened for 1 round."
             },
             {
                 "name": "Lure",
                 "type": "Bonus",
-                "effect": "Shake softly to mimic an insect buzz, distracting a target to give an ally Advantage on their next attack."
+                "effect": "Shake softly to mimic an insect buzz, distrNatural Defenseting a target to give an ally Advantage on their next attNatural Defensek."
             }
         ]
     },
@@ -2301,12 +2301,12 @@
             {
                 "name": "Neck Frill Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Flare (Target loses next Action due to shock/startle)."
+                "effect": "Natural Defensetive: Flare (Target loses next Natural Defensetion due to shock/startle)."
             }
         ]
     },
     {
-        "name": "Poison Sacs",
+        "name": "Poison SNatural Defenses",
         "species": "Reptile",
         "stats": {
             "willpower": 1,
@@ -2314,9 +2314,9 @@
         },
         "passives": [
             {
-                "name": "Poison Sacs Trait",
+                "name": "Poison SNatural Defenses Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Envenom (Coat weapon. Con Save or Paralyzed)."
+                "effect": "Natural Defensetive: Envenom (Coat weapon. Fortitude Check or Paralyzed)."
             }
         ]
     },
@@ -2331,7 +2331,7 @@
             {
                 "name": "Autotomy Tail Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Decoy (Reaction. Drop tail. It wiggles. You turn Invisible)."
+                "effect": "Natural Defensetive: Decoy (ReNatural Defensetion. Drop tail. It wiggles. You turn Invisible)."
             }
         ]
     },
@@ -2346,7 +2346,7 @@
             {
                 "name": "Throat Gland Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Exhale (15ft Cone of Acid or Fire)."
+                "effect": "Natural Defensetive: Exhale (15ft Cone of Natural Defenseid or Fire)."
             }
         ]
     },
@@ -2447,7 +2447,7 @@
             {
                 "name": "Siege Frame Trait",
                 "type": "Biological Trait",
-                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space."
+                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft spNatural Defensee."
             }
         ]
     },
@@ -2482,7 +2482,7 @@
         ]
     },
     {
-        "name": "Arachnid Anatomy",
+        "name": "ArNatural Defensehnid Anatomy",
         "species": "Insect",
         "stats": {
             "awareness": 1,
@@ -2490,7 +2490,7 @@
         },
         "passives": [
             {
-                "name": "Arachnid Anatomy Trait",
+                "name": "ArNatural Defensehnid Anatomy Trait",
                 "type": "Biological Trait",
                 "effect": "Includes: 8 Legs, Spinnerets (Silk), Pedipalps, Multiple Eyes."
             }
@@ -2572,7 +2572,7 @@
         ]
     },
     {
-        "name": "Faceted Eyes",
+        "name": "FNatural Defenseeted Eyes",
         "species": "Insect",
         "stats": {
             "fortitude": 1,
@@ -2586,7 +2586,7 @@
             },
             {
                 "name": "Reflex Dodge",
-                "type": "Reaction",
+                "type": "ReNatural Defensetion",
                 "effect": "You gain +2 to Reflex saves against Area of Effect spells (you see it coming)."
             }
         ]
@@ -2617,7 +2617,7 @@
             {
                 "name": "Light Sensors Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Twitch (Reaction. If a light source moves, gain +2 AC)."
+                "effect": "Passive: Twitch (ReNatural Defensetion. If a light source moves, gain +2 Natural Defense)."
             }
         ]
     },
@@ -2647,7 +2647,7 @@
             {
                 "name": "Serrated Jaws Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Crunch (Melee Bite. Ignores Hardness of objects)."
+                "effect": "Natural Defensetive: Crunch (Melee Bite. Ignores Hardness of objects)."
             }
         ]
     },
@@ -2662,7 +2662,7 @@
             {
                 "name": "Needle Mouth Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Drain (Grapple. Heal 1d4 HP per turn while holding target)."
+                "effect": "Natural Defensetive: Drain (Grapple. Heal 1d4 HP per turn while holding target)."
             }
         ]
     },
@@ -2677,7 +2677,7 @@
             {
                 "name": "Biolum-Glands Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Flash-Bang (Cone of Light. Blindness or Signaling)."
+                "effect": "Natural Defensetive: Flash-Bang (Cone of Light. Blindness or Signaling)."
             }
         ]
     },
@@ -2692,7 +2692,7 @@
             {
                 "name": "Ovipositor Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Implant (Inject egg/tracker. You know location of target always)."
+                "effect": "Natural Defensetive: Implant (Inject egg/trNatural Defenseker. You know location of target always)."
             }
         ]
     },
@@ -2707,7 +2707,7 @@
             {
                 "name": "Raptorial Blades Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Snatch-Strike (Reach Attack. Pull target 5ft closer)."
+                "effect": "Natural Defensetive: Snatch-Strike (ReNatural Defenseh AttNatural Defensek. Pull target 5ft closer)."
             }
         ]
     },
@@ -2722,7 +2722,7 @@
             {
                 "name": "Crushing Claws Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Vice-Grip (Grapple. Target is Restrained and cannot speak)."
+                "effect": "Natural Defensetive: Vice-Grip (Grapple. Target is Restrained and cannot speak)."
             }
         ]
     },
@@ -2737,7 +2737,7 @@
             {
                 "name": "Spinneret Wrists Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Tangle (Ranged Web. Target Speed is 0)."
+                "effect": "Natural Defensetive: Tangle (Ranged Web. Target Speed is 0)."
             }
         ]
     },
@@ -2752,7 +2752,7 @@
             {
                 "name": "Barbed Forelegs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Impale (Crit deals x3 Damage instead of x2)."
+                "effect": "Natural Defensetive: Impale (Crit deals x3 Damage instead of x2)."
             }
         ]
     },
@@ -2767,7 +2767,7 @@
             {
                 "name": "Flat-Plate Arms Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Phalanx (+2 AC against Melee Attacks)."
+                "effect": "Passive: Phalanx (+2 Natural Defense against Melee AttNatural Defenseks)."
             }
         ]
     },
@@ -2797,7 +2797,7 @@
             {
                 "name": "Spade Limbs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Burrow (Create tunnel. Collapse it behind you)."
+                "effect": "Natural Defensetive: Burrow (Create tunnel. Collapse it behind you)."
             }
         ]
     },
@@ -2812,7 +2812,7 @@
             {
                 "name": "Hypodermic Spurs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Inject (Apply Toxin. Con Save or Sleep)."
+                "effect": "Natural Defensetive: Inject (Apply Toxin. Fortitude Check or Sleep)."
             }
         ]
     },
@@ -2842,7 +2842,7 @@
             {
                 "name": "Hydraulic Knees Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Launch (Jump 30ft vertically or horizontally)."
+                "effect": "Natural Defensetive: Launch (Jump 30ft vertically or horizontally)."
             }
         ]
     },
@@ -2857,12 +2857,12 @@
             {
                 "name": "Hooked Tarsi Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Unshakeable (Immune to Knockback and Prone)."
+                "effect": "Passive: Unshakeable (Immune to KnockbNatural Defensek and Prone)."
             }
         ]
     },
     {
-        "name": "Surface Tension",
+        "name": "SurfNatural Defensee Tension",
         "species": "Insect",
         "stats": {
             "might": 1,
@@ -2870,9 +2870,9 @@
         },
         "passives": [
             {
-                "name": "Surface Tension Trait",
+                "name": "SurfNatural Defensee Tension Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Water-Walk (Run across liquid surfaces)."
+                "effect": "Passive: Water-Walk (Run Natural Defenseross liquid surfNatural Defensees)."
             }
         ]
     },
@@ -2887,7 +2887,7 @@
             {
                 "name": "Buzzing Wings Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Dart (Fly speed 30ft. Must land at end of turn)."
+                "effect": "Natural Defensetive: Dart (Fly speed 30ft. Must land at end of turn)."
             }
         ]
     },
@@ -2917,7 +2917,7 @@
             {
                 "name": "Rhythmic Gait Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Scuttle (Dash as Bonus Action)."
+                "effect": "Natural Defensetive: Scuttle (Dash as Bonus Natural Defensetion)."
             }
         ]
     },
@@ -2947,7 +2947,7 @@
             {
                 "name": "Hard Shell Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Exoskeleton (AC = 13 + Dex. Cannot wear standard armor)."
+                "effect": "Passive: Exoskeleton (Natural Defense = 13 + Dex. Cannot wear standard armor)."
             }
         ]
     },
@@ -2977,7 +2977,7 @@
             {
                 "name": "Warning Colors Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Bad-Blood (Melee attackers take Poison dmg)."
+                "effect": "Passive: Bad-Blood (Melee attNatural Defensekers take Poison dmg)."
             }
         ]
     },
@@ -3022,7 +3022,7 @@
             {
                 "name": "Abdominal Light Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Lure (Target must make Wis save or move toward you)."
+                "effect": "Natural Defensetive: Lure (Target must make Willpower/Fortitude Check or move toward you)."
             }
         ]
     },
@@ -3052,7 +3052,7 @@
             {
                 "name": "Molting Hormones Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Molt (Short Rest: Regain full HP, lose AC bonus for 1 hour)."
+                "effect": "Natural Defensetive: Molt (Short Rest: Regain full HP, lose Natural Defense bonus for 1 hour)."
             }
         ]
     },
@@ -3067,7 +3067,7 @@
             {
                 "name": "Abdominal Spur Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Envenom (Bonus Action attack. Paralyze or Necrotic dmg)."
+                "effect": "Natural Defensetive: Envenom (Bonus Natural Defensetion attNatural Defensek. Paralyze or Necrotic dmg)."
             }
         ]
     },
@@ -3082,7 +3082,7 @@
             {
                 "name": "Rear Spinnerets Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Net-Trap (Create 10ft area of Difficult Terrain/Stickiness)."
+                "effect": "Natural Defensetive: Net-Trap (Create 10ft area of Difficult Terrain/Stickiness)."
             }
         ]
     },
@@ -3097,7 +3097,7 @@
             {
                 "name": "Pheromone Cloud Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Command (Allies within 30ft gain +2 To Hit)."
+                "effect": "Natural Defensetive: Command (Allies within 30ft gain +2 To Hit)."
             }
         ]
     },
@@ -3112,7 +3112,7 @@
             {
                 "name": "Chemical Chamber Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Blast (10ft Cone of Boiling Acid. Fire/Acid dmg)."
+                "effect": "Natural Defensetive: Blast (10ft Cone of Boiling Natural Defenseid. Fire/Natural Defenseid dmg)."
             }
         ]
     },
@@ -3142,12 +3142,12 @@
             {
                 "name": "Stridulation Legs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Chirp (AOE Deafness or Sonic Dmg)."
+                "effect": "Natural Defensetive: Chirp (AOE Deafness or Sonic Dmg)."
             }
         ]
     },
     {
-        "name": "Brood Sac",
+        "name": "Brood SNatural Defense",
         "species": "Insect",
         "stats": {
             "awareness": 1,
@@ -3155,9 +3155,9 @@
         },
         "passives": [
             {
-                "name": "Brood Sac Trait",
+                "name": "Brood SNatural Defense Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Spawn (Create 1d4 Tiny Minions that distract enemies)."
+                "effect": "Natural Defensetive: Spawn (Create 1d4 Tiny Minions that distrNatural Defenset enemies)."
             }
         ]
     },
@@ -3172,7 +3172,7 @@
             {
                 "name": "Mind-Spore Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Rider (Attach to Large foe. They provide you Cover)."
+                "effect": "Passive: Rider (AttNatural Defenseh to Large foe. They provide you Cover)."
             }
         ]
     },
@@ -3244,12 +3244,12 @@
             {
                 "name": "Siege Frame Trait",
                 "type": "Biological Trait",
-                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft space."
+                "effect": "Siege: Deal double damage to structures. You occupy a 10ft x 10ft spNatural Defensee."
             }
         ]
     },
     {
-        "name": "Selachimorpha Anatomy",
+        "name": "SelNatural Defensehimorpha Anatomy",
         "species": "Aquatic",
         "stats": {
             "endurance": 1,
@@ -3257,14 +3257,14 @@
         },
         "passives": [
             {
-                "name": "Selachimorpha Anatomy Trait",
+                "name": "SelNatural Defensehimorpha Anatomy Trait",
                 "type": "Biological Trait",
                 "effect": "Includes: Cartilage Skeleton, Rows of Teeth, Gills/Lung Hybrid."
             }
         ]
     },
     {
-        "name": "Crustacean Anatomy",
+        "name": "CrustNatural Defenseean Anatomy",
         "species": "Aquatic",
         "stats": {
             "reflexes": 1,
@@ -3272,9 +3272,9 @@
         },
         "passives": [
             {
-                "name": "Crustacean Anatomy Trait",
+                "name": "CrustNatural Defenseean Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Hard Carapace (AC), Pincers, Gills, Bipedal/Quad Stance."
+                "effect": "Includes: Hard CarapNatural Defensee (Natural Defense), Pincers, Gills, Bipedal/Quad Stance."
             }
         ]
     },
@@ -3289,12 +3289,12 @@
             {
                 "name": "Cephalopod Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: No Bones (Squeeze), Tentacle-Hair, Ink Sac, Beak."
+                "effect": "Includes: No Bones (Squeeze), TentNatural Defensele-Hair, Ink SNatural Defense, Beak."
             }
         ]
     },
     {
-        "name": "Cetacean Anatomy",
+        "name": "CetNatural Defenseean Anatomy",
         "species": "Aquatic",
         "stats": {
             "logic": 1,
@@ -3302,7 +3302,7 @@
         },
         "passives": [
             {
-                "name": "Cetacean Anatomy Trait",
+                "name": "CetNatural Defenseean Anatomy Trait",
                 "type": "Biological Trait",
                 "effect": "Includes: Blubber, Blowhole, Sonar, Powerful Build."
             }
@@ -3364,7 +3364,7 @@
             {
                 "name": "Abyssal Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Lure Light, Massive Jaw, Pressure Immune, Black Skin."
+                "effect": "Includes: Lure Light, Massive Jaw, Pressure Immune, BlNatural Defensek Skin."
             }
         ]
     },
@@ -3379,7 +3379,7 @@
             {
                 "name": "Melon/Dome Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Ping (Blindsight 60ft in Air or Water. See invisible)."
+                "effect": "Natural Defensetive: Ping (Blindsight 60ft in Air or Water. See invisible)."
             }
         ]
     },
@@ -3394,7 +3394,7 @@
             {
                 "name": "Ampullae Pores Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Bio-Electric (Detect heartbeats/machines within 10ft)."
+                "effect": "Passive: Bio-Electric (Detect heartbeats/mNatural Defensehines within 10ft)."
             }
         ]
     },
@@ -3429,7 +3429,7 @@
         ]
     },
     {
-        "name": "Olfactory Nares",
+        "name": "OlfNatural Defensetory Nares",
         "species": "Aquatic",
         "stats": {
             "awareness": 1,
@@ -3437,9 +3437,9 @@
         },
         "passives": [
             {
-                "name": "Olfactory Nares Trait",
+                "name": "OlfNatural Defensetory Nares Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Blood-Scent (Track injured targets from 1 mile away)."
+                "effect": "Passive: Blood-Scent (TrNatural Defensek injured targets from 1 mile away)."
             }
         ]
     },
@@ -3469,7 +3469,7 @@
             {
                 "name": "Illicium Light Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Mesmerize (Lure target closer. They lose Reaction)."
+                "effect": "Natural Defensetive: Mesmerize (Lure target closer. They lose ReNatural Defensetion)."
             }
         ]
     },
@@ -3484,7 +3484,7 @@
             {
                 "name": "Parrot-Beak Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Crunch (Ignore Armor/Shell Hardness on Bite attacks)."
+                "effect": "Natural Defensetive: Crunch (Ignore Armor/Shell Hardness on Bite attNatural Defenseks)."
             }
         ]
     },
@@ -3499,7 +3499,7 @@
             {
                 "name": "Chitin Gauntlets Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Vice (Grapple. Target is Restrained. Auto-Dmg per turn)."
+                "effect": "Natural Defensetive: Vice (Grapple. Target is Restrained. Auto-Dmg per turn)."
             }
         ]
     },
@@ -3514,7 +3514,7 @@
             {
                 "name": "Suction Fingers Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Entangle (Reach 10ft. Grapple with Advantage)."
+                "effect": "Natural Defensetive: Entangle (ReNatural Defenseh 10ft. Grapple with Advantage)."
             }
         ]
     },
@@ -3529,7 +3529,7 @@
             {
                 "name": "Fin-Spurs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Slice (Melee Unarmed Attack. High Crit Chance or Bleed)."
+                "effect": "Natural Defensetive: Slice (Melee Unarmed AttNatural Defensek. High Crit Chance or Bleed)."
             }
         ]
     },
@@ -3544,7 +3544,7 @@
             {
                 "name": "Bone-Plate Head Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Batter (Charge Attack. High Dmg + Stun)."
+                "effect": "Natural Defensetive: Batter (Charge AttNatural Defensek. High Dmg + Stun)."
             }
         ]
     },
@@ -3557,8 +3557,8 @@
         "passives": [
             {
                 "name": "Shock",
-                "type": "Action",
-                "effect": "Touch attack. Target takes Lightning damage and cannot take Reactions until their next turn."
+                "type": "Natural Defensetion",
+                "effect": "Touch attNatural Defensek. Target takes Lightning damage and cannot take ReNatural Defensetions until their next turn."
             },
             {
                 "name": "Bio-Sense",
@@ -3578,7 +3578,7 @@
             {
                 "name": "Mucus Webbing Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Ensnare (Cone spray. Targets slowed/stuck)."
+                "effect": "Natural Defensetive: Ensnare (Cone spray. Targets slowed/stuck)."
             }
         ]
     },
@@ -3593,7 +3593,7 @@
             {
                 "name": "Mantis-Club Fists Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Cavitation (Melee Hit. Deals Thunder Dmg + Knockback)."
+                "effect": "Natural Defensetive: Cavitation (Melee Hit. Deals Thunder Dmg + KnockbNatural Defensek)."
             }
         ]
     },
@@ -3608,7 +3608,7 @@
             {
                 "name": "Nematocysts Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Touch-Pain (Anyone touching you takes 1d4 Acid/Poison)."
+                "effect": "Passive: Touch-Pain (Anyone touching you takes 1d4 Natural Defenseid/Poison)."
             }
         ]
     },
@@ -3623,7 +3623,7 @@
             {
                 "name": "Fin-Calves Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Hydro-Dash (Move 3x Speed in Water. Normal Speed on Land)."
+                "effect": "Natural Defensetive: Hydro-Dash (Move 3x Speed in Water. Normal Speed on Land)."
             }
         ]
     },
@@ -3682,7 +3682,7 @@
             {
                 "name": "Reverse-Joints Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Breach (Jump distance tripled. Launch from water to land instantly)."
+                "effect": "Natural Defensetive: BreNatural Defenseh (Jump distance tripled. Launch from water to land instantly)."
             }
         ]
     },
@@ -3712,7 +3712,7 @@
             {
                 "name": "Soft-Soles Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Fluid-Walk (0 Sound on wet surfaces/stone)."
+                "effect": "Passive: Fluid-Walk (0 Sound on wet surfNatural Defensees/stone)."
             }
         ]
     },
@@ -3742,7 +3742,7 @@
             {
                 "name": "Calcium Plate Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Bunker (+4 AC. -10ft Speed. Heavy)."
+                "effect": "Passive: Bunker (+4 Natural Defense. -10ft Speed. Heavy)."
             }
         ]
     },
@@ -3787,7 +3787,7 @@
             {
                 "name": "Chromatophores Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Shift (Turn Invisible while stationary. +5 Stealth moving)."
+                "effect": "Natural Defensetive: Shift (Turn Invisible while stationary. +5 Stealth moving)."
             }
         ]
     },
@@ -3837,7 +3837,7 @@
         ]
     },
     {
-        "name": "Placoid Scales",
+        "name": "PlNatural Defenseoid Scales",
         "species": "Aquatic",
         "stats": {
             "intuition": 1,
@@ -3845,14 +3845,14 @@
         },
         "passives": [
             {
-                "name": "Placoid Scales Trait",
+                "name": "PlNatural Defenseoid Scales Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Hydro-Skin (+1 Natural AC. Drying out takes 2x longer)."
+                "effect": "Passive: Hydro-Skin (+1 Natural Natural Defense. Drying out takes 2x longer)."
             }
         ]
     },
     {
-        "name": "Ink Sac",
+        "name": "Ink SNatural Defense",
         "species": "Aquatic",
         "stats": {
             "willpower": 1,
@@ -3860,9 +3860,9 @@
         },
         "passives": [
             {
-                "name": "Ink Sac Trait",
+                "name": "Ink SNatural Defense Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Smokescreen (20ft Cloud. Blindness. Disengage Free)."
+                "effect": "Natural Defensetive: Smokescreen (20ft Cloud. Blindness. Disengage Free)."
             }
         ]
     },
@@ -3877,12 +3877,12 @@
             {
                 "name": "Starfish DNA Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Regrow (Heal limb or massive HP over Short Rest)."
+                "effect": "Natural Defensetive: Regrow (Heal limb or massive HP over Short Rest)."
             }
         ]
     },
     {
-        "name": "Nacre Gland",
+        "name": "NNatural Defensere Gland",
         "species": "Aquatic",
         "stats": {
             "vitality": 1,
@@ -3890,7 +3890,7 @@
         },
         "passives": [
             {
-                "name": "Nacre Gland Trait",
+                "name": "NNatural Defensere Gland Trait",
                 "type": "Biological Trait",
                 "effect": "Passive: Luster (Advantage on Social/Barter. Look valuable)."
             }
@@ -3907,7 +3907,7 @@
             {
                 "name": "Puffer-Toxin Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Inflate (Reaction. Enemy hitting you is Poisoned)."
+                "effect": "Natural Defensetive: Inflate (ReNatural Defensetion. Enemy hitting you is Poisoned)."
             }
         ]
     },
@@ -3922,7 +3922,7 @@
             {
                 "name": "Whale-Song Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Resonate (Buff Allies or Communicate 10 miles)."
+                "effect": "Natural Defensetive: Resonate (Buff Allies or Communicate 10 miles)."
             }
         ]
     },
@@ -3952,7 +3952,7 @@
             {
                 "name": "Bioluminescence Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Strobe (Dazzle enemies or Light up dark area)."
+                "effect": "Natural Defensetive: Strobe (Dazzle enemies or Light up dark area)."
             }
         ]
     },
@@ -3967,7 +3967,7 @@
             {
                 "name": "Remora-Disk Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Hitchhiker (Attach to Large creature. Gain Cover/Travel)."
+                "effect": "Passive: Hitchhiker (AttNatural Defenseh to Large creature. Gain Cover/Travel)."
             }
         ]
     },
@@ -4027,7 +4027,7 @@
             {
                 "name": "Ursine Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Thick Fur, Non-Retractable Claws, Omnivore Teeth, Stub Tail."
+                "effect": "Includes: Thick Fur, Non-RetrNatural Defensetable Claws, Omnivore Teeth, Stub Tail."
             }
         ]
     },
@@ -4072,7 +4072,7 @@
             {
                 "name": "Canine Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Sharp Canines (1d4 Bite), Weather-Fur, Pack-Tail, Paws."
+                "effect": "Includes: Sharp Canines (1d4 Bite), Weather-Fur, PNatural Defensek-Tail, Paws."
             }
         ]
     },
@@ -4087,7 +4087,7 @@
             {
                 "name": "Feline Anatomy Trait",
                 "type": "Biological Trait",
-                "effect": "Includes: Retractable Claws (Climb only), Balance Tail, Night-Pupils."
+                "effect": "Includes: RetrNatural Defensetable Claws (Climb only), Balance Tail, Night-Pupils."
             }
         ]
     },
@@ -4102,7 +4102,7 @@
             {
                 "name": "Tapetum Lucidum Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Darkvision (Black & White)."
+                "effect": "Passive: Darkvision (BlNatural Defensek & White)."
             }
         ]
     },
@@ -4117,7 +4117,7 @@
             {
                 "name": "Wet Nose Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Scent-Track (Track unseen enemies)."
+                "effect": "Passive: Scent-TrNatural Defensek (TrNatural Defensek unseen enemies)."
             }
         ]
     },
@@ -4131,13 +4131,13 @@
         "passives": [
             {
                 "name": "Radar",
-                "type": "Action",
-                "effect": "Listen to a door to identify exactly how many creatures are in the next room."
+                "type": "Natural Defensetion",
+                "effect": "Listen to a door to identify exNatural Defensetly how many creatures are in the next room."
             },
             {
                 "name": "Uncanny Dodge",
-                "type": "Reaction",
-                "effect": "Take half damage from a Ranged Attack that you hear coming."
+                "type": "ReNatural Defensetion",
+                "effect": "Take half damage from a Ranged AttNatural Defensek that you hear coming."
             }
         ]
     },
@@ -4217,7 +4217,7 @@
         ]
     },
     {
-        "name": "Retractable Claws",
+        "name": "RetrNatural Defensetable Claws",
         "species": "Mammal",
         "stats": {
             "finesse": 1,
@@ -4227,7 +4227,7 @@
             {
                 "name": "Gut Rake",
                 "type": "Bonus",
-                "effect": "If you have a target Grappled, make a free claw attack against them with Advantage."
+                "effect": "If you have a target Grappled, make a free claw attNatural Defensek against them with Advantage."
             },
             {
                 "name": "Climber",
@@ -4247,7 +4247,7 @@
             {
                 "name": "Heavy Paws Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Maul (Crit hits Stun target)."
+                "effect": "Natural Defensetive: Maul (Crit hits Stun target)."
             }
         ]
     },
@@ -4262,7 +4262,7 @@
             {
                 "name": "Opposable Thumbs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Choke-Slam (Throw target Prone + Dmg)."
+                "effect": "Natural Defensetive: Choke-Slam (Throw target Prone + Dmg)."
             }
         ]
     },
@@ -4277,7 +4277,7 @@
             {
                 "name": "Shovel Claws Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Tunnel-Strike (Burrow & Attack)."
+                "effect": "Natural Defensetive: Tunnel-Strike (Burrow & AttNatural Defensek)."
             }
         ]
     },
@@ -4292,7 +4292,7 @@
             {
                 "name": "Needle Fangs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Latch-On (Grapple with auto-bite dmg)."
+                "effect": "Natural Defensetive: Latch-On (Grapple with auto-bite dmg)."
             }
         ]
     },
@@ -4307,7 +4307,7 @@
             {
                 "name": "Iron Hooves Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Sunder (Ignore Shield AC / Break Objects)."
+                "effect": "Natural Defensetive: Sunder (Ignore Shield Natural Defense / Break Objects)."
             }
         ]
     },
@@ -4322,7 +4322,7 @@
             {
                 "name": "Dexterous Digits Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Sabotage (Disarm traps/devices as Bonus)."
+                "effect": "Natural Defensetive: Sabotage (Disarm traps/devices as Bonus)."
             }
         ]
     },
@@ -4352,7 +4352,7 @@
             {
                 "name": "Fast-Twitch Muscle Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Dash (Move 3x Speed in straight line)."
+                "effect": "Natural Defensetive: Dash (Move 3x Speed in straight line)."
             }
         ]
     },
@@ -4367,7 +4367,7 @@
             {
                 "name": "Spring Tendons Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Bound (Jump distance tripled)."
+                "effect": "Natural Defensetive: Bound (Jump distance tripled)."
             }
         ]
     },
@@ -4412,7 +4412,7 @@
             {
                 "name": "Pillar Legs Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Tremor-Stomp (AOE Knockdown 5ft)."
+                "effect": "Natural Defensetive: Tremor-Stomp (AOE Knockdown 5ft)."
             }
         ]
     },
@@ -4457,7 +4457,7 @@
             {
                 "name": "Locking Joints Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Beast of Burden (Double Carry Capacity)."
+                "effect": "Passive: Beast of Burden (Double Carry CapNatural Defenseity)."
             }
         ]
     },
@@ -4472,7 +4472,7 @@
             {
                 "name": "Bone Plating Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Shell (+2 Natural AC, Heavy)."
+                "effect": "Passive: Shell (+2 Natural Natural Defense, Heavy)."
             }
         ]
     },
@@ -4501,7 +4501,7 @@
         "passives": [
             {
                 "name": "Slippery",
-                "type": "Reaction",
+                "type": "ReNatural Defensetion",
                 "effect": "Automatically succeed on a check to escape a Grapple."
             },
             {
@@ -4597,7 +4597,7 @@
             {
                 "name": "Musk Glands Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Spray (Cone: Blindness/Nausea)."
+                "effect": "Natural Defensetive: Spray (Cone: Blindness/Nausea)."
             }
         ]
     },
@@ -4611,8 +4611,8 @@
         "passives": [
             {
                 "name": "Hangman",
-                "type": "Action",
-                "effect": "Hang upside down from a stable point; Ranged attacks against you have Disadvantage."
+                "type": "Natural Defensetion",
+                "effect": "Hang upside down from a stable point; Ranged attNatural Defenseks against you have Disadvantage."
             },
             {
                 "name": "Third Hand",
@@ -4632,7 +4632,7 @@
             {
                 "name": "Skin Flaps Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Glide (Negate fall dmg, Travel)."
+                "effect": "Natural Defensetive: Glide (Negate fall dmg, Travel)."
             }
         ]
     },
@@ -4647,12 +4647,12 @@
             {
                 "name": "Resonance Throat Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Bellow (AOE Fear or Rally)."
+                "effect": "Natural Defensetive: Bellow (AOE Fear or Rally)."
             }
         ]
     },
     {
-        "name": "Toxic Sacs",
+        "name": "Toxic SNatural Defenses",
         "species": "Mammal",
         "stats": {
             "logic": 1,
@@ -4660,9 +4660,9 @@
         },
         "passives": [
             {
-                "name": "Toxic Sacs Trait",
+                "name": "Toxic SNatural Defenses Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Poison-Coat (Lick weapon to poison)."
+                "effect": "Natural Defensetive: Poison-Coat (Lick weapon to poison)."
             }
         ]
     },
@@ -4677,7 +4677,7 @@
             {
                 "name": "Cheek Pouches Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Cache (Hide items in throat)."
+                "effect": "Passive: CNatural Defensehe (Hide items in throat)."
             }
         ]
     },
@@ -4691,7 +4691,7 @@
             {
                 "name": "Tail Flag Trait",
                 "type": "Biological Trait",
-                "effect": "Active: Rally (Grant Ally +1d4 on next roll)."
+                "effect": "Natural Defensetive: Rally (Grant Ally +1d4 on next roll)."
             }
         ]
     },
@@ -4706,7 +4706,7 @@
             {
                 "name": "Counter-Tail Trait",
                 "type": "Biological Trait",
-                "effect": "Passive: Tightrope (Advantage on Acrobatics)."
+                "effect": "Passive: Tightrope (Advantage on Natural Defenserobatics)."
             }
         ]
     },

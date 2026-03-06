@@ -1,0 +1,44 @@
+{
+    "Entity_Name": "Sh'lar",
+    "Type": "People",
+    "Description": "The Prime Corruptor",
+    "Tags": [
+        "Magistar",
+        "Corruption",
+        "Chaos",
+        "Entity/Non-Corporeal",
+        "The 13th"
+    ],
+    "Attributes": {
+        "Willpower": 0,
+        "Corruption": 100,
+        "Manipulation": 50,
+        "Stealth": 80,
+        "Endurance": 40,
+        "Initiative": 30,
+        "Perception": 60,
+        "Intimidation": 70,
+        "Deception": 90,
+        "Insight": 20,
+        "Constitution": 10
+    },
+    "Special_Abilities": {
+        "Whisper": {
+            "Effect": "Psychological Corruption",
+            "Description": "The voice in the head of every person exposed to high levels of Aether or Chaos"
+        },
+        "Rot": {
+            "Effect": "Physical/Industrial Corruption",
+            "Description": "The 'Gremlin' in Aether-Technology"
+        },
+        "Worm Cults": {
+            "Effect": "Unified Force to break the seals",
+            "Description": "The 'Deity' of the Worm Cults"
+        }
+    },
+    "Restrictions": {
+        "Anchor": "The Convergence",
+        "Limitation": "Requires a mortal vessel to agree to corruption"
+    },
+    "Threat_Level": "Strategic"
+}

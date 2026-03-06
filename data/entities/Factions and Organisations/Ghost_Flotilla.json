@@ -1,0 +1,30 @@
+{
+    "Faction": {
+        "Name": "Ghost Flotilla",
+        "Operational_Doctrine": "The 'Ghost Flotilla' Strategy",
+        "Unpredictability": 8,
+        "Strategic_Denial": 9,
+        "Nomadic_Nature": 7,
+        "Temporary_Bases": [
+            {
+                "Type": "Remote, high-altitude plateaus",
+                "Surveillance_Resistance": 6
+            },
+            {
+                "Type": "Sheared cliff faces",
+                "Surveillance_Resistance": 7
+            },
+            {
+                "Type": "Small, uncharted floating islands",
+                "Surveillance_Resistance": 8
+            }
+        ],
+        "Wreck_Transformation": {
+            "Effectiveness": 8,
+            "Stealth": 7
+        },
+        "Supply_Caches": 6,
+        "Strategic_Survival": 8,
+        "Influence": 7
+    }
+}

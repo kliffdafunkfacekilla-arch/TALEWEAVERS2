@@ -1,0 +1,54 @@
+{
+    "Mice": {
+        "Faction": "The Small-Paws",
+        "Vibe": "High-Energy Industry",
+        "Housing": "Tenement Warrens",
+        "Culture": {
+            "Drive": "Tiger-Parent",
+            "Education": {
+                "Intense": true
+            },
+            "Dream": {
+                "Lawyer": true,
+                "High Scribe": true
+            },
+            "Rebellion": {
+                "Running away to the docks": true
+            }
+        },
+        "Work": {
+            "White Collar": 0.5,
+            "Service": true,
+            "Agriculture": true
+        },
+        "Criminal Underbelly": {
+            "Rat-Kin": {
+                "Role": "The Eyes",
+                "Drop": true
+            },
+            "Otters": {
+                "Role": "The Eyes",
+                "Drop": true
+            }
+        },
+        "Legend": {
+            "Chipper": {
+                "Myth": true,
+                "Deed": "used his small size to scurry up a drainpipe, drop a chandelier on the attackers, and drag the wounded Director to safety",
+                "Reward": "Gilded"
+            }
+        }
+    },
+    "Magic & Adventure": {
+        "Church": true,
+        "Apprentices": {
+            "Rat Sorcerer": true,
+            "Otter Mystic": true
+        },
+        "Wanderers": {
+            "Adventurers": true,
+            "Riggers": true,
+            "Mercenaries": true
+        }
+    }
+}

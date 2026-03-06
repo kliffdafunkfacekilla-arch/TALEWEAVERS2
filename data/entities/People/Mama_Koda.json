@@ -1,0 +1,47 @@
+{
+    "name": "Mama Koda",
+    "species": "Ursine (Polar Bear variant)",
+    "title": [
+        "Mama",
+        "The Ice-Branded"
+    ],
+    "real_name": "Koda of the Snowpeak",
+    "stats": {
+        "strength": 18,
+        "endurance": 16,
+        "agility": 12,
+        "intelligence": 10,
+        "charisma": 14
+    },
+    "skills": {
+        "leadership": 15,
+        "diplomacy": 12,
+        "martial_arts": 13,
+        "navigation": 11,
+        "piloting": 10
+    },
+    "equipment": [
+        "Fur cloak",
+        "Modified River Folk finery",
+        "Pirate ship (The Cold Snap)",
+        "Cannon",
+        "Rum ration"
+    ],
+    "abilities": [
+        "Discipline",
+        "Violence (trained Wolverine Captain)"
+    ],
+    "reputation": "The Iron Bear",
+    "fears": [
+        "The Hearthless"
+    ],
+    "loves": [
+        "The Undine"
+    ],
+    "motivations": [
+        "To create a home for the Hearthless"
+    ],
+    "philosophy": [
+        "The Undine is now a sanctuary"
+    ]
+}

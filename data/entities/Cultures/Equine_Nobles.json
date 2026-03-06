@@ -1,0 +1,47 @@
+{
+    "name": "Equine Nobles",
+    "type": "Cultures",
+    "description": "The Highborn",
+    "stats": {
+        "influence": 8,
+        "leadership": 7,
+        "diplomacy": 6,
+        "magic": 1,
+        "military": 5,
+        "economy": 4,
+        "culture": 9,
+        "legitimacy": 8
+    },
+    "abilities": [
+        {
+            "name": "Backhanded Compliment",
+            "description": "Destroy a rival's reputation with a single sentence",
+            "cost": 2,
+            "effect": "Damage Reputation"
+        }
+    ],
+    "roles": [
+        {
+            "name": "Senators",
+            "description": "Run the government"
+        },
+        {
+            "name": "Diplomats",
+            "description": "Negotiate with other factions"
+        },
+        {
+            "name": "Financiers",
+            "description": "Manage the treasury"
+        }
+    ],
+    "values": [
+        {
+            "name": "Lineage",
+            "description": "Importance of family heritage"
+        },
+        {
+            "name": "Etiquette",
+            "description": "Importance of social norms"
+        }
+    ]
+}

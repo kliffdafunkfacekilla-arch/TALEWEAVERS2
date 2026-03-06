@@ -16,9 +16,11 @@ import { ExplorationNodeMap } from './components/map/ExplorationNodeMap';
 import { MapRenderer } from './components/MapRenderer';
 import { SurvivalScreen } from './components/survival/SurvivalScreen';
 import { SettlementInspector } from './components/SettlementInspector';
-import { useGameStore, type LoadoutItem, type VTTTier } from './store/useGameStore';
+import { useGameStore, type VTTTier } from './store/useGameStore';
 import { useCharacterStore } from './store/useCharacterStore';
 import { useCombatStore } from './store/useCombatStore';
+import { generateLoadoutFromSheet } from './utils/loadoutMapper';
+import { CampaignSetup } from './components/CampaignSetup';
 import './App.css';
 
 export default function App() {
@@ -36,14 +38,19 @@ export default function App() {
   const [isBioMatrixOpen, setBioMatrixOpen] = useState(false);
   const [isEvolutionOpen, setEvolutionOpen] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
+  const [isIngesting, setIsIngesting] = useState(false);
+  const [isImportingMap, setIsImportingMap] = useState(false);
+  const [mapFilename, setMapFilename] = useState("my_map.map");
 
   // ── THE REAL STARTUP SEQUENCE ──────────────────────────────────────
-  const handleEnterCampaign = async () => {
+  const handleEnterCampaign = async (settings: any) => {
     setIsStarting(true);
     try {
       const state = useGameStore.getState();
 
-      if (!state.characterSheet) {
+      let finalSheet = state.characterSheet;
+
+      if (!finalSheet) {
         const buildRequest = {
           name: "Scavenger_01",
           base_attributes: {
@@ -67,27 +74,25 @@ export default function App() {
         });
 
         if (charRes.ok) {
-          const compiledSheet = await charRes.json();
-          setCharacterSheet(compiledSheet);
+          finalSheet = await charRes.json();
+          setCharacterSheet(finalSheet);
         }
       }
 
-      const STARTING_LOADOUT: LoadoutItem[] = [
-        { id: 'wpn_steel_rapier', name: 'Steel Rapier', type: 'MELEE', target: 'ADJACENT', range: 1, stamina_cost: 1, dice: '1d8', desc: 'A swift, elegant thrust.' },
-        { id: 'sk_snap_dodge', name: 'Snap Dodge', type: 'MOBILITY', target: 'SELF', range: 0, stamina_cost: 2, dice: 'None', desc: 'Evade an incoming blow.', lead_stat: 'reflexes', trail_stat: 'awareness', skill_rank: 2, target_dc: 15 },
-        { id: 'csm_travelers_bread', name: 'Traveler\'s Bread', type: 'CONSUMABLE', target: 'SELF', range: 0, stamina_cost: 0, dice: '+STM', desc: 'Restores stamina.' },
-      ];
-
-      setClientLoadout(STARTING_LOADOUT);
+      if (finalSheet) {
+        const dynamicLoadout = generateLoadoutFromSheet(finalSheet);
+        setClientLoadout(dynamicLoadout);
+      }
 
       const campaignRes = await fetch(`${import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8000"}/api/campaign/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           world_id: 'W_001',
-          starting_hex_id: 200500,
+          starting_hex_id: 200500, // TODO: Get from map click or config
           player_id: 'PLAYER_001',
-          player_sprite: useCharacterStore.getState().characterSheet?.avatar_sprite
+          player_sprite: useCharacterStore.getState().characterSheet?.avatar_sprite,
+          ...settings
         })
       });
 
@@ -96,15 +101,23 @@ export default function App() {
       const campData = await campaignRes.json();
       setCampaignId(campData.campaign_id);
 
-      await useGameStore.getState().sendAction("TRAVEL", 0, "200500");
+      // ── SYNC INITIAL STATE (SESSION ONE) ──
+      const initial = campData.initial_state;
+      if (initial) {
+        // 1. Sync Combat Store (Tactical Map)
+        if (initial.active_encounter) {
+          useCombatStore.getState().setActiveEncounter(initial.active_encounter);
+        }
 
-      addChatMessage({
-        sender: 'AI_DIRECTOR',
-        text: 'The horizon stretches wide across the 1000x400 expanse of the globe. You stand in Hex #200500. What do you do?'
-      });
+        // 2. Add Arrival Narration
+        addChatMessage({
+          sender: 'AI_DIRECTOR',
+          text: campData.narration || "You have arrived. The journey begins."
+        });
+      }
 
       setScreen('PLAYER');
-      setVttTier(2); // Start at Regional Travel
+      setVttTier(5); // Start at Tactical scale (5ft grid)
 
     } catch (err) {
       console.error(err);
@@ -141,8 +154,109 @@ export default function App() {
         <div className="flex flex-col gap-4">
           <button onClick={() => setScreen('WORLD_BUILDER')} className="w-72 px-6 py-4 border border-zinc-700 text-zinc-300 hover:border-amber-500 hover:text-amber-500 uppercase tracking-widest transition-all text-sm font-bold">Access God Engine</button>
           <button onClick={() => setScreen('CHARACTER_BUILDER')} className="w-72 px-6 py-4 border border-zinc-700 text-yellow-500 hover:border-yellow-500 hover:bg-yellow-900/10 uppercase tracking-widest transition-all text-sm font-bold">Soulweave Origin</button>
-          <button onClick={handleEnterCampaign} disabled={isStarting} className="w-72 px-6 py-4 border border-red-700 bg-red-900/20 text-red-400 hover:bg-red-900/50 hover:text-red-300 uppercase tracking-widest transition-all font-bold shadow-[0_0_15px_rgba(220,38,38,0.2)] text-sm disabled:opacity-50">{isStarting ? 'Initializing...' : 'Enter Campaign'}</button>
+          <button onClick={() => setScreen('OPTIONS')} className="w-72 px-6 py-4 border border-zinc-800 text-zinc-500 hover:border-zinc-400 hover:text-zinc-300 uppercase tracking-widest transition-all text-sm font-bold">Options</button>
+          <button onClick={() => setScreen('CAMPAIGN_SETUP')} disabled={isStarting} className="w-72 px-6 py-4 border border-red-700 bg-red-900/20 text-red-400 hover:bg-red-900/50 hover:text-red-300 uppercase tracking-widest transition-all font-bold shadow-[0_0_15px_rgba(220,38,38,0.2)] text-sm disabled:opacity-50">{isStarting ? 'Initializing...' : 'Enter Campaign'}</button>
         </div>
+      </div>
+    );
+  }
+
+  // ─── OPTIONS MENU ───────────────────────────────────────────────────
+  if (currentScreen === 'OPTIONS') {
+    const handleIngestion = async () => {
+      setIsIngesting(true);
+      try {
+        const res = await fetch("http://localhost:8001/api/lore/generate_entities", { method: "POST" });
+        if (res.ok) {
+          alert("Lore Engine Activated! Entity generation is running in the background terminal.");
+        } else {
+          alert("Error: Could not reach Lore Module (Port 8001).");
+        }
+      } catch (e) {
+        alert("Failed to connect to Lore Vault API.");
+      } finally {
+        setIsIngesting(false);
+      }
+    };
+
+    const handleMapImport = async () => {
+      if (!mapFilename) return;
+      setIsImportingMap(true);
+      try {
+        const res = await fetch("http://localhost:8001/api/lore/import_map", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename: mapFilename })
+        });
+        if (res.ok) {
+          alert(`Map Import Activated for ${mapFilename}! Check background terminal for progress.`);
+        } else {
+          alert("Error: Could not reach Lore Module.");
+        }
+      } catch (e) {
+        alert("Failed to connect to backend API.");
+      } finally {
+        setIsImportingMap(false);
+      }
+    };
+
+    return (
+      <div className="w-screen h-screen bg-black flex flex-col items-center justify-center text-white overflow-hidden">
+        <h2 className="text-4xl font-bold tracking-widest mb-12 text-zinc-400 uppercase">
+          System Options
+        </h2>
+        <div className="w-[600px] border border-zinc-800 p-8 flex flex-col gap-6 bg-zinc-950">
+          <div>
+            <h3 className="text-amber-500 font-bold uppercase mb-2">Automated Data Pipeline</h3>
+            <p className="text-zinc-500 text-sm mb-4">
+              Launches the backend LLM script. It scans `data/vault/entities/` for `.md` lore files and generates perfectly statted `.json` Game Engine entities automatically.
+            </p>
+            <button
+              onClick={handleIngestion}
+              disabled={isIngesting}
+              className="w-full px-6 py-3 border border-amber-800 text-amber-500 hover:bg-amber-900/20 uppercase tracking-wider font-bold text-sm transition-all"
+            >
+              {isIngesting ? "Initializing Matrix..." : "Activate Lore Ingestion"}
+            </button>
+          </div>
+
+          <div className="pt-4 border-t border-zinc-800">
+            <h3 className="text-emerald-500 font-bold uppercase mb-2">Map File Importer</h3>
+            <p className="text-zinc-500 text-sm mb-4">
+              Imports custom image files (`.png`, `.jpg`) or Azgaar exports (`.map`) directly into the game engine's `Saga_Master_World.json` grid logic. Place your file in the `data/` folder, type the exact filename below, and execute.
+            </p>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={mapFilename}
+                onChange={(e) => setMapFilename(e.target.value)}
+                placeholder="e.g. azgaar_export.map"
+                className="flex-grow bg-zinc-900 border border-zinc-700 px-4 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+              />
+              <button
+                onClick={handleMapImport}
+                disabled={isImportingMap || !mapFilename}
+                className="px-6 py-2 border border-emerald-800 text-emerald-400 hover:bg-emerald-900/20 uppercase tracking-wider font-bold text-sm transition-all disabled:opacity-50"
+              >
+                {isImportingMap ? "Importing..." : "Execute Import"}
+              </button>
+            </div>
+          </div>
+
+          <button onClick={() => setScreen('MAIN_MENU')} className="mt-6 px-6 py-3 border border-zinc-700 text-zinc-400 hover:bg-zinc-800 uppercase tracking-widest text-sm font-bold">
+            ← Return to Main Menu
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── CAMPAIGN CALIBRATION (SESSION ZERO) ────────────────────────────
+  if (currentScreen === 'CAMPAIGN_SETUP') {
+    return (
+      <div className="relative w-screen h-screen">
+        <CampaignSetup onCommence={handleEnterCampaign} />
+        <button onClick={() => setScreen('MAIN_MENU')} className="absolute top-4 left-4 z-50 bg-black/50 border border-zinc-700 px-4 py-2 text-xs font-bold uppercase text-zinc-400 hover:text-white transition-all">← Cancel Setup</button>
       </div>
     );
   }

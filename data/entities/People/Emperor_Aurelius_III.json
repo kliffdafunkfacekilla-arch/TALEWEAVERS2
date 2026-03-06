@@ -1,0 +1,42 @@
+{
+    "Name": "Emperor Aurelius III",
+    "Title": "The White Peacock",
+    "Species": "Albino Peacock",
+    "Visuals": {
+        "type": "physical",
+        "Description": "Blindingly beautiful",
+        "Properties": {
+            "Robes": {
+                "Material": "Avian Silk",
+                "Color": "White",
+                "Thread": "Gold"
+            },
+            "Tail Feathers": {
+                "Properties": {
+                    "Illumination": "Luminescent Alchemical Ink",
+                    "Effects": "Physical Illumination"
+                }
+            }
+        }
+    },
+    "Abilities": {
+        "Negotiation": {
+            "Tactic": "Wall of Light",
+            "Description": "Disorientation tactic",
+            "Effects": "Forces opponents to focus on him"
+        },
+        "Psychological": {
+            "Obsession": "Geometric Purity",
+            "Description": "Currently obsessed with geometric alignment"
+        }
+    },
+    "Stats": {
+        "Charisma": 18,
+        "Intimidation": 12,
+        "Inspiration": 15,
+        "Persuasion": 16,
+        "Deception": 10,
+        "Stealth": 6,
+        "Perception": 14
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "name": "Red Sash",
+    "description": "Elite airship crew",
+    "type": "Faction",
+    "category": "Organisation",
+    "stats": {
+        "technological_supremacy": 95,
+        "psychological_mastery": 92,
+        "influence": 85,
+        "global_stability": 90,
+        "power_projection": 88,
+        "neutrality": 95,
+        "reputation": 92,
+        "operational_range": 90
+    },
+    "abilities": [
+        "Technological superiority in navigation and engineering",
+        "Psychological mastery of crew management",
+        "Neutral and impartial, trusted by all factions",
+        "Influential in maintaining global stability",
+        "Skilled in Aether-Tech and Whisperer Wing operations"
+    ]
+}

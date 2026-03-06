@@ -1,0 +1,29 @@
+{
+    "school": "Lex",
+    "willpower": 5,
+    "lithium": 3,
+    "corrupted_name": "The Mad King",
+    "original_name": "Zeila",
+    "pre_corruption_title": "The Unbroken",
+    "dragon_form": true,
+    "tyranny_attributes": {
+        "work_quotas": 2,
+        "mind_breaking": 2
+    },
+    "corruption_effects": {
+        "mind_shattering": 4,
+        "identity_stripping": 2,
+        "physics_distortion": 3
+    },
+    "stats": {
+        "strength": 2,
+        "agility": 1,
+        "intelligence": 4,
+        "wisdom": 3,
+        "charisma": 2
+    },
+    "abilities": [
+        "Willpower Surge",
+        "Reality Distortion"
+    ]
+}

@@ -1,0 +1,40 @@
+{
+    "name": "Spring Ghosts",
+    "type": "Faction",
+    "description": "",
+    "stats": {
+        "reputation": 2,
+        "influence": 1,
+        "resourcefulness": 4,
+        "secrecy": 5,
+        "defense": 3,
+        "adaptability": 4,
+        "mobility": 2,
+        "magic": 1,
+        "technology": 0
+    },
+    "abilities": [
+        {
+            "name": "Beggar-Merchant Persona",
+            "description": "The Spring Ghosts can adopt a disguise that allows them to move through markets and settlements without attracting undue attention.",
+            "effect": "+1 to all social interactions"
+        },
+        {
+            "name": "Subterranean Navigation",
+            "description": "The Spring Ghosts possess a deep understanding of the subterranean highway, allowing them to navigate it with ease.",
+            "effect": "+2 to all navigation checks"
+        },
+        {
+            "name": "Haunting Displays",
+            "description": "The Spring Ghosts can create unsettling displays to deter intruders and maintain their secrecy.",
+            "effect": "+1 to all intimidation checks"
+        }
+    ],
+    "vulnerabilities": [
+        {
+            "name": "Data Analysis",
+            "description": "The Spring Ghosts' existence is threatened by modern, data-driven intelligence.",
+            "effect": "-2 to all social interactions"
+        }
+    ]
+}

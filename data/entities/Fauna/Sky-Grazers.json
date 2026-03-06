@@ -1,0 +1,29 @@
+{
+    "category": "Fauna",
+    "name": "Sky-Grazers",
+    "aliases": [],
+    "tags": [],
+    "diet": "high-altitude airborne vegetation, Static-Charged Clouds",
+    "base_health": 10,
+    "speed": 3,
+    "size": "immense, bulbous creatures with thick, wooly hides",
+    "propulsion": "Internal Gas Sacs, Static Charge",
+    "behavior": {
+        "type": "herd",
+        "migration_cycle": "49-Day Loop",
+        "lunar_phases": {
+            "waning": "Waxing Phase (High Flow)",
+            "full": "Shadow-Stall (Shadow Week)"
+        },
+        "predators": [
+            "Sky-Rays",
+            "Void-Eels"
+        ],
+        "danger": "airships 'drafting' behind a herd for safety often get caught in the crossfire of a feeding frenzy"
+    },
+    "mortality": {
+        "cause": "decomposition",
+        "effect": "internal gas sacs expand uncontrollably, overcoming gravity"
+    },
+    "graveyard": "upper stratosphere, to freeze in the void or be pulled into the gravity well of the Broken Moon (Shatterface)"
+}

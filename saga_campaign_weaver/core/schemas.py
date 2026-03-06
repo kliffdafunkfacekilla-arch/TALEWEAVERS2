@@ -19,6 +19,9 @@ class QuestNode(BaseModel):
     target_node_id: Optional[str] = Field(None, description="The specific Tier 4 node ID (POI) associated with this objective")
     encounter_type: str = Field(..., description="'SOCIAL', 'HAZARD', 'COMBAT' (Fed to Module 4)")
     description: Optional[str] = Field(None, description="Detailed description")
+    target_entity: Optional[str] = Field(None, description="Who or what is the primary focus of this node? (e.g., 'Kaelen, Rogue Pyromancer' or 'Starving Wolf Pack')")
+    employer_or_faction: Optional[str] = Field(None, description="Who issued this quest or who benefits from it? (e.g., 'The Ashen Dawn' or 'Local Militia')")
+    local_impact_description: Optional[str] = Field(None, description="Why does this matter to the local region? What is the impact?")
     success_state_change: str = Field(..., description="E.g., 'UNLOCK_STEP_2'")
     sub_tasks: List["QuestNode"] = Field(default_factory=list)
 

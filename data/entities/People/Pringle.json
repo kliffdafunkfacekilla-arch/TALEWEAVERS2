@@ -1,0 +1,41 @@
+{
+    "Name": "Pringle",
+    "Type": "People",
+    "Appearance": {
+        "Skin": "Pale mint-green, velvety",
+        "Hands": 12,
+        "Equipment": [
+            "Silver tasting spoon",
+            "Spatula",
+            "Heavy steel cleaver",
+            "Razor-sharp carving knife"
+        ]
+    },
+    "Abilities": {
+        "Spinning silk": true,
+        "Wall-walking": true,
+        "Prolegs": true
+    },
+    "Backstory": {
+        "Reason for refusal to pupate": "Mystery of the Canopy Clans",
+        "Kidnapping and forced cooking": true,
+        "Revenge on the Syndicate": true
+    },
+    "Personality": {
+        "Perfectionism": true,
+        "Grumbling": true,
+        "Wall-walking counselor": true
+    },
+    "Quirks": {
+        "Silk-rigging": true,
+        "The Impossible List": true
+    },
+    "Strengths": {
+        "Morale Officer": true,
+        "Vertical Utility": true
+    },
+    "Weaknesses": {
+        "The Wanted Man": true,
+        "Ingredient Greed": true
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "Name": "Emperor Kaelos",
+    "Type": "NPC",
+    "History": true,
+    "Significance": "Cultural saint of [[The Avian Empire]]",
+    "Publications": [
+        "The Book of Omissions"
+    ],
+    "Legacies": [
+        "Author of *The Book of Omissions*",
+        "Author of the phrase: *'The truth is a blade. You do not hold it by the edge.'*"
+    ],
+    "Abilities": {
+        "Oratory": 9,
+        "Legal Expertise": 8,
+        "Conflict Resolution": 7,
+        "Truth Resistance": 5
+    },
+    "Personality": {
+        "Evasive": 8,
+        "Truth-Oriented": 9,
+        "Resilient": 7
+    },
+    "Items": {
+        "Lost Eye": {
+            "Type": "Artifact",
+            "Description": "Preserved in amber, serves as the ultimate reminder: **No one is above the Truth.**"
+        }
+    }
+}

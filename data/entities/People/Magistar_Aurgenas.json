@@ -1,0 +1,71 @@
+{
+    "Name": "Magistar Aurgenas",
+    "Title": "The Gilded Lie",
+    "Tags": [
+        "Magistar",
+        "Flux",
+        "Finesse",
+        "Dragon/Gold",
+        "NPC"
+    ],
+    "Attributes": {
+        "School": "Flux1 (Finesse)",
+        "Element": "Gold",
+        "Original Title": "The Serpent",
+        "Dragon Form": "The Gilded Solvent",
+        "Pre-Corruption Name": "Leoric"
+    },
+    "Stats": {
+        "Intelligence": 18,
+        "Wisdom": 16,
+        "Charisma": 20,
+        "Strength": 14,
+        "Dexterity": 17,
+        "Constitution": 15
+    },
+    "Abilities": {
+        "Magic": {
+            "type": "Elemental",
+            "subtype": "Gold",
+            "cost": 10,
+            "range": 20,
+            "duration": 5,
+            "effect": "Corrosive Acid"
+        },
+        "Stealth": 18,
+        "Deception": 20,
+        "Persuasion": 18
+    },
+    "Defenses": {
+        "Armor Class": 16,
+        "Hit Points": 25,
+        "Save": {
+            "Physical": 14,
+            "Mental": 16
+        }
+    },
+    "Special Abilities": {
+        "Corrosive Breath": {
+            "effect": "Corrosive Acid",
+            "range": 10,
+            "duration": 3
+        },
+        "Gilded Lie": {
+            "effect": "Deception",
+            "range": 20,
+            "duration": 2
+        }
+    },
+    "Flaws": {
+        "Corrosive Acid": {
+            "effect": "Corrosive Acid",
+            "range": 10,
+            "duration": 3
+        },
+        "Gilded Cage": {
+            "effect": "Immobilize",
+            "range": 5,
+            "duration": 2
+        }
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "Name": "The Fae",
+    "Category": "Magic and Religion",
+    "Type": "Parasitic",
+    "Base Magic": 1,
+    "Magic Cost": 0,
+    "Magic Gain": 0,
+    "Tear Proximity": {
+        "High Elders": 10,
+        "Mid Elders": 5,
+        "Low Elders": 1,
+        "Common Fae": 0
+    },
+    "Divine Magic": {
+        "Clerics": {
+            "Base Magic": 1,
+            "Magic Cost": 0,
+            "Magic Gain": 0,
+            "Tithing Rate": 0.1
+        },
+        "Paladins": {
+            "Base Magic": 2,
+            "Magic Cost": 0,
+            "Magic Gain": 0,
+            "Oath Strength": 0.5
+        }
+    },
+    "Re-Infection Rate": 0.5,
+    "Motivation": "Survival",
+    "Plan": {
+        "Step 1": "Cleansing of the Sacred Groves",
+        "Step 2": "Slaying of the Chaos Dragons",
+        "Step 3": "Return"
+    },
+    "Consequence": "Vampirism",
+    "Tragic Irony": {
+        "Church of the Eternal Dawn": "Unlocking the cage of a starving predator",
+        "Wardens": "Keeping the world safe from the Fae's return",
+        "Paradox": "The Chaos Dragons being the only thing keeping the Fae out"
+    }
+}

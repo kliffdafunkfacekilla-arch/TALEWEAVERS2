@@ -1,0 +1,32 @@
+{
+    "Entity Name": "Terror Fowl",
+    "Scientific Designation": "*Phorusrhacidae Domestica*",
+    "Primary Rancher": "The Marsupials (Opossums)",
+    "Farm Location": "The Hanging Roosts (Reinforced netted enclosures)",
+    "Fauna": {
+        "diet": "omnivore",
+        "base_health": 150,
+        "speed": 30,
+        "size": 7,
+        "legs": {
+            "type": "sickle-claw",
+            "jump_height": 15
+        },
+        "beak": {
+            "type": "massive, hooked",
+            "power": 10
+        },
+        "eggs": {
+            "count": 1,
+            "size": "massive",
+            "color": "blue-speckled",
+            "feeding_capacity": 4
+        },
+        "feathers": {
+            "type": "stiff, waterproof",
+            "export_value": "high"
+        },
+        "aggression": 10,
+        "handling_difficulty": 8
+    }
+}

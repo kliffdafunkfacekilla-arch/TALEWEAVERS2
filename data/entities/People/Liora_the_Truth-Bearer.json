@@ -1,0 +1,29 @@
+{
+    "Entity Name": "Liora the Truth-Bearer",
+    "Attributes": {
+        "Former Master": {
+            "Name": "Magistar Virantor",
+            "Tags": [
+                "Aura",
+                "Charm"
+            ]
+        },
+        "Role": "Chief Propagandist",
+        "Defection Event": "The Great Broadcast"
+    },
+    "Stats": {
+        "Truthfulness": 90,
+        "Persuasiveness": 85,
+        "Emotional Intelligence": 80,
+        "Charisma": 95,
+        "Manipulation": 75,
+        "Vulnerability": 60
+    },
+    "Tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Aura",
+        "Charm"
+    ]
+}

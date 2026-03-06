@@ -1,0 +1,19 @@
+{
+    "base_health": 15,
+    "speed": 2,
+    "diet": "Lithovores (rock/metal eater)",
+    "metal_ absorption": 5,
+    "heat_tolerance": 3,
+    "mag_legs": 4,
+    "insulation": 2,
+    "blowout_risk": 5,
+    "economic_value": 10,
+    "rarity": 4,
+    "habitats": [
+        "Iron Caldera",
+        "Vaneer Concord"
+    ],
+    "tags": [
+        "The Industrial Barnacle"
+    ]
+}

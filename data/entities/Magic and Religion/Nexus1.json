@@ -1,0 +1,41 @@
+{
+    "base_power": 500,
+    "elemental_resistances": {
+        "fire": 100,
+        "ice": 0,
+        "electricity": 50,
+        "force": 0
+    },
+    "special_abilities": {
+        "offense": {
+            "type": "fire",
+            "damage": 200,
+            "cooldown": 30
+        },
+        "defense": {
+            "type": "shield",
+            "duration": 20,
+            "cooldown": 15
+        },
+        "utility": {
+            "type": "craft",
+            "cooldown": 10
+        }
+    },
+    "passive_traits": {
+        "mastery": {
+            "bonus": 20,
+            "stat": "intelligence"
+        }
+    },
+    "evolutions": [
+        {
+            "level": 10,
+            "power": 100
+        },
+        {
+            "level": 20,
+            "power": 200
+        }
+    ]
+}

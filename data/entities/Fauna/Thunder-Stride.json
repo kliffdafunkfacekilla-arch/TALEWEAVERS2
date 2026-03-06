@@ -1,0 +1,22 @@
+{
+    "Name": "Thunder-Stride",
+    "Type": "Fauna",
+    "Diet": "Herbivore",
+    "Base_Health": 120,
+    "Speed": 30,
+    "Locomotion": "Endurance",
+    "Height": 12,
+    "Feathers": "Coarse, wire-like, and grey-brown",
+    "Plumage_Description": "Naturally oily, causing rain and volcanic dust to slide off rather than sticking to the skin",
+    "Locomotion_Type": "Hunting Trot",
+    "Locomotion_Endurance": 3,
+    "Feet": "Massive and three-toed, acting as natural snowshoes to prevent sinking into the soft ash dunes",
+    "Sense": "Seismic Sense",
+    "Blindness": "Clinical",
+    "Communication": "Low-frequency 'thrumming' in their throats that humans feel rather than hear",
+    "Combat_Move": "Kicking forward with enough force to punch through a breastplate or shatter a wagon wheel",
+    "Magical_Immunity": "Illusion magic (visual hallucinations) is useless against them because they cannot see it",
+    "Bonding": "Will only accept one rider. If that rider dies, the bird often starves itself or runs into the wastes to die",
+    "Saddle_Type": "Thump-Saddles",
+    "Saddle_Description": "Specially designed leather seats with wooden mallets that the rider taps against the bird's spine to give directional commands"
+}

@@ -1,0 +1,104 @@
+Adjusts the tint on the aviators and flips the whiteboard to the clean side.
+You made the right call. If we stopped at the body, we’d just have a wrestling simulator. Now we’re adding the Mind.
+This is SECTOR II: THE MENTAL REFRACTIONS.
+These powers govern data, light, luck, and the soul. They don't use muscles; they use FOCUS.
+Resource Cost: FOCUS (The Mind).
+Here are the Early Game (Tiers 1-3) for the 6 Mental Attributes.
+7. RATIO (Attribute: KNOWLEDGE)
+The Calculated Mind. Psionics & Analysis.
+TIER 1 (The Novice)
+[OFFENSE] Telekinetic Shove (2 Focus): Attack. Ranged (30ft). Deal 1d4 Force Dmg and push target 5ft. (Using mind to slap matter).
+[DEFENSE] Predict (1 Focus): Reaction. Trigger when Attacked. The GM must tell you the exact Attack Roll total. You can then choose to use a Shield/Dodge after knowing the number.
+[UTILITY] Scan (1 Focus): Action. Learn one stat (HP, Armor, or Attribute) of a target you can see.
+TIER 2 (The Apprentice)
+[OFFENSE] Mind Spike (2 Focus): Attack. Mental Dmg. Ignores Armor. Target must make a Logic Save or take 1d8 Dmg.
+[DEFENSE] Calculated Parry (2 Focus): Reaction. Trigger when Melee Attacked. Use your Knowledge stat instead of your Armor stat for the Defense Roll.
+[UTILITY] Download (2 Focus): Action. Gain Proficiency (Rank 1) in any Skill you don't have for 10 minutes. (Matrix style).
+TIER 3 (The Adept)
+[OFFENSE] Psychic Scream (3 Focus): Action. 15ft Cone. All enemies take 1d6 Mental Dmg and are Shaken (Disadvantage on Defense).
+[DEFENSE] Mental Fortress (3 Focus): Passive (Sustain). You are Immune to Fear, Charm, and Psychic Dmg while you sustain this.
+[UTILITY] Hive Link (3 Focus): Action. Link minds with 2 allies. You can share Focus points (if one needs 1 Focus, you can give it).
+8. ORDO (Attribute: LOGIC)
+The Perfect Dance. Geometry & Alchemy.
+TIER 1 (The Novice)
+[OFFENSE] Geometric Dart (2 Focus): Attack. Magic Missile. Auto-hits (No Roll). Deals 1d4+1 Force Dmg.
+[DEFENSE] Angle Block (1 Focus): Reaction. Add +2 to Defense against a Ranged Attack (You calculated the trajectory).
+[UTILITY] Mending (1 Focus): Action. Repair a broken item or heal 1 Armor Point on a damaged suit of armor.
+TIER 2 (The Apprentice)
+[OFFENSE] Perfect Cut (2 Focus): Attack (Melee weapon). Treat the weapon’s damage die as its maximum value (e.g., d8 becomes 8). Do not roll damage.
+[DEFENSE] Mirror Shield (2 Focus): Reaction. If a Spell targets you and misses, reflect it back at the caster.
+[UTILITY] Rearrange (2 Focus): Action. Swap the positions of two willing allies (or moveable objects) within 30ft.
+TIER 3 (The Adept)
+[OFFENSE] Elemental Shape (3 Focus): Action. Create a 10ft Cube of Fire or Ice. Enemies inside take 2d6 Dmg.
+[DEFENSE] Stasis Cube (3 Focus): Action. Encase self or target in a force field. Invulnerable, but cannot act. Lasts 1 round.
+[UTILITY] Bridge (3 Focus): Action. Create a solid bridge of hard-light/force across a 20ft gap. Lasts 1 minute.
+9. LUX (Attribute: AWARENESS)
+The Infinite Sight. Light & Perception.
+TIER 1 (The Novice)
+[OFFENSE] Flash (2 Focus): Action. 10ft Burst. Enemies must make Reflex Save or be Blinded for 1 turn.
+[DEFENSE] Refract (1 Focus): Reaction. Trigger when targeted by Ranged Attack. You appear 2ft to the left. Attack misses on an even die roll.
+[UTILITY] Illuminate (1 Focus): Free Action. An object glows like a torch for 1 hour. Can adhere to enemies (cancels Stealth).
+TIER 2 (The Apprentice)
+[OFFENSE] Searing Beam (2 Focus): Attack. Line 30ft. Deals 1d8 Radiant Dmg to all in line.
+[DEFENSE] Invisibility (2 Focus): Action. You are invisible until you attack or take damage.
+[UTILITY] Scry (2 Focus): Action. See through a closed door or wall (3ft thick) for 1 round.
+TIER 3 (The Adept)
+[OFFENSE] Laser Grid (3 Focus): Action. Create a wall of light. Passing through deals 2d6 Radiant Dmg.
+[DEFENSE] Hologram (3 Focus): Action. Create a duplicate that moves. Enemies must make Awareness check to tell which is real.
+[UTILITY] Reveal Truth (3 Focus): Action. Dispel all Illusions, Invisibility, and Shapeshifting in 30ft radius.
+10. OMEN (Attribute: INTUITION)
+The Precursor Vibe. Luck & Probability.
+TIER 1 (The Novice)
+[OFFENSE] Jinx (2 Focus): Reaction. Trigger when enemy attacks. Enemy must reroll the Attack die and take the lower result.
+[DEFENSE] Bad Feeling (1 Focus): Passive. You cannot be Surprised. Initiative +5.
+[UTILITY] Find Path (1 Focus): Action. The GM must indicate the "correct" direction to your current objective (Vague vibe).
+TIER 2 (The Apprentice)
+[OFFENSE] Ricochet (2 Focus): Passive. If your Ranged Attack misses, reroll it against a different target within 10ft.
+[DEFENSE] Dumb Luck (2 Focus): Reaction. Trigger when you fail a Save. Reroll it.
+[UTILITY] Gamble (2 Focus): Action. Roll 1d6.
+1: Lose 2 Focus.
+2-5: Regain 2 Stamina.
+6: Regain all Focus.
+TIER 3 (The Adept)
+[OFFENSE] Calamity (3 Focus): Action. Cause a Rube Goldberg accident. An environment object (chandelier, rock) falls on target. 3d6 Dmg.
+[DEFENSE] Fated Miss (3 Focus): Reaction. Trigger when Critted. Turn the Critical Hit into a Miss. (The arrow hit your flask, not your heart).
+[UTILITY] Glitch (3 Focus): Action. Force a door to open, a trap to fail, or a guard to sneeze at the wrong time. (Reality bends).
+11. AURA (Attribute: CHARM)
+The Radiant Resonance. Command & Emotion.
+TIER 1 (The Novice)
+[OFFENSE] Shout (2 Focus): Action. Cone 15ft. Enemies must save or drop their held weapons/items.
+[DEFENSE] Distract (1 Focus): Reaction. Enemy targeting you targets an adjacent ally (or nothing) instead.
+[UTILITY] Command: Halt (1 Focus): Action. Target stops moving for 1 turn. (Will Save).
+TIER 2 (The Apprentice)
+[OFFENSE] Awe Strike (2 Focus): Attack. Deals Psychic Dmg. Target is Charmed (Cannot attack you) until they take damage.
+[DEFENSE] Peace Field (2 Focus): Action. No hostility allowed within 10ft of you. Anyone attacking takes 1d6 Psychic Feedback.
+[UTILITY] Rally (2 Focus): Action. All allies within 30ft heal 1d4 Composure and remove "Shaken" status.
+TIER 3 (The Adept)
+[OFFENSE] Dominate (3 Focus): Action. Control an enemy's next Action. (Make them attack their friend).
+[DEFENSE] Sanctuary (3 Focus): Action. Enemies must pass a Charisma Check to target you. If they fail, they lose their action.
+[UTILITY] Inspire (3 Focus): Action. Choose an ally. Their next d20 roll is a guaranteed 20 (not a crit, just a 20).
+12. ANUMIS (Attribute: WILLPOWER)
+The Persistent Zeal. Spirit & Necromancy.
+TIER 1 (The Novice)
+[OFFENSE] Spirit Lash (2 Focus): Attack. Reach 15ft. Spectral whip. 1d6 Necrotic Dmg + Pull 5ft.
+[DEFENSE] Ward (1 Focus): Action. Gain +2 Defense vs Undead or Spirits.
+[UTILITY] Speak with Dead (1 Focus): Action. Ask 1 question to a corpse. It must answer truthfully (cryptically).
+TIER 2 (The Apprentice)
+[OFFENSE] Ghost Blade (2 Focus): Bonus Action. Summon a spectral weapon. It fights alongside you (1d6 Dmg) for 1 minute.
+[DEFENSE] Refuse Death (2 Focus): Reaction. Trigger when reduced to 0 HP. You drop to 1 HP instead.
+[UTILITY] Tether (2 Focus): Action. Link your life to an ally. If they take damage, you take it instead (or vice versa).
+TIER 3 (The Adept)
+[OFFENSE] Soul Blast (3 Focus): Action. Ranged. 2d8 Necrotic Dmg. You heal HP equal to half damage dealt.
+[DEFENSE] Ethereal Form (3 Focus): Action. Become a ghost. Move through walls. Immune to physical damage for 1 turn.
+[UTILITY] Poltergeist (3 Focus): Action. Telekinetically lift and throw 3 objects simultaneously.
+Clicks the pen shut.
+There you have it, Boss. 12 Attributes, 12 Power Sets.
+Sector I (Stamina) is about Physics and Biology.
+Sector II (Focus) is about Metaphysics and Will.
+This gives you a massive toolbox. An Omen/Flux rogue plays completely differently from a Ratio/Nexus tactician.
+What is the next play?
+We have the Core Mechanics, the Characters, and the Powers.
+Do you want to:
+Draft the Enemy Bestiary (using these same stats)?
+Design the "First Session" Scenario (Map + Plot)?
+Refine the "Clash" Cards (Make physical props)?

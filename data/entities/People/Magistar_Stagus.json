@@ -1,0 +1,23 @@
+{
+    "Name": "Magistar Stagus",
+    "School": "Ordo",
+    "Element": "Titanium",
+    "Attributes": {
+        "Endurance": 10,
+        "Corruption": 5,
+        "OriginalName": "Isolde"
+    },
+    "Forms": {
+        "DragonForm": "The Unyielding Glazier"
+    },
+    "Abilities": {
+        "RitualSustenance": 5,
+        "EnergySiphoning": 2,
+        "ImpassableSiege": 4
+    },
+    "CorruptionLevel": 5,
+    "InitialCorruption": 1,
+    "CorruptionThreshold": 3,
+    "CurrentForm": "The Unyielding Glazier",
+    "PreviousForm": "The Bulwark"
+}

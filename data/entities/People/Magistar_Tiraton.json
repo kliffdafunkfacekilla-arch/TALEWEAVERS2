@@ -1,0 +1,31 @@
+{
+    "Name": "Magistar Tiraton",
+    "Tags": [
+        "Magistar",
+        "Mass",
+        "Might",
+        "Dragon/Osmium",
+        "NPC"
+    ],
+    "Attributes": {
+        "School": "Mass (Might)",
+        "Element": "Osmium",
+        "Original Title": "The Living Siege",
+        "Dragon Form": "The World-Weight",
+        "Pre-Corruption Name": "Grom"
+    },
+    "Stats": {
+        "Strength": 20,
+        "Endurance": 18,
+        "Intelligence": 12,
+        "Agility": 14,
+        "Willpower": 16
+    },
+    "Abilities": {
+        "Corruption": {
+            "Type": "The Shattering",
+            "Effect": "Inverts concept of 'Might' upon self",
+            "Result": "Becomes ultra-dense Osmium wyrm, crushing reality"
+        }
+    }
+}

@@ -1,0 +1,141 @@
+{
+    "name": "Raccoons",
+    "type": "Cultures",
+    "description": "",
+    "stats": {
+        "vibe": "1920s New York Irish Immigrants",
+        "look": {
+            "daylight": "dark-tinted round sunglasses or goggles",
+            "attire": "flat caps, suspenders, and aprons for men; flowing, patterned shawls and skirts for women"
+        },
+        "trades": {
+            "men": {
+                "climbers": {
+                    "high_trades": [
+                        "roofing",
+                        "window washing",
+                        "steeple-painting",
+                        "chimney sweeping"
+                    ]
+                },
+                "salesmen": {
+                    "sales": [
+                        "jewelry stores",
+                        "bazaars",
+                        "flea markets"
+                    ],
+                    "skills": [
+                        "natural talkers"
+                    ]
+                },
+                "barbers": {
+                    "shop": [
+                        "men only social clubs"
+                    ],
+                    "gossip": [
+                        "hot"
+                    ],
+                    "whiskey": [
+                        "black-market"
+                    ]
+                }
+            },
+            "women": {
+                "style": [
+                    "long, braided hair",
+                    "bangles",
+                    "loose, colorful clothing"
+                ],
+                "trades": {
+                    "tree-farming": [
+                        "orchards in the upper canopies of giant trees"
+                    ],
+                    "brewing": [
+                        "hard cider"
+                    ],
+                    "hospitality": [
+                        "inns",
+                        "bakeries"
+                    ]
+                }
+            }
+        },
+        "economy": {
+            "fronts": {
+                "deal": [
+                    "many shops are actually owned by the Rats (The Golden Warrens)"
+                ],
+                "role": [
+                    "face",
+                    "run the pawnshop or the boutique legitimately"
+                ],
+                "skill": [
+                    "upselling",
+                    "convince a Horse Noble that a rusty watch is a vintage antique"
+                ]
+            },
+            "moonshine": {
+                "operation": [
+                    "illegal alcohol stills high up in the hollows of ancient trees"
+                ],
+                "product": [
+                    "pine-needle gin",
+                    "stump-water whiskey"
+                ],
+                "distribution": [
+                    "use migrant farm work as cover to move the booze"
+                ]
+            }
+        },
+        "society": {
+            "migrant_workforce": {
+                "seasonal": [
+                    "harvest season",
+                    "thousands of young Raccoons travel the countryside picking fruit for the Deer farmers"
+                ],
+                "role": [
+                    "migrant hands",
+                    "hard-working, singing songs in the fields, and sleeping in barns"
+                ]
+            },
+            "street_urchins": {
+                "apprenticeship": [
+                    "young Raccoons are often used by the Crime Families (Rats/Otters) as lookouts, pickpockets, or cat-burglars"
+                ],
+                "ceiling": [
+                    "most stop doing this when they get older"
+                ],
+                "legend": [
+                    "whispers of a global Guild of Thieves that recruits the very best Raccoon burglars"
+                ]
+            },
+            "nobility": {
+                "new_money": [
+                    "two Raccoon families (The O'Dooles and the Fitzroys) have achieved Noble Status"
+                ],
+                "stigma": [
+                    "Horse Nobles look down on them as Nouveau Riche"
+                ]
+            }
+        },
+        "religion": {
+            "faith": [
+                "worship The Lady of the Lantern (A deity of Night, Secrets, and Safe Passage)"
+            ],
+            "connection": [
+                "share a strange religious bond with the Bats"
+            ],
+            "magic": [
+                "Raccoons who show magical potential (Clerics/Paladins) almost always join the Church hierarchy"
+            ]
+        },
+        "military": {
+            "visual": [
+                "Raccoon in a uniform looks... wrong"
+            ],
+            "role": [
+                "Quartermasters (Supply) or Sappers (Combat Engineers/Climbers)"
+            ]
+        }
+    }
+}

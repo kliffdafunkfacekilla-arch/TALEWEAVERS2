@@ -1,0 +1,15 @@
+{
+    "base_health": 10,
+    "speed": 15,
+    "diet": [
+        "carrion",
+        "eggs",
+        "garbage",
+        "campfires"
+    ],
+    "thermal_regulation": 2,
+    "aggression": 3,
+    "noise": 5,
+    "size": "3-4 feet",
+    "type": "serpent"
+}

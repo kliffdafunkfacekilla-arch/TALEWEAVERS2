@@ -1,0 +1,61 @@
+{
+    "entity_name": "Deer Farmers",
+    "type": "Cultures",
+    "pioneer_spirit": 8,
+    "chaos_cropping": {
+        "risk": 6,
+        "danger": 4
+    },
+    "magic_policy": 2,
+    "men": {
+        "whittling": 9,
+        "brewing": 8,
+        "beekeeping": 7,
+        "barn_raisings": 5
+    },
+    "women": {
+        "knitting_circles": 8,
+        "bake_sales": 6
+    },
+    "traditions": {
+        "bell_lines": {
+            "tech": 9,
+            "code": 7
+        },
+        "sports": {
+            "sky_leaping": 8,
+            "hoof_ball": 7
+        },
+        "shadow_week": {
+            "festival": 8,
+            "celebration": 9
+        }
+    },
+    "religion": {
+        "hedge_wizards": 7,
+        "offerings": 8
+    },
+    "sub_factions": [
+        {
+            "name": "Stags (Deer)",
+            "expertise": [
+                "forestry",
+                "archery"
+            ]
+        },
+        {
+            "name": "Grazers (Cattle/Oxen)",
+            "expertise": [
+                "plowing",
+                " milling"
+            ]
+        },
+        {
+            "name": "Sprinters (Antelope)",
+            "expertise": [
+                "scouting",
+                "bell_lines"
+            ]
+        }
+    ]
+}

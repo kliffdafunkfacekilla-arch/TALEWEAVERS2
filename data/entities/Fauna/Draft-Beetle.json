@@ -1,0 +1,36 @@
+{
+    "Name": "Draft-Beetle",
+    "Type": "Fauna",
+    "Diet": [
+        "Green-Coal",
+        "Rotten Fruit"
+    ],
+    "Base_Health": 150,
+    "Speed": 30,
+    "Strength": 100,
+    "Size": {
+        "Length": 10,
+        "Height": 6
+    },
+    "Special_Abilities": [
+        {
+            "name": "The Grip",
+            "description": "Can walk vertically up tree trunks while carrying a load"
+        },
+        {
+            "name": "The Horn",
+            "description": "Males have a massive forked horn used for lifting pallets"
+        }
+    ],
+    "Danger": {
+        "Aggression": 1,
+        "Handling": "Requires special handling (Clickers or pheromone-wands); becomes immobile if scared"
+    },
+    "Harvestable": true,
+    "Components": [
+        {
+            "name": "Shell",
+            "description": "Harvested to make shields, roofing tiles, and instrument bodies"
+        }
+    ]
+}

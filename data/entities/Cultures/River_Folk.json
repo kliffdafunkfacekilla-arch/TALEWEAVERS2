@@ -1,0 +1,75 @@
+{
+    "name": "River Folk",
+    "core_identity": {
+        "mercantile_soul": true,
+        "merchants_above_all": true,
+        "sly_but_fair_traders": true,
+        "pragmatism_ruthlessness": true,
+        "obsessive_cleanliness": true,
+        "medical_savvy": true
+    },
+    "domain": {
+        "great_lake": {
+            "depths": 12,
+            "ledge_trench": true
+        },
+        "floating_city": {
+            "market_hub": true,
+            "primary_trade": true
+        },
+        "anchor's_inn": {
+            "navigators_school": true,
+            "stationary_anchors": true
+        },
+        "second_waterfall_town": {
+            "misty_atmosphere": true,
+            "dragonstone_panning": true
+        },
+        "delta": {
+            "toxic_environment": true,
+            "unique_plants": true
+        },
+        "coastal_city": {
+            "multicultural_trade": true,
+            "global_trade_hub": true
+        }
+    },
+    "society_justice": {
+        "pragmatic_law": true,
+        "punishment": "slavery",
+        "internal_control": true
+    },
+    "navigating_chaos": {
+        "innate_navigation": true,
+        "tidal_acuity": true,
+        "airship_mastery": true,
+        "chaos_zone_explorers": true
+    },
+    "purifiers": {
+        "recruitment": "albino_children",
+        "headquarters": "secret_monastery",
+        "training": "brutal_crucible",
+        "mission": "combating_corruption",
+        "social_standing": "feared_respected",
+        "funding": "mandatory_tithe",
+        "razor-cloth_robe": true
+    },
+    "ritual_and_tradition": {
+        "shadow_week": true,
+        "vigil_of_shadow_week": true
+    },
+    "external_relations": {
+        "scute_confederacy": {
+            "tense_trade_partnership": true,
+            "friction": "selling_criminals_into_slavery"
+        },
+        "crimson_corsairs": {
+            "black_market_operations": true,
+            "fence_service": true
+        },
+        "ghostwind_raiders": {
+            "clandestine_trade": true,
+            "vice_secret_exchange": true
+        }
+    }
+}

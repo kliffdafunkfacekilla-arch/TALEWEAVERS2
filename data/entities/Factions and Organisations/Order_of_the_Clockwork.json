@@ -1,0 +1,55 @@
+{
+    "Name": "Order of the Clockwork",
+    "Type": "Faction",
+    "Description": "A clandestine network of scholars, practitioners of a 'religion of science,' bound by a singular, monumental purpose.",
+    "Core Tenets": {
+        "Total Secrecy": true,
+        "Technological Balance": true,
+        "Benevolent Aid": true
+    },
+    "Hexad Pillars": [
+        {
+            "name": "The Archeologist (The Historian)",
+            "description": "Based on the legacy of Clary and the Bards' Guild. They hunt relics and ancient data, using the past to predict and prevent the cycles of cataclysm."
+        },
+        {
+            "name": "The Psychologist (The Sociologist)",
+            "description": "Based on the legacy of Celandine and the Trading House. They manipulate secrets and social currents to maintain mass stability and psychological health."
+        },
+        {
+            "name": "The Cosmologist (The Navigator)",
+            "description": "Based on the legacy of Hazard and the Wind Talkers' Guild. They study the 'Macro-Forces'\u2014stars, Aetheric winds, and lunar cycles\u2014to map the world's long-term shifts."
+        },
+        {
+            "name": "The Engineer (The Maker)",
+            "description": "Based on the legacy of Kog and the Artisans' Guild. They repair, build, and regulate technology, ensuring the Technological Balance is never tipped."
+        },
+        {
+            "name": "The Chemist (The Alchemist)",
+            "description": "Based on the legacy of Pipin and the Chefs' Guild. They manage the biological health of the world through agriculture, medicine, and chemical research."
+        },
+        {
+            "name": "The Moralist (The Captain)",
+            "description": "Based on the legacy of Jax and the Ferrymen's Guild. They organize the cell and serve as the final anchor of the group's integrity."
+        }
+    ],
+    "Path of Initiation": {
+        "Scavenger Hunt": true,
+        "Breadcrumb Filter": true,
+        "Clockwork Cache": true
+    },
+    "Hidden Hand": {
+        "Captain's Burden": true,
+        "Reliance Fail-Safe": true
+    },
+    "Gilded Cage": {
+        "Subterranean Prison": true
+    },
+    "Grand Convergence": {
+        "Last Signpost": true,
+        "Quiet Puzzle": true,
+        "Gravity of the Obsessed": true,
+        "Connection": true,
+        "Final Cracking": true
+    }
+}

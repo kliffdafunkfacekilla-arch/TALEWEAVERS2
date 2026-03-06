@@ -1,0 +1,57 @@
+{
+    "Name": "Magistar Metrion",
+    "Title": [
+        "The Architect",
+        "The Crystalline Mind"
+    ],
+    "Aliases": [
+        "Magistar Metrion"
+    ],
+    "Tags": [
+        "Magistar",
+        "Ratio",
+        "Logic",
+        "Dragon/Silicon",
+        "NPC"
+    ],
+    "Attributes": {
+        "School": "Ratio (Logic)",
+        "Element": "Silicon"
+    },
+    "Stats": {
+        "Strength": 5,
+        "Agility": 3,
+        "Intelligence": 10,
+        "Constitution": 4,
+        "Charisma": 6
+    },
+    "Abilities": {
+        "Corruption Breath": {
+            "Damage": 8,
+            "Range": 15,
+            "Effect": "Rewrites the brains of victims, turning them into mindless drones"
+        },
+        "Calculation": {
+            "Effect": "Grants temporary bonus to intelligence and logic-based skills"
+        },
+        "Infinite Loop": {
+            "Effect": "Enters a state of mathematical calculation, ignoring all external stimuli"
+        }
+    },
+    "Special Abilities": {
+        "Dragon Form": {
+            "Description": "Transforms into **The Crystalline Mind**, a dragon of silicon and circuitry"
+        }
+    },
+    "Backstory": {
+        "The Rise": {
+            "Description": "Convened the warlords on the Crag of Final Judgement, viewing the war as an equation to be balanced"
+        },
+        "The Tyranny": {
+            "Description": "Enforced absolute logic, viewed subjects as variables, and punished resistance with deletion"
+        },
+        "The Corruption": {
+            "Description": "Transformed into **The Crystalline Mind** after processing the infinite data of the void"
+        }
+    }
+}

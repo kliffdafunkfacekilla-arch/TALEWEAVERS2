@@ -1,0 +1,40 @@
+{
+    "Name": "Church of the Dawn",
+    "Type": "Magic and Religion",
+    "Description": "Faction Profile: The Church of the Eternal Dawn",
+    "Dogma": "Order through Light",
+    "Role": "Supreme spiritual authority",
+    "Structure": {
+        "Hierarchy": [
+            "The High Clergy (The Robes)",
+            "The Paladin Orders (The Swords of Dawn)",
+            "The Inquisition (The Grey-Wicks)"
+        ],
+        "Paladin Orders": [
+            "Species: Primarily [[Mice]] and racoons, some [[Beavers]].",
+            "Visual: A Mouse Paladin in full, shining plate armor, wielding a needle-thin rapier or a war-hammer made of a single bolt."
+        ],
+        "Inquisition": [
+            "Role: The Secret Police of the Church.",
+            "Mission: To hunt down Hedge Wizards, Unsanctioned Sorcerers, Cultists."
+        ]
+    },
+    "Relationships": {
+        "Moon Cult": {
+            "Relationship": "Tense Tolerance",
+            "View": "The Church views the Moon as the 'Sun's Mirror'\u2014a lesser, sadder light, but necessary for the night."
+        },
+        "Death Cult": {
+            "Relationship": "The Necessary Shadow",
+            "View": "The Church preaches that the Sun brings Life, but admits someone must tidy up after Death."
+        },
+        "Hedge Wizards": {
+            "Relationship": "Active War",
+            "View": "Hedge Wizards are fools or worse agents of chaos that subverts peoples reliance on the church (not cool)."
+        }
+    },
+    "Magic Style": {
+        "Abjuration": "Blinding flashes, searing beams of heat, and 'Truth-Light' that reveals invisible enemies.",
+        "Healing": "Faith Healing, faster but only heals flesh the body must rest to catch up."
+    }
+}

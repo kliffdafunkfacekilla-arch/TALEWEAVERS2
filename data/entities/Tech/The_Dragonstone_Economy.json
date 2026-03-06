@@ -1,0 +1,21 @@
+{
+    "tech_tier": "Tier 3",
+    "energy_cost": 100,
+    "processing_time": 300,
+    "output": {
+        "raw_dragonstone": 200,
+        "d_dust": 100,
+        "aetherium_coin": 50
+    },
+    "requirements": {
+        "wrights": 2,
+        "hedge_wizards": 5,
+        "gilded_compass_cartel": 1
+    },
+    "tags": [
+        "Dragonstone",
+        "Aether-technology",
+        "Economy",
+        "Avian Empire"
+    ]
+}

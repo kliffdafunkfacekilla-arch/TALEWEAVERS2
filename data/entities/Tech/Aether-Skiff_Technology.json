@@ -1,0 +1,82 @@
+{
+    "tech_tier": 5,
+    "energy_cost": 100,
+    "crew_roles": [
+        {
+            "name": "Captain",
+            "description": "Ultimate commander, responsible for the vessel, the crew, and the mission"
+        },
+        {
+            "name": "Aether-Wright",
+            "description": "Master technician and engineer, responsible for the Dragonstone core and coils"
+        },
+        {
+            "name": "Navigator",
+            "description": "Highly specialized expert who interprets the Jitter-Rig and other instruments to guide the vessel safely through Chaos Zones"
+        },
+        {
+            "name": "Whisperer",
+            "description": "Specialist who operates low-power emotional conduits to counteract crew panic, fear, or rage"
+        }
+    ],
+    "propulsion_systems": [
+        {
+            "name": "Dragonstone Engine",
+            "description": "Volatile yet essential material used in propulsion technology"
+        }
+    ],
+    "navigational_systems": [
+        {
+            "name": "Jitter-Rig",
+            "description": "Primary means by which navigators read the ambient chaos of the skies"
+        }
+    ],
+    "construction_methods": [
+        {
+            "name": "Coastal Empire",
+            "description": "Resilient craft constructed from durable, shock-absorbing processed coral/chitin composite"
+        },
+        {
+            "name": "Iron Caldera",
+            "description": "Practical, mass-produced vessels constructed from terrestrial materials"
+        },
+        {
+            "name": "Scute Confederacy",
+            "description": "Agile, low-flying machetes constructed from chitin and scale-plate sourced from Insectoid or Reptilian kingdoms"
+        },
+        {
+            "name": "Hive Commonwealth",
+            "description": "Impressive, high-tech vessels constructed from unknown materials"
+        }
+    ],
+    "classification": [
+        {
+            "name": "Cargo Caravan",
+            "description": "Massive, slow vessel designed for maximum lift capacity"
+        },
+        {
+            "name": "War Skiff",
+            "description": "Heavily armored vessel designed for military use"
+        },
+        {
+            "name": "Scout/Courier",
+            "description": "Small, high-agility vessel designed for reconnaissance and information network"
+        },
+        {
+            "name": "Sky-Barque",
+            "description": "Ornate, highly visible vessel designed for luxury and status"
+        },
+        {
+            "name": "Coil-Cutter",
+            "description": "Fast, light vessel designed for defense and ramming"
+        },
+        {
+            "name": "Deep-Diver",
+            "description": "Small, heavily shielded vessel designed for stable landing and retrieval in volatile zones"
+        }
+    ],
+    "economic_impact": {
+        "cartel": "Gilded Compass",
+        "under-market": "Free Sky-Baronies"
+    }
+}

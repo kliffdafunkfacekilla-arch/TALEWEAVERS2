@@ -1,0 +1,79 @@
+{
+    "Name": "Vaneer Concord 1",
+    "Type": "Faction/Organization",
+    "Philosophy": {
+        "LogicAboveAll": true,
+        "PrimacyOfTheCollective": true,
+        "LongRangePlanning": true,
+        "RedundancyAsAVirtue": true
+    },
+    "Government": {
+        "Senate": {
+            "Composition": "Female representatives (Ant Queens, female Mantises)"
+        },
+        "Triumvirate": {
+            "Composition": "Elected leaders (Finance & Trade, Military & Defense, Civil matters)"
+        },
+        "Widow Spider faction": {
+            "Power": "Near-invisibility, disproportionate power"
+        }
+    },
+    "Societal Roles": {
+        "Species": {
+            "Spiders": {
+                "Primary Roles": [
+                    "Leadership, business, trade, military intelligence"
+                ],
+                "Strategic Contribution": "Master strategists and architects of the Concord's economic and intelligence networks."
+            },
+            "Ants": {
+                "Primary Roles": [
+                    "Infantry, primary workforce for civil engineering and organizational projects"
+                ],
+                "Strategic Contribution": "The disciplined backbone of the military and labor force, enabling grand-scale logistical and engineering feats."
+            },
+            "Mantises & Scorpions": {
+                "Primary Roles": [
+                    "Military leadership (generals, special operations, siege specialists)"
+                ],
+                "Strategic Contribution": "The martial arm's elite command, specializing in high-impact combat, covert operations, and breaking enemy fortifications."
+            },
+            "Beetles": {
+                "Primary Roles": [
+                    "Logistics, transport, coordination, and engineering"
+                ],
+                "Strategic Contribution": "The logistical core of the Concord, ensuring the seamless movement of resources, troops, and information across the wasteland."
+            }
+        },
+        "Chaos Corps": {
+            "Composition": "Illogical citizens (Chaos Touched)",
+            "Strategic Contribution": "Fighting chaos with chaos, altering the battlefield to misdirect and disrupt enemy chaotic effects."
+        },
+        "Verge Cities": {
+            "Function": "Self-contained bases for [[Chaos Corps]]"
+        },
+        "Entertainment": {
+            "Primary Activities": [
+                "The Gauntlet (Access Run), Keystone"
+            ]
+        }
+    },
+    "Economy": {
+        "Primary Products": [
+            "Grain, Mandible-Mash"
+        ],
+        "Key Arrangements": {
+            "[[Sump-Kin]]": "Bio-industrialists hauling away industrial toxic waste",
+            "[[Crimson Corsairs]]": "Privateers disrupting grain shipments of rival factions"
+        }
+    },
+    "External Relations": {
+        "[[Sump-Kin]]": "Waste management",
+        "[[Crimson Corsairs]]": "Privateering and harassment"
+    },
+    "Protocol": {
+        "[[Shadow Week]]": {
+            "Response": "Supreme organization, mandatory downtime for inventory and audit"
+        }
+    }
+}

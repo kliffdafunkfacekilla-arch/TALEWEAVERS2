@@ -1,0 +1,23 @@
+{
+    "base_health": 15,
+    "speed": 40,
+    "diet": [
+        "Sand-Eel larvae",
+        "Furnace-Ticks"
+    ],
+    "special_abilities": [
+        {
+            "name": "Nictitating Shield",
+            "description": "Protects eyes from sand impact"
+        },
+        {
+            "name": "Coating",
+            "description": "Reduces friction to near zero, allowing for piercing sand"
+        }
+    ],
+    "burrow_speed": 10,
+    "burrow_distance": 5,
+    "habitats": [
+        "The Anvil Roosts"
+    ]
+}

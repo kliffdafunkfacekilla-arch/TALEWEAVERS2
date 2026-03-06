@@ -1,0 +1,27 @@
+{
+    "Name": "Ghostwind Raiders",
+    "Type": "Faction",
+    "Description": "A phantom fleet, striking during chaos storms, and vanishing without a trace. A force known more through whispers in the under-markets and panicked reports from blockaded trade fleets than through hard, verifiable intelligence.",
+    "Philosophy": "Direct and uncompromising opposition to the vices of greed, hoarding, and the systemic abuse of power.",
+    "Goals": "Liberate critical assets, specifically indentured crews who form the backbone of industrial shipping.",
+    "Methodology": "Airship tactics, ambush and sabotage, psychological warfare, environmental weaponry, and ingenious traps.",
+    "Technology": {
+        "Type": "Charms",
+        "Tactical Application": "Silent, disposable magic powered by hand-painted sigils brewed with 'dusted ink'.",
+        "Significance": "Single-use effects perfect for stealth, ambush, and rapid repositioning without a significant logistical or auditory footprint."
+    },
+    "Relatives": {
+        "Primary Adversary": "Crimson Corsairs",
+        "Key Relationships": [
+            {
+                "Type": "Under-Market Lifeline",
+                "Description": "The world's only reliable smugglers, bypassing patrols and protection rackets of larger factions."
+            },
+            {
+                "Type": "Mercenary Operations",
+                "Description": "Operating through specialized 'Shadow Paw' mercenary companies, taking on contracts that no conventional force could accomplish."
+            }
+        ]
+    },
+    "Geopolitical Role": "A critical, albeit unofficial, regulatory force in the global under-market, disrupting monopolies and providing leverage to factions that would otherwise be dominated by larger powers."
+}

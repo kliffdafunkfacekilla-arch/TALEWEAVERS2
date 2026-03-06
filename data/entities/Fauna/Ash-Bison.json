@@ -1,0 +1,20 @@
+{
+    "name": "Ash-Bison",
+    "type": "Fauna",
+    "diet": "herbivore",
+    "base_health": 15,
+    "speed": 6,
+    "armor_class": 3,
+    "natural_armor": "stone-like armor plating (arrow-proof)",
+    "horns": [
+        {
+            "up": 2,
+            "down": 2
+        }
+    ],
+    "utility": {
+        "meat": "tough, lean, and naturally salty",
+        "hides": "used to make heavy shields and yurt coverings",
+        "bones": "used as lumber for tent frames and tool handles"
+    }
+}

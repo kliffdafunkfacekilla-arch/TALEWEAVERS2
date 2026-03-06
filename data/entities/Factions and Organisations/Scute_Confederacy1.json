@@ -1,0 +1,95 @@
+{
+    "faction_type": "Factions and Organisations",
+    "faction_name": "Scute Confederacy",
+    "people": [
+        {
+            "type": "reptilian"
+        },
+        {
+            "type": "snake"
+        },
+        {
+            "type": "alligator/crocodile-like"
+        }
+    ],
+    "homeland": "jungle-like tropics and large eastern islands",
+    "core_philosophy": "strength is only born from struggle, and weakness is a moral failing",
+    "core_identity": "renowned and masterful stone masons",
+    "defining_influence": "Igni, The Raging Maw",
+    "environmental_challenges": [
+        {
+            "type": "localized firestorms"
+        },
+        {
+            "type": "flash-freezing"
+        }
+    ],
+    "economic_assets": [
+        {
+            "type": "stone masonry"
+        },
+        {
+            "type": "unique crops and fruit"
+        },
+        {
+            "type": "the strongest booze"
+        },
+        {
+            "type": "psychedelic/narcotic plants"
+        },
+        {
+            "type": "colorful birds and feathers"
+        }
+    ],
+    "reputation": "unyielding and formidable",
+    "militaryDoctrine": "precision industry and calculated retribution",
+    "justice_system": "vengeful justice and forced labor",
+    "religion": "deeply religious and complex calendar system",
+    "divination": "use of combat to read the will of the gods",
+    "relationship_status": {
+        " Iron Caldera": "highest respect",
+        "Vaneer Concord": "absolute contempt",
+        "Ursine Hegemony": "confused caution",
+        "Free Sky-Baronies": "mutual respect and active trade",
+        "Eastern Hounds": "respect for struggle",
+        "Warden Clans": "high regard",
+        "River Folk": "transactional and wary"
+    },
+    "history": {
+        "crucible_of_oppression": {
+            "type": "slavery"
+        },
+        "discovery_and_betrayal": {
+            "type": "betrayal"
+        },
+        "hour_of_vengeance": {
+            "type": "revolution"
+        }
+    },
+    "economy": {
+        "type": "self-sufficient"
+    },
+    "military": {
+        "type": "airships"
+    },
+    "culture": {
+        "type": "reptilian"
+    },
+    "unique_features": [
+        {
+            "type": "stone masonry"
+        },
+        {
+            "type": "unique crops and fruit"
+        },
+        {
+            "type": "the strongest booze"
+        },
+        {
+            "type": "psychedelic/narcotic plants"
+        },
+        {
+            "type": "colorful birds and feathers"
+        }
+    ]
+}

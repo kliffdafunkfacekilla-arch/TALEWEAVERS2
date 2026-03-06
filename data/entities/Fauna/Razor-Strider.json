@@ -1,0 +1,36 @@
+{
+    "name": "Razor-Strider",
+    "type": "Fauna",
+    "diet": "Omnivore",
+    "base_health": 18,
+    "speed": 25,
+    "attack": {
+        "type": "Slashing",
+        "damage": 12,
+        "cooldown": 2,
+        "shearing_bite": {
+            "damage": 20,
+            "cooldown": 3,
+            "description": "Delivers a powerful beak attack to the neck, instantly killing or severely wounding the target."
+        }
+    },
+    "special_abilities": [
+        {
+            "name": "Glass-Storm",
+            "description": "The Razor-Strider body-checks the target, shredding its side with their glass feathers. Deals 5 damage and applies a bleed effect.",
+            "cooldown": 3
+        }
+    ],
+    "unique_features": [
+        {
+            "name": "Auditory Warning",
+            "description": "When a pack of Razor-Striders runs, their feathers clack together, creating a sound like wind chimes in a gale. If you hear the chimes, the pack is already flanking you.",
+            "effect": "Warning"
+        },
+        {
+            "name": "Feather-Knives",
+            "description": "Molted feathers are prized by Ironborn assassins or Quill-Kin surgeons as single-use scalpels that are sharper than steel.",
+            "effect": "Tradeable"
+        }
+    ]
+}

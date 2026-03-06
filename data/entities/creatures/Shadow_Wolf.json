@@ -1,0 +1,13 @@
+{
+    "name": "Shadow_Wolf",
+    "diet": "OMNIVORE",
+    "base_health": 80,
+    "damage_output": 30,
+    "speed": 18,
+    "aggression": 0.9,
+    "preferred_biomes": [
+        "Dense Forest",
+        "Mountainous Region"
+    ],
+    "is_pack_animal": true
+}

@@ -1,0 +1,51 @@
+{
+    "name": "Sloth-Folk",
+    "description": "Textile Masters, Archivists, Spider-Ranchers",
+    "home": "The Slow-Vault",
+    "stats": {
+        "physique": {
+            "height": 6.5,
+            "weight": null,
+            "agility": 1,
+            "strength": 3,
+            "endurance": 4,
+            "intelligence": 2
+        },
+        "society": {
+            "trust": 5,
+            "reputation": 4,
+            "influence": 3,
+            "network": 2
+        },
+        "industry": {
+            "tech_tier": 4,
+            "energy_cost": 2,
+            "production_rate": 1
+        },
+        "military": {
+            "tactics": [
+                "Static Defense",
+                "Grappling"
+            ],
+            "equipment": [
+                "Catch-Pole",
+                "Net-Guns"
+            ]
+        },
+        "culture": {
+            "philosophy": [
+                "Consistency",
+                "Stasis"
+            ],
+            "values": [
+                "Long-View",
+                "Trust"
+            ],
+            "quirks": [
+                "The Pause",
+                "Moss-Grooming",
+                "Sleeping"
+            ]
+        }
+    }
+}

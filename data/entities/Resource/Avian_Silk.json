@@ -1,0 +1,31 @@
+{
+    "base_value": 10,
+    "rarity": 3,
+    "weight": 0.5,
+    "volume": 1,
+    "duration": 2,
+    "tags": [
+        "luxury",
+        "high-demand"
+    ],
+    "qualities": [
+        "vibrant",
+        "static",
+        "unfading"
+    ],
+    "uses": [
+        "clothing",
+        "accessories"
+    ],
+    "markets": [
+        "Hive Commonwealth",
+        "Equine Nobles"
+    ],
+    "black_market": [
+        "Thunder-Swill",
+        "black_market_demand"
+    ],
+    "side_effects": [
+        "temporary_paralysis"
+    ]
+}

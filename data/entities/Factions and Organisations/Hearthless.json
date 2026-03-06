@@ -1,0 +1,56 @@
+{
+    "faction_name": "Hearthless",
+    "category": "Factions and Organisations",
+    "type": "Ursine",
+    "tags": [
+        "Ursine",
+        "Factions and Organisations"
+    ],
+    "aliases": [
+        "Hearthless"
+    ],
+    "reputation": "social death",
+    "existence_status": "non-existent",
+    "strength": 5,
+    "endurance": 5,
+    "maneuverability": 2,
+    "social_rank": "outcast",
+    "community_value": "0",
+    "justice_system": {
+        "punishment_types": [
+            "Banishment"
+        ],
+        "minor_offenses": [
+            "Fines",
+            "Forced labor"
+        ],
+        "major_offenses": [
+            "Banishment"
+        ]
+    },
+    "rituals": {
+        "branding": {
+            "type": "Sigil of Ice",
+            "purpose": "permanently declaring the individual's coldness"
+        },
+        "public_shaming": {
+            "type": "public ostracism",
+            "purpose": "social death"
+        }
+    },
+    "sanctuary": {
+        "location": "Iron Caldera (The Forge-Hearth)",
+        "role": "forge-workers"
+    },
+    "external_roles": {
+        "mercenary": {
+            "strength": 5,
+            "endurance": 5,
+            "maneuverability": 2
+        }
+    },
+    "existence": {
+        "status": "erased from society",
+        "reason": "social death"
+    }
+}

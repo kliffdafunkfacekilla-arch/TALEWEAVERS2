@@ -1,0 +1,78 @@
+{
+    "entity_name": "Free Sky-Baronies",
+    "category": "Factions and Organisations",
+    "tags": [],
+    "aliases": [],
+    "philosophy_and_code": {
+        "archetype": "The Aether-Bound Outlaw Syndicate",
+        "pivot": "Outlaw Motorcycle Club (MC) structure",
+        "sovereignty_of_the_skiff": "Rejects 'Dry-Land Law' (Avian/Vaneer/Scute)",
+        "social_license": {
+            "nice_enough": "Heroes to common folk (Raccoons, Deer, Mice)",
+            "unforgivable_sin": "Punching down (robbing peasants)"
+        },
+        "consequence": {
+            "brutal_when_crossed": "Collective Debt (stripping settlement of resources)"
+        }
+    },
+    "structure": {
+        "12_chapters": {
+            "president": "Chapter Leader",
+            "vp": "Second-in-Command",
+            "master_of_arms": "Enforces internal discipline and defense",
+            "quartermaster": "Fences stolen goods and sources Dragonstone (D-Dust)",
+            "cloud_captain": "Fleet Commander",
+            "sergeant_of_secrets": "Spymaster and expert in 'Technical Truths'"
+        },
+        "governance": {
+            "summit": "Decisions made at Summit",
+            "consensus-by-endurance": "Convene until consensus is forced",
+            "challenge": "Any position can be challenged, but requires approval from other Barons"
+        }
+    },
+    "recruitment": {
+        "unstable_core": "Powered by massive, unstable Dragonstone Core",
+        "brand": {
+            "emblem": "Nickel-and-copper emblem attached to core",
+            "colors": "Member wears double-breasted heavy canvas trench coat dyed to match brand color"
+        }
+    },
+    "economy": {
+        "monopoly": {
+            "goods": {
+                "mandible-mash": "Hive-Kicker",
+                "fir-gin": "Sylvan Spirit",
+                "scale-cracker": "Industrial-Strength Scute Liquor"
+            },
+            "racket": {
+                "protection_tithe": "Merchants pay to ensure cargo isn't audited"
+            }
+        },
+        "clients": {
+            "highborn_nobles": {
+                "protected_status": "Syndicate gains 'Protected Status' from Senator's whiskey sales"
+            }
+        },
+        "laundering": {
+            "river_syndicate": {
+                "otters": "Use 'Ghost Barges' to clean Aetherium Coin"
+            }
+        }
+    },
+    "tactics": {
+        "fight_or_die": {
+            "equipment": {
+                "mass-produced_standard_aether-skiffs": "Chopped and dropped for speed"
+            },
+            "doctrine": {
+                "punching_down": "Robbing peasants is the 'Unforgivable Sin'"
+            }
+        }
+    },
+    "origin": {
+        "hauler's_rebellion": {
+            "history": "Began as standard cargo haulers trapped in 'Widow's Web' of Avian taxation and Vaneer auditing",
+            "pivot": "Realized margins on illegal/taxed goods were high enough to fund their own military"
+        }
+    }
+}

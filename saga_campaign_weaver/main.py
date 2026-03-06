@@ -20,6 +20,7 @@ class FrameworkRequest(BaseModel):
     world_state: dict
     settings: dict
     history: Optional[List[dict]] = None
+    context_packet: Optional[dict] = None
 
 @app.post("/api/weaver/framework", response_model=CampaignFramework)
 async def create_campaign_framework(request: FrameworkRequest):
@@ -28,23 +29,24 @@ async def create_campaign_framework(request: FrameworkRequest):
             characters=request.characters, 
             world_state=request.world_state, 
             settings=request.settings,
-            history=request.history
+            history=request.history,
+            context_packet=request.context_packet
         )
         return framework
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/weaver/arc", response_model=List[QuestNode])
-async def create_regional_arc(saga_beat: dict, region_context: dict):
+async def create_regional_arc(saga_beat: dict, region_context: dict, context_packet: Optional[dict] = None):
     try:
-        return await generate_regional_arc(saga_beat, region_context)
+        return await generate_regional_arc(saga_beat, region_context, context_packet)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/weaver/sidequest", response_model=QuestNode)
-async def create_sidequest(hex_context: dict):
+async def create_sidequest(hex_context: dict, context_packet: Optional[dict] = None):
     try:
-        return await generate_local_sidequest(hex_context)
+        return await generate_local_sidequest(hex_context, context_packet)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

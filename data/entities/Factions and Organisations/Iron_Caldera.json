@@ -1,0 +1,71 @@
+{
+    "name": "Iron Caldera",
+    "type": "Faction",
+    "description": "A civilization that embodies unyielding defiance against the chaos of Kael, The Iron Hide, through meticulous engineering and resilience.",
+    "societal_structure": {
+        "government": "Meritocracy",
+        "hierarchy": [
+            {
+                "role": "High Forgemaster",
+                "description": "The ultimate authority within the Iron Caldera, chosen for their proven wisdom, skill, and endurance."
+            },
+            {
+                "role": "Stone-Scales",
+                "description": "The primary architects and builders of the Caldera, responsible for the structural integrity and defensive fortification of Forgespire."
+            },
+            {
+                "role": "Lizard-Folk",
+                "description": "The primary engineers and miners, responsible for extracting rare metals and powering the Caldera's industry."
+            }
+        ]
+    },
+    "technology": {
+        "metallurgy": "Unparalleled",
+        "clockwork_engineering": "Advanced",
+        "geothermal_exploitation": "Strategic",
+        "architecture": "Dynamic and Impenetrable",
+        "aether-tech_integration": "Chaos-Boiler technology"
+    },
+    "military": {
+        "doctrine": "Unrelenting Defense",
+        "units": [
+            {
+                "name": "Shelled Reptiles",
+                "description": "Immense, spiked tortoises that form a literal spear wall, absorbing and repelling frontal assaults."
+            },
+            {
+                "name": "Salamander-like Lizards",
+                "description": "Tall, slender lizards that serve as cavalry, vanguards, archers, and gunners, striking with speed and agility."
+            },
+            {
+                "name": "Alchemical Warfare Corps",
+                "description": "Positioned behind the main defensive line, providing fire support with alchemical grenades and specialized launchers."
+            },
+            {
+                "name": "Hatchery Nurses",
+                "description": "Tenders of the hatcheries, trained in natural poisons, hidden claws and spikes, and unconventional warfare."
+            },
+            {
+                "name": "Forge Dancers",
+                "description": "Elite warriors who guard vital locations and are seemingly invulnerable, their combat style a fluid, instantly deadly dance."
+            }
+        ]
+    },
+    "culture": {
+        "rituals": [
+            {
+                "name": "Festival of Life (Shadow Week)",
+                "description": "A massive celebration of defiance during the global seven-day eclipse, where the Ironborn seal the great gates and consume vast stockpiles of food and resources."
+            },
+            {
+                "name": "Rite of Passage",
+                "description": "A brutal test of endurance and survival, where a group of young Lizardlings must find their way back to the citadel, either all together or not at all."
+            }
+        ]
+    },
+    "economy": {
+        "resource_management": "Self-Sufficient",
+        "internal_sustenance": "Massive, subterranean farms cultivating specialized fungus, hardy desert plants, and vast quantities of farmed bugs and grubs.",
+        "trade": "Designated 'Ironless' Outposts, where they trade their superior metalwork and clockwork technology for 'luxury' foods and other goods."
+    }
+}

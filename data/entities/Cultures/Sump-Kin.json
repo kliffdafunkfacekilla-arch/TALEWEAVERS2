@@ -1,0 +1,33 @@
+{
+    "name": "Sump-Kin",
+    "type": "Cultures",
+    "aliases": [],
+    "tags": [],
+    "description": "A culture built on a foundation of unstoppable beasts, exploited labor, and a masterful command of chemical production\u2014a foul but potent combination that has made them an indispensable, if feared, power in global commerce.",
+    "stats": {
+        "industrial_gothic_meets_swamp_horror": {
+            "value": 10,
+            "description": "A unique cultural aesthetic that combines industrial elements with swamp horror themes."
+        },
+        "ruthless_pragmatism": {
+            "value": 12,
+            "description": "A calculated brutality that ensures the Sump-Kin's dominance in global commerce."
+        },
+        "chemical_production": {
+            "value": 15,
+            "description": "A masterful command of chemical production that fuels the Sump-Kin's economy."
+        },
+        "exploited_labor": {
+            "value": 8,
+            "description": "The systematic exploitation of colonized tribes provides the Sump-Kin with an endless supply of cheap labor."
+        },
+        "unstoppable_beasts": {
+            "value": 10,
+            "description": "The Sump-Kin's domestication of massive tortoises and snakes provides them with an unstoppable logistical advantage."
+        },
+        "military_prowess": {
+            "value": 12,
+            "description": "The Sump-Kin's military doctrine is rooted in venom, mobility, and psychological terror, making them a formidable force on the battlefield."
+        }
+    }
+}

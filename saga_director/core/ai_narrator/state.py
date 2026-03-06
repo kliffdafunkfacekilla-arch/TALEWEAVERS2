@@ -19,6 +19,12 @@ class GameState(TypedDict):
     tension: int
     chaos_numbers: List[int]
     
+    # Living Context Layer
+    current_day: int
+    current_tick: int
+    day_phase: str
+    context_packet: Dict
+    
     # 3. Mechanical & Tactical Results
     math_log: str               # Output from Math Engines
     chaos_strike: bool

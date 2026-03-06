@@ -1,0 +1,26 @@
+{
+    "base_health": 10,
+    "diet": [
+        "Carnivorous"
+    ],
+    "habitat": [
+        "Desert",
+        "Grassland"
+    ],
+    "size": "Large",
+    "speed": 5,
+    "terrain": [
+        "Cave",
+        "Rocky",
+        "Sandy"
+    ],
+    "temperament": [
+        "Aggressive",
+        "Territorial"
+    ],
+    "type": "Bird",
+    "utilities": {
+        "Siren": true,
+        "Mine-Sweeper": true
+    }
+}

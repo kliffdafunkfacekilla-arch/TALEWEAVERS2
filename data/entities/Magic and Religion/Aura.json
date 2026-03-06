@@ -1,0 +1,47 @@
+{
+    "base_spellcast": 5,
+    "spellcast_growth": 0.5,
+    "resonance_range": 10,
+    "resonance_duration": 2,
+    "offense_power": {
+        "dissonance": {
+            "damage": 5,
+            "chance": 0.3
+        },
+        "fear": {
+            "chance": 0.7,
+            "duration": 2
+        },
+        "rage": {
+            "chance": 0.7,
+            "duration": 2
+        }
+    },
+    "defense_power": {
+        "sanctuary": {
+            "chance": 0.9,
+            "duration": 2
+        },
+        "resolve": {
+            "chance": 0.7,
+            "duration": 2
+        }
+    },
+    "utility_power": {
+        "charm": {
+            "chance": 0.5,
+            "duration": 2
+        },
+        "telepathy": {
+            "chance": 0.8,
+            "range": 5
+        },
+        "suggestion": {
+            "chance": 0.6,
+            "duration": 2
+        }
+    },
+    "spellcast_cooldown": 5,
+    "spellcast_energy_cost": 2,
+    "spellcast_energy_regen": 1
+}

@@ -1,0 +1,17 @@
+{
+    "species": "Golden Eagle",
+    "visuals": {
+        "breastplate": "Aetherium",
+        "cape": "Voltaic Fleece"
+    },
+    "command_profile": {
+        "supreme_commander": true,
+        "flagship_commander": true
+    },
+    "tactics": {
+        "unblinking_stare": true
+    },
+    "victories": {
+        "silent_siege_of_the_western_drift": true
+    }
+}

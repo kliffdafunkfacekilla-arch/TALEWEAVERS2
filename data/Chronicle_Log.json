@@ -4,5 +4,47 @@
     "type": "WAR",
     "description": "The Northern Horde has breached the walls of Ironfort.",
     "location": 10
+  },
+  {
+    "tick": 60,
+    "type": "BUILD",
+    "description": "None upgraded to Tier 1: Settlement \u2014 built farm, hunting_post, gather_camp, dirt_road.",
+    "faction": "None",
+    "location": null
+  },
+  {
+    "tick": 60,
+    "type": "BUILD",
+    "description": "None constructed a watchtower.",
+    "faction": "None",
+    "location": null
+  },
+  {
+    "tick": 60,
+    "type": "BUILD",
+    "description": "None constructed a walls.",
+    "faction": "None",
+    "location": null
+  },
+  {
+    "tick": 60,
+    "type": "CRIME",
+    "description": "None: a trade caravan was raided! Lost 4.7 gold and 7.7 food.",
+    "faction": "None",
+    "location": null
+  },
+  {
+    "tick": 60,
+    "type": "BANDIT_SPAWN",
+    "description": "A bandit clan emerged near None territory!",
+    "faction": "BANDITS",
+    "location": null
+  },
+  {
+    "tick": 90,
+    "type": "BUILD",
+    "description": "None upgraded to Tier 2: Town \u2014 built sawmill, quarry, watchtower, dirt_road.",
+    "faction": "None",
+    "location": null
   }
 ]

@@ -1,0 +1,38 @@
+{
+    "name": "Fulcrum Academy",
+    "type": "Factions and Organisations",
+    "description": "Neutral, academic institution with a focus on technological research and training of elite airship crews",
+    "core_mandate": {
+        "unyielding_neutrality": true,
+        "technological_supremacy": true,
+        "strategic_dissemination": true
+    },
+    "location": "Strategic crossroads",
+    "mission": "To maintain a state of technological parity and prevent catastrophic conflict through the training of elite airship crews and strategic dissemination of knowledge",
+    "schools": [
+        {
+            "name": "Whisperer Wing",
+            "description": "Mastery of the unseen, focusing on emotional regulation and manipulation",
+            "core_competency": "Systematic regulation of crew morale and emotional response",
+            "consequence_of_failure": "Crew panic and decreased operational cohesion"
+        },
+        {
+            "name": "Aether-Wrights' Forge",
+            "description": "Training of hyper-specialized engineers focused on the maintenance and operation of Aetheric-Reaction Engines",
+            "core_competency": "Calibration of sigil-paste conduits, maintenance of Volatile Aether fluid, and monitoring of Dragonstone battery",
+            "consequence_of_failure": "Reality-bending failure, including localized gravity flipping, petrification, or uncontrolled chaos"
+        },
+        {
+            "name": "Navigator's Art",
+            "description": "Training of navigators focused on charting courses and navigating the unknowable forces that govern the skies",
+            "core_competency": "Reading of jitter vibrations to sense danger and type of chaos ahead",
+            "consequence_of_failure": "Loss of situational awareness and increased risk of disaster"
+        }
+    ],
+    "red_sash": {
+        "description": "Pinnacle of aerial supremacy, formed by the top graduates of the Whisperer, Aether-Wright, and Navigator schools",
+        "core_competency": "Operational harmony, technical mastery, navigational genius, and psychological stability",
+        "consequence_of_failure": "Suicidal missions and increased risk of disaster"
+    },
+    "influence": "Quiet, unseen hand on the tiller, controlling technological and political currents in the Shattered World"
+}

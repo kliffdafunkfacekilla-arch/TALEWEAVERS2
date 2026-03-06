@@ -1,0 +1,27 @@
+{
+    "base_mana_cost": 15,
+    "cast_time": 2,
+    "cooldown_time": 10,
+    "range": 20,
+    "duration": 5,
+    "effect": {
+        "offense": {
+            "type": "acid",
+            "damage": 12,
+            "penetration": 4
+        },
+        "defense": {
+            "type": "phasing",
+            "damage_reduction": 0.5,
+            "stun_reduction": 0.7
+        },
+        "utility": {
+            "type": "separate",
+            "success_rate": 0.7
+        }
+    },
+    "passive_effect": {
+        "armor": 0.2,
+        "stamina": 0.3
+    }
+}

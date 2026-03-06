@@ -1,0 +1,19 @@
+{
+    "Entity Name": "Ren the Instinct",
+    "aliases": [
+        "Ren",
+        "The Instinct"
+    ],
+    "tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Motus",
+        "Reflex"
+    ],
+    "Attributes": {
+        "Former Master": "Magistar Vecelo",
+        "Role": "Strike Team Leader",
+        "Defection Event": "The Training Day Massacre"
+    }
+}

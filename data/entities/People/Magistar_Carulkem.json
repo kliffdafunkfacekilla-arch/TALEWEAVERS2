@@ -1,0 +1,37 @@
+{
+    "Name": "Magistar Carulkem",
+    "Title": [
+        "The Shield",
+        "The Furnace Eternal"
+    ],
+    "Aliases": [
+        "Magistar Carulkem",
+        "The Shield",
+        "The Furnace Eternal"
+    ],
+    "School": "Nexus",
+    "Element": "Tungsten",
+    "Fortitude": true,
+    "Corruption": true,
+    "Dragon_Form": "The Furnace Eternal",
+    "Pre_Corruption_Name": "Vahn",
+    "Attributes": {
+        "Propaganda": 9,
+        "Magical_Display": 8,
+        "Hatred": 10,
+        "War_Readiness": 9,
+        "Identity_Control": 8,
+        "Historical_Manipulation": 7,
+        "Elemental_Catastrophe": 9
+    },
+    "Stats": {
+        "Strength": 6,
+        "Agility": 4,
+        "Intelligence": 3,
+        "Endurance": 8,
+        "Charisma": 9
+    },
+    "Abilities": [
+        "Trigger_Elemental_Catastrophe"
+    ]
+}

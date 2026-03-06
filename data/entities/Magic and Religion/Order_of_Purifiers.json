@@ -1,0 +1,39 @@
+{
+    "name": "Order of Purifiers",
+    "type": "Magic and Religion",
+    "tags": [
+        "Secret Society",
+        "Religious Cult"
+    ],
+    "recruitment": {
+        "method": "Albino children taken from families at birth",
+        "exceptions": "None",
+        "cultural impact": "Immediate and profound"
+    },
+    "training": {
+        "duration": "Unknown",
+        "methods": [
+            "Exposure to lethal poisons, virulent diseases, warping mutations, and extreme physical trauma"
+        ],
+        "outcomes": [
+            "Forging of fanatics"
+        ]
+    },
+    "doctrine": {
+        "purpose": "To combat the chaotic influence of Ulex, The Fecund Plague",
+        "definition of blight": "Broad and terrifyingly inclusive"
+    },
+    "structure": {
+        "operational units": "Small, roving pods",
+        "funding": "Mandatory tithe of 10% on all profits from River Folk commerce",
+        "leadership and succession": "Retirement to the hidden monastery for the next generation"
+    },
+    "uniform": {
+        "symbolism": "Dual significance: final test of training and passive defense",
+        "construction": "Woven from razor-cloth reeds"
+    },
+    "social impact": {
+        "relationship": "One of profound, institutionalized fear",
+        "social contract": "Unspoken, strict, and unbreakable"
+    }
+}

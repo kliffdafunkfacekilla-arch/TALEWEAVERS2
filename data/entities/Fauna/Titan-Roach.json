@@ -1,0 +1,10 @@
+{
+    "name": "Titan-Roach",
+    "category": "Fauna",
+    "diet": "Detritivores",
+    "base_health": 100,
+    "speed": 20,
+    "load_capacity": 5,
+    "climb_speed": 30,
+    "setae_count": 1000000
+}

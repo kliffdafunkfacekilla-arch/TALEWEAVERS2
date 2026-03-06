@@ -1,0 +1,48 @@
+{
+    "Name": "Heartlands",
+    "Type": "Faction",
+    "Subtype": "Organization",
+    "Politics": {
+        "Whisper War": {
+            "Description": "Political maneuvering, backroom deals, and weaponized etiquette"
+        }
+    },
+    "Code": {
+        "The Sleeping Watch": {
+            "Description": "Failing to warn their vassals of danger"
+        }
+    },
+    "Magic Policy": {
+        "Description": "Strictly forbidden"
+    },
+    "Magic": {
+        "Affinity": {
+            "Role": "Tithed to the Church"
+        }
+    },
+    "Military Asset": {
+        "The Wind Runners": {
+            "Type": "Elite, light-cavalry scouts"
+        }
+    },
+    "Sub-Factions": [
+        {
+            "Name": "Stallions",
+            "Type": "Sub-Faction",
+            "Species": "Horses",
+            "Role": "Dukes and Senators"
+        },
+        {
+            "Name": "Stripes",
+            "Type": "Sub-Faction",
+            "Species": "Zebras",
+            "Role": "Southern socialites and duelists"
+        },
+        {
+            "Name": "Mules",
+            "Type": "Sub-Faction",
+            "Species": "Donkeys",
+            "Role": "The 'Old Guard'\u2014treasurers and judges who are stubborn and incorruptible"
+        }
+    ]
+}

@@ -123,10 +123,13 @@ export interface ClientGameState {
 
     clientLoadout: LoadoutItem[];
     setClientLoadout: (loadout: LoadoutItem[]) => void;
+
+    campaignSettings: any;
+    setCampaignSettings: (settings: any) => void;
 }
 
 const INITIAL_STATE: Omit<ClientGameState,
-    'sendAction' | 'executeAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setCampaignId' | 'setPlayerHex' | 'setVttTier' | 'assignSurvivalJob' | 'setSurvivalResources' | 'setExplorationNodes' | 'moveNode' | 'injectTierContext' | 'setClientLoadout'
+    'sendAction' | 'executeAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setCampaignId' | 'setPlayerHex' | 'setVttTier' | 'assignSurvivalJob' | 'setSurvivalResources' | 'setExplorationNodes' | 'moveNode' | 'injectTierContext' | 'setClientLoadout' | 'setCampaignSettings'
 > = {
     vttTier: 2,
     currentScreen: 'MAIN_MENU',
@@ -161,6 +164,7 @@ const INITIAL_STATE: Omit<ClientGameState,
         { id: 2, itemName: 'Traveler\'s Bread' },
     ],
     clientLoadout: [],
+    campaignSettings: null,
 };
 
 export const useGameStore = create<ClientGameState>((set, get) => ({
@@ -171,6 +175,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     setScreen: (screen) => set({ currentScreen: screen }),
     setCampaignId: (id) => set({ activeCampaignId: id }),
     setClientLoadout: (loadout) => set({ clientLoadout: loadout }),
+    setCampaignSettings: (settings) => set({ campaignSettings: settings }),
 
     assignSurvivalJob: (character, job) => set((s) => ({
         survivalJobs: [...s.survivalJobs.filter(j => j.characterName !== character), { characterName: character, jobName: job }]

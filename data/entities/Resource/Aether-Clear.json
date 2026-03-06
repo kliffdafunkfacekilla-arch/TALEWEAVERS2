@@ -1,0 +1,21 @@
+{
+    "Name": "Aether-Clear",
+    "Type": "Resource",
+    "Description": "The Anti-Chaos Draught",
+    "Anti-Chaos": true,
+    "Second_Ingredient": "Ghost Flowers",
+    "Fermentation": true,
+    "Distillation": true,
+    "Use_Case": "Treats Corruption Sickness",
+    "Effect": "Hhalts spread, clears mental fog",
+    "Leverage": "Monopoly on production",
+    "Cost": {
+        "Ingredients": {
+            "Fermentation": "Ozone-Milk",
+            "Distillation": null,
+            "Second_Ingredient": "Ghost Flowers"
+        },
+        "Energy": 0,
+        "Time": null
+    }
+}

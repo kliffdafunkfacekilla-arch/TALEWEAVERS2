@@ -1,0 +1,71 @@
+{
+    "name": "The 12 Powers",
+    "description": "The 12 Powers is a fundamental force of the Shattered World, categorized into twelve distinct schools governed by core Attributes.",
+    "attributes": {
+        "Might": {
+            "stops": [
+                "Osmium"
+            ]
+        },
+        "Endurance": {
+            "stops": [
+                "Osmium"
+            ]
+        },
+        "Reflex": {
+            "stops": [
+                "Gold"
+            ]
+        },
+        "Finesse": {
+            "stops": [
+                "Gold"
+            ]
+        },
+        "Vitality": {
+            "stops": [
+                "Tungsten"
+            ]
+        },
+        "Force": {
+            "stops": [
+                "Titanium"
+            ]
+        },
+        "Knowledge": {
+            "stops": [
+                "Lithium"
+            ]
+        },
+        "Logic": {
+            "stops": [
+                "Silver"
+            ]
+        },
+        "Awareness": {
+            "stops": [
+                "Iridium"
+            ]
+        },
+        "Intuition": {
+            "stops": [
+                "Chromium"
+            ]
+        },
+        "Charm": {
+            "stops": [
+                "Bismuth"
+            ]
+        },
+        "Willpower": {
+            "stops": [
+                "Phosphorus"
+            ]
+        },
+        "Law": {
+            "stops": [
+                "Phosphorus"
+            ]
+        }
+    }
+}

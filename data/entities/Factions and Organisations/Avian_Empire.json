@@ -1,0 +1,132 @@
+{
+    "Government": {
+        "System": "Democratic Monarchy",
+        "The Emperor": "Voted in for life by the Senate. Can be of any caste",
+        "The Senate": {
+            "High Perch": "Senators for the Cliff-Cities (Academics/Bankers)",
+            "Low Perch": "Senators for the Summit-Walkers (Farmers/Artisans)"
+        }
+    },
+    "Core Philosophy": "Truth through Omission / Peace through Economic Control",
+    "Key Location": "The Engineer's Mountain Range",
+    "Biology": {
+        "Wing-Hand Anatomy": {
+            "The Hybrid Limb": {
+                "Raptors": {
+                    "Anatomy": {
+                        "Three dextrous, clawed fingers": "Located at the 'wrist' joint of the wing"
+                    }
+                }
+            },
+            "The Grounded": {
+                "Role": "Physical denser and stronger, serving as heavy infantry, ground-laborers, and marsh-scouts"
+            }
+        }
+    },
+    "Societal Structure": {
+        "The Cliff-Dwellers": {
+            "Demographics": [
+                "Raptors",
+                "Owls",
+                "Crows",
+                "Jays",
+                "Buzzards"
+            ],
+            "Architecture": {
+                "Exterior": "Massive cities carved directly into the sheer granite faces of the mountains",
+                "Interior": "Luxurious, airy halls with internal town squares (Atriums) lit by complex mirror arrays"
+            },
+            "Industry": {
+                "Micro-Blasting": "Explosives so precise they can shear a granite slab like cheese without cracking the surrounding stone",
+                "Cutters": "Crows and Jays operate heavy, loud, Dragonstone-powered circular saws to carve fine details"
+            }
+        },
+        "The Summit-Walkers": {
+            "Lifestyle": {
+                "Lifestyle": "Living atop the flat peaks and plateaus in colorful tent-cities, moving North-to-South along the range"
+            },
+            "Agriculture": {
+                "High-Altitude Crop Rotation": "Planting hardy crops and leaving to harvest a year later"
+            }
+        }
+    },
+    "Ecology": {
+        "Fauna": {
+            "Cloud-Ram": {
+                "Appearance": "Hind legs of a rabbit, hooves of a goat, face of a Red Panda, and curling ram horns",
+                "Utility": "Farmed for meat, milk, and their shaggy, reddish-patterned wool"
+            },
+            "Titan-Roach": {
+                "Appearance": "Massive, chitinous beetles the size of ponies",
+                "Utility": "Primary beast of burden, strong, can climb vertical walls, and eat waste/scraps"
+            },
+            "Night-Carapace": {
+                "Appearance": "Nocturnal, predatory beetle the size of a bobcat",
+                "Status": "Wild game"
+            }
+        },
+        "Flora & Textiles": {
+            "Lith-Weave Moss": {
+                "Properties": "Soft to the touch but hardens on kinetic impact (Non-Newtonian fiber)"
+            }
+        }
+    },
+    "The Secret Mandate": {
+        "The Bank": {
+            "Origin": "The financial arm of **[[The First Wardens]]**",
+            "Purpose": "Using debt to stop wars before they start, ensuring the world remains stable enough to guard the Chaos Dragons"
+        },
+        "The Secret Funding": {
+            "Origin": "Through complex shell companies, the Bank secretly funds 50% of the **[[Grey Wardens]]** operations"
+        }
+    },
+    "Culture & Religion": {
+        "The Divine Bird": {
+            "Cosmology": "The Sky is a massive **Divine Bird**",
+            "Day/Night": "His wings are Blue on the inside (Day) and Black on the outside (Night)",
+            "The Afterlife": "The Moon is the 'Waiting Perch'. The Bird ferries souls from the Moon to the Beyond"
+        },
+        "Shadow Week": {
+            "Ritual": "Converging South of the **[[Convergence]]**, building city-sized bonfires to 'Singe the Tail Feathers'"
+        }
+    },
+    "The Judicial System": {
+        "The 'Lengthy Affair'": {
+            "The Defense Strategy": "Using flowery, evasive language to avoid triggering the Lie-Reflex (pain/discomfort)",
+            "The Judge's Role": "Patiently whittling away the semantic armor until only the raw fact remains"
+        },
+        "The Order of the Iron-Beak": {
+            "The Method": "Cornering the mind, asking Yes/No questions until the answer is binary"
+        }
+    },
+    "Trade Protocols": {
+        "The Proxy Doctrine": {
+            "Rule": "No Avian Captain will ever dock at a Sump-Kin port, nor will they allow a Sump-Kin vessel to tether to a High Roost"
+        },
+        "The Sovereign Sky": {
+            "Diplomatic Barges": {
+                "The Top Deck": "Manicured park with live orchestras, lush gardens, and exotic meals"
+            }
+        },
+        "The Three Sovereigns": {
+            "The Radiant Raptor": {
+                "Captain": "High-Admiral Kaelen (A Golden Eagle)",
+                "Loadout": "96 Guns, 2 Docked Cutters"
+            },
+            "The Consummate Condor": {
+                "Captain": "Trade-Master Hrothe (A Vulture)",
+                "Loadout": "96 Guns, 2 Docked Cutters"
+            },
+            "The Felicitous Falcon": {
+                "Status": "Older, slightly smaller model",
+                "Loadout": "56 Guns, 1 Docked Cutter"
+            }
+        }
+    },
+    "The 'Spirit' of Deceit": {
+        "Alcohol & Truth": {
+            "Chemistry": "Strong spirits temporarily loosen the synaptic pathways that cause pain when lying",
+            "Result": "A drunk Avian can lie"
+        }
+    }
+}

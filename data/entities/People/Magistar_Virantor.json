@@ -1,0 +1,42 @@
+{
+    "name": "Magistar Virantor",
+    "aliases": [
+        "Magistar Virantor",
+        "The Golden Voice",
+        "The Burning Soul"
+    ],
+    "tags": [
+        "Magistar",
+        "Aura",
+        "Charm",
+        "Dragon/Phosphorus",
+        "NPC"
+    ],
+    "stats": {
+        "charisma": 100,
+        "intimidation": 50,
+        "influence": 80,
+        "corruption": 30,
+        "resistance": 20,
+        "vulnerability": 10
+    },
+    "abilities": {
+        "magical_voice_projection": {
+            "description": "Sway large crowds and turn near-rebellion into mass fervor",
+            "range": 100,
+            "cooldown": 30
+        },
+        "toxic_charm": {
+            "description": "Burns the souls of those who hear it, turning them into mindless worshippers",
+            "range": 50,
+            "cooldown": 15
+        }
+    },
+    "forms": {
+        "original": "Malaki",
+        "dragon_form": {
+            "name": "The Burning Soul",
+            "element": "Phosphorus"
+        }
+    }
+}

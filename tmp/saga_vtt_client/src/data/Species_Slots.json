@@ -1,0 +1,398 @@
+{
+  "AQUATIC": {
+    "size_slot": [
+      "Standard",
+      "Small Frame",
+      "Light Frame",
+      "Heavy Frame",
+      "Siege Frame"
+    ],
+    "ancestry_slot": [
+      "Standard",
+      "Selachimorpha Anatomy",
+      "Crustacean Anatomy",
+      "Cephalopod Anatomy",
+      "Cetacean Anatomy",
+      "Batoidea Anatomy",
+      "Cnidarian Anatomy"
+    ],
+    "head_slot": [
+      "Standard",
+      "Armored Melon",
+      "Lateral Line",
+      "Electrosensory Organ",
+      "Whale Song Chamber",
+      "Lateral Electrolocation"
+    ],
+    "body_slot": [
+      "Standard",
+      "Dermal Denticles",
+      "Cartilaginous Spine",
+      "Osmotic Gland",
+      "Bioluminescent Lure",
+      "Ink-Filled Bladder"
+    ],
+    "arms_slot": [
+      "Standard",
+      "Crustacean Pincers",
+      "Fin Blades",
+      "Water-Weaver Hands",
+      "Urchin Bracers",
+      "Nematocyst Stingers"
+    ],
+    "legs_slot": [
+      "Standard",
+      "Anchor Tail",
+      "Hydro-Propulsion",
+      "Buoyancy Bladders",
+      "Dorsal Sprint",
+      "Reverse Webbing"
+    ],
+    "skin_slot": [
+      "Standard",
+      "Placoid Scales",
+      "Cuttlefish Camouflage",
+      "Abyssal Pressure Skin",
+      "Soothing Mist",
+      "Bioluminescent Patterns"
+    ],
+    "special_slot": [
+      "Standard",
+      "Current Surge",
+      "Abyssal Step",
+      "Oceanic Calm",
+      "Leviathan's Bellow",
+      "Starfish Regeneration"
+    ]
+  },
+  "AVIAN": {
+    "size_slot": [
+      "Standard",
+      "Small Frame",
+      "Light Frame",
+      "Heavy Frame",
+      "Siege Frame"
+    ],
+    "ancestry_slot": [
+      "Standard",
+      "Accipiter Anatomy",
+      "Corvus Anatomy",
+      "Strigiform Anatomy",
+      "Psittacine Anatomy",
+      "Waterfowl Anatomy",
+      "Ratite Anatomy"
+    ],
+    "head_slot": [
+      "Standard",
+      "Reinforced Beak Base",
+      "Tubular Eyes",
+      "Magnetic Compass",
+      "Vocal Crest",
+      "Gyro-Stabilized Head"
+    ],
+    "body_slot": [
+      "Standard",
+      "Keel Bone",
+      "Articulated Vertebrae",
+      "Hollow Conduit",
+      "Iridescent Plumage",
+      "Crop Pouch"
+    ],
+    "arms_slot": [
+      "Standard",
+      "Bone-Club Wings",
+      "Razor Feathers",
+      "Aero-Channeled Palms",
+      "Protective Wingspan",
+      "Swept-Back Pinions"
+    ],
+    "legs_slot": [
+      "Standard",
+      "Locking Talons",
+      "Launch Pads",
+      "Minor Levitation",
+      "Flock Leader Stride",
+      "Zygodactyl Grip"
+    ],
+    "skin_slot": [
+      "Standard",
+      "Thick Leather",
+      "Plumage Blending",
+      "Song-Woven Feathers",
+      "Calming Down",
+      "Preen Oil"
+    ],
+    "special_slot": [
+      "Standard",
+      "Dive-Bomb Surge",
+      "Feather Step",
+      "Sky-Mind",
+      "Eagle Cry",
+      "Boom-Sack"
+    ]
+  },
+  "INSECT": {
+    "size_slot": [
+      "Standard",
+      "Small Frame",
+      "Light Frame",
+      "Heavy Frame",
+      "Siege Frame"
+    ],
+    "ancestry_slot": [
+      "Standard",
+      "Coleoptera Anatomy",
+      "Mantodea Anatomy",
+      "Arachnid Anatomy",
+      "Formicidae Anatomy",
+      "Odonata Anatomy",
+      "Lepidoptera Anatomy"
+    ],
+    "head_slot": [
+      "Standard",
+      "Chitinous Mandibles",
+      "Antennae Array",
+      "Neural Ganglia",
+      "Stridulation Organs",
+      "Pheromone Receptors"
+    ],
+    "body_slot": [
+      "Standard",
+      "Thoracic Plates",
+      "Segmented Abdomen",
+      "Aetheric Spinneret",
+      "Calming Pheromones",
+      "Elytra Shells"
+    ],
+    "arms_slot": [
+      "Standard",
+      "Crushing Claws",
+      "Serrated Forelegs",
+      "Silk-Spun Conduits",
+      "Carapace Gauntlets",
+      "Spinneret Wrists"
+    ],
+    "legs_slot": [
+      "Standard",
+      "Six-Legged Stance",
+      "Grasshopper Joints",
+      "Gossamer Wings",
+      "Swarm-Rush",
+      "Hydraulic Knees"
+    ],
+    "skin_slot": [
+      "Standard",
+      "Iron Carapace",
+      "Stick-Bug Disguise",
+      "Hive-Mind Coating",
+      "Pheromone Solace",
+      "Micro-Hairs"
+    ],
+    "special_slot": [
+      "Standard",
+      "Swarm Frenzy",
+      "Burrow Step",
+      "Hive Logic",
+      "Queen's Command",
+      "Molting Hormone"
+    ]
+  },
+  "MAMMAL": {
+    "size_slot": [
+      "Standard",
+      "Small Frame",
+      "Light Frame",
+      "Heavy Frame",
+      "Siege Frame"
+    ],
+    "ancestry_slot": [
+      "Standard",
+      "Bovine Anatomy",
+      "Primate Anatomy",
+      "Ursine Anatomy",
+      "Rodent Anatomy",
+      "Canine Anatomy",
+      "Feline Anatomy"
+    ],
+    "head_slot": [
+      "Standard",
+      "Thick Skull",
+      "Swivel Ears",
+      "Expanded Cranium",
+      "Roar Box",
+      "Tapetum Lucidum"
+    ],
+    "body_slot": [
+      "Standard",
+      "Density Plating",
+      "Feline Agility",
+      "Aura Battery",
+      "Musk Emitter",
+      "Blubber/Fat Store"
+    ],
+    "arms_slot": [
+      "Standard",
+      "Heavy Paws",
+      "Retractable Claws",
+      "Runic Palms",
+      "Guardian Forearms",
+      "Dexterous Digits"
+    ],
+    "legs_slot": [
+      "Standard",
+      "Stout Legs",
+      "Spring Tendons",
+      "Aether Paws",
+      "Rescue Dash",
+      "Padded Soles"
+    ],
+    "skin_slot": [
+      "Standard",
+      "Calloused Hide",
+      "Chroma-Fur",
+      "Runic Scarring",
+      "Comforting Presence",
+      "Oily Coat"
+    ],
+    "special_slot": [
+      "Standard",
+      "Adrenaline Surge",
+      "Shadow Step",
+      "Mind Blank",
+      "Rallying Cry",
+      "Prehensile Tail"
+    ]
+  },
+  "PLANT": {
+    "size_slot": [
+      "Standard",
+      "Small Frame",
+      "Light Frame",
+      "Heavy Frame",
+      "Siege Frame"
+    ],
+    "ancestry_slot": [
+      "Standard",
+      "Arboreal Anatomy",
+      "Floral Anatomy",
+      "Creeper Anatomy",
+      "Succulent Anatomy",
+      "Fungal Anatomy",
+      "Bryophyte Anatomy"
+    ],
+    "head_slot": [
+      "Standard",
+      "Iron-Bark Crown",
+      "Chemoreceptor Petals",
+      "Mycelial Node",
+      "Spore Emitter",
+      "Thermal Pits"
+    ],
+    "body_slot": [
+      "Standard",
+      "Heartwood Core",
+      "Vine-Laced Torso",
+      "Sap Channel",
+      "Sweet Nectar",
+      "Hydraulic Torso"
+    ],
+    "arms_slot": [
+      "Standard",
+      "Burl Fists",
+      "Thorned Appendages",
+      "Vine Extension",
+      "Branch Buckler",
+      "Fly-Trap Jaws"
+    ],
+    "legs_slot": [
+      "Standard",
+      "Deep Roots",
+      "Tumbleweed Bound",
+      "Spore Cloud Cushion",
+      "Branching Stride",
+      "Drill Roots"
+    ],
+    "skin_slot": [
+      "Standard",
+      "Cork Bark",
+      "Leafy Concealment",
+      "Spirit-Wood",
+      "Aromatherapy Blooms",
+      "Photosynthetic Membrane"
+    ],
+    "special_slot": [
+      "Standard",
+      "Overgrowth Surge",
+      "Root Step",
+      "Forest Wisdom",
+      "Blossoming Aura",
+      "Pollen Cloud"
+    ]
+  },
+  "REPTILE": {
+    "size_slot": [
+      "Standard",
+      "Small Frame",
+      "Light Frame",
+      "Heavy Frame",
+      "Siege Frame"
+    ],
+    "ancestry_slot": [
+      "Standard",
+      "Crocodilian Anatomy",
+      "Serpentine Anatomy",
+      "Testudine Anatomy",
+      "Varanid Anatomy",
+      "Chameleon Anatomy",
+      "Theropod Anatomy"
+    ],
+    "head_slot": [
+      "Standard",
+      "Bony Crest",
+      "Heat-Sensing Pits",
+      "Parietal Eye",
+      "Throat Pouch",
+      "Nictitating Membrane"
+    ],
+    "body_slot": [
+      "Standard",
+      "Osteoderms",
+      "Serpentine Coils",
+      "Solar Node",
+      "Mesmerizing Scales",
+      "Stem-Cell Core"
+    ],
+    "arms_slot": [
+      "Standard",
+      "Clubbed Wrists",
+      "Sickle Claws",
+      "Astral Scales",
+      "Scute Gauntlets",
+      "Van der Waals Pads"
+    ],
+    "legs_slot": [
+      "Standard",
+      "Heavy Tail Counterbalance",
+      "Coiled Muscles",
+      "Thermal Draft Lift",
+      "Cold-Blooded Dash",
+      "Paddle Tail"
+    ],
+    "skin_slot": [
+      "Standard",
+      "Hardened Scutes",
+      "Chameleon Scales",
+      "Dragon-Mind Runes",
+      "Basking Warmth",
+      "Solar Scales"
+    ],
+    "special_slot": [
+      "Standard",
+      "Cold-Blooded Fury",
+      "Slither Step",
+      "Ancient Serenity",
+      "Dragon's Roar",
+      "Autotomy Tail"
+    ]
+  }
+}

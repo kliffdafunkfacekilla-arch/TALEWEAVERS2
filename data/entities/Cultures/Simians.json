@@ -1,0 +1,62 @@
+{
+    "Entity": "Simians",
+    "Role": [
+        "Bankers",
+        "Harvesters",
+        "Grenadiers"
+    ],
+    "Home City": "Simia-Reach",
+    "Physiology": {
+        "Tamarins": {
+            "Size": "3-4ft",
+            "Fur": "Lustrous golden or orange",
+            "Hands": "Long, nimble fingers"
+        },
+        "Howlers": {
+            "Size": "5-6ft",
+            "Fur": "Dark",
+            "Throat-sacs": "Imposing"
+        }
+    },
+    "Tail": {
+        "Prehensile": true,
+        "Function": "Third arm"
+    },
+    "Agility": true,
+    "Philosophy": {
+        "Flow": true,
+        "Kinetic Capital": true
+    },
+    "Risk Tolerance": true,
+    "Communication": {
+        "Click-Math": true,
+        "Howl": true
+    },
+    "Industrial Role": {
+        "Vertical Farms": true,
+        "Sky-Banks": true,
+        "Interest Rate": "High"
+    },
+    "Military Role": {
+        "Style": "Guerrilla Warfare / 3D Combat",
+        "Weaponry": {
+            "Thrown": [
+                "Chakrams",
+                "Javelins"
+            ],
+            "Grenadiers": true
+        },
+        "Tactics": "Hit and Run"
+    },
+    "Social Quirks": {
+        "Grooming as Currency": true,
+        "Fashion": true,
+        "Diet": {
+            "High-sugar": true,
+            "Food": [
+                "Fruit",
+                "Shadow-Chocolate"
+            ]
+        }
+    }
+}

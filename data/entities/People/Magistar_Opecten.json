@@ -1,0 +1,31 @@
+{
+    "Name": "Magistar Opecten",
+    "Aliases": [
+        "Magistar Opecten",
+        "The All-Seeing",
+        "The Mirror Lord"
+    ],
+    "Tags": [
+        "Magistar",
+        "Lux",
+        "Awareness",
+        "Dragon/Chromium",
+        "NPC"
+    ],
+    "Attributes": {
+        "School": "Lux",
+        "Element": "Chromium"
+    },
+    "Forms": {
+        "Dragon Form": "The Mirror Lord"
+    },
+    "Pre-Corruption Name": "Rictus",
+    "Corruption": {
+        "Type": "The Clockwork Rot"
+    },
+    "Effects": {
+        "Gaze": {
+            "Effect": "accelerates time and space to dust"
+        }
+    }
+}

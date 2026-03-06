@@ -1,0 +1,59 @@
+{
+    "Name": "Sciurini",
+    "Type": "Cultures",
+    "Speed": 10,
+    "Agility": 12,
+    "Endurance": 8,
+    "Intelligence": 9,
+    "Social": 11,
+    "SpecialAbilities": [
+        {
+            "name": "Glider",
+            "description": "Can glide at a ratio of 10:1, allowing for quick escape and long-range travel"
+        },
+        {
+            "name": "Patagium",
+            "description": "Furry membrane used for gliding and steering"
+        },
+        {
+            "name": "Velocity Philosophy",
+            "description": "A Sciurini's sense of safety is found in speed, making them uncomfortable with standing still"
+        },
+        {
+            "name": "Adrenaline Addiction",
+            "description": "Sciurini crave risk and danger, making them naturally thrill-seeking"
+        },
+        {
+            "name": "Vertical Caste",
+            "description": "Sciurini look down on ground-dwellers, viewing them as inferior"
+        },
+        {
+            "name": "Ghost-Logger",
+            "description": "Sciurini are skilled loggers, harvesting Ghost-Teak in the upper canopy"
+        },
+        {
+            "name": "Courier Guild",
+            "description": "Sciurini run the Flash-Post, a courier service that guarantees fast and secure delivery"
+        },
+        {
+            "name": "Drop-Trooper",
+            "description": "Sciurini are elite aerial warriors, using their speed and agility to outmaneuver enemies"
+        },
+        {
+            "name": "Touch-Code",
+            "description": "Sciurini use rapid shoulder taps to communicate flight paths in high winds"
+        },
+        {
+            "name": "Sleeping Habits",
+            "description": "Sciurini can only sleep in Sock-Hammocks suspended over open drops"
+        },
+        {
+            "name": "Twitching",
+            "description": "Sciurini are constantly stretching their membranes or checking wind direction, a nervous habit"
+        }
+    ],
+    "Vulnerabilities": [
+        "Ground-based attacks are effective against Sciurini due to their fragile bone structure",
+        "Falling from great heights can be lethal for Sciurini"
+    ]
+}

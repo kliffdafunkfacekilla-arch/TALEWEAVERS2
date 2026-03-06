@@ -1,0 +1,22 @@
+{
+    "EntityName": "Jiro the Resolute",
+    "Aliases": [
+        "Jiro",
+        "The Resolute"
+    ],
+    "Tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Nexus",
+        "Fortitude"
+    ],
+    "Attributes": {
+        "FormerMaster": {
+            "Name": "Magistar Carulkem",
+            "Nexus": "Nexus/Fortitude"
+        },
+        "Role": "Chief Inquisitor"
+    },
+    "DefectionEvent": "The Vision of Beauty"
+}

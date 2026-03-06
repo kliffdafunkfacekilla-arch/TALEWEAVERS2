@@ -1,0 +1,17 @@
+{
+    "Attributes": {
+        "Former_Master": "Magistar Metrion",
+        "Role": "High-Architect",
+        "Defection_Event": "The Logic-Flaw"
+    },
+    "Stats": {
+        "Reputation": 5,
+        "Influence": 4,
+        "Knowledge": 3,
+        "Combat": 2,
+        "Sincerity": 1
+    },
+    "Flaws": [
+        "Foundation_Built_on_Blood"
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "type": "Fauna",
+    "name": "Sky-Grazer",
+    "description": "A massive, generally docile herd animal that floats through the sky.",
+    "habitat": "Sky",
+    "behavior": "Herding",
+    "role": "Feature of the high-altitude ecosystem",
+    "utility": "Food source for high-altitude predators",
+    "stats": {
+        "base_health": 15,
+        "speed": 6,
+        "strength": 3,
+        "agility": 2,
+        "endurance": 4,
+        "intelligence": 1,
+        "charisma": 1
+    }
+}

@@ -1,0 +1,63 @@
+{
+    "name": "Clary, The First Archivist",
+    "aliases": [
+        "The Performance-Scholar",
+        "The Weaver of Truths",
+        "Founder of the Order of the Clockwork"
+    ],
+    "status": "Active Research (Volume Zero)",
+    "biographicalSummary": "From Ash to Ink",
+    "mechanicalStructure": true,
+    "hearthLegacy": true,
+    "unexpectedTrauma": true,
+    "portSunderWager": true,
+    "tripleHustle": {
+        "investor": [
+            "Gilded Compass",
+            "Sky-Barons",
+            "Crimson Corsairs"
+        ],
+        "aliasUsed": [
+            "Heartland Wind-Steward",
+            "Canopy Mineralogist",
+            "Reliance Tide-Watcher"
+        ],
+        "promisedData": [
+            "Wind & Airflow Patterns",
+            "Earth & Mineral Deposits",
+            "Stars & Aetheric Tides"
+        ],
+        "fundingProvided": [
+            "A heavy bag of Aetherium",
+            "The Write Wager (Ship)",
+            "Cracked Dragonstone & Gear"
+        ]
+    },
+    "lexBinder": {
+        "construction": "Mismatched behemoth",
+        "content": [
+            "Merchant's script",
+            "Clary's script"
+        ],
+        "industrialFunction": "Anchor her thoughts"
+    },
+    "throwingKnives": {
+        "gear": [
+            "Carpenter's Marking Knives"
+        ],
+        "hiddenThreat": [
+            "One tucked into her sleeve",
+            "Three more in a bandolier hidden under her duster"
+        ],
+        "logic": "Range and precision\u2014skills honed juggling"
+    },
+    "subconsciousWhittling": {
+        "habit": "Pull out a scrap of Ghost-Teak and a small chisel when stressed or deep in calculation",
+        "output": [
+            "Small, perfect figure\u2014usually a Bear, a Wolf, or a Gear"
+        ],
+        "tell": "Physical debris of her thinking process"
+    },
+    "personalPhilosophy": "Logic as a Shield",
+    "mission": "Gather enough data to perform a 'Grand Repair' on the Celestial Clockwork"
+}

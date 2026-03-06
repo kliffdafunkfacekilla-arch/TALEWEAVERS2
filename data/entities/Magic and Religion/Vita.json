@@ -1,0 +1,41 @@
+{
+    "Vita": {
+        "offense": {
+            "poison": {
+                "type": "auto-immune failure",
+                "duration": "instantaneous",
+                "effect": "rapid tumor growth"
+            },
+            "type": "toxin",
+            "duration": "instantaneous",
+            "effect": "systemic poisoning"
+        }
+    },
+    "defense": {
+        "type": "regeneration",
+        "speed": "instantaneous",
+        "duration": "persistent",
+        "effect": "wound closure"
+    },
+    "type": "mutate",
+    "speed": "instantaneous",
+    "duration": "persistent",
+    "effect": "chitin or bark skin",
+    "utility": {
+        "heal": {
+            "type": "rapid",
+            "amount": "varies",
+            "duration": "persistent"
+        },
+        "plant_growth": {
+            "type": "accelerated",
+            "amount": "varies",
+            "duration": "persistent"
+        },
+        "life_force_link": {
+            "type": "sympathetic",
+            "amount": "varies",
+            "duration": "persistent"
+        }
+    }
+}

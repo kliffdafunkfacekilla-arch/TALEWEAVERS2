@@ -1,0 +1,37 @@
+{
+    "name": "Dust-Husk Riders",
+    "type": "Faction",
+    "description": "A nomadic fleet composed of deeply specialized plant-like species, thriving in the hostile environment of the Dust Bowl.",
+    "components": [
+        {
+            "name": "Moon-Flower Kin",
+            "biology": "Pale, fragile, vine-like humanoids that subsist on a unique form of photosynthesis.",
+            "function": "Serves as the spiritual and navigational heart of the fleet, responsible for determining auspicious times for departure and providing invaluable foresight through the consumption of 'Night-Nectar'."
+        },
+        {
+            "name": "Drifters",
+            "biology": "Unique command philosophy known as the 'Trinity of Silence', where each member perceives a facet of reality the others cannot.",
+            "function": "Operate under the Trinity of Silence, a philosophy that dictates rapid, instinctual, and decisive action without the delay of communication."
+        },
+        {
+            "name": "Cactus-Kin",
+            "biology": "Hulking, water-retentive bodies covered in iron-hard spines, serving as the living ballast for the fleet's ships and primary protectors.",
+            "function": "Serve as the fleet's foundation, primary protectors, and heavy armament operators, using their immense weight to keep the ships grounded and prevent destruction by sudden storms.",
+            "combat": "Operate the heavy 'Needle-Cannons' and employ the 'Iron Embrace' tactic in close-quarters combat."
+        },
+        {
+            "name": "Yucca-Kin",
+            "biology": "Tall, twisted, and fibrous, with a unique sensory ability to sense vibrations.",
+            "function": "Serve as the fleet's pilots, navigating through the blinding dust storms common to the region using their advanced vibration-sensing abilities, and as Cargo Masters, judging the exact weight and value of objects by holding them."
+        },
+        {
+            "name": "Tumbleweed-Kin",
+            "biology": "Adapted to sense motion and wind, serving as the fleet's scouts.",
+            "function": "Perceive distant threats, approaching storms, and hidden opportunities carried on the desert currents long before they become apparent to their symbiotic partners."
+        }
+    ],
+    "technology": {
+        "ships": "Insect-shell ships, built for speed and agility, but vulnerable to powerful gales.",
+        "weaponry": "Heavy 'Needle-Cannons' and the 'Iron Embrace' tactic in close-quarters combat."
+    }
+}

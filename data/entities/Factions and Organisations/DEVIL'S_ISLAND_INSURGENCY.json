@@ -1,0 +1,40 @@
+{
+    "name": "Devil's Island Insurgency",
+    "type": "Faction",
+    "description": "A highly effective insurgency operating on the volcanic island of Devil's Island, comprised of native 'Monk-eys' and exiled 'Aquatic Refugees'.",
+    "strengths": [
+        {
+            "name": "Native Resilience",
+            "value": 4
+        },
+        {
+            "name": "Exiled Expertise",
+            "value": 4
+        },
+        {
+            "name": "Mercenary Unit: The Devil's Choice",
+            "value": 5
+        }
+    ],
+    "weaknesses": [
+        {
+            "name": "Theocracy's Arrogance",
+            "value": 2
+        }
+    ],
+    "strategic_objective": "Liberation of the vassal islands from the Coastal Theocracy",
+    "current_capabilities": {
+        "hidden_forge": true,
+        "secret_navy": true,
+        "airship": false
+    },
+    "operational_arm": {
+        "name": "The Devil's Choice",
+        "specialization": "Hostile Pickups and Extractions",
+        "operational_record": "Two flawless jobs, leaving no witnesses and no mess.",
+        "uniform": "Unmarked, full-body black gear",
+        "calling_card": "Scorch Sigil",
+        "brokerage": "Seahorses (Current Riders)",
+        "intelligence_network": true
+    }
+}

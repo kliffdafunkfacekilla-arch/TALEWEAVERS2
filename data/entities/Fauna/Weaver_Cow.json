@@ -1,0 +1,24 @@
+{
+    "name": "Weaver-Cow",
+    "scientific_name": "Aranea Lactis",
+    "primary_rancher": "Sloth-Folk",
+    "farm_location": "Web-Barns",
+    "diet": [
+        "ground bugs",
+        "sugar-water (Honeydew)"
+    ],
+    "base_health": 10,
+    "speed": 2,
+    "size": "about the size of a Jersey Cow",
+    "appearance": [
+        "soft, velvet-like white fur",
+        "bulbous, hairy abdomen",
+        "short, thick legs"
+    ],
+    "industrial_utility": {
+        "silk": true,
+        "chitin-wax": true
+    },
+    "aggression": "aggressively docile",
+    "risk": "getting stuck in their webbing if you wander into the barn without a solvent-spray"
+}

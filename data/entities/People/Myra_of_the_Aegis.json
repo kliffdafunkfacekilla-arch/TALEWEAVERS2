@@ -1,0 +1,31 @@
+{
+    "name": "Myra of the Aegis",
+    "aliases": [
+        "Myra",
+        "The Aegis"
+    ],
+    "tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Ordo",
+        "Endurance"
+    ],
+    "role": "Personal Bodyguard",
+    "former_master": "Magistar Stagus",
+    "defection_event": "The Orphanage Shield",
+    "stats": {
+        "endurance": 10,
+        "history": 8,
+        "ordination": 12,
+        "shield_reflection": 15,
+        "moral_fiber": 10
+    },
+    "abilities": [
+        {
+            "name": "Shield Reflection",
+            "description": "Reflects the drain back onto the Magistar, breaking the ritual",
+            "cooldown": 30
+        }
+    ]
+}

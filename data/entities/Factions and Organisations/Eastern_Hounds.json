@@ -1,0 +1,102 @@
+{
+    "name": "Eastern Hounds",
+    "location": "The Howling Steppes (Eastern Grasslands)",
+    "core_resource": [
+        "White-Bone",
+        "Solar-Worm Fur"
+    ],
+    "mounts": [
+        "Thunder-Striders (Giant Moa)"
+    ],
+    "philosophy": "Trauma & Pragmatism",
+    "doctrine": {
+        "fair_game": true,
+        "voluntary_amnesia": true
+    },
+    "seasonal_migration_cycle": {
+        "phase_i": {
+            "goal": "Mining White-Bone",
+            "source": "The Steppes",
+            "resource": "White-Bone Ceramic"
+        },
+        "phase_ii": {
+            "goal": "Trapping Solar-Worms",
+            "source": "Winter",
+            "resource": "Solar-Worm Fur"
+        }
+    },
+    "menagerie": {
+        "thunder-strider": {
+            "description": "10-foot tall flightless bird (Giant Moa) with shaggy grey feathers",
+            "utility": "Blind and navigate by vibration, immune to visual illusions",
+            "role": "Primary mount and beast of burden"
+        },
+        "somovan_wood-hen": {
+            "description": "Round, badger-tempered birds the size of turkeys",
+            "utility": "Hyper-territorial, erupt in a deafening shrieking frenzy to defend camp",
+            "role": "Camp security"
+        },
+        "ash-bison": {
+            "description": "Massive bovines with wool matted in volcanic ash",
+            "role": "Primary source of meat and leather"
+        }
+    },
+    "external_relations": {
+        "vs_meridian_chain": {
+            "relationship": "Predatory",
+            "conflict": "Hunt Snail-Barge support trains for steel and food"
+        },
+        "vs_prism-scale_collective": {
+            "relationship": "Hard Counter",
+            "conflict": "Raid outer crystal mines for Glass-Blades and Focus-Pebbles"
+        },
+        "vs_canopy_clans": {
+            "relationship": "Mercantile",
+            "trade": {
+                "exports": [
+                    "Steppe-Runners",
+                    "Solar-Worm Furs",
+                    "Grave-Berry Extract"
+                ],
+                "imports": [
+                    "Medicine",
+                    "Poisons"
+                ]
+            }
+        },
+        "vs_iron_caldera": {
+            "relationship": "Symbiotic Necessity",
+            "exchange": {
+                "exports": [
+                    "White-Bone Ceramic"
+                ],
+                "imports": [
+                    "High-grade Iron Weapons and tools"
+                ]
+            }
+        }
+    },
+    "raiding_behavior": {
+        "silent-ride": {
+            "gear_binding": true,
+            "mounts": {
+                "claws": "Padded with heavy wool 'muffles'"
+            },
+            "communication": "Thump-Codes"
+        },
+        "fog-walk": {
+            "weather_wait": true,
+            "blind_charge": true
+        },
+        "target_prioritization": {
+            "priority_1": "Steel & Iron",
+            "priority_2": "Food & Salt",
+            "priority_3": "White-Bone Targets"
+        },
+        "clean-break": {
+            "no_prisoners": true,
+            "no_ghosts": true,
+            "vanishing": true
+        }
+    }
+}

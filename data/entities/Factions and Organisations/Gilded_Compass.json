@@ -1,0 +1,47 @@
+{
+    "Type": "Faction",
+    "Name": "Gilded Compass Cartel",
+    "Owner": "Avian Empire",
+    "Resource": [
+        "Dragonstone Shards",
+        "Aether-Tech components"
+    ],
+    "Monopoly": true,
+    "Control": [
+        "Resource monopolization",
+        "Financial infrastructure",
+        "Logistical supremacy"
+    ],
+    "Operations": [
+        "Economic control",
+        "Intelligence gathering",
+        "Enforcement"
+    ],
+    "Structure": {
+        "Crewing": {
+            "Expert Crews": true,
+            "Mixed-Crew Policy": true,
+            "Avian Presence": true,
+            "Master of Coin": true
+        },
+        "Enforcement": {
+            "Security Forces": true,
+            "Information Brokerage": true,
+            "Espionage": true
+        }
+    },
+    "Allies": [
+        "Free Sky-Baronies"
+    ],
+    "Adversaries": [
+        "Crimson Corsairs"
+    ],
+    "Goals": [
+        "Global economic control",
+        "Geopolitical stability"
+    ],
+    "Motivations": [
+        "Profit",
+        "Power"
+    ]
+}

@@ -1,92 +1,189 @@
 {
+  "notes": "Ostraka world calendar. Year = 360 days. TWO full seasonal cycles per year driven by Cruorbus's 6-month orbital wobble. Shadow Week (7 days) is an intercalary period at year-end, not counted in months.",
+  "days_in_year": 360,
+  "shadow_week_days": 7,
   "months": [
     {
       "name": "Dawnspire",
       "days": 30,
-      "season": "Spring"
+      "season": "Spring",
+      "cycle": "A",
+      "moon_phase": "The Leering",
+      "moon_color": "Purple",
+      "notes": "First Spring. Wound visible on upper-left of Cruorbus. Magic is accessible but unstable."
     },
     {
       "name": "Floralis",
       "days": 30,
-      "season": "Spring"
+      "season": "Spring",
+      "cycle": "A",
+      "moon_phase": "The Leering",
+      "moon_color": "Purple",
+      "notes": "Late Spring. Wobble continues leftward."
     },
     {
       "name": "Greenbloom",
       "days": 30,
-      "season": "Spring"
+      "season": "Spring",
+      "cycle": "A",
+      "moon_phase": "The Leering",
+      "moon_color": "Purple",
+      "notes": "Final Spring month. Chaos pressure begins building."
     },
     {
       "name": "Goldensun",
       "days": 30,
-      "season": "Summer"
+      "season": "Summer",
+      "cycle": "A",
+      "moon_phase": "The Open Eye",
+      "moon_color": "Red",
+      "notes": "DANGER MONTH. Cruorbus faces world wound-first. Maximum chaos exposure. Tides erratic. Mutations accelerate."
     },
     {
       "name": "Highfever",
       "days": 30,
-      "season": "Summer"
+      "season": "Summer",
+      "cycle": "A",
+      "moon_phase": "The Open Eye",
+      "moon_color": "Red",
+      "notes": "Peak of chaos surge. Dead things twitch. Grey Wardens on high alert."
     },
     {
       "name": "Sunsear",
       "days": 30,
-      "season": "Summer"
+      "season": "Summer",
+      "cycle": "A",
+      "moon_phase": "The Receding",
+      "moon_color": "Purple",
+      "notes": "Wound rotates to right edge. Chaos pressure alleviates. Relief month."
     },
     {
       "name": "Harvestride",
       "days": 30,
-      "season": "Autumn"
+      "season": "Autumn",
+      "cycle": "A",
+      "moon_phase": "The Halo",
+      "moon_color": "Purple",
+      "notes": "The Eye is closed. Wound faces away. World breathes. Purple halo corona visible."
     },
     {
       "name": "Embershake",
       "days": 30,
-      "season": "Autumn"
+      "season": "Autumn",
+      "cycle": "A",
+      "moon_phase": "The Halo",
+      "moon_color": "Purple",
+      "notes": "Mild season. Harvest time. Low chaos. Trade flourishes."
     },
     {
       "name": "Leafsfall",
       "days": 30,
-      "season": "Autumn"
+      "season": "Autumn",
+      "cycle": "A",
+      "moon_phase": "The Halo",
+      "moon_color": "Purple",
+      "notes": "Final Autumn. Cycle A ends. Vertical drift begins shifting wound downward."
     },
     {
       "name": "Frostveil",
       "days": 30,
-      "season": "Winter"
+      "season": "Winter",
+      "cycle": "A",
+      "moon_phase": "The Leering",
+      "moon_color": "Purple",
+      "notes": "First Winter. Wound drifts to lower hemisphere. Cold and chaos both rise."
     },
     {
       "name": "Deepbite",
       "days": 30,
-      "season": "Winter"
+      "season": "Winter",
+      "cycle": "A",
+      "moon_phase": "The Open Eye",
+      "moon_color": "Red",
+      "notes": "DANGER MONTH. Wound faces world again from lower hemisphere. Winter chaos surge. Worst month of the year."
     },
     {
       "name": "Ironwind",
       "days": 30,
-      "season": "Winter"
+      "season": "Winter",
+      "cycle": "A",
+      "moon_phase": "The Receding",
+      "moon_color": "Purple",
+      "notes": "Final month before Shadow Week. Chaos recedes. Factions prepare for the eclipse."
+    }
+  ],
+  "intercalary_periods": [
+    {
+      "name": "Shadow Week",
+      "days": 7,
+      "occurs": "end_of_year",
+      "description": "7-day total eclipse of the Broken Moon Cruorbus. World in complete darkness. The Avian Empire's Fulcrum Bank mints Aetherium Coin exclusively during this period. Shadow-Set Contracts are ratified. Chaos energy is cosmically re-anchored. Chaotic tides peak at coastlines. Every faction has unique rituals for survival.",
+      "special_events": [
+        "AETHERIUM_MINTING",
+        "SHADOW_SET_CONTRACTS",
+        "CHAOS_TIDE_PEAK",
+        "URSINE_HEARTHGUARD_VIGIL",
+        "IRON_CALDERA_FESTIVAL_OF_LIFE",
+        "RIVER_FOLK_LANTERN_CHAIN",
+        "DRAGONSTONE_METEOR_SURGE"
+      ]
     }
   ],
   "seasons": {
     "Spring": {
       "temp_band": "MID",
       "precipitation_chance": 0.4,
-      "weather_type": "Rain"
+      "weather_type": "Rain",
+      "chaos_modifier": 0.5,
+      "food_growth_bonus": 1.2
     },
     "Summer": {
       "temp_band": "HIGH",
       "precipitation_chance": 0.2,
-      "weather_type": "Rain"
+      "weather_type": "Rain",
+      "chaos_modifier": 1.8,
+      "food_growth_bonus": 1.4,
+      "notes": "Open Eye phase. Chaos surges. Warden alert level elevated."
     },
     "Autumn": {
       "temp_band": "MID",
       "precipitation_chance": 0.6,
-      "weather_type": "Rain"
+      "weather_type": "Rain",
+      "chaos_modifier": 0.3,
+      "food_growth_bonus": 1.1,
+      "notes": "Halo phase. Calmest season. Best for trade and building."
     },
     "Winter": {
       "temp_band": "LOW",
       "precipitation_chance": 0.3,
-      "weather_type": "Snow"
+      "weather_type": "Snow",
+      "chaos_modifier": 1.2,
+      "food_growth_bonus": 0.5,
+      "notes": "Wound on lower hemisphere. Cold + chaos both rise. Deepbite month is peak danger."
     }
   },
   "moons": [
     {
-      "name": "Aetheris",
-      "color": "Pale Blue"
+      "name": "Cruorbus",
+      "nickname": "The Broken Moon",
+      "color_resting": "Purple/Violet",
+      "color_surge": "Crimson/Red",
+      "description": "The shattered primary moon. Source of Dragonstone meteor showers. Its orbital wobble drives the seasonal cycle. The wound (damage site) rotating face-on to Ostraka triggers chaos surges. Tidally locked but wobbles (libration).",
+      "orbital_cycle_days": 180,
+      "phases": [
+        {"name": "The Leering",    "description": "Wound on upper-left. Waxing phase. Magic unstable."},
+        {"name": "The Open Eye",   "description": "Wound faces world directly. Maximum chaos. Red/Crimson color."},
+        {"name": "The Receding",   "description": "Wound rotates right. Pressure alleviates."},
+        {"name": "The Halo",       "description": "Wound faces away. Purple corona. Calmest magic period."}
+      ]
+    },
+    {
+      "name": "Erranith",
+      "nickname": "The Ghost Moon",
+      "color_resting": "Pale Blue",
+      "description": "The secondary moon with an erratic orbit. When Erranith passes close to Cruorbus during the Surge State, it triggers intensified chaos events. The Clockwork Order tracks Erranith's orbit to predict the next Return event. Rule of Thumb: when the Wound hits the bottom of Cruorbus, the Ghost is coming.",
+      "orbital_cycle_days": 360,
+      "surge_trigger": "proximity_to_cruorbus_during_open_eye"
     }
   ],
   "days_of_week": [
@@ -97,5 +194,25 @@
     "Titansday",
     "Starday",
     "Restday"
+  ],
+  "special_alignments": [
+    {
+      "name": "The Nightmare Alignment",
+      "condition": "Open Eye phase + Full Moon (sunlight fully hitting the wound)",
+      "effect": "Peak chaos. Wound is fully lit and bleeding. Worst possible magic conditions. Chaos creature surge.",
+      "chaos_modifier": 3.0
+    },
+    {
+      "name": "The Mercy Alignment",
+      "condition": "Open Eye phase + New Moon (wound shadowed)",
+      "effect": "Chaos dampened by shadow. Only faint purple glow. Rare window of safety during Summer.",
+      "chaos_modifier": 0.6
+    },
+    {
+      "name": "The Ghost's Return",
+      "condition": "Erranith passes close during Open Eye",
+      "effect": "Extreme chaos surge. Mutations accelerate violently. Dragonstone meteor shower triggered.",
+      "chaos_modifier": 4.0
+    }
   ]
 }

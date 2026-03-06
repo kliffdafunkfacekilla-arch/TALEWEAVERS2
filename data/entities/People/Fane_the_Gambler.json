@@ -1,0 +1,32 @@
+{
+    "Name": "Fane the Gambler",
+    "Aliases": [
+        "Fane",
+        "The Gambler"
+    ],
+    "Tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Omen",
+        "Intuition"
+    ],
+    "Attributes": {
+        "Former Master": "Magistar Termhill",
+        "Role": "Chief Diviner",
+        "Defection Event": "The Dragonstone Heist"
+    },
+    "Stats": {
+        "Intuition": 8,
+        "Omen": 7,
+        "Warden": 6,
+        "History": 5
+    },
+    "Abilities": [
+        {
+            "name": "Visionary",
+            "energy_cost": 2,
+            "effect": "Gain +2 Intuition for 1 turn"
+        }
+    ]
+}

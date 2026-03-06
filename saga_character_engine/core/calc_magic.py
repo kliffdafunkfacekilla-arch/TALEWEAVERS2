@@ -43,11 +43,21 @@ def calculate_magic(attributes: CoreAttributes, selected_powers: List[Dict[str, 
         # Find the school this spell belongs to
         target_school = None
         governing_attr = None
+        spell_cost_str = "1"
+        found_tier = "1"
+        
         for attr, data in schools_db.items():
-            if spell_name in data["spells"]:
-                target_school = data["school"]
-                governing_attr = attr.lower()
-                break
+            for tier_num, tier_data in data.get("tiers", {}).items():
+                for choice_type in ["OFFENSE", "DEFENSE", "UTILITY"]:
+                    spell_info = tier_data.get(choice_type, {})
+                    if spell_info.get("name") == spell_name:
+                        target_school = data["school"]
+                        governing_attr = attr.lower()
+                        spell_cost_str = spell_info.get("cost", "1")
+                        found_tier = tier_num
+                        break
+                if target_school: break
+            if target_school: break
         
         if not target_school:
             raise HTTPException(status_code=400, detail=f"Spell '{spell_name}' not found in any known School of Power.")
@@ -61,9 +71,16 @@ def calculate_magic(attributes: CoreAttributes, selected_powers: List[Dict[str, 
             )
 
         # Tactical Calculations
-        tier = int(power.get("tier", "1"))
+        import re
+        tier = int(found_tier)
         intensity = attr_val // 3
-        focus_cost = 1 + tier # Scaling cost
+        
+        # Parse Focus/Stamina cost from string (e.g. "2 Stamina" -> 2)
+        parsed_cost = 1
+        num_match = re.search(r'\d+', spell_cost_str)
+        if num_match:
+            parsed_cost = int(num_match.group())
+
         aetherium_value = tier * 50
 
         compiled_powers.append({
@@ -72,7 +89,7 @@ def calculate_magic(attributes: CoreAttributes, selected_powers: List[Dict[str, 
             "governing_attribute": governing_attr.upper(),
             "tier": str(tier),
             "intensity": intensity,
-            "focus_cost": focus_cost,
+            "focus_cost": parsed_cost,
             "aetherium_value": aetherium_value,
             "description": f"A {target_school} power governed by {governing_attr.upper()}. Intensity {intensity}."
         })

@@ -1,0 +1,115 @@
+{
+    "Name": "Kog Viomuth",
+    "Type": "People",
+    "Appearance": {
+        "Mannerisms": {
+            "Body": {
+                "Monitor Lizard-Kin": true,
+                "Midnight Blue/Purple": true,
+                "Matte finish": true,
+                "Scar": {
+                    "Location": "Left eye",
+                    "Color": "Milk-white"
+                }
+            },
+            "Tail": {
+                "Limb": true,
+                "Spines": true,
+                "Color": "Pale yellow/ivory",
+                "Shape": "Diamond"
+            }
+        },
+        "Attire": {
+            "Apron": {
+                "Material": "Charred, stiff, heat-resistant leather",
+                "Pouch": {
+                    "Nails": true,
+                    "Fasteners": true,
+                    "Glues and patch-tapes": true
+                }
+            },
+            "Wrench": {
+                "Adjustable": true,
+                "Hammmer-head": true
+            },
+            "Measuring stick": {
+                "Folding": true
+            }
+        },
+        "Eyes": {
+            "Heat vision": true,
+            "Sight": {
+                "Left eye": false,
+                "Right eye": true
+            },
+            "Goggles": {
+                "Custom-made": true,
+                "Lenses": {
+                    "Left": {
+                        "Dark glass": true
+                    },
+                    "Right": {
+                        "Dark glass": true,
+                        "Magnifying": true
+                    }
+                }
+            }
+        },
+        "Movement": {
+            "Slow and deliberate": true,
+            "Tongue": {
+                "Tasting": true
+            }
+        }
+    },
+    "Backstory": {
+        "Birth": {
+            "Talent": true
+        },
+        "Shadow Week": {
+            "Trial": true,
+            "Hot-wiring": true
+        },
+        "Heart Forge Guild": {
+            "Elite body": true
+        },
+        "Noble-Born Guildmaster": {
+            "VIP": true
+        },
+        "Pressure-Master": {
+            "Secondary forge": true
+        },
+        "Nepotism": true
+    },
+    "Traits": {
+        "Thermal Comfort": {
+            "Likes": true,
+            "Cold": false
+        },
+        "Outspoken Nature": {
+            "Concept of social etiquette": false
+        }
+    },
+    "Strengths": {
+        "Structural Diagnosis": {
+            "Touch": true,
+            "Tongue": true,
+            "Visual inspection": true
+        },
+        "Extreme Heat Tolerance": {
+            "Temperatures": {
+                "180\u00b0C": true
+            }
+        }
+    },
+    "Weaknesses": {
+        "Visual Limitations": {
+            "Blind spot": true,
+            "Left side": true
+        },
+        "The 'Nobility' Trigger": {
+            "Hatred": true,
+            "Prone to offending": true
+        }
+    }
+}

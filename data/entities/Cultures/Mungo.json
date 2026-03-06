@@ -1,0 +1,56 @@
+{
+    "CulturalName": "Mungo",
+    "ScientificName": "_Herpestes Titanus_",
+    "Role": [
+        "Leather-Barons",
+        "Beast-Wranglers",
+        "Shock-Troopers"
+    ],
+    "HomeCity": "The Coil-Yards",
+    "Biology": {
+        "Physiology": {
+            "Height": 4.5,
+            "Weight": null
+        },
+        "Reflexes": {
+            "Speed": 10,
+            "ReactionTime": 0.1
+        },
+        "Immunity": {
+            "Neurotoxins": 5
+        },
+        "Visuals": {
+            "Fur": "Grey/Brown",
+            "ScarCount": null
+        }
+    },
+    "Psychology": {
+        "Philosophy": "The Snap",
+        "Rivalry": "Serpentes",
+        "Status": {
+            "Respect": "Titan-Boa kills"
+        }
+    },
+    "IndustrialRole": {
+        "Titan-Boa": {
+            "Pit": true,
+            "Harvest": 10
+        },
+        "Tannery": true
+    },
+    "MilitaryRole": {
+        "Style": "Counter-Attack",
+        "Weaponry": {
+            "Fang-Hook": true,
+            "Twin Daggers": true
+        },
+        "Tactics": {
+            "GuardCaravans": true
+        }
+    },
+    "SocialQuirks": {
+        "The Stare": true,
+        "Hyper-Metabolism": true,
+        "PersonalSpace": false
+    }
+}

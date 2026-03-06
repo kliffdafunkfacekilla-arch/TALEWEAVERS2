@@ -25,10 +25,27 @@ except Exception as e:
     local_llm = None
     OLLAMA_AVAILABLE = False
 
+from core.context import ContextAssembler
+from core.day_clock import DayClock
+
+context_assembler = ContextAssembler()
+
 async def fetch_context_node(state: GameState):
     # Fetch hex details for biome/tension scaling
     hex_id = int(state.get("action_target", 0)) if state.get("action_type") in ["MOVE", "TRAVEL"] else int(state.get("current_location", 0))
-    hex_details = await api_gateway.get_hex_details(hex_id)
+    
+    # ── LIVING CONTEXT LAYER ───────────────────────────────────────────
+    campaign_id = state["player_id"] # Using player_id as campaign_id placeholder if needed
+    clock = DayClock(campaign_id)
+    day_phase = clock.get_current_phase()
+    
+    # Assembly full context packet (Lore + Events + Rep + Persistent Entities)
+    context_packet = await context_assembler.assemble(
+        campaign_id=campaign_id,
+        hex_id=hex_id,
+        day_phase=day_phase,
+        current_tick=state.get("current_tick", 0) # Director needs to track/fetch this
+    )
     
     vitals = state.get("player_vitals")
     powers = state.get("player_powers")
@@ -52,7 +69,11 @@ async def fetch_context_node(state: GameState):
         "chaos_numbers": state.get("chaos_numbers", [random.randint(1, 12)]),
         "active_regional_arcs": state.get("active_regional_arcs") or [],
         "active_local_quests": state.get("active_local_quests") or [],
-        "active_errands": state.get("active_errands") or []
+        "active_errands": state.get("active_errands") or [],
+        "context_packet": context_packet,
+        "day_phase": day_phase,
+        "current_day": clock.get_current_day() if hasattr(clock, "get_current_day") else 1,
+        "current_tick": state.get("current_tick", 0)
     }
 
 async def resolve_mechanics_node(state: GameState):
@@ -245,16 +266,32 @@ async def chaos_check_node(state: GameState):
 
 async def director_node(state: GameState):
     """Tiered Narrative Director: Handles tension, weather, and quest placement."""
+    action = state["action_type"]
+    framework = state.get("campaign_framework", [])
+    
+    # ── SPECIAL: Initial Landing (Session One Start) ──
+    if action == "LANDING":
+        if framework:
+            first_beat = framework[0]
+            nudge = f"INITIAL LANDING: You have arrived. Recall your purpose: {first_beat.get('title')}. Objective: {first_beat.get('narrative_objective')}"
+            return {"director_override": nudge, "vtt_commands": ["SHOW_QUEST_LOG", "CENTER_ON_PLAYER"]}
+        return {"director_override": "You have arrived in a new land.", "vtt_commands": ["CENTER_ON_PLAYER"]}
+
     tension = state.get("tension", 0)
     current_hex_id = int(state["current_location"] if state["current_location"].isdigit() else 0)
     hex_details = await api_gateway.get_hex_details(current_hex_id)
     biome = hex_details.get("biome", "Wilderness")
     
+    # ... rest of the function (starting from biome_multipliers)
     biome_multipliers = {
         "Wasteland": 1.5, "Jungle": 1.3, "Swamp": 1.4, "Tundra": 1.5, "Plains": 1.0, "Forest": 1.1
     }
     multiplier = biome_multipliers.get(biome, 1.2)
-    tension_gain = random.randint(2, 8) * multiplier
+    
+    difficulty = state.get("difficulty", "STANDARD")
+    diff_mult = {"STORY": 0.5, "STANDARD": 1.0, "PUNISHING": 2.0}.get(difficulty, 1.0)
+    
+    tension_gain = random.randint(2, 8) * multiplier * diff_mult
     tension += int(tension_gain)
     
     director_override = state.get("director_override") 
@@ -263,14 +300,18 @@ async def director_node(state: GameState):
 
     if tension > 60 and random.random() < (tension - 40) / 100:
         tension = 0
+        
+        base_threat = hex_details.get("threat_level", 2)
+        if difficulty == "PUNISHING": base_threat += 1
+        elif difficulty == "STORY": base_threat = max(1, base_threat - 1)
+        
         encounter_request = {
             "biome": biome,
-            "threat_level": hex_details.get("threat_level", 2) + 1,
+            "threat_level": base_threat,
             "faction_territory": hex_details.get("faction_owner", "Wilderness")
         }
         encounter = await api_gateway.generate_encounter(encounter_request)
         if encounter:
-            # Ensure the player token in the encounter has the correct sprite
             if "tokens" in encounter:
                 for token in encounter["tokens"]:
                     if token.get("isPlayer"):
@@ -283,20 +324,22 @@ async def director_node(state: GameState):
     if state["action_type"] not in ["MOVE", "TRAVEL"]:
         return {"tension": tension, "director_override": director_override, "vtt_commands": vtt_commands, "active_encounter": active_encounter}
     
-    is_regional_move = state["action_type"] == "TRAVEL"
-    
-    if is_regional_move and not state.get("active_regional_arcs"):
+    context_packet = state.get("context_packet")
+
+    # Check for Regional Arc generation
+    if not state.get("active_regional_arcs"):
         idx = state["current_stage"]
-        saga_beat = state["campaign_framework"][idx] if state.get("campaign_framework") else {}
-        new_arcs = await api_gateway.generate_regional_arc(saga_beat, {"location": state["action_target"]})
-        return {"tension": tension, "active_regional_arcs": new_arcs}
+        saga_beat = framework[idx] if framework and idx < len(framework) else {}
+        if saga_beat:
+             new_arcs = await api_gateway.generate_regional_arc(saga_beat, {"location": state["action_target"]}, context_packet)
+             return {"tension": tension, "active_regional_arcs": new_arcs}
 
     pacing_goal = 2
-    if state.get("campaign_framework") and state["current_stage"] < len(state["campaign_framework"]):
-         pacing_goal = state["campaign_framework"][state["current_stage"]].get("pacing_milestones", 2)
+    if framework and state["current_stage"] < len(framework):
+         pacing_goal = framework[state["current_stage"]].get("pacing_milestones", 2)
 
     if state["current_stage_progress"] < pacing_goal and not state.get("active_local_quests") and random.random() < 0.3:
-        side_quest = await api_gateway.generate_local_sidequest({"hex_id": state["action_target"]})
+        side_quest = await api_gateway.generate_local_sidequest({"hex_id": state["action_target"]}, context_packet)
         if side_quest:
             return {"tension": tension, "active_local_quests": [side_quest]}
 
@@ -324,17 +367,50 @@ async def narrator_node(state: GameState):
     [CHAOS STATUS]: {"STRIKE!" if state.get("chaos_strike") else "Stable"}
     """
 
+    style = state.get("style", "GRITTY_SURVIVAL").replace("_", " ").title()
+    
+    # Enrich prompt with Living Context Layer
+    context = state.get("context_packet", {})
+    npcs = context.get("active_npcs", [])
+    npcs_str = "\n".join([f"- {n['name']} ({n['type']}): {n['description']} [Attitude: {n.get('attitude')}]" for n in npcs])
+    rumours = "\n".join([f"- {r}" for r in context.get("rumours", [])])
+    lore = "\n".join(context.get("lore_context", []))
+    
+    living_context_str = f"""
+    --- LIVING CONTEXT ---
+    [TIME OF DAY]: {state.get('day_phase')}
+    [LORE FRAGMENTS]:
+    {lore if lore else "No specific lore discovered here."}
+    
+    [ACTING NPCs NEARBY]:
+    {npcs_str if npcs_str else "You are alone in this immediate area."}
+    
+    [RUMOURS & NEWS]:
+    {rumours if rumours else "The world is quiet; no news has reached this hex yet."}
+    
+    [FACTION ATTITUDES]:
+    {json.dumps(context.get('faction_attitudes', {}))}
+    """
+
     prompt = f"""
-    You are the Director of T.A.L.E.W.E.A.V.E.R. (Gritty/Tactical).
+    You are the Director of T.A.L.E.W.E.A.V.E.R.
+    TONE DIRECTIVE: The tone of this adventure is {style}.
     {history_str}
     Location: Hex {state['current_location']}
     Environment: {state.get('weather')}
     {foresight_context}
+    {living_context_str}
     System Result: {state['math_log']}
     Action: '{state['raw_chat_text']}'
     
-    Narrate outcome in 3 gritty sentences. Mention the environment and tension if relevant.
+    Narrate outcome in 3 immersive sentences fitting the Tone Directive. 
+    {"IMPORTANT: This is the first turn of the campaign. Describe the character's arrival and the core reason they are here based on the story nudge." if state['action_type'] == "LANDING" else "IMPORTANT: Integrate the Living Context (NPCs, Rumours, Lore) naturally into your response."}
+    Mention the environment and tension if relevant.
     """
+    
+    no_fly = state.get("no_fly_list", [])
+    if no_fly:
+        prompt += f"\nCRITICAL SAFETY RULE: Under no circumstances may your narration include or reference the following themes: {', '.join(no_fly)}.\n"
     
     if state.get("chaos_strike"):
         prompt += f"\n\nFOLLOW THIS CHAOS EVENT: {state['chaos_narrative']}"

@@ -1,0 +1,23 @@
+{
+    "Name": "Valen the Witness",
+    "Aliases": [
+        "Valen",
+        "The Witness"
+    ],
+    "Tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Lux",
+        "Awareness"
+    ],
+    "Role": "Surveillance Officer",
+    "Former Master": "Magistar Opecten",
+    "Defection Event": "The Blind Spot",
+    "Attributes": {
+        "Awareness": 8,
+        "Lux": 5,
+        "Stealth": 4,
+        "Combat": 2
+    }
+}

@@ -19,7 +19,7 @@ if os.path.exists(REGISTRY_FILE):
 SERVICE_MAP = {
     "director": ("saga_director", 8000),
     "lore_vault": ("saga_lore_module", 8001),
-    "world_architect": ("saga_architect", 8002),
+    "world_architect": ("saga_architect", 8002),   # Python World Simulation Engine
     "char_engine": ("saga_character_engine", 8003),
     "encounter_engine": ("saga_encounter_engine", 8004),
     "item_foundry": ("saga_item_engine", 8005),
@@ -27,7 +27,7 @@ SERVICE_MAP = {
     "clash_engine": ("saga_clash_engine", 8007),
     "dmag_engine": ("saga_dmag_engine", 8008),
     "campaign_weaver": ("saga_campaign_weaver", 8010),
-    "asset_foundry": ("saga_asset_foundry", 8012),
+    "asset_foundry": ("saga_asset_foundry", 8010),
     "chronos": ("saga_chronos", 9000)
 }
 

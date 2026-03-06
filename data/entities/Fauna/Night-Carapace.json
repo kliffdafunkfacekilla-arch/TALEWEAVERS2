@@ -1,0 +1,17 @@
+{
+    "base_health": 15,
+    "diet": [
+        "alpine herbs",
+        "roots"
+    ],
+    "speed": 18,
+    "armor": 12,
+    "mandible_bite": 8,
+    "visual_disguise": 16,
+    "silence": 14,
+    "flanking_attack": 10,
+    "luxury_food_source": true,
+    "predator": true,
+    "habitat": "Alpine Forests and Rocky Outcrops",
+    "nocturnal": true
+}

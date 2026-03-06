@@ -1,0 +1,26 @@
+{
+    "Name": "Kaelen the Unmovable",
+    "Aliases": [
+        "Kaelen",
+        "The Unmovable"
+    ],
+    "Tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Mass",
+        "Might"
+    ],
+    "Attributes": {
+        "Former Master": [
+            "Magistar Tiraton"
+        ],
+        "Role": "High-Executioner",
+        "Defection Event": "The Mountain Rescue"
+    },
+    "Stats": {
+        "Strength": 0.8,
+        "Resolve": 0.9,
+        "Endurance": 0.85
+    }
+}

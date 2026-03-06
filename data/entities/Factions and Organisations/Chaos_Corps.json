@@ -1,0 +1,35 @@
+{
+    "name": "Chaos Corps",
+    "aliases": [],
+    "tags": [],
+    "doctrine": {
+        "type": "Fighting Chaos with Chaos",
+        "description": "Asymmetric denial by rapidly altering the landscape and introducing their own brand of mayhem, rendering the original chaotic effect's primary advantage impotent."
+    },
+    "arsenal": {
+        "explosives": {
+            "function": "Rapid dismantling of structures and instantaneous reshaping of the landscape"
+        },
+        "acids": {
+            "function": "Strategic weakening of key structural points, preparing an area for a more dramatic collapse or alteration"
+        },
+        "blunt force": {
+            "function": "Direct application of immense physical power to recreate the face of the landscape instantly"
+        }
+    },
+    "leadership": {
+        "type": "Veteran-Primus",
+        "description": "The highest rank belongs to the veteran who has survived the longest, a leadership paradigm based on survival meritocracy"
+    },
+    "verge cities": {
+        "description": "Sequestered existence, managed by 'Re-Assigned' civilians, a perpetually tense, stratified micro-society defined by inherent sociological friction"
+    },
+    "national sports": {
+        "type": [
+            "The Gauntlet (Access Run)",
+            "Keystone",
+            "Celebrity and Chaos"
+        ],
+        "description": "Sophisticated piece of societal engineering, created for the Chaos Corps but broadcast to the populace, serving as a pressure-release valve, live-fire training exercise, and propaganda tool"
+    }
+}

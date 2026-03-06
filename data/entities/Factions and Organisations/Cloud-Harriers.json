@@ -1,0 +1,61 @@
+{
+    "name": "Cloud-Harriers",
+    "type": "Faction",
+    "tags": [
+        "Sky-Western"
+    ],
+    "core_concept": "Avian Roughnecks and High-Altitude Ranchers",
+    "territory": {
+        "environment": "The windiest, coldest, and most treacherous section of the Engineer's Mountain Range",
+        "logic": "Natural wind-tunnel where the Sky-Grazer herds are forced to migrate"
+    },
+    "culture": {
+        "split": "True Aim over Technical Truth",
+        "relationship": "View city-dwelling Avians as soft, but Empire relies entirely on them for Voltaic Fleece"
+    },
+    "industry": {
+        "frame-drop": {
+            "trap": {
+                "drivers": "Small, agile Harrier gliders",
+                "clamp": "Massive, counter-weighted steel frames",
+                "pin": "Frame clamps the beast against the padded cliff wall using buoyancy"
+            },
+            "pit-stop": {
+                "shear": "Repel down the cliff face using Obsidian Blades",
+                "milk": "Attach high-suction hoses to drain the udder tanks",
+                "release": "Frame counter-weights release, launching the Grazer back into the air stream"
+            }
+        }
+    },
+    "economy": {
+        "commodities": {
+            "voltaic_fleece": {
+                "storm-grade": {
+                    "value": "High",
+                    "utility": "Insulating at high temps, protecting airships from lightning"
+                },
+                "shadow-grade": {
+                    "value": "Low",
+                    "utility": "Sold cheap for winter coats"
+                }
+            },
+            "ozone-milk": {
+                "raw": {
+                    "value": "Raw",
+                    "utility": "Sold to bakeries for static leavening, consumed by laborers for energy kick"
+                },
+                "refined": {
+                    "value": "Refined",
+                    "utility": "Sold to Quill-Kin for anti-chaos medicine"
+                }
+            }
+        }
+    },
+    "mystery": {
+        "tagging": {
+            "role": "The Harriers are the only ones who physically touch the herds",
+            "research": "Tag the animals with paint or ribbons",
+            "data": "Primary source of intel on 'The Vanishing,' reporting when specific animals disappear near Dragonstone Prisons"
+        }
+    }
+}

@@ -297,10 +297,13 @@ export const CharacterSheet: React.FC = () => {
                                                             </span>
                                                         )}
                                                     </button>
-                                                    <div className="hidden group-hover:block absolute z-20 left-full top-0 ml-2 p-2 bg-zinc-800 border border-zinc-600 text-[10px] w-48 shadow-2xl rounded">
-                                                        <p className="text-yellow-500 font-bold mb-1">{skillObj.skill}</p>
-                                                        <p className="text-zinc-500 text-[9px] mb-1 italic">Stats: {skillObj.stat_pair}</p>
-                                                        {skillObj.effect}
+                                                    <div className="hidden group-hover:block absolute z-20 left-full top-0 ml-2 p-2 bg-zinc-800 border border-zinc-600 w-64 shadow-2xl rounded">
+                                                        <p className="text-yellow-500 font-bold mb-1 text-[11px]">{skillObj.skill}</p>
+                                                        <p className="text-zinc-500 text-[9px] mb-2 italic border-b border-zinc-700 pb-1">Governing: {skillObj.stat_pair}</p>
+                                                        <p className="text-zinc-400 text-[10px]">
+                                                            <span className="text-yellow-600 font-bold">[Novice] </span>
+                                                            {skillObj.progression?.["1"]?.passive?.effect || "Unknown"}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             );
@@ -315,7 +318,7 @@ export const CharacterSheet: React.FC = () => {
                 {/* SCHOOLS OF POWER */}
                 <div className="bg-black p-4 border border-zinc-800">
                     <h2 className="text-purple-500 font-bold uppercase mb-4 text-xs tracking-widest border-l-2 border-purple-600 pl-2 flex justify-between">
-                        <span>Schools of Power</span>
+                        <span>Schools of Power (Tier 1)</span>
                         <span className={`text-[10px] ${selectedSpells.length >= 2 ? 'text-zinc-300' : 'text-zinc-500'}`}>
                             {selectedSpells.length}/2 Spells
                         </span>
@@ -333,15 +336,25 @@ export const CharacterSheet: React.FC = () => {
                                         <span className="text-[8px] text-zinc-600">{statValue}</span>
                                     </div>
                                     <div className="space-y-1">
-                                        {!isLocked && data.spells.map((spell: string) => (
-                                            <button
-                                                key={spell}
-                                                onClick={() => toggleSpell(spell)}
-                                                className={`w-full text-left text-[9px] p-1 px-2 border ${selectedSpells.includes(spell) ? 'bg-purple-900 border-purple-500 text-white' : 'bg-black border-zinc-800 text-zinc-500'}`}
-                                            >
-                                                {spell}
-                                            </button>
-                                        ))}
+                                        {!isLocked && data.tiers?.["1"] && ["OFFENSE", "DEFENSE", "UTILITY"].map((choiceType) => {
+                                            const spellObj = data.tiers["1"][choiceType];
+                                            if (!spellObj) return null;
+                                            return (
+                                                <div key={spellObj.name} className="group relative">
+                                                    <button
+                                                        onClick={() => toggleSpell(spellObj.name)}
+                                                        className={`w-full text-left text-[9px] p-1 px-2 border ${selectedSpells.includes(spellObj.name) ? 'bg-purple-900 border-purple-500 text-white' : 'bg-black border-zinc-800 text-zinc-500 hover:border-zinc-600'}`}
+                                                    >
+                                                        <span className="text-purple-700 font-bold">[{choiceType.charAt(0)}]</span> {spellObj.name}
+                                                    </button>
+                                                    <div className="hidden group-hover:block absolute z-30 left-full top-0 ml-2 p-2 bg-zinc-800 border border-purple-900/50 w-48 shadow-2xl rounded text-left">
+                                                        <p className="text-purple-400 font-bold text-[10px] mb-1">{spellObj.name}</p>
+                                                        <p className="text-zinc-500 text-[9px] mb-1 italic">Cost: {spellObj.cost}</p>
+                                                        <p className="text-zinc-300 text-[9px]">{spellObj.effect}</p>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             );

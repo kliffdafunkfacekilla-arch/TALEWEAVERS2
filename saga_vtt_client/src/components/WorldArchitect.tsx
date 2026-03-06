@@ -1,20 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useGameStore } from '../store/useGameStore';
 import { MapRenderer } from './MapRenderer';
-import { EntityEditor } from './EntityEditor';
-import { CalendarEditor } from './CalendarEditor';
 
 interface WorldArchitectProps {
     onBack: () => void;
 }
 
 export function WorldArchitect({ onBack }: WorldArchitectProps) {
-    const setWorldData = useGameStore((s) => s.setWorldData);
-    const selectedHex = useGameStore((s) => s.selectedHex);
+    const setWorldData = useGameStore((s: any) => s.setWorldData);
+    const selectedHex = useGameStore((s: any) => s.selectedHex);
 
     // THE MAP LENSES
-    const viewLens = useGameStore((s) => s.viewLens);
-    const setViewLens = useGameStore((s) => s.setViewLens);
+    const viewLens = useGameStore((s: any) => s.viewLens);
+    const setViewLens = useGameStore((s: any) => s.setViewLens);
 
     const [activeTab, setActiveTab] = useState<'PAINTING' | 'LORE' | 'GEOGRAPHY' | 'CLIMATE' | 'BIOMES' | 'RESOURCES' | 'ECOSYSTEM' | 'FACTIONS'>('PAINTING');
     const [isGenerating, setIsGenerating] = useState(false);
@@ -31,14 +29,15 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
 
 
     // --- ARCHITECT'S PALETTE (EDIT MODE) ---
-    const editMode = useGameStore((s) => s.editMode);
-    const setEditMode = useGameStore((s) => s.setEditMode);
-    const activeBrush = useGameStore((s) => s.activeBrush);
-    const setActiveBrush = useGameStore((s) => s.setActiveBrush);
-    const brushSize = useGameStore((s) => s.brushSize);
-    const setBrushSize = useGameStore((s) => s.setBrushSize);
-    const brushStrength = useGameStore((s) => s.brushStrength);
-    const setBrushStrength = useGameStore((s) => s.setBrushStrength);
+    // --- ARCHITECT'S PALETTE (EDIT MODE) ---
+    const editMode = useGameStore((s: any) => s.editMode);
+    const setEditMode = useGameStore((s: any) => s.setEditMode);
+    const activeBrush = useGameStore((s: any) => s.activeBrush);
+    const setActiveBrush = useGameStore((s: any) => s.setActiveBrush);
+    const brushSize = useGameStore((s: any) => s.brushSize);
+    const setBrushSize = useGameStore((s: any) => s.setBrushSize);
+    const brushStrength = useGameStore((s: any) => s.brushStrength);
+    const setBrushStrength = useGameStore((s: any) => s.setBrushStrength);
 
     // --- 1. GEOGRAPHY STATE ---
     const [hexCount, setHexCount] = useState(2500);
@@ -185,7 +184,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
 
 
         try {
-            const response = await fetch("http://localhost:8012/api/world/generate", {
+            const response = await fetch("http://localhost:8002/api/world/generate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -884,13 +883,11 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                 )}
             </div>
 
-            {/* RIGHT PANEL: Entity Editor & Calendar Editor */}
+            {/* RIGHT PANEL: Deprecated Editors */}
             <div className="w-[350px] bg-zinc-900/90 border-l border-zinc-800 flex flex-col shadow-2xl z-10 flex-shrink-0">
-                <div className="flex-1 overflow-hidden flex flex-col h-1/2">
-                    <EntityEditor />
-                </div>
-                <div className="flex-1 overflow-hidden flex flex-col h-1/2">
-                    <CalendarEditor />
+                <div className="flex-1 overflow-hidden flex flex-col p-8 text-zinc-500 text-center uppercase tracking-widest leading-loose">
+                    [Module Offline]<br />
+                    Entities & Rules are now handled directly via LLM Backend Pipelines.
                 </div>
             </div>
         </div>

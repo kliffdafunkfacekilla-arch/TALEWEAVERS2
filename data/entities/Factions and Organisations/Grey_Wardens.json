@@ -1,0 +1,19 @@
+{
+    "name": "Grey Wardens",
+    "tags": [
+        "Factions and Organisations"
+    ],
+    "type": "organisation",
+    "description": "The Grey Wardens are a faction of guardians who watch over the prisons of the Chaos Dragons and hold back the tide of chaos.",
+    "attributes": {
+        "recruitment": "takes broken individuals and forges them into new, loyal members through a brutal crucible",
+        "secrecy": "operates from isolated fortresses; its internal structure is a complete secret, but its existence is known",
+        "ultimate_goal": "to guard the prisons of the Chaos Dragons and hold back the tide of chaos, preserving reality"
+    },
+    "stats": {
+        "modular_arsenal": "dual-wield small scimitars and sickle-like hook blades that can lock together into a double-ended short staff",
+        "master_scimitar": "used by the Eyeless, this heavy blade features bladed dusters on the grip and a spiked pommel",
+        "sigil_thread_system": "metal threads sewn into their robes channel chaos energy into devastating powers",
+        "logic_of_reaction": "follow a 'See, Decide, React' philosophy; they will save those in danger but show no nuance in judgment"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "entity_name": "Cloud-Ram",
+    "category": "Fauna",
+    "diet": "herbivore",
+    "base_health": 10,
+    "speed": 3,
+    "movement": {
+        "terrestrial": 2,
+        "vertical": 5
+    },
+    "thermal_wool": {
+        "retains_heat": true,
+        "windproof": true
+    },
+    "economic_importance": {
+        "wool_trade": true,
+        "dietary_staples": true,
+        "peak_cheese": true,
+        "meat": true
+    }
+}

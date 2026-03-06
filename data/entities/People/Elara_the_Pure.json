@@ -1,0 +1,19 @@
+{
+    "EntityName": "Elara the Pure",
+    "Aliases": [
+        "Elara",
+        "The Pure"
+    ],
+    "Tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Vita",
+        "Vitality"
+    ],
+    "Attributes": {
+        "Former Master": "Magistar Gavusrix",
+        "Role": "Blood-Alchemist",
+        "Defection Event": "The Anti-Virus"
+    }
+}

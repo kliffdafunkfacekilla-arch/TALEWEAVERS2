@@ -1,0 +1,23 @@
+{
+    "EntityName": "Trade-Master Hrothe",
+    "Species": "Bearded Vulture",
+    "Visuals": {
+        "Head": {
+            "Appearance": "Bald, scarred",
+            "Feathers": "Rust-colored, rustled"
+        },
+        "Accessories": {
+            "Eyes": "Spectacles (ground ruby)",
+            "Body": "Pocket watch"
+        }
+    },
+    "Philosophy": "Carrion Economics",
+    "Tactic": "The Tactic: Circles failing economies, waits for desperation",
+    "Swoop": "The Swoop: Buys assets for pennies on the dollar",
+    "Reputation": {
+        "Folk": {
+            "River Folk": "Hated (prefer active haggling)",
+            "Golden Warren": "Respected (respect the math)"
+        }
+    }
+}

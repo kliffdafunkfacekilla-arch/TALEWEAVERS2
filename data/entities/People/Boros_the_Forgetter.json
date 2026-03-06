@@ -1,0 +1,15 @@
+{
+    "Name": "Boros the Forgetter",
+    "Tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Lex",
+        "Willpower"
+    ],
+    "Attributes": {
+        "Former Master": "Magistar Tyrustis",
+        "Role": "Labor Enforcer",
+        "Defection Event": "The Underground Exodus"
+    }
+}

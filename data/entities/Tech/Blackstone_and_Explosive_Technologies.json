@@ -1,0 +1,14 @@
+{
+    "tech_tier": 3,
+    "energy_cost": 150,
+    "processing_speed": 0.8,
+    "memory_capacity": 200,
+    "storage_capacity": 1000,
+    "cooling_rate": 0.5,
+    "weight_class": 5,
+    "dimensionality": 3,
+    "power_source": "dragonstone",
+    "compatibility": "aetherium_coin",
+    "uniqueness": "blackstone",
+    "lore": "black_scale_revolution"
+}

@@ -1,0 +1,14 @@
+{
+    "name": "Solar-Worms",
+    "category": "Fauna",
+    "diet": "Herbivore",
+    "base_health": 80,
+    "speed": 10,
+    "thermal_battery": true,
+    "thermal_energy_storage": 5000,
+    "solar_mechanism": true,
+    "habitat": "Ghost-Trees",
+    "danger": "Touching with bare skin causes instant second-degree burns",
+    "technique": "Wait for winter overcast days and use long-handled tongs or ceramic-tipped spears to harvest",
+    "value": "Most valuable textile in the Northern Hemisphere"
+}

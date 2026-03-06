@@ -1,0 +1,44 @@
+{
+    "Name": "Gypsy Flocks",
+    "Type": "Factions and Organisations",
+    "Description": "Vibrant, nomadic soul that binds the disparate peoples together, with a secret quest to bring back [[The Fae]] to heal the world.",
+    "Public Fa\u00e7ade": {
+        "Personas": [
+            "Traveling Librarians"
+        ],
+        "Culture": {
+            "Wagon Train Culture": {
+                "Colorful Wagon Trains": true,
+                "Vibrant Campsites": true,
+                "Paramount Community": true
+            },
+            "The Art of Survival": {
+                "Master Artisans": true,
+                "Unparalleled Performers": true
+            }
+        },
+        "Public Perception": {
+            "Enchanting & Mysterious": true,
+            "Valued Artisans": true,
+            "Untrustworthy & Shifty": true,
+            "Harbingers of News & Chaos": true
+        }
+    },
+    "Hidden Truth": {
+        "Cosmic Legacy": {
+            "The Fae Legacy and The Shattering": true,
+            "The Ritual of Return": true
+        },
+        "The True Quest": {
+            "The Ritual of Return": true
+        },
+        "The Divine Imprint": {
+            "Magistar Metrion": true,
+            "Engineer": true
+        }
+    },
+    "Paradox of Purpose": {
+        "The Unwitting Guardians": true,
+        "The Paradox of the Sacred Groves": true
+    }
+}

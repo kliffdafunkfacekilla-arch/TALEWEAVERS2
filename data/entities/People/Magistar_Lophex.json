@@ -1,0 +1,25 @@
+{
+    "school": "Anumis",
+    "element": "Bismuth",
+    "original_title": "The Keeper",
+    "pre_corruption_name": "Eldra",
+    "dragon_form": "The Geometric Void",
+    "stats": {
+        "intelligence": 20,
+        "wisdom": 18,
+        "charisma": 14,
+        "strength": 10,
+        "agility": 12,
+        "endurance": 15,
+        "magical_attack": 10,
+        "magical_defense": 18,
+        "mental_attack": 18,
+        "mental_defense": 20,
+        "arcane_nullification_range": 30,
+        "arcane_nullification_duration": 5
+    },
+    "abilities": [
+        "Knowledge Hoarder",
+        "Mental Scourge"
+    ]
+}

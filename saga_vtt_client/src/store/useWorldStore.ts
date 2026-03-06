@@ -58,12 +58,14 @@ interface WorldState {
     brushSize: number;
     brushStrength: number;
 
+    worldHistory: any[];
     setWorldData: (data: WorldData) => void;
     fetchMapChunk: (x: number, y: number, radius: number) => Promise<void>;
     clearWorld: () => void;
     setViewLens: (lens: WorldState['viewLens']) => void;
     setSelectedHex: (hex: HexCell | null) => void;
     fetchSubGrid: (hexId: number) => Promise<void>;
+    fetchHistory: () => Promise<void>;
     setEditMode: (mode: string) => void;
     setActiveBrush: (brush: string | number) => void;
     setBrushSize: (size: number) => void;
@@ -81,6 +83,7 @@ export const useWorldStore = create<WorldState>((set) => ({
     activeBrush: '',
     brushSize: 1,
     brushStrength: 100,
+    worldHistory: [],
 
     setWorldData: (data) => set({ worldData: data, loadedHexes: data.macro_map || [] }),
 
@@ -111,23 +114,38 @@ export const useWorldStore = create<WorldState>((set) => ({
 
     fetchSubGrid: async (hexId) => {
         try {
-            const payload = {
-                world_settings: { width: 1000, height: 400 },
-                climate: { north_pole: [-20, 0], equator: [20, 35], south_pole: [-10, 5], wind_bands: [] },
-                biomes: [], factions: []
-            };
-
             const res = await fetch(`${import.meta.env.VITE_SAGA_ARCHITECT_URL || "http://localhost:8002"}/api/world/subgrid/${hexId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({
+                    config: {
+                        geography: { hex_count: 2000, plate_count: 12, heightmap_steps: [] },
+                        climate: { north_pole: [-10, 5], equator: [25, 35], south_pole: [-10, 5], wind_bands: [], rain_multiplier: 1.0 },
+                        ecology: { biomes: [], resources: [], global_life: [] },
+                        society: { factions: [], cultures: [], religions: [], building_templates: [] }
+                    },
+                    sim_ticks: 100
+                })
             });
             if (!res.ok) throw new Error("Subgrid fetch failed");
             const data = await res.json();
 
-            set({ subGridNodes: data.subgrid.nodes || [] });
+            set({ subGridNodes: data.subgrid.macro_map || [] });
         } catch (err) {
             console.error("[WORLD_STORE] Subgrid fetch error:", err);
+            set({ subGridNodes: [] });
+        }
+    },
+
+    fetchHistory: async () => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_SAGA_ARCHITECT_URL || "http://localhost:8002"}/api/world/history`);
+            if (!res.ok) throw new Error("History fetch failed");
+            const data = await res.json();
+            set({ worldHistory: data.history || [] });
+        } catch (err) {
+            console.error("[WORLD_STORE] History fetch error:", err);
+            set({ worldHistory: [] });
         }
     },
 

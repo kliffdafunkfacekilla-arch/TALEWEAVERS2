@@ -1,0 +1,62 @@
+{
+    "Name": "Magistar Termhill",
+    "Aliases": [
+        "The Oracle",
+        "The Black Star"
+    ],
+    "Tags": [
+        "Magistar",
+        "Omen",
+        "Intuition",
+        "Dragon/Iridium",
+        "NPC"
+    ],
+    "School": "Omen (Intuition)",
+    "Element": "Iridium",
+    "Original Title": "The Oracle",
+    "Dragon Form": "The Black Star",
+    "Pre-Corruption Name": "Lyra",
+    "Attributes": {
+        "Strength": 12,
+        "Agility": 8,
+        "Endurance": 15,
+        "Intuition": 18,
+        "Willpower": 14,
+        "Charisma": 10
+    },
+    "Skills": {
+        "Divination": 16,
+        "Deception": 12,
+        "Persuasion": 10
+    },
+    "Abilities": {
+        "Temporal Instability": 14,
+        "Necrotic Decay": 12
+    },
+    "Stats": {
+        "Base Health": 18,
+        "Max Health": 24,
+        "Base Damage": 12,
+        "Max Damage": 18
+    },
+    "Traits": {
+        "Blindness": {
+            "Effect": " Ignoring omens and warnings",
+            "Severity": 3
+        },
+        "Temporal Instability": {
+            "Effect": " Creating time rifts and necrotic decay",
+            "Severity": 4
+        }
+    },
+    "Flaws": {
+        "Arrogance": {
+            "Effect": " Ignoring warnings and ignoring others' concerns",
+            "Severity": 3
+        },
+        "Tyranny": {
+            "Effect": " Using fear and intimidation to control others",
+            "Severity": 4
+        }
+    }
+}

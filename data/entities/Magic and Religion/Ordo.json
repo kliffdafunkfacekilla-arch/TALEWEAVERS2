@@ -1,0 +1,28 @@
+{
+    "type": "Magic and Religion",
+    "name": "Ordo",
+    "description": "The Power: Ordo is the lattice of the universe, the force of Stasis and Structure that opposes entropy.",
+    "stats": {
+        "cold_offense": {
+            "name": "Cold",
+            "damage_type": "Kinetic",
+            "effect": "Absolute Zero",
+            "target": "Targets",
+            "duration": "Permanent"
+        },
+        "structural_defense": {
+            "name": "Defense",
+            "type": "Structural",
+            "effect": "Turns skin as hard as diamond or creates barriers of force",
+            "duration": "Permanent"
+        },
+        "utility": {
+            "name": "Utility",
+            "effects": [
+                "Preserves food or dead bodies indefinitely",
+                "Locks doors so they physically cannot open",
+                "Creates permanent structures like bridges and shelters that ignore decay"
+            ]
+        }
+    }
+}

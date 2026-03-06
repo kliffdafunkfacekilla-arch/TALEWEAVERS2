@@ -1,0 +1,99 @@
+{
+    "name": "Canopy Clans",
+    "location": "The Verdant Tangle",
+    "patron": "Magistar Aurgenas",
+    "power": "Flux1",
+    "core_philosophy": "Value rots if it sits. Keep it moving.",
+    "societal_structure": {
+        "hierarchy": "Meritocracy of Wealth",
+        "governance": "Self-Interest is a survival strategy"
+    },
+    "geography": {
+        "environment": "The jungle is alive and restless",
+        "defense": "Constantly rebuild bridges, rotate leadership, and circulate currency"
+    },
+    "military": {
+        "unit": "Kite-Runners",
+        "gear": "Glider-suits and monofilament hooks",
+        "tactic": "Fight in 3D. Never stand still (Static = Dead)"
+    },
+    "foreign_relations": {
+        "vs": {
+            "The Iron Caldera": "Need the Clans",
+            "The Avian Empire": "Charge them exorbitant 'Guide Fees'"
+        }
+    },
+    "industrial_exchange": {
+        "producers": "The Twelve Crowns",
+        "economic_model": "High-End Manufacturing & Exotic Agriculture"
+    },
+    "extractive_industry": {
+        "petrified_stone_root": {
+            "source": "Deep mines finding fossilized roots of Ancestor Trees",
+            "use": "Fireproof construction beams and heavy-duty gun stocks"
+        },
+        "green_slate_quarry": {
+            "source": "Open-pit mines",
+            "use": "Waterproof roofing tiles and flagstones that resist moss"
+        }
+    },
+    "textile_and_leather_industry": {
+        "viper_leather": {
+            "farm": "Magistar Aurgenas Pits",
+            "method": "Farm Titan-Boas (40ft snakes)",
+            "product": {
+                "shed_skin": "Waterproof tarps",
+                "cull_skin": "High-grade leather armor and luxury boots"
+            }
+        },
+        "spider_silk_canvas": {
+            "farm": "Farming Weaver-Cows (cattle-sized arachnids)",
+            "product": {
+                "silk_steel": "High-tension cables",
+                "storm_canvas": "Unrippable sailcloth"
+            }
+        }
+    },
+    "artisan_and_medical_guilds": {
+        "musical_instruments_and_joinery": {
+            "species": "Large, six-limbed ant-folk with massive, articulate mandibles",
+            "craft": "Carve wood by chewing it",
+            "product": {
+                "void_lutes": "Instruments with perfect resonance because they have no glue joints",
+                "precision_gun_furniture": "Carve the intricate wooden fittings for the Tarsier's rifles",
+                "puzzle_boxes": "Unsolvable wooden safes used by merchants"
+            }
+        },
+        "medicines_and_narcotics": {
+            "product": {
+                "clot_moss": "Instant bandage",
+                "fever_bane": "Cure for jungle rot",
+                "viper_haze": "A smokeable combat drug (slows time perception)"
+            }
+        }
+    },
+    "exotic_agriculture": {
+        "poultry": {
+            "stock": "Farm Velociraptor-like birds",
+            "yield": "High-protein meat, massive eggs, and rigid feathers for arrows"
+        },
+        "ice_blood_tea": {
+            "crop": "Silver-Needle bushes",
+            "utility": "A chemical coolant. Essential for factory workers in the [[Iron Caldera]] to prevent heatstroke"
+        },
+        "fruit_basket": {
+            "crop": {
+                "sun_melons": "Hard-shelled natural canteens",
+                "iron_pears": "Non-perishable fruit",
+                "whisper_berries": "Carbonated/Fizzy fruit"
+            }
+        },
+        "spice_rack": {
+            "crop": {
+                "crimson_clove": "Numbing spice",
+                "gold_dust": "Honey-smoke saffron",
+                "rot_salt": "Meat preservative"
+            }
+        }
+    }
+}

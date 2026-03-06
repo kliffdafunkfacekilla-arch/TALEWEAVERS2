@@ -1,0 +1,39 @@
+{
+    "name": "Grand Auditor Keth",
+    "role": "High Director of Fulcrum Bank",
+    "species": "Great Horned Owl (Ancient)",
+    "location": "The Penthouse Eyrie, Spire of Accounts",
+    "visuals": {
+        "plumage": "stark white of old parchment"
+    },
+    "technology": {
+        "spectacles": {
+            "type": "custom-engineered headset",
+            "lenses": [
+                {
+                    "type": "standard magnification"
+                },
+                {
+                    "type": "aetheric-spectral (reveals magic/illusions)"
+                },
+                {
+                    "type": "thermal (reveals heart rate/stress in clients)"
+                },
+                {
+                    "type": "dead-lens (black obsidian, used to block out the world when he needs to think)"
+                }
+            ]
+        }
+    },
+    "psychology": {
+        "philosophy": "views the world as a math problem",
+        "motivation": "terrified of entropy"
+    },
+    "abilities": {
+        "first_coin": {
+            "type": "director's secret",
+            "usage": "rarely flips the coin",
+            "tactic": "adjusts interest rate up by 0.5% for every lie told"
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "tech_tier": 5,
+    "energy_cost": 200,
+    "coil_behavior_distance": 5,
+    "coil_combination_unpredictability": 8,
+    "emotional_influence_range": 3,
+    "geographical_sensitivity": 2,
+    "blowout_risk": 10,
+    "containment_punishment": 500,
+    "reliability_rating": 60,
+    "efficiency_rating": 70,
+    "research_complexity": 90,
+    "experimental_risk": 80,
+    "maintenance_difficulty": 40,
+    "upgrade_potential": 100,
+    "initial_cost": 1000,
+    "initial_reliability": 40
+}

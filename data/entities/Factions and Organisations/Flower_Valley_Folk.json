@@ -1,0 +1,40 @@
+{
+    "faction_name": "Flower Valley Folk",
+    "faction_type": "Carefree Warriors",
+    "strategic_role": "Defense & Hospitality",
+    "culture": {
+        "principle": "Never trust their eyes",
+        "rituals": {
+            "coming-of-age": {
+                "type": "gift-giving",
+                "objective": "uncover 5 gift-givers and hidden information",
+                "societal_impact": "radical transparency, threat neutralization"
+            }
+        }
+    },
+    "castes": [
+        {
+            "name": "Blossom Caste",
+            "description": "vibrant, visually appealing, and charismatic",
+            "role": "Masters of Hospitality as a Weapon",
+            "function": "create an overwhelmingly welcoming environment"
+        },
+        {
+            "name": "Shrub Caste",
+            "description": "smaller, plainer, and herb-like",
+            "role": "Eyes and Ears of the Hub",
+            "function": "observe all activity, identify anomalies, and manipulate logistics"
+        },
+        {
+            "name": "Vine Caste",
+            "description": "secretive, lethal, and rarely seen",
+            "role": "Pre-emptive, Unseen Deterrence",
+            "function": "eliminate those who get too close to the secret"
+        }
+    ],
+    "cosmological_context": {
+        "location": "the sheltered valley formed by the outspread legs and knees of the slumbering god known as 'The Engineer'",
+        "sacred_mandate": "Guard the prisons",
+        "proximity_to": "The [[Convergence]]"
+    }
+}

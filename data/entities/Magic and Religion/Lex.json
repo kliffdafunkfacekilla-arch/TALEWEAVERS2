@@ -1,0 +1,34 @@
+{
+    "Name": "Lex",
+    "Type": "Magic and Religion",
+    "Tier": 5,
+    "Willpower": 10,
+    "Offense_Psychic": {
+        "Power_Words": [
+            "Stun",
+            "Kill",
+            "Kneel"
+        ],
+        "Functions": [
+            "Shut_down_brain_functions",
+            "Crush_mind"
+        ]
+    },
+    "Defense": {
+        "Iron_Mind": true,
+        "Immunity": [
+            "Control",
+            "Fear"
+        ],
+        "Functions": [
+            "Deny_action",
+            "Create_psychokinetic_barrier"
+        ]
+    },
+    "Utility": {
+        "Truth_Forcing": true,
+        "Magical_Contracts": true,
+        "Laws_of_Magic": true
+    },
+    "Description": "The Power of the Command Line. Wielder's voice carries the weight of cosmic law, crushing resistance through sheer authority."
+}

@@ -1,0 +1,33 @@
+{
+    "Name": "Ratio1",
+    "Type": "Magic and Religion",
+    "Properties": {
+        "Offense": {
+            "Shock": {
+                "Effect": "Fry enemy brains with logic loops, or discharge lightning that arcs perfectly between mathematically optimal targets",
+                "Cost": null,
+                "Range": null,
+                "Cooldown": null
+            }
+        },
+        "Defense": {
+            "Calculation": {
+                "Effect": "Calculate the trajectory of incoming attacks before they happen, allowing you to sidestep with minimal effort, or create probability shields that force attacks to miss",
+                "Cost": null,
+                "Range": null,
+                "Cooldown": null
+            }
+        },
+        "Utility": {
+            "Solving": {
+                "Effect": "Instantly solve any puzzle or cipher, analyze a structure to find its single weak point, or program spells to trigger only when specific conditions are met",
+                "Cost": null,
+                "Range": null,
+                "Cooldown": null
+            }
+        }
+    },
+    "Stats": {
+        "Mathematical Insight": 100
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "tech_tier": "Industrial",
+    "energy_cost": {
+        "raw": {
+            "chaos_energy": {
+                "intensity": 10,
+                "type": "Industrial"
+            }
+        }
+    },
+    "requires_signature": true,
+    "signature_type": "Dusted Ink"
+}

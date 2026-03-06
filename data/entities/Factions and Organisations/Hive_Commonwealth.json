@@ -1,0 +1,48 @@
+{
+    "name": "Hive Commonwealth",
+    "type": "Faction",
+    "description": "A collectivist society of flying insects, forged in the chaos of the Shattered World.",
+    "stats": {
+        "unity": 9.5,
+        "organization": 8.5,
+        "resilience": 7.5,
+        "influence": 6.5,
+        "military_prowess": 8,
+        "economy": 7,
+        "diplomacy": 5.5
+    },
+    "goals": [
+        {
+            "name": "Maintain Unity",
+            "description": "The Hive Commonwealth's primary goal is to maintain the integrity of its collective consciousness and protect its members from the corrupting influence of chaos."
+        },
+        {
+            "name": "Expand Influence",
+            "description": "The Hive Commonwealth seeks to expand its influence and control over the surrounding territories, leveraging its unique abilities and assets to further its interests."
+        }
+    ],
+    "abilities": [
+        {
+            "name": "Chaos Marine Fleet",
+            "description": "The Hive Commonwealth's military doctrine, focusing on surgical strikes to extract valuable assets from hostile environments."
+        },
+        {
+            "name": "Quartz Crystal Trading",
+            "description": "The Outcast caste controls the trade of quartz crystals, which are abundant in their region and fetch high prices due to their resistance to psionics."
+        },
+        {
+            "name": "Honey Wine Production",
+            "description": "The Hive Commonwealth produces honey wine, a valuable commodity traded by the Outcast caste and prized for its unique properties."
+        }
+    ],
+    "vulnerabilities": [
+        {
+            "name": "Isolation",
+            "description": "The Hive Commonwealth's deep-seated need for unity makes it highly vulnerable to isolation and fragmentation."
+        },
+        {
+            "name": "Chaos Dragon Influence",
+            "description": "The ambient chaos radiating from the Chaos Dragon, Valkor, actively disrupts and breaks up the collective senses of the Hive Commonwealth, making it a significant threat."
+        }
+    ]
+}

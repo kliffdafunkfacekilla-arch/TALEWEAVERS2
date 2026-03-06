@@ -1,0 +1,43 @@
+{
+    "Name": "Wolverines",
+    "Autonomy": true,
+    "Independence": true,
+    "Servitude": "Duty",
+    "Indifference": "Politics",
+    "Rank": [
+        "Bear",
+        "Wolf"
+    ],
+    "Structure": [
+        "Bear",
+        "Wolf"
+    ],
+    "Tactics": {
+        "Deception": true,
+        "Strength": false,
+        "Art": "Misdirection",
+        "Empty Room": true,
+        "Patrol Mimicry": true
+    },
+    "Gear": {
+        "Armor": "Black Light Leather",
+        "Chainmail": true,
+        "Weapons": "Deadly without",
+        "Ceremonial": {
+            "Torso": "Blood-red fabric",
+            "Lower Body": "Kilt-like covering",
+            "Arms": "Gauntlets with Elbow Spike",
+            "Feet": "Unique footwear"
+        },
+        "Muzzle Plate": {
+            "Leather": true,
+            "Strings": "Multi-colored leather"
+        }
+    },
+    "Mystery": {
+        "Location": "Rugged woodland",
+        "Deal": "Basic soldier's wages",
+        "Anomaly": "One visible town",
+        "Secret": "No-Fly Zone"
+    }
+}

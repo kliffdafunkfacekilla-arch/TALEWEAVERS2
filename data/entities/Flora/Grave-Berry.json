@@ -1,0 +1,34 @@
+{
+    "Name": "Grave-Berry",
+    "Scientific Name": "Solanum Manes",
+    "Primary Cultivator": "Eastern Hounds",
+    "Grow Zone": "Bone-Fields",
+    "Type": "Flora",
+    "Appearance": {
+        "Form": "Creeping, thorny vine"
+    },
+    "Growth Cycle": {
+        "Time of Day": "Night",
+        "Sensitive to Direct Sunlight": true
+    },
+    "Properties": {
+        "Mnemosyne-Wine": {
+            "Effect": "Memory-Enhancer",
+            "Small Doses": "Recalls forgotten history",
+            "Large Doses": "Experiences memories of the creature buried beneath the roots"
+        },
+        "Embalming Fluid": {
+            "Effect": "Preservative",
+            "Description": "Arrests decay in flesh"
+        },
+        "Pain-Killer": {
+            "Effect": "Numbing Agent",
+            "Description": "Treats battlefield wounds"
+        }
+    },
+    "Harvest Method": "The Rite of Asking",
+    "Danger": {
+        "Risk": "Soul-Rot",
+        "Description": "Consuming too many Grave-Berries causes Soul-Rot, leading to madness"
+    }
+}

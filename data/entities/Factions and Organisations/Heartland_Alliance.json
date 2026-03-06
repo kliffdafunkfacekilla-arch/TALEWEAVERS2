@@ -1,0 +1,59 @@
+{
+    "Name": "Heartland Alliance",
+    "Type": "Faction",
+    "Description": "Agrarian society and government",
+    "Geography": {
+        "Territory": "Largest and most fertile grasslands in the known world",
+        "Defensive Features": [
+            "Natural fortress",
+            "Two sides of the territory are secured by the impassable banks of major rivers",
+            "Third side is bordered by the dense, ancient Oakwood forest"
+        ]
+    },
+    "Government": {
+        "Structure": "Council of Diverse Peoples",
+        "Key Features": [
+            "Constituent species representatives",
+            "One Council Leader from the existing representatives",
+            "Double Vote System"
+        ]
+    },
+    "Economy": {
+        "Foundation": "Agriculture",
+        "Key Features": [
+            "Food production is the main economic driver",
+            "Scarcity of wood",
+            "Dependence on [[Sump-Kin]] for logistics",
+            "Vulnerabilities to external pressures"
+        ]
+    },
+    "Culture": {
+        "Core Traits": [
+            "Prizes speed and hyper-aware communication",
+            "Deep connection to the environment",
+            "Cultural fondness for racing"
+        ],
+        "Institutions": [
+            "The Windrunners: courier service and communication relay system"
+        ],
+        "Spiritual and Linguistic Identity": [
+            "Wind Readers: shamanistic oracles and spiritual leaders"
+        ]
+    },
+    "Doctrine": {
+        "Primary Defensive Tactics": [
+            "Snare lines with metal bells and noisemakers"
+        ],
+        "Primary Military Composition": [
+            "Wolf-like and Coyote-like folk: general military duties",
+            "Wolverines: elite warriors and city guard"
+        ],
+        "Symbiotic Defense": [
+            "Bat Folk: night watch and surveillance network"
+        ]
+    },
+    "Vulnerabilities": [
+        "Dependence on [[Sump-Kin]] for logistics",
+        "Vulnerabilities to external pressures"
+    ]
+}

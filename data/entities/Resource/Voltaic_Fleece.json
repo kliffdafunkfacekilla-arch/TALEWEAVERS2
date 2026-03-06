@@ -1,0 +1,23 @@
+{
+    "Name": "Voltaic Fleece",
+    "Category": "Resource",
+    "Properties": {
+        "Capacitance": 7,
+        "Insulation": 9,
+        "Weight": 4
+    },
+    "EconomicApplication": {
+        "Aether-Tech": 8,
+        "Iron Caldera": 7
+    },
+    "Harvesting": {
+        "Risk": 6,
+        "Hazard": 5,
+        "Tools": [
+            "Ceramic Blades",
+            "Obsidian Shears"
+        ]
+    },
+    "Tags": [],
+    "Aliases": []
+}

@@ -174,7 +174,8 @@ export function PixiBattlemap() {
             if ((token as any).avatar_sprite) {
                 const meta = (token as any).avatar_sprite;
                 // Create a cropped texture for the sprite
-                Assets.load(`http://localhost:8012${meta.sheet_url}`).then((tex: Texture) => {
+                const assetUrl = import.meta.env.VITE_SAGA_ASSET_FOUNDRY_URL || 'http://localhost:8010';
+                Assets.load(`${assetUrl}${meta.sheet_url}`).then((tex: Texture) => {
                     const spriteTex = new Texture({
                         source: tex.source,
                         frame: new Rectangle(meta.x, meta.y, meta.w, meta.h)

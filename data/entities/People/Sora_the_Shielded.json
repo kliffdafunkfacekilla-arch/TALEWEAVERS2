@@ -1,0 +1,30 @@
+{
+    "Name": "Sora the Shielded",
+    "Tags": [
+        "NPC",
+        "History",
+        "Warden",
+        "Anumis",
+        "Knowledge"
+    ],
+    "Attributes": {
+        "Former Master": "Magistar Lophex",
+        "Role": "Librarian of the Vault",
+        "Defection Event": "The Burning of the Archives"
+    },
+    "Personality": {
+        "Quotable Quote": "\"Some things must be forgotten so the world can survive.\""
+    },
+    "Stats": {
+        "Knowledge": 95,
+        "Integrity": 80,
+        "Stealth": 60,
+        "Leadership": 70
+    },
+    "Abilities": {
+        "Memorization": 90,
+        "Counter-Sequence Recall": 85,
+        "Escape Artist": 75
+    },
+    "Equipment": []
+}

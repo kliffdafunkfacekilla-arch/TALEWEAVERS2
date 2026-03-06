@@ -1,0 +1,84 @@
+{
+  "generated_tick": 90,
+  "month": "Goldensun",
+  "season": "Summer",
+  "chaos_modifier": 0.6,
+  "events": [
+    {
+      "id": "evt_0001",
+      "type": "TRADE_CARAVAN",
+      "faction": "None",
+      "destination_faction": "BANDITS",
+      "goods": [
+        "food",
+        "wood",
+        "stone"
+      ],
+      "npc_name": "Merchant of None",
+      "npc_type": "Merchant",
+      "departs_tick": 90,
+      "arrives_tick": 103,
+      "total_days": 13,
+      "day_phase_active": [
+        "MORNING",
+        "AFTERNOON"
+      ],
+      "home_tick": 108,
+      "known_by": [
+        "None",
+        "BANDITS"
+      ],
+      "carrier_npcs": [],
+      "rumour_text": "A merchant wagon from None is travelling to BANDITS carrying food, wood, stone.",
+      "major_event": false
+    },
+    {
+      "id": "evt_0002",
+      "type": "PATROL_ROUTE",
+      "faction": "None",
+      "npc_name": "None Patrol",
+      "npc_type": "Guard",
+      "frequency": "daily",
+      "day_phase_active": [
+        "DAWN",
+        "MORNING",
+        "AFTERNOON",
+        "EVENING"
+      ],
+      "night_rest_location": "faction_headquarters",
+      "military_strength": 59.27063260969417,
+      "known_by": [
+        "None",
+        "BANDITS"
+      ],
+      "carrier_npcs": [
+        "evt_0001"
+      ],
+      "rumour_text": "None patrols are active on the roads near their territory.",
+      "major_event": false
+    },
+    {
+      "id": "evt_0003",
+      "type": "BANDIT_CAMP",
+      "faction": "BANDITS",
+      "npc_name": "Bandit Warband",
+      "npc_type": "Bandit",
+      "strength": 20,
+      "threat_radius": 2,
+      "day_phase_active": [
+        "AFTERNOON",
+        "EVENING",
+        "NIGHT"
+      ],
+      "known_by": [
+        "None",
+        "BANDITS"
+      ],
+      "carrier_npcs": [
+        "evt_0001"
+      ],
+      "rumour_text": "Word has spread of bandit activity in the wilderness. Merchants travel uneasily.",
+      "major_event": false
+    }
+  ]
+}

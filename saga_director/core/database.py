@@ -1,20 +1,11 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .models import Base
 import os
 
-# Store the SQLite database right inside the data folder
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "campaign_saves.db")
-DATABASE_URL = f"sqlite+aiosqlite:///{DB_PATH}"
+# Base directory for saga_director
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+DB_PATH = os.path.join(BASE_DIR, "saga_campaigns_v2.db")
+DATABASE_URL = f"sqlite:///{DB_PATH}"
 
-engine = create_async_engine(DATABASE_URL, echo=False)
-async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
-
-async def init_db():
-    async with engine.begin() as conn:
-        # This physically creates the tables in the SQLite file if they don't exist
-        await conn.run_sync(Base.metadata.create_all)
-
-async def get_session() -> AsyncSession:
-    async with async_session() as session:
-        yield session
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

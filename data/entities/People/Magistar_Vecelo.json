@@ -1,0 +1,19 @@
+{
+    "speed": 10,
+    "accuracy": 8,
+    "reflex": 9,
+    "agility": 10,
+    "endurance": 7,
+    "strength": 5,
+    "intelligence": 4,
+    "charisma": 3,
+    "luck": 6,
+    "base_health": 100,
+    "resilience": 8,
+    "maneuverability": 9,
+    "silence": 10,
+    "sonic_boom": 8,
+    "absorbs_sounds": 9,
+    "acceleration": 10,
+    "corrupted_state": true
+}

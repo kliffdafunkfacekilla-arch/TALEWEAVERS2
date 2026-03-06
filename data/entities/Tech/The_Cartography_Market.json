@@ -1,0 +1,32 @@
+{
+    "tech_tier": 3,
+    "energy_cost": 10,
+    "processing_speed": 0.5,
+    "memory_capacity": 5,
+    "storage_capacity": 10,
+    "shield_strength": 2,
+    "shield_recharge_time": 5,
+    "laser_accuracy": 0.7,
+    "laser_range": 3,
+    "laser_duration": 2,
+    "mechanical_damage": 0.5,
+    "electrical_damage": 1,
+    "thermal_damage": 0.2,
+    "vulnerability_points": [
+        {
+            "type": "mechanical",
+            "location": "map_frame",
+            "damage": 2
+        },
+        {
+            "type": "electrical",
+            "location": "map_calibration",
+            "damage": 1
+        },
+        {
+            "type": "thermal",
+            "location": "map_ink",
+            "damage": 0.5
+        }
+    ]
+}

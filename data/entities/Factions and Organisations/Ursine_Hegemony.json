@@ -1,0 +1,40 @@
+{
+    "name": "Ursine Hegemony",
+    "type": "Faction",
+    "description": "A dominant, unyielding civilization born not from ambition or a thirst for conquest, but from a profound societal commitment to contentment, comfort, and community.",
+    "stats": {
+        "strength": 8,
+        "endurance": 9,
+        "agility": 6,
+        "intelligence": 7,
+        "charisma": 5
+    },
+    "abilities": {
+        "Hearthguard's Vigil": {
+            "description": "Constant, active defiance of entropy",
+            "effect": "Increases the faction's strength and endurance by 2"
+        },
+        "Signal Hearth System": {
+            "description": "Vital network of small, permanently lit hearths",
+            "effect": "Increases the faction's visibility and detectability by 2"
+        },
+        "Unstoppable Siege": {
+            "description": "Constant application of force",
+            "effect": "Increases the faction's strength and endurance by 3"
+        },
+        "Elite Guard": {
+            "description": "Famed [[Wolverines]] as the Hegemony's elite guard",
+            "effect": "Increases the faction's strength and agility by 2"
+        },
+        "Justice of the Hearth": {
+            "description": "Punishments designed to reinforce the sanctity of the community",
+            "effect": "Increases the faction's reputation by 2"
+        }
+    },
+    "weaknesses": {
+        "Banishment": {
+            "description": "Permanent mark and social death",
+            "effect": "Decreases the faction's strength and charisma by 2"
+        }
+    }
+}

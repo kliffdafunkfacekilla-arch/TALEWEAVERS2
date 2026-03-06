@@ -1,0 +1,22 @@
+{
+    "Name": "Shadow Truffle",
+    "Scientific Name": "Tuber Umbra Dulcis",
+    "Grow Zone": "The Root-Systems",
+    "Cultivator": "The Simians (Monkeys)",
+    "Biology": {
+        "Appearance": {
+            "Skin": "black and rough like coal",
+            "Flesh": "rich, dark purple"
+        },
+        "Flavor Profile": "90% dark chocolate mixed with espresso and a hint of savory umami (mushroom)"
+    },
+    "Industrial & Culinary Utility": {
+        "Caloric Density": "extremely high energy",
+        "Ration-Bricks": "pressed into dense, non-perishable bricks for military rations",
+        "Luxury Confectionery": "refined with sugar and milk, becomes the most expensive dessert in the world ('Black-Gold Mousse')"
+    },
+    "Harvest & Danger": {
+        "Harvest Method": "monkeys must climb down into the dark underside of the canopy to dig them out of the bark",
+        "The Risk": "domain of spiders and bats, harvesters often fight for their haul"
+    }
+}

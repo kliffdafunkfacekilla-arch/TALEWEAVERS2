@@ -178,7 +178,7 @@ export const MapRenderer: React.FC = () => {
 
         if (!USE_FAST_DRAW) {
             const points = Float64Array.from(visibleHexes.flatMap((c: any) => [c.x, c.y]));
-            const delaunay = Delaunay.from(points);
+            const delaunay = Delaunay.from(points as any);
             const voronoi = delaunay.voronoi([bounds.x - 50, bounds.y - 50, bounds.x + bounds.width + 50, bounds.y + bounds.height + 50]);
 
             visibleHexes.forEach((cell: any, i: number) => {

@@ -1,0 +1,46 @@
+{
+    "Cultures": {
+        "type": "Butler",
+        "stats": {
+            "Intelligence": 18,
+            "Perception": 16,
+            "Combat": 14,
+            "Endurance": 12,
+            "Charisma": 10
+        },
+        "skills": {
+            "Valeting": 3,
+            "Bookkeeping": 2,
+            "Scheduling": 2,
+            "Social Navigation": 2,
+            "Combat (Hand-to-Hand)": 1,
+            "Combat (Ranged)": 1,
+            "Disguise": 2,
+            "Medicine": 1,
+            "Piloting": 1
+        },
+        "abilities": {
+            "Grace": true,
+            "Cunning": true,
+            "Endurance": true
+        },
+        "flaws": {
+            "Obsessive": true,
+            "Dry Wit": true,
+            "Unflappable": true
+        },
+        "lore": {
+            "Source": "Star-Acorn",
+            "Rite": "The Rite of the Star-Acorn"
+        },
+        "reputation": {
+            "Status Symbol": true,
+            "Worthy": true,
+            "Non-Negotiable": true
+        },
+        "network": {
+            "Method": "Gossip",
+            "Code": "Whisper-Web"
+        }
+    }
+}
