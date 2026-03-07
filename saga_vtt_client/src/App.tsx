@@ -67,7 +67,7 @@ export default function App() {
           tactical_skills: {}
         };
 
-        const charRes = await fetch(`${import.meta.env.VITE_SAGA_CHAR_ENGINE_URL || "http://localhost:8003"}/api/rules/character/calculate`, {
+        const charRes = await fetch(`${import.meta.env.VITE_SAGA_CHAR_ENGINE_URL || "http://localhost:8014"}/api/rules/character/calculate`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(buildRequest)
@@ -84,14 +84,14 @@ export default function App() {
         setClientLoadout(dynamicLoadout);
       }
 
-      const campaignRes = await fetch(`${import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8000"}/api/campaign/start`, {
+      const campaignRes = await fetch(`${import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8050"}/api/campaign/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           world_id: 'W_001',
           starting_hex_id: 200500, // TODO: Get from map click or config
           player_id: 'PLAYER_001',
-          player_sprite: useCharacterStore.getState().characterSheet?.avatar_sprite,
+          composite_sprite: useCharacterStore.getState().characterSheet?.composite_sprite,
           ...settings
         })
       });
@@ -109,10 +109,16 @@ export default function App() {
           useCombatStore.getState().setActiveEncounter(initial.active_encounter);
         }
 
-        // 2. Add Arrival Narration
+        // 2. Sync World State
+        if (initial.weather) useGameStore.setState({ weather: initial.weather });
+        if (initial.tension !== undefined) useGameStore.setState({ tension: initial.tension });
+        if (initial.chaos_numbers) useGameStore.setState({ chaosNumbers: initial.chaos_numbers });
+        if (initial.pacing) useGameStore.setState({ pacingProgress: initial.pacing });
+
+        // 3. Add Arrival Narration
         addChatMessage({
           sender: 'AI_DIRECTOR',
-          text: campData.narration || "You have arrived. The journey begins."
+          text: campData.narration || initial.ai_narration || "You have arrived. The journey begins."
         });
       }
 
@@ -154,8 +160,16 @@ export default function App() {
         <div className="flex flex-col gap-4">
           <button onClick={() => setScreen('WORLD_BUILDER')} className="w-72 px-6 py-4 border border-zinc-700 text-zinc-300 hover:border-amber-500 hover:text-amber-500 uppercase tracking-widest transition-all text-sm font-bold">Access God Engine</button>
           <button onClick={() => setScreen('CHARACTER_BUILDER')} className="w-72 px-6 py-4 border border-zinc-700 text-yellow-500 hover:border-yellow-500 hover:bg-yellow-900/10 uppercase tracking-widest transition-all text-sm font-bold">Soulweave Origin</button>
-          <button onClick={() => setScreen('OPTIONS')} className="w-72 px-6 py-4 border border-zinc-800 text-zinc-500 hover:border-zinc-400 hover:text-zinc-300 uppercase tracking-widest transition-all text-sm font-bold">Options</button>
-          <button onClick={() => setScreen('CAMPAIGN_SETUP')} disabled={isStarting} className="w-72 px-6 py-4 border border-red-700 bg-red-900/20 text-red-400 hover:bg-red-900/50 hover:text-red-300 uppercase tracking-widest transition-all font-bold shadow-[0_0_15px_rgba(220,38,38,0.2)] text-sm disabled:opacity-50">{isStarting ? 'Initializing...' : 'Enter Campaign'}</button>
+          <div className="h-px bg-zinc-800 w-full my-2" />
+          <button
+            onClick={() => handleEnterCampaign({})}
+            disabled={isStarting}
+            className="w-72 px-6 py-4 bg-white text-black hover:bg-yellow-500 uppercase tracking-[0.2em] transition-all font-black shadow-[0_0_20px_rgba(255,255,255,0.2)] text-sm disabled:opacity-50"
+          >
+            {isStarting ? 'MATERIALIZING...' : 'QUICK START (SKIP TO VTT)'}
+          </button>
+          <button onClick={() => setScreen('CAMPAIGN_SETUP')} disabled={isStarting} className="w-72 px-6 py-4 border border-red-700 bg-red-900/20 text-red-400 hover:bg-red-900/50 hover:text-red-300 uppercase tracking-widest transition-all font-bold text-sm disabled:opacity-50">Custom Campaign</button>
+          <button onClick={() => setScreen('OPTIONS')} className="w-72 px-4 py-2 border border-zinc-800 text-zinc-600 hover:text-zinc-400 uppercase tracking-widest transition-all text-[10px]">System Options</button>
         </div>
       </div>
     );

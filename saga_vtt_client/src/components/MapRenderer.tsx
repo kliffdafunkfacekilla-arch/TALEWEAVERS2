@@ -12,6 +12,7 @@ export const MapRenderer: React.FC = () => {
     const mapGraphicsRef = useRef<PIXI.Graphics | null>(null);
     const [texturesLoaded, setTexturesLoaded] = useState(false);
     const textureCache = useRef<Record<string, PIXI.Texture>>({});
+    const tileCache = useRef<Record<string, PIXI.Texture[]>>({});
 
     const vttTier = useGameStore((state) => state.vttTier);
     const currentHexId = useGameStore((state) => state.currentHexId);
@@ -117,62 +118,94 @@ export const MapRenderer: React.FC = () => {
             }
         };
 
-        if (vttTier === 4) {
-            // Tier 4: Node Exploration (Dense 96x96 Grid)
-            const worldState = useWorldStore.getState();
-            const gameState = useGameStore.getState();
-            const nodes = worldState.subGridNodes;
-            if (nodes.length === 0) return;
+        if (vttTier === 2) {
+            // Tier 2: Regional (20x20 Strategic Grid)
+            const grid = useWorldStore.getState().regionalGrid;
+            if (!grid) return;
+            const cellSize = 10;
+            grid.grid.forEach((row: string[], r: number) => {
+                row.forEach((type: string, c: number) => {
+                    const hash = (r * 31 + c) % 3;
+                    let texture = tileCache.current.grass?.[hash];
 
-            const nodeScale = 4; // Zoom factor for local nodes
+                    const isBuilding = ['SETTLEMENT', 'HOUSE', 'SHOP', 'TAVERN', 'OUTPOST'].includes(type);
+                    if (isBuilding) texture = tileCache.current.dirt?.[0];
 
-            nodes.forEach((node: any) => {
-                let color = 0x4ade80; // Default grass
-                if (node.biome === 'OCEAN') color = 0x0284c7;
-                if (node.biome === 'MOUNTAIN') color = 0x78716c;
-                if (node.biome === 'LOCAL_RIVER') color = 0x0ea5e9;
-
-                // Highlight Structures
-                if (node.settlement === 'STRATEGIC_DEFENSE') color = 0xef4444;
-                if (node.settlement === 'SETTLEMENT_HUB') color = 0xf59e0b;
-                if (node.settlement === 'TRADE_ROUTE') color = 0xd97706;
-
-                const isCurrent = node.id.toString() === gameState.currentNodeId;
-                if (isCurrent) {
-                    mapGraphics.stroke({ width: 2, color: 0xffffff, alpha: 1 });
-                } else {
-                    mapGraphics.stroke({ width: 0, color: 0x000000, alpha: 0 });
-                }
-
-                mapGraphics.fill(color);
-
-                // --- VISIBILITY & FOG OF WAR ---
-                let alpha = 1.0;
-                if (!node.is_explored) {
-                    alpha = 0.05;
-                } else if (!node.is_visible) {
-                    alpha = 0.4;
-                }
-                mapGraphics.alpha = alpha;
-
-                // --- ENTITIES & DETECTION RINGS ---
-                if (node.has_entity) {
-                    const nx = node.x * nodeScale;
-                    const ny = node.y * nodeScale;
-                    mapGraphics.fill({ color: node.is_alerted ? 0xff0000 : 0x00ff00, alpha: 0.8 });
-                    mapGraphics.circle(nx, ny, 5);
+                    if (texture && texturesLoaded) {
+                        mapGraphics.fill({ texture, color: 0xFFFFFF });
+                    } else {
+                        mapGraphics.fill(isBuilding ? 0xf59e0b : 0x4ade80);
+                    }
+                    mapGraphics.rect(c * cellSize, r * cellSize, cellSize, cellSize);
                     mapGraphics.fill();
+                });
+            });
+            return;
+        }
 
-                    if (node.is_visible) {
-                        mapGraphics.stroke({ width: 2, color: node.is_alerted ? 0xff3333 : 0xffffff, alpha: 0.4 });
-                        mapGraphics.circle(nx, ny, node.detection_radius * nodeScale);
+        if (vttTier === 3) {
+            // Tier 3: Local (100x100 Exploration Grid)
+            const grid = useWorldStore.getState().localGrid;
+            if (!grid) return;
+            const cellSize = 5;
+            grid.grid.forEach((row: string[], r: number) => {
+                row.forEach((type: string, c: number) => {
+                    const hash = (r * 101 + c) % 3;
+                    let texture = tileCache.current.grass?.[hash];
+                    if (type === 'THICKET') texture = tileCache.current.swamp?.[hash % 2];
+
+                    if (texture && texturesLoaded) {
+                        mapGraphics.fill({ texture, color: 0xFFFFFF });
+                    } else {
+                        mapGraphics.fill(type === 'THICKET' ? 0x166534 : 0x22c55e);
+                    }
+                    mapGraphics.rect(c * cellSize, r * cellSize, cellSize, cellSize);
+                    mapGraphics.fill();
+                });
+            });
+            return;
+        }
+
+        if (vttTier === 4) {
+            // Tier 4: Player/Tactical (100x100 5ft-scale Grid)
+            const encounter = useWorldStore.getState().playerGrid;
+            if (!encounter || !encounter.grid) return;
+            const cellSize = 5;
+
+            // Draw Grid Cells (Floors, Walls, Debris)
+            encounter.grid.forEach((row: string[], r: number) => {
+                row.forEach((type: string, c: number) => {
+                    const hash = (r * 101 + c) % 3;
+                    if (type === 'WALL') {
+                        mapGraphics.fill(0x44403c); // Dark stone
+                    } else if (type === 'FLOOR') {
+                        mapGraphics.fill({ texture: tileCache.current.dirt?.[0], color: 0x92400e }); // Golden floor
+                    } else if (type === 'DEBRIS') {
+                        mapGraphics.fill(0x78716c);
+                    } else {
+                        // Ambient Outdoor tile
+                        let texture = tileCache.current.grass?.[hash];
+                        mapGraphics.fill({ texture, color: 0xFFFFFF });
+                    }
+                    mapGraphics.rect(c * cellSize, r * cellSize, cellSize, cellSize);
+                    mapGraphics.fill();
+                });
+            });
+
+            // Draw Tokens (Player, NPCs)
+            if (encounter.tokens) {
+                encounter.tokens.forEach((token: any) => {
+                    mapGraphics.fill(token.isPlayer ? 0x3b82f6 : 0xf59e0b);
+                    mapGraphics.circle(token.x * cellSize + cellSize / 2, token.y * cellSize + cellSize / 2, cellSize * 0.8);
+                    mapGraphics.fill();
+                    // Status text if relevant
+                    if (token.status === "traveling") {
+                        mapGraphics.stroke({ width: 0.5, color: 0xffffff });
+                        mapGraphics.circle(token.x * cellSize + cellSize / 2, token.y * cellSize + cellSize / 2, cellSize);
                         mapGraphics.stroke();
                     }
-                }
-
-                mapGraphics.rect(node.x * nodeScale, node.y * nodeScale, nodeScale, nodeScale);
-                mapGraphics.fill();
-            });
+                });
+            }
             return;
         }
 
@@ -222,10 +255,31 @@ export const MapRenderer: React.FC = () => {
             });
         }
 
+        // --- TRAVEL PATH RENDERING ---
+        const activePath = useWorldStore.getState().activePath;
+        if (activePath && activePath.length > 1) {
+            let cellSize = 5;
+            if (vttTier === 2) cellSize = 10;
+
+            mapGraphics.stroke({ width: 3, color: 0x3b82f6, alpha: 0.6 });
+            mapGraphics.moveTo(activePath[0][0] * cellSize + cellSize / 2, activePath[0][1] * cellSize + cellSize / 2);
+            for (let i = 1; i < activePath.length; i++) {
+                mapGraphics.lineTo(activePath[i][0] * cellSize + cellSize / 2, activePath[i][1] * cellSize + cellSize / 2);
+            }
+            mapGraphics.stroke();
+
+            // Draw Destination Glow
+            const dest = activePath[activePath.length - 1];
+            mapGraphics.fill({ color: 0x3b82f6, alpha: 0.3 });
+            mapGraphics.circle(dest[0] * cellSize + cellSize / 2, dest[1] * cellSize + cellSize / 2, cellSize * 2);
+            mapGraphics.fill();
+        }
+
         // Draw Player Marker
         if (currentHexId !== null) {
             const playerHex = loadedHexes.find((c: any) => c.id === currentHexId);
             if (playerHex) {
+                // ... (existing player marker logic)
                 mapGraphics.fill({ color: 0xf59e0b, alpha: 0.3 });
                 mapGraphics.circle(playerHex.x, playerHex.y, 8);
                 mapGraphics.fill();
@@ -249,12 +303,19 @@ export const MapRenderer: React.FC = () => {
             const app = new PIXI.Application();
 
             try {
-                // Load Tier 2 Textures
+                // Load Tier 2 Hex Textures
                 const forest = await PIXI.Assets.load('/assets/forest_hex.png');
                 const mountain = await PIXI.Assets.load('/assets/mountain_hex.png');
                 const desert = await PIXI.Assets.load('/assets/desert_hex.png');
-
                 textureCache.current = { forest, mountain, desert };
+
+                // Load Tile Textures for Local/Tactical
+                const grass = await Promise.all([0, 1, 2].map(i => PIXI.Assets.load(`/tiles/grass_${i}_new.png`)));
+                const sand = await Promise.all([1, 2, 3].map(i => PIXI.Assets.load(`/tiles/sand_${i}.png`)));
+                const swamp = await Promise.all([0, 1, 2].map(i => PIXI.Assets.load(`/tiles/swamp_${i}_new.png`)));
+                const dirt = await Promise.all([0, 1, 2].map(i => PIXI.Assets.load(`/tiles/dirt_${i}_new.png`)));
+                tileCache.current = { grass, sand, swamp, dirt };
+
                 setTexturesLoaded(true);
 
                 await app.init({
@@ -299,18 +360,34 @@ export const MapRenderer: React.FC = () => {
 
                 viewport.on('moved', () => draw());
                 viewport.on('zoomed', () => {
-                    const zoom = viewport.scale.x;
                     const state = useGameStore.getState();
+                    const worldStore = useWorldStore.getState();
+                    const zoom = viewport.scale.x;
+                    const setTier = state.setVttTier;
+                    const currentHexId = state.currentHexId;
 
-                    if (zoom < 0.15 && state.vttTier !== 1) {
-                        state.setVttTier(1);
-                        state.injectTierContext(1);
-                    } else if (zoom >= 0.15 && zoom < 1.5 && state.vttTier !== 2) {
-                        state.setVttTier(2);
-                        state.injectTierContext(2);
-                    } else if (zoom >= 1.5 && state.vttTier !== 4) {
-                        state.setVttTier(4);
-                        state.injectTierContext(4);
+                    if (state.vttTier === 1 && zoom > 2) {
+                        setTier(2);
+                        state.addChatMessage({ sender: 'SYSTEM', text: 'ZOOMING INTO REGIONAL MAP...' });
+                        worldStore.fetchRegionMap(currentHexId);
+                    } else if (state.vttTier === 2) {
+                        if (zoom < 1.5) {
+                            setTier(1);
+                        } else if (zoom > 8) {
+                            setTier(3);
+                            state.addChatMessage({ sender: 'SYSTEM', text: 'FOCUSING ON LOCAL SECTOR...' });
+                            worldStore.fetchLocalGrid(currentHexId, 10, 10);
+                        }
+                    } else if (state.vttTier === 3) {
+                        if (zoom < 5) {
+                            setTier(2);
+                        } else if (zoom > 15) {
+                            setTier(4);
+                            state.addChatMessage({ sender: 'SYSTEM', text: 'DROPPING INTO TACTICAL ENGAGEMENT...' });
+                            worldStore.fetchTacticalGrid(currentHexId, 50, 50);
+                        }
+                    } else if (state.vttTier === 4 && zoom < 8) {
+                        setTier(3);
                     }
                 });
 
@@ -322,31 +399,38 @@ export const MapRenderer: React.FC = () => {
                     const gameState = useGameStore.getState();
                     const worldState = useWorldStore.getState();
                     const v = viewportRef.current;
-                    if (!v || worldState.loadedHexes.length === 0) return;
                     const localPos = v.toLocal(e.global);
 
-                    if (gameState.vttTier === 4) {
-                        const localScale = 4;
-                        let minNodeDist = Infinity;
-                        let nearestNode: any = null;
-
-                        worldState.subGridNodes.forEach((node) => {
-                            const dx = (node.x * localScale) - localPos.x;
-                            const dy = (node.y * localScale) - localPos.y;
-                            const dist = dx * dx + dy * dy;
-                            if (dist < minNodeDist) {
-                                minNodeDist = dist;
-                                nearestNode = node;
-                            }
-                        });
-
-                        if (nearestNode) {
-                            gameState.moveNode(nearestNode.id.toString());
-                            gameState.addChatMessage({ sender: 'SYSTEM', text: `NODE SELECTED: ${nearestNode.biome} node. Investigating...` });
+                    if (gameState.vttTier === 2) {
+                        // Regional Pathfinding (20x20)
+                        const cellSize = 10;
+                        const rx = Math.floor(localPos.x / cellSize);
+                        const ry = Math.floor(localPos.y / cellSize);
+                        if (rx >= 0 && rx < 20 && ry >= 0 && ry < 20 && gameState.currentHexId) {
+                            worldState.planTravel("REGIONAL", gameState.currentHexId, [10, 10], [rx, ry]);
+                            gameState.addChatMessage({ sender: 'SYSTEM', text: `LOCAL DESTINATION: [${rx}, ${ry}]. Calculating travel time...` });
                         }
                         return;
                     }
 
+                    if (gameState.vttTier === 3) {
+                        // Local Pathfinding (100x100)
+                        const cellSize = 5;
+                        const lx = Math.floor(localPos.x / cellSize);
+                        const ly = Math.floor(localPos.y / cellSize);
+                        if (lx >= 0 && lx < 100 && ly >= 0 && ly < 100 && gameState.currentHexId) {
+                            worldState.planTravel("LOCAL", gameState.currentHexId, [50, 50], [lx, ly], 10, 10);
+                            gameState.addChatMessage({ sender: 'SYSTEM', text: `TACTICAL DESTINATION: [${lx}, ${ly}]. Estimating travel time...` });
+                        }
+                        return;
+                    }
+
+                    if (gameState.vttTier === 4) {
+                        // Player Level (Tactical) - Move individual tokens
+                        return;
+                    }
+
+                    // ... (existing world hex selection logic)
                     let minDist = Infinity;
                     let nearestId = -1;
 
@@ -362,10 +446,8 @@ export const MapRenderer: React.FC = () => {
                         const hex = worldState.loadedHexes[nearestId];
                         setSelectedHex(hex);
 
-                        if (gameState.vttTier === 2) {
-                            if (hex.id !== gameState.currentHexId) {
-                                gameState.addChatMessage({ sender: 'SYSTEM', text: `DESTINATION LOCKED: ${hex.settlement_name || 'Wilderness'} (Hex #${hex.id}). Order your party to Travel?` });
-                            }
+                        if (gameState.vttTier === 1) {
+                            gameState.addChatMessage({ sender: 'SYSTEM', text: `HEX SELECTED: ${hex.settlement_name || 'Untamed Lands'} (ID: ${hex.id})` });
                         }
                     }
                 };
@@ -413,8 +495,11 @@ export const MapRenderer: React.FC = () => {
     }, [currentHexId, fetchMapChunk, loadedHexes]);
 
     useEffect(() => {
-        if (vttTier === 4 && currentHexId !== null) {
-            useWorldStore.getState().fetchSubGrid(currentHexId);
+        const worldState = useWorldStore.getState();
+        if (currentHexId !== null) {
+            if (vttTier === 2) worldState.fetchRegionMap(currentHexId);
+            if (vttTier === 3) worldState.fetchLocalGrid(currentHexId, 10, 10); // Use campaign coords later
+            if (vttTier === 4) worldState.fetchTacticalGrid(currentHexId, 50, 50);
         }
     }, [vttTier, currentHexId]);
 

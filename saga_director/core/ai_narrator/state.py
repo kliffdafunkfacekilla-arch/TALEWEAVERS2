@@ -11,7 +11,15 @@ class GameState(TypedDict):
     focus_burned: int
     
     # 2. Context (Injected automatically)
-    current_location: str
+    current_location: str       # Hex ID
+    current_layer: int          # 1: World, 2: Regional, 3: Local, 4: Player
+    current_region_x: int
+    current_region_y: int
+    current_local_x: int
+    current_local_y: int
+    current_player_x: int
+    current_player_y: int
+    
     active_quests: List[Dict]
     player_vitals: Dict
     player_powers: List[Dict]

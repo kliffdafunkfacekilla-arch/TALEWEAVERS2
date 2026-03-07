@@ -8,6 +8,15 @@ export interface SpriteMetadata {
     h: number;
 }
 
+export interface CompositeLayer {
+    sheet_url: string;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    tint?: number;
+}
+
 export interface EncounterToken {
     id: string;
     name: string;
@@ -16,10 +25,15 @@ export interface EncounterToken {
     color: number;
     isPlayer: boolean;
     avatar_sprite?: SpriteMetadata;
+    composite_sprite?: {
+        layers: CompositeLayer[];
+    };
     radius?: number;
     direction?: number; // 0=N, 1=E, 2=S, 3=W
     is_prone?: boolean;
     engaged_with?: string[]; // IDs of tokens this token has clashed with this round
+    current_hp: number;
+    max_hp: number;
 }
 
 export interface ActiveEncounter {
@@ -67,13 +81,31 @@ export const useCombatStore = create<CombatState>((set) => ({
         return { encountersCleared: next };
     }),
 
-    moveToken: (id, newX, newY) => set((state) => {
-        if (!state.activeEncounter) return state;
-        const updatedTokens = state.activeEncounter.tokens.map(t =>
-            t.id === id ? { ...t, x: newX, y: newY } : t
-        );
-        return { activeEncounter: { ...state.activeEncounter, tokens: updatedTokens } };
-    }),
+    moveToken: async (id, newX, newY) => {
+        set((state) => {
+            if (!state.activeEncounter) return state;
+            const updatedTokens = state.activeEncounter.tokens.map(t =>
+                t.id === id ? { ...t, x: newX, y: newY } : t
+            );
+            return { activeEncounter: { ...state.activeEncounter, tokens: updatedTokens } };
+        });
+
+        // Sync to backend
+        const { useGameStore } = await import('./useGameStore');
+        const campaignId = useGameStore.getState().activeCampaignId;
+        if (campaignId) {
+            const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8050';
+            try {
+                await fetch(`${directorUrl}/api/encounter/move`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ campaign_id: campaignId, token_id: id, x: newX, y: newY })
+                });
+            } catch (err) {
+                console.error("Failed to sync move:", err);
+            }
+        }
+    },
 
     setTarget: (id) => set({ selectedTargetId: id }),
 

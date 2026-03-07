@@ -73,9 +73,9 @@ def calculate_skills(attributes: CoreAttributes, chosen_skills: Dict[str, Dict[s
             body_val = getattr(attributes, body_stat, 10)
             mind_val = getattr(attributes, mind_stat, 10)
 
-            # Auto-choose highest stat as Lead unless specified in UI later
-            lead_stat = body_stat if body_val >= mind_val else mind_stat
-            lead_preference = "Body" if body_val >= mind_val else "Mind"
+            # Use the user's provided lead preference from the character creation UI
+            lead_preference = skill_val_dict.get("lead", "Body")
+            lead_stat = body_stat if lead_preference.lower() == "body" else mind_stat
 
             if lead_stat in skill_stat_bonuses: 
                 skill_stat_bonuses[lead_stat] += 1

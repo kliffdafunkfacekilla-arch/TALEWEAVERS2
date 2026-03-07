@@ -16,7 +16,7 @@ import json
 import os
 import random
 import math
-from .chronos_clock import ChronosClock
+from chronos_clock import ChronosClock
 
 # ── File paths ─────────────────────────────────────────────────────────────
 MODULE_DIR     = os.path.dirname(os.path.abspath(__file__))
@@ -266,6 +266,7 @@ class ChronosEngine:
                 "unrest":            0,
                 "at_war_with":       [],
                 "trade_routes":      [],
+                "regional_structures": {}, # hex_id -> { "rx,ry": [buildings] }
             }
             self.state["factions"][faction_name]["resources"]["food"] = 200.0
 
@@ -384,6 +385,19 @@ class ChronosEngine:
             f["tier"] = next_tier
             tier_info = BUILDING_TIERS[next_tier]
             f["buildings"] = list(set(f.get("buildings", []) + tier_info["buildings"]))
+            
+            # Place new buildings in a Regional Space (20x20)
+            # Pick a hex they own
+            owned_hexes = [h for h in self.world_map.get("macro_map", []) if h.get("faction_owner") == name]
+            if owned_hexes:
+                target_hex = random.choice(owned_hexes)
+                hex_id = str(target_hex["id"])
+                rx, ry = random.randint(0, 19), random.randint(0, 19)
+                f_structs = f.setdefault("regional_structures", {})
+                hex_structs = f_structs.setdefault(hex_id, {})
+                coord_key = f"{rx},{ry}"
+                hex_structs.setdefault(coord_key, []).extend(tier_info["buildings"])
+                
             self.log_event("BUILD", f"{name} upgraded to Tier {next_tier}: {tier_info['name']} — built {', '.join(tier_info['buildings'])}.", faction=name)
 
         # Also try to build defensive structures if stone/iron available
@@ -644,6 +658,10 @@ class ChronosEngine:
         month   = date.get("month", "Unknown")
         season  = date.get("season", "Spring")
         hexes   = self.world_map.get("macro_map", [])
+        
+        # Helper to get a random Regional coord for a hex
+        def get_rand_rxry():
+            return random.randint(0, 19), random.randint(0, 19)
 
         # ── 1. Trade caravans ─────────────────────────────────────────────
         # Each active trade route from _simulate_trade generates a caravan NPC
@@ -662,15 +680,8 @@ class ChronosEngine:
                     continue
                 processed_pairs.add(pair_key)
 
-                # Build caravan event with carrier-based rumour linkage
-                eid        = next_id()
-                goods      = [r for r in ["food", "iron", "wood", "stone", "gold", "dragonstone"]
-                               if f_state.get("resources", {}).get(r, 0) > 50][:3]
-                npc_name   = f"Merchant of {f_name}"
-                depart_day = max(1, (tick // 30) * 30)  # Started this month
-                travel_days = random.randint(10, 28)
-                arrive_day  = depart_day + travel_days
-
+                # 4-Layer Hierarchy
+                origin_hex_ids = [h["id"] for h in hexes if h.get("faction_owner") == f_name]
                 caravan = {
                     "id":           eid,
                     "type":         "TRADE_CARAVAN",
@@ -684,6 +695,10 @@ class ChronosEngine:
                     "total_days":   travel_days,
                     "day_phase_active": ["MORNING", "AFTERNOON"],   # Travels by day
                     "home_tick":    arrive_day + 5,   # Back at origin 5 days after delivery
+                    # 4-Layer Hierarchy
+                    "hex":          f"hex_{random.choice(origin_hex_ids) if origin_hex_ids else '1'}",
+                    "rx":           random.randint(0, 19),
+                    "ry":           random.randint(0, 19),
                     # Carrier propagation
                     "known_by":    [f_name, other_name],
                     "carrier_npcs": [],
@@ -710,6 +725,10 @@ class ChronosEngine:
                 "day_phase_active": ["DAWN", "MORNING", "AFTERNOON", "EVENING"],
                 "night_rest_location": "faction_headquarters",
                 "military_strength":  f_state.get("military_strength", 30),
+                # 4-Layer Hierarchy
+                "hex":          f"hex_{random.choice([h['id'] for h in hexes if h.get('faction_owner') == f_name]) if any(h.get('faction_owner') == f_name for h in hexes) else '1'}",
+                "rx":           random.randint(0, 19),
+                "ry":           random.randint(0, 19),
                 # Carrier propagation
                 "known_by":    [f_name],
                 "carrier_npcs": [],

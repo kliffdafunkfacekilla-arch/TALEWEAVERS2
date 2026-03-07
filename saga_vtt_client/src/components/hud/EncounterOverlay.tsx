@@ -8,7 +8,10 @@ export const EncounterOverlay: React.FC = () => {
     const setActiveEncounter = useCombatStore((s) => s.setActiveEncounter);
     const sendAction = useGameStore((s) => s.sendAction);
 
-    if (!activeEncounter) return null;
+    if (!activeEncounter || !activeEncounter.data) {
+        console.warn("Active encounter or data block is missing.");
+        return null;
+    }
 
     const { data } = activeEncounter;
     const category = data.category || 'Encounter';

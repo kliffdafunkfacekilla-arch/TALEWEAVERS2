@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, JSON, DateTime
 from sqlalchemy.orm import declarative_base
 from datetime import datetime
+import uuid
 
 Base = declarative_base()
 
@@ -10,10 +11,22 @@ class CampaignState(Base):
     id = Column(String, primary_key=True, index=True) # E.g., "CAMP_001"
     player_id = Column(String)
     current_hex = Column(Integer, default=402)
+    current_layer = Column(Integer, default=1)
+    # Layer 2: Regional (20x20)
+    current_region_x = Column(Integer, default=10)
+    current_region_y = Column(Integer, default=10)
+    # Layer 3: Local (100x100)
+    current_local_x = Column(Integer, default=50)
+    current_local_y = Column(Integer, default=50)
+    # Layer 4: Player/Tactical (100x100)
+    current_player_x = Column(Integer, default=50)
+    current_player_y = Column(Integer, default=50)
+    
     day = Column(Integer, default=1)
     day_phase = Column(String, default="MORNING") # DAWN, MORNING, AFTERNOON, EVENING, NIGHT
     chaos_level = Column(Integer, default=1)
-    reputation = Column(JSON, default={}) # Faction attitude scores: {"Iron Caldera": 20, ...}
+    reputation = Column(JSON, default={})
+    hex_densities = Column(JSON, default={}) # e.g., {402: {"wolf": 0.8, "bandit": 0.2}}
     
     # World state
     tension = Column(Integer, default=0)

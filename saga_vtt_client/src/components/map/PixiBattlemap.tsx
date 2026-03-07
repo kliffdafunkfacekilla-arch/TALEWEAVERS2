@@ -167,14 +167,32 @@ export function PixiBattlemap() {
                 targetCenterY = centerY;
             }
 
-            // ── TOKEN VISUALS (Sprite or Disc) ──
+            // ── TOKEN VISUALS (Composite Layers or Stylized Disc) ──
             const tokenContainer = new Container();
             tokenGroup.addChild(tokenContainer);
 
-            if ((token as any).avatar_sprite) {
-                const meta = (token as any).avatar_sprite;
-                // Create a cropped texture for the sprite
-                const assetUrl = import.meta.env.VITE_SAGA_ASSET_FOUNDRY_URL || 'http://localhost:8010';
+            if (token.composite_sprite?.layers && token.composite_sprite.layers.length > 0) {
+                // Render Layers from bottom to top
+                const assetUrl = import.meta.env.VITE_SAGA_ASSET_FOUNDRY_URL || 'http://localhost:8021';
+                token.composite_sprite.layers.forEach((layer) => {
+                    Assets.load(`${assetUrl}${layer.sheet_url}`).then((tex: Texture) => {
+                        const spriteTex = new Texture({
+                            source: tex.source,
+                            frame: new Rectangle(layer.x, layer.y, layer.w, layer.h)
+                        });
+                        const sprite = new Sprite(spriteTex);
+                        sprite.anchor.set(0.5);
+                        sprite.x = TILE_SIZE / 2;
+                        sprite.y = TILE_SIZE / 2;
+                        sprite.width = TILE_SIZE * 0.9;
+                        sprite.height = TILE_SIZE * 0.9;
+                        if (layer.tint) sprite.tint = layer.tint;
+                        tokenContainer.addChild(sprite);
+                    });
+                });
+            } else if (token.avatar_sprite) {
+                const meta = token.avatar_sprite;
+                const assetUrl = import.meta.env.VITE_SAGA_ASSET_FOUNDRY_URL || 'http://localhost:8021';
                 Assets.load(`${assetUrl}${meta.sheet_url}`).then((tex: Texture) => {
                     const spriteTex = new Texture({
                         source: tex.source,
@@ -191,14 +209,12 @@ export function PixiBattlemap() {
             } else {
                 // Fallback to stylized disc
                 const circle = new Graphics();
-                const tokenColor = (token as any).color || (token as any).tint || 0x3B82F6;
+                const tokenColor = token.color || 0x3B82F6;
                 circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 3);
                 circle.fill(tokenColor);
-                circle.circle(TILE_SIZE / 2, TILE_SIZE / 2, TILE_SIZE / 3);
                 circle.stroke({ width: 2, color: 0x000000 });
                 tokenContainer.addChild(circle);
 
-                // Token initial letter
                 const label = new Text({
                     text: token.name.charAt(0),
                     style: new TextStyle({
@@ -338,7 +354,7 @@ export function PixiBattlemap() {
 
             // Load Texture Atlas
             try {
-                const sheet = await Assets.load('http://localhost:8012/public/../assets/atlas.json');
+                const sheet = await Assets.load('http://localhost:8021/assets/atlas.json');
                 if (!cancelled) setAtlas(sheet);
             } catch (e) {
                 console.error("Failed to load texture atlas:", e);

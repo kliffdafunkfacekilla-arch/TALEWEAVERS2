@@ -131,7 +131,7 @@ export interface ClientGameState {
 const INITIAL_STATE: Omit<ClientGameState,
     'sendAction' | 'executeAction' | 'addChatMessage' | 'selectToken' | 'toggleQuestComplete' | 'setUiLocked' | 'setScreen' | 'setCampaignId' | 'setPlayerHex' | 'setVttTier' | 'assignSurvivalJob' | 'setSurvivalResources' | 'setExplorationNodes' | 'moveNode' | 'injectTierContext' | 'setClientLoadout' | 'setCampaignSettings'
 > = {
-    vttTier: 2,
+    vttTier: 1, // Start at World Scale
     currentScreen: 'MAIN_MENU',
     activeCampaignId: null,
     currentHexId: 402,
@@ -205,7 +205,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
         };
 
         try {
-            const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8000';
+            const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8050';
             const res = await fetch(`${directorUrl}/api/campaign/action`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -302,7 +302,7 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
                 equipped_items: []
             };
 
-            const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8000';
+            const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8050';
             const res = await fetch(`${directorUrl}/api/player/action`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -338,10 +338,10 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     },
 
     injectTierContext: async (tier) => {
-        const tierNames = ["GLOBAL", "REGIONAL", "SURVIVAL", "EXPLORATION", "TACTICAL"];
-        const name = tierNames[tier - 1];
-        get().addChatMessage({ sender: 'AI_DIRECTOR', text: `[NARRATIVE SHIFT] Viewing world at ${name} scale...` });
-        const prompt = `The perspective shifts to ${name} scale. Describe the atmospheric transition.`;
+        const tierNames = ["WORLD", "REGIONAL", "LOCAL", "PLAYER"];
+        const name = tierNames[tier - 1] || "WORLD";
+        get().addChatMessage({ sender: 'AI_DIRECTOR', text: `[PROJECTION SHIFT] Scaling to ${name} level...` });
+        const prompt = `The perspective scales down to ${name} level. Describe the environmental focus shifting.`;
         get().sendAction(prompt, 0, "");
     },
 }));

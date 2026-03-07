@@ -93,7 +93,8 @@ async def calculate_character_sheet(request: CharacterBuildRequest):
             powers=compiled_powers,
             loadout=request.equipped_loadout,
             holding_fees=fees,
-            pip_bank=request.pip_bank
+            pip_bank=request.pip_bank,
+            composite_sprite=request.composite_sprite
         )
     except Exception as e:
         import traceback

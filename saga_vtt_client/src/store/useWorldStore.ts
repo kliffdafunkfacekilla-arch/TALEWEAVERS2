@@ -53,6 +53,16 @@ interface WorldState {
     viewLens: 'PHYSICAL' | 'POLITICAL' | 'RESOURCE' | 'THREAT';
     selectedHex: HexCell | null;
     subGridNodes: LocalNode[];
+
+    // Layer 2: Regional (20x20)
+    regionalGrid: any | null;
+    // Layer 3: Local (100x100)
+    localGrid: any | null;
+    // Layer 4: Player/Tactical (100x100)
+    playerGrid: any | null;
+    activePath: [number, number][] | null;
+    estimatedTravelTime: string | null;
+
     editMode: string;
     activeBrush: string | number;
     brushSize: number;
@@ -71,6 +81,12 @@ interface WorldState {
     setBrushSize: (size: number) => void;
     setBrushStrength: (strength: number) => void;
     paintHex: (hexIndex: number) => void;
+
+    // 4-Layer Hierarchy Fetchers
+    fetchRegionMap: (hexId: number) => Promise<void>;
+    fetchLocalGrid: (hexId: number, rx: number, ry: number) => Promise<void>;
+    fetchTacticalGrid: (hexId: number, lx: number, ly: number) => Promise<void>;
+    planTravel: (layer: string, hexId: number, start: [number, number], end: [number, number], rx?: number, ry?: number) => Promise<void>;
 }
 
 export const useWorldStore = create<WorldState>((set) => ({
@@ -79,6 +95,11 @@ export const useWorldStore = create<WorldState>((set) => ({
     viewLens: 'PHYSICAL',
     selectedHex: null,
     subGridNodes: [],
+    regionalGrid: null,
+    localGrid: null,
+    playerGrid: null,
+    activePath: null,
+    estimatedTravelTime: null,
     editMode: 'NONE',
     activeBrush: '',
     brushSize: 1,
@@ -136,16 +157,72 @@ export const useWorldStore = create<WorldState>((set) => ({
             set({ subGridNodes: [] });
         }
     },
-
     fetchHistory: async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_SAGA_ARCHITECT_URL || "http://localhost:8002"}/api/world/history`);
+            const res = await fetch(`${import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8000"}/api/world/history`);
             if (!res.ok) throw new Error("History fetch failed");
             const data = await res.json();
-            set({ worldHistory: data.history || [] });
+            set({ worldHistory: data });
         } catch (err) {
             console.error("[WORLD_STORE] History fetch error:", err);
             set({ worldHistory: [] });
+        }
+    },
+
+    fetchRegionMap: async (hexId) => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8000"}/api/world/region/${hexId}`);
+            if (!res.ok) throw new Error("Region fetch failed");
+            const data = await res.json();
+            set({ regionalGrid: data });
+        } catch (err) {
+            console.error("[WORLD_STORE] Region fetch error:", err);
+        }
+    },
+
+    fetchLocalGrid: async (hexId, rx, ry) => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8000"}/api/world/local/${hexId}?rx=${rx}&ry=${ry}`);
+            if (!res.ok) throw new Error("Local fetch failed");
+            const data = await res.json();
+            set({ localGrid: data });
+        } catch (err) {
+            console.error("[WORLD_STORE] Local fetch error:", err);
+        }
+    },
+
+    planTravel: async (layer, hexId, start, end, rx, ry) => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8000"}/api/travel/plan`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ layer, hex_id: hexId, start, end, rx, ry })
+            });
+            if (!res.ok) throw new Error("Path planning failed");
+            const data = await res.json();
+
+            let timeStr = "";
+            if (data.total_time_days) timeStr = `${data.total_time_days} Days`;
+            if (data.total_time_minutes) {
+                const h = Math.floor(data.total_time_minutes / 60);
+                const m = data.total_time_minutes % 60;
+                timeStr = h > 0 ? `${h}h ${m}m` : `${m}m`;
+            }
+
+            set({ activePath: data.path, estimatedTravelTime: timeStr });
+        } catch (err) {
+            console.error("[WORLD_STORE] Plan travel error:", err);
+        }
+    },
+
+    fetchTacticalGrid: async (hexId, lx, ly) => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8000"}/api/world/tactical/${hexId}?lx=${lx}&ly=${ly}`);
+            if (!res.ok) throw new Error("Tactical fetch failed");
+            const data = await res.json();
+            set({ playerGrid: data });
+        } catch (err) {
+            console.error("[WORLD_STORE] Tactical fetch error:", err);
         }
     },
 

@@ -7,6 +7,17 @@ from pydantic import BaseModel, Field
 from typing import List, Dict, Optional
 from saga_common.models.core import CoreAttributes, DerivedVitals, PipBank
 
+class CompositeLayer(BaseModel):
+    sheet_url: str
+    x: int
+    y: int
+    w: int
+    h: int
+    tint: Optional[int] = None
+
+class CompositeSprite(BaseModel):
+    layers: List[CompositeLayer]
+
 class BiologicalEvolutions(BaseModel):
     species_base: str    # e.g., "PLANT", "AVIAN"
     size_slot: str = "Standard"
@@ -23,10 +34,11 @@ class CharacterBuildRequest(BaseModel):
     base_attributes: Optional[CoreAttributes] = None
     evolutions: BiologicalEvolutions
     background_training: str = "None"
-    tactical_skills: Dict[str, Dict[str, int]] = {} # e.g. {"Aggressive": {"rank": 1, "pips": 0}}
+    tactical_skills: Dict[str, Dict[str, str]] = {} # e.g. {"Aggressive": {"lead": "Body"}}
     selected_powers: List[Dict[str, str]] = [] # Expecting full power obj or strings
     equipped_loadout: Dict[str, str] = {}
     pip_bank: PipBank = Field(default_factory=PipBank)
+    composite_sprite: Optional[CompositeSprite] = None
 
 class CompiledSkill(BaseModel):
     rank: int
@@ -44,3 +56,4 @@ class CompiledCharacterSheet(BaseModel):
     loadout: Dict[str, str] = {}
     holding_fees: Dict[str, int] = {"stamina": 0, "focus": 0}
     pip_bank: PipBank = Field(default_factory=PipBank)
+    composite_sprite: Optional[CompositeSprite] = None

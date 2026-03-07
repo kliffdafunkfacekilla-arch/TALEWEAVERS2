@@ -6,17 +6,17 @@ import json
 class SAGA_API_Gateway:
     def __init__(self):
         self.microservices = {
-            "char_engine": os.getenv("CHAR_ENGINE_URL", "http://localhost:8003"),
-            "item_foundry": os.getenv("ITEM_FOUNDRY_URL", "http://localhost:8005"),
-            "clash_engine": os.getenv("CLASH_ENGINE_URL", "http://localhost:8007"),
-            "skill_engine": os.getenv("SKILL_ENGINE_URL", "http://localhost:8006"),
-            "encounter_engine": os.getenv("ENCOUNTER_ENGINE_URL", "http://localhost:8004"),
-            "world_architect": os.getenv("WORLD_ARCHITECT_URL", "http://localhost:8002"),
-            "campaign_weaver": os.getenv("CAMPAIGN_WEAVER_URL", "http://localhost:8010"),
-            "dmag_engine": os.getenv("DMAG_ENGINE_URL", "http://localhost:8008"),
-            "asset_foundry": os.getenv("ASSET_FOUNDRY_URL", "http://localhost:8012"),
-            "chronos": os.getenv("CHRONOS_URL", "http://localhost:9000"),
-            "lore": os.getenv("LORE_MODULE_URL", "http://localhost:8001"),
+            "char_engine": os.getenv("CHAR_ENGINE_URL", "http://localhost:8014"),
+            "item_foundry": os.getenv("ITEM_FOUNDRY_URL", "http://localhost:8016"),
+            "clash_engine": os.getenv("CLASH_ENGINE_URL", "http://localhost:8018"),
+            "skill_engine": os.getenv("SKILL_ENGINE_URL", "http://localhost:8017"),
+            "encounter_engine": os.getenv("ENCOUNTER_ENGINE_URL", "http://localhost:8015"),
+            "world_architect": os.getenv("WORLD_ARCHITECT_URL", "http://localhost:8013"),
+            "campaign_weaver": os.getenv("CAMPAIGN_WEAVER_URL", "http://localhost:8020"),
+            "dmag_engine": os.getenv("DMAG_ENGINE_URL", "http://localhost:8019"),
+            "asset_foundry": os.getenv("ASSET_FOUNDRY_URL", "http://localhost:8021"),
+            "chronos": os.getenv("CHRONOS_URL", "http://localhost:9002"),
+            "lore": os.getenv("LORE_VAULT_URL", "http://localhost:8011"),
         }
 
     async def get_character(self, player_id: str):

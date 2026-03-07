@@ -133,7 +133,9 @@ class ContextAssembler:
                             "type": ev.get("npc_type"),
                             "faction": ev.get("faction"),
                             "attitude": attitudes.get(ev.get("faction"), "NEUTRAL"),
-                            "description": f"Located at {ev_hex}"
+                            "description": f"Located at {ev_hex}",
+                            "rx": ev.get("rx", 10),
+                            "ry": ev.get("ry", 10)
                         })
                 except: pass
             

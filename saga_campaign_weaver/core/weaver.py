@@ -4,7 +4,7 @@ import re
 import httpx
 from typing import List, Optional
 from core.schemas import CampaignRoadmap, QuestNode, CampaignFramework, StoryArcStage
-from langchain_community.llms import Ollama
+from langchain_ollama import OllamaLLM as Ollama
 from langchain_core.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
 
@@ -141,4 +141,29 @@ async def generate_local_sidequest(hex_context: dict, context_packet: Optional[d
             trigger_location=str(hex_context.get('hex_id','Unknown')),
             encounter_type="HAZARD",
             success_state_change="REVEAL_LOOT"
+        )
+
+async def generate_tactical_errand(location: str) -> QuestNode:
+    """Tier 4: Generates a short tactical errand (e.g., fetch, scout, clear)."""
+    llm = Ollama(model="llama3")
+    
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "You are the T.A.L.E.W.E.A.V.E.R. Campaign Weaver (Tier: ERRAND). "
+                   "Generate a short tactical objective for a building or small area. "
+                   "Output ONLY raw JSON matching the QuestNode schema."),
+        ("user", "Location: {location}")
+    ])
+    
+    try:
+        response = await (prompt | llm).ainvoke({"location": location})
+        parsed = parse_json_garbage(response)
+        if "step_number" not in parsed: parsed["step_number"] = 1
+        return QuestNode(**parsed)
+    except:
+        return QuestNode(
+            step_number=1,
+            narrative_objective=f"Secure the perimeter at {location}.",
+            trigger_location=location,
+            encounter_type="COMBAT",
+            success_state_change="COMPLETE"
         )

@@ -22,12 +22,29 @@ $Services = @(
     "dmag_engine", "campaign_weaver", "asset_foundry", "chronos", "vtt"
 )
 
+$registryPath = Join-Path $PSScriptRoot "saga_registry.json"
 $Registry = @{}
+$ExistingRegistry = @{}
+
+if (Test-Path $registryPath) {
+    Write-Host "[+] Found existing saga_registry.json. Respecting manual overrides..." -ForegroundColor Green
+    $ExistingRegistry = Get-Content $registryPath | ConvertFrom-Json
+}
+
 $CurrentPort = 8000
 $UsedPorts = @()
 
 foreach ($service in $Services) {
-    # Special handling for Chronos (9000s) and VTT (5173 range)
+    # 1. Check if port is already defined in existing registry (works for PSCustomObject)
+    if ($null -ne $ExistingRegistry.$service) {
+        $SearchPort = $ExistingRegistry.$service
+        Write-Host "    -> ${service}: Using manual port $SearchPort" -ForegroundColor Gray
+        $Registry[$service] = $SearchPort
+        $UsedPorts += $SearchPort
+        continue
+    }
+
+    # 2. Otherwise, discover a new port
     if ($service -eq "chronos") { $SearchPort = 9000 }
     elseif ($service -eq "vtt") { $SearchPort = 5173 }
     else { $SearchPort = $CurrentPort }
@@ -38,7 +55,6 @@ foreach ($service in $Services) {
             $Registry[$service] = $SearchPort
             $UsedPorts += $SearchPort
             $found = $true
-            # Increment current port for standard services
             if ($SearchPort -lt 9000 -and $SearchPort -ne 5173) { $CurrentPort = $SearchPort + 1 }
         }
         else {

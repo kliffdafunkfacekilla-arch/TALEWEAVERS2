@@ -90,20 +90,15 @@ export const CharacterSheet: React.FC = () => {
         setSelectedSkills({});
     }, [species]);
 
-    const toggleSkill = (triad: string, skill: string) => {
+    const toggleSkill = (triad: string, skill: string, lead: string) => {
         setSelectedSkills(prev => {
             const current = prev[triad];
-            if (current?.skill === skill) {
-                if (current.lead === "Body") {
-                    return { ...prev, [triad]: { ...current, lead: "Mind" } };
-                } else {
-                    const next = { ...prev };
-                    delete next[triad];
-                    return next;
-                }
-            } else {
-                return { ...prev, [triad]: { skill, lead: "Body" } };
+            if (current?.skill === skill && current.lead === lead) {
+                const next = { ...prev };
+                delete next[triad];
+                return next;
             }
+            return { ...prev, [triad]: { skill, lead } };
         });
     };
 
@@ -143,10 +138,45 @@ export const CharacterSheet: React.FC = () => {
 
         setIsCalculating(true);
         try {
-            const payloadSkillMap: { [key: string]: string } = {};
-            Object.values(selectedSkills).forEach(s => payloadSkillMap[s.skill] = s.lead);
+            const charEngineUrl = import.meta.env.VITE_SAGA_CHAR_ENGINE_URL || 'http://localhost:8014';
+            const payloadSkillMap: { [key: string]: { lead: string } } = {};
+            // Correctly flatten triad groups into the flat backend schema
+            Object.values(selectedSkills).forEach(s => {
+                if (s && s.skill && s.lead) {
+                    payloadSkillMap[s.skill] = { lead: s.lead };
+                }
+            });
 
-            const charEngineUrl = import.meta.env.VITE_SAGA_CHAR_ENGINE_URL || 'http://localhost:8003';
+            const layers = [
+                {
+                    sheet_url: "/assets/sprites/zx22mammal.png",
+                    x: currentSprite.x,
+                    y: currentSprite.y,
+                    w: 32,
+                    h: 32
+                }
+            ];
+
+            // Add mutation layers (simulated offsets for "wow" effect)
+            if (evolutions.head_slot !== 'Standard') {
+                layers.push({
+                    sheet_url: "/assets/sprites/zx22mammal.png",
+                    x: currentSprite.x + 32,
+                    y: currentSprite.y,
+                    w: 32,
+                    h: 32
+                });
+            }
+            if (evolutions.body_slot !== 'Standard') {
+                layers.push({
+                    sheet_url: "/assets/sprites/zx22mammal.png",
+                    x: currentSprite.x,
+                    y: currentSprite.y + 32,
+                    w: 32,
+                    h: 32
+                });
+            }
+
             const response = await fetch(`${charEngineUrl}/api/rules/character/calculate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -157,19 +187,27 @@ export const CharacterSheet: React.FC = () => {
                     tactical_skills: payloadSkillMap,
                     selected_powers: selectedSpells.map(s => ({ name: s })),
                     equipped_loadout: { armor: "None", weapon: "None" },
-                    avatar_sprite: {
-                        sheet_url: "/assets/sprites/zx22mammal.png",
-                        x: currentSprite.x,
-                        y: currentSprite.y,
-                        w: 32,
-                        h: 32
-                    }
+                    composite_sprite: { layers }
                 })
             });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Character Engine Error:", errorData);
+                alert(`Character Engine calculation failed: ${JSON.stringify(errorData.detail || "Unknown Error")}`);
+                setIsCalculating(false);
+                return;
+            }
+
             const data = await response.json();
-            setCompiledData(data);
+            if (data && typeof data === 'object') {
+                setCompiledData(data);
+            } else {
+                throw new Error("Invalid data received from Character Engine");
+            }
         } catch (error) {
             console.error("Failed to compile character:", error);
+            alert("A critical error occurred while weaving your soul strands. Please check your configuration.");
         }
         setIsCalculating(false);
     };
@@ -187,15 +225,21 @@ export const CharacterSheet: React.FC = () => {
                 </div>
 
                 {/* BASIC INFO */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="text-[10px] text-zinc-500 uppercase">True Name / Identity</label>
-                        <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-black border border-zinc-700 p-2 text-white outline-none focus:border-yellow-500 transition-colors" />
+                <div className="flex flex-col gap-4 bg-black/40 p-4 border border-zinc-800 shadow-lg">
+                    <div className="flex flex-col gap-1">
+                        <label className="text-[10px] text-zinc-500 uppercase font-black tracking-widest">Aetheric Identity (Name)</label>
+                        <input
+                            type="text"
+                            placeholder="Enter Name..."
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                            className="w-full bg-zinc-950 border border-zinc-800 p-3 text-white outline-none focus:border-yellow-600 transition-all font-bold placeholder:text-zinc-800"
+                        />
                     </div>
-                    <div>
-                        <label className="text-[10px] text-zinc-500 uppercase">Species Base</label>
+                    <div className="flex flex-col gap-1">
+                        <label className="text-[10px] text-zinc-500 uppercase font-black tracking-widest">Species Base</label>
                         <div className="flex gap-2">
-                            <select value={species} onChange={e => setSpecies(e.target.value)} className="flex-grow bg-black border border-zinc-700 p-2 text-white outline-none focus:border-yellow-500">
+                            <select value={species} onChange={e => setSpecies(e.target.value)} className="flex-grow bg-zinc-950 border border-zinc-800 p-3 text-white outline-none focus:border-yellow-600 font-bold">
                                 <option value="PLANT">Plant</option>
                                 <option value="AVIAN">Avian</option>
                                 <option value="REPTILE">Reptile</option>
@@ -203,7 +247,7 @@ export const CharacterSheet: React.FC = () => {
                                 <option value="MAMMAL">Mammal</option>
                                 <option value="AQUATIC">Aquatic</option>
                             </select>
-                            <div className="w-10 h-10 border border-zinc-700 bg-zinc-950 flex items-center justify-center overflow-hidden">
+                            <div className="w-12 h-12 border border-zinc-800 bg-black flex items-center justify-center overflow-hidden shadow-inner">
                                 <div
                                     style={{
                                         width: '32px',
@@ -220,7 +264,7 @@ export const CharacterSheet: React.FC = () => {
                 </div>
 
                 {/* DYNAMIC ATTRIBUTE PREVIEW */}
-                <div className="bg-black p-4 border border-zinc-800 shadow-xl">
+                < div className="bg-black p-4 border border-zinc-800 shadow-xl" >
                     <h2 className="text-yellow-500 font-bold uppercase mb-4 text-xs tracking-widest border-l-2 border-yellow-600 pl-2">
                         Innate Soul Attributes
                     </h2>
@@ -232,10 +276,10 @@ export const CharacterSheet: React.FC = () => {
                             </div>
                         ))}
                     </div>
-                </div>
+                </div >
 
                 {/* BIOLOGICAL EVOLUTIONS */}
-                <div className="bg-black p-4 border border-zinc-800">
+                < div className="bg-black p-4 border border-zinc-800" >
                     <h2 className="text-yellow-500 font-bold uppercase mb-4 text-xs tracking-widest border-l-2 border-yellow-600 pl-2">
                         8-Slot Mutations
                     </h2>
@@ -264,10 +308,10 @@ export const CharacterSheet: React.FC = () => {
                             );
                         })}
                     </div>
-                </div>
+                </div >
 
                 {/* TACTICAL SKILLS */}
-                <div className="bg-black p-4 border border-zinc-800">
+                < div className="bg-black p-4 border border-zinc-800" >
                     <h2 className="text-yellow-500 font-bold uppercase mb-4 text-xs tracking-widest border-l-2 border-yellow-600 pl-2 flex justify-between">
                         <span>The 12 Learned Skills</span>
                         <div className="flex gap-3 text-[9px] uppercase">
@@ -284,22 +328,37 @@ export const CharacterSheet: React.FC = () => {
                                     <div className="flex flex-col gap-1">
                                         {skills.map((skillObj: any) => {
                                             const isSelected = selection?.skill === skillObj.skill;
+                                            const lead = isSelected ? selection.lead : null;
+
                                             return (
-                                                <div key={skillObj.skill} className="group relative">
-                                                    <button
-                                                        onClick={() => toggleSkill(group, skillObj.skill)}
-                                                        className={`w-full text-left text-[11px] p-1 px-2 flex justify-between items-center transition-colors border ${isSelected ? 'border-yellow-900 bg-yellow-950/30' : 'border-zinc-800 hover:border-zinc-600'}`}
-                                                    >
-                                                        <span className={isSelected ? 'text-yellow-500 font-bold' : 'text-zinc-400'}>{skillObj.skill}</span>
-                                                        {isSelected && (
-                                                            <span className={`text-[9px] px-1 rounded ${selection.lead === 'Body' ? 'bg-red-900 text-red-100' : 'bg-blue-900 text-blue-100'}`}>
-                                                                {selection.lead}
-                                                            </span>
-                                                        )}
-                                                    </button>
-                                                    <div className="hidden group-hover:block absolute z-20 left-full top-0 ml-2 p-2 bg-zinc-800 border border-zinc-600 w-64 shadow-2xl rounded">
+                                                <div key={skillObj.skill} className="group relative flex items-center gap-1">
+                                                    {/* Skill Name Display */}
+                                                    <div className={`flex-grow text-[11px] p-1 px-2 border ${isSelected ? 'border-yellow-900/50 bg-yellow-950/10 text-yellow-500 font-bold' : 'border-zinc-800 text-zinc-400'}`}>
+                                                        {skillObj.skill}
+                                                    </div>
+
+                                                    {/* Choice Toggles */}
+                                                    <div className="flex gap-1">
+                                                        <button
+                                                            onClick={() => toggleSkill(group, skillObj.skill, 'Body')}
+                                                            title="Focus on Body/Tactical"
+                                                            className={`w-6 h-6 flex items-center justify-center text-[10px] font-black rounded border transition-all ${lead === 'Body' ? 'bg-red-600 border-red-500 text-white shadow-[0_0_10px_rgba(220,38,38,0.4)]' : 'bg-zinc-900 border-zinc-700 text-zinc-500 hover:border-red-900'}`}
+                                                        >
+                                                            B
+                                                        </button>
+                                                        <button
+                                                            onClick={() => toggleSkill(group, skillObj.skill, 'Mind')}
+                                                            title="Focus on Mind/Potency"
+                                                            className={`w-6 h-6 flex items-center justify-center text-[10px] font-black rounded border transition-all ${lead === 'Mind' ? 'bg-blue-600 border-blue-500 text-white shadow-[0_0_10px_rgba(37,99,235,0.4)]' : 'bg-zinc-900 border-zinc-700 text-zinc-500 hover:border-blue-900'}`}
+                                                        >
+                                                            M
+                                                        </button>
+                                                    </div>
+
+                                                    {/* Hover Description Tooltip */}
+                                                    <div className="hidden group-hover:block absolute z-20 left-full top-0 ml-2 p-2 bg-zinc-900 border border-zinc-700 w-64 shadow-2xl rounded">
                                                         <p className="text-yellow-500 font-bold mb-1 text-[11px]">{skillObj.skill}</p>
-                                                        <p className="text-zinc-500 text-[9px] mb-2 italic border-b border-zinc-700 pb-1">Governing: {skillObj.stat_pair}</p>
+                                                        <p className="text-zinc-500 text-[9px] mb-2 italic border-b border-zinc-800 pb-1">Governing: {skillObj.stat_pair}</p>
                                                         <p className="text-zinc-400 text-[10px]">
                                                             <span className="text-yellow-600 font-bold">[Novice] </span>
                                                             {skillObj.progression?.["1"]?.passive?.effect || "Unknown"}
@@ -313,10 +372,10 @@ export const CharacterSheet: React.FC = () => {
                             );
                         })}
                     </div>
-                </div>
+                </div >
 
                 {/* SCHOOLS OF POWER */}
-                <div className="bg-black p-4 border border-zinc-800">
+                < div className="bg-black p-4 border border-zinc-800" >
                     <h2 className="text-purple-500 font-bold uppercase mb-4 text-xs tracking-widest border-l-2 border-purple-600 pl-2 flex justify-between">
                         <span>Schools of Power (Tier 1)</span>
                         <span className={`text-[10px] ${selectedSpells.length >= 2 ? 'text-zinc-300' : 'text-zinc-500'}`}>
@@ -360,7 +419,7 @@ export const CharacterSheet: React.FC = () => {
                             );
                         })}
                     </div>
-                </div>
+                </div >
 
                 <button
                     onClick={calculateCharacter} disabled={isCalculating}
@@ -368,117 +427,123 @@ export const CharacterSheet: React.FC = () => {
                 >
                     {isCalculating ? "Weaving Soul Strands..." : "Finalize Species Origin"}
                 </button>
-            </div>
+            </div >
 
             {/* RIGHT PANEL: COMPILED SHEET */}
-            <div className="w-1/2 overflow-y-auto p-8 bg-black custom-scrollbar shadow-inner">
-                {compiledData ? (
-                    <div className="space-y-8 animate-fade-in">
-                        <div className="border-b border-zinc-800 pb-4">
-                            <h2 className="text-4xl font-black text-white uppercase tracking-tighter italic">{compiledData.name}</h2>
-                            <div className="flex gap-4 mt-2">
-                                <span className="text-yellow-500 font-bold bg-yellow-950/20 px-2 py-0.5 border border-yellow-900 text-[10px]">{compiledData.evolutions?.species_base}</span>
-                                <span className="text-zinc-500 text-[10px] uppercase py-0.5">Soul Fork v2.4</span>
-                            </div>
-                        </div>
-
-                        {/* POOLS */}
-                        <div className="grid grid-cols-4 gap-2">
-                            {[
-                                { l: 'HP', v: compiledData.vitals?.max_hp, c: 'text-red-500', b: 'border-red-900/50' },
-                                { l: 'SP', v: compiledData.vitals?.max_stamina, c: 'text-orange-500', b: 'border-orange-900/50' },
-                                { l: 'CMP', v: compiledData.vitals?.max_composure, c: 'text-blue-500', b: 'border-blue-900/50' },
-                                { l: 'FOC', v: compiledData.vitals?.max_focus, c: 'text-purple-500', b: 'border-purple-900/50' }
-                            ].map(p => (
-                                <div key={p.l} className={`bg-zinc-950 border ${p.b} p-2 text-center shadow-lg`}>
-                                    <div className={`${p.c} text-[8px] font-black uppercase tracking-widest`}>{p.l}</div>
-                                    <div className="text-xl text-white font-black">{p.v}</div>
+            < div className="w-1/2 overflow-y-auto p-8 bg-black custom-scrollbar shadow-inner" >
+                {
+                    compiledData ? (
+                        <div className="space-y-8 animate-fade-in" >
+                            <div className="border-b border-zinc-800 pb-4">
+                                <h2 className="text-4xl font-black text-white uppercase tracking-tighter italic">{compiledData.name}</h2>
+                                <div className="flex gap-4 mt-2">
+                                    <span className="text-yellow-500 font-bold bg-yellow-950/20 px-2 py-0.5 border border-yellow-900 text-[10px]">{compiledData.evolutions?.species_base}</span>
+                                    <span className="text-zinc-500 text-[10px] uppercase py-0.5">Soul Fork v2.4</span>
                                 </div>
-                            ))}
-                        </div>
-
-                        {/* FINAL ATTRIBUTES */}
-                        <div className="bg-zinc-950 border border-zinc-800 p-4 shadow-xl">
-                            <h3 className="text-[10px] text-zinc-500 uppercase mb-3 text-center tracking-[0.3em]">Finalized Attributes</h3>
-                            <div className="grid grid-cols-6 gap-2">
-                                {Object.entries(compiledData.attributes || {}).map(([s, v]: [string, any]) => (
-                                    <div key={s} className="text-center group">
-                                        <div className="text-[8px] text-zinc-600 uppercase group-hover:text-yellow-600 transition-colors">{s.slice(0, 3)}</div>
-                                        <div className="text-lg text-white font-bold">{v}</div>
-                                    </div>
-                                ))}
                             </div>
-                        </div>
 
-                        {/* SKILLS */}
-                        <div>
-                            <h3 className="text-yellow-500 font-bold text-xs uppercase border-b border-zinc-800 pb-2 mb-4 tracking-widest">Learned Aptitudes</h3>
-                            <div className="grid grid-cols-3 gap-3">
-                                {Object.entries(compiledData.tactical_skills).map(([skill, data]: [string, any]) => (
-                                    <div key={skill} className="bg-zinc-900/40 p-2 border border-zinc-800 shadow-md">
-                                        <div className="text-white font-bold text-[10px] uppercase truncate">{skill}</div>
-                                        <div className="flex justify-between items-end mt-1">
-                                            <span className="text-[9px] text-zinc-500">Rank {data.rank}</span>
-                                            <div className="flex gap-0.5">
-                                                {[...Array(4)].map((_, i) => (
-                                                    <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < data.pips ? 'bg-yellow-500' : 'bg-zinc-800'}`}></div>
-                                                ))}
+                            {/* POOLS */}
+                            <div className="grid grid-cols-4 gap-2" >
+                                {
+                                    [
+                                        { l: 'HP', v: compiledData.vitals?.max_hp, c: 'text-red-500', b: 'border-red-900/50' },
+                                        { l: 'SP', v: compiledData.vitals?.max_stamina, c: 'text-orange-500', b: 'border-orange-900/50' },
+                                        { l: 'CMP', v: compiledData.vitals?.max_composure, c: 'text-blue-500', b: 'border-blue-900/50' },
+                                        { l: 'FOC', v: compiledData.vitals?.max_focus, c: 'text-purple-500', b: 'border-purple-900/50' }
+                                    ].map(p => (
+                                        <div key={p.l} className={`bg-zinc-950 border ${p.b} p-2 text-center shadow-lg`}>
+                                            <div className={`${p.c} text-[8px] font-black uppercase tracking-widest`}>{p.l}</div>
+                                            <div className="text-xl text-white font-black">{p.v}</div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+
+                            {/* FINAL ATTRIBUTES */}
+                            < div className="bg-zinc-950 border border-zinc-800 p-4 shadow-xl" >
+                                <h3 className="text-[10px] text-zinc-500 uppercase mb-3 text-center tracking-[0.3em]">Finalized Attributes</h3>
+                                <div className="grid grid-cols-6 gap-2">
+                                    {Object.entries(compiledData.attributes || {}).map(([s, v]: [string, any]) => (
+                                        <div key={s} className="text-center group">
+                                            <div className="text-[8px] text-zinc-600 uppercase group-hover:text-yellow-600 transition-colors">{s.slice(0, 3)}</div>
+                                            <div className="text-lg text-white font-bold">{v}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div >
+
+                            {/* SKILLS */}
+                            < div >
+                                <h3 className="text-yellow-500 font-bold text-xs uppercase border-b border-zinc-800 pb-2 mb-4 tracking-widest">Learned Aptitudes</h3>
+                                <div className="grid grid-cols-3 gap-3">
+                                    {Object.entries(compiledData.tactical_skills || {}).map(([skill, data]: [string, any]) => (
+                                        <div key={skill} className="bg-zinc-900/40 p-2 border border-zinc-800 shadow-md transition-all hover:bg-zinc-800/50">
+                                            <div className="text-white font-bold text-[10px] uppercase truncate">{skill}</div>
+                                            <div className="flex justify-between items-end mt-1">
+                                                <span className="text-[9px] text-zinc-500 uppercase tracking-tighter">Rank {data.rank}</span>
+                                                <div className="flex gap-0.5">
+                                                    {[...Array(5)].map((_, i) => (
+                                                        <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < data.pips ? 'bg-yellow-500' : 'bg-zinc-850 border border-zinc-800'}`}></div>
+                                                    ))}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                                    ))}
+                                </div>
+                            </div >
 
-                        {/* POWERS */}
-                        {compiledData.powers?.length > 0 && (
+                            {/* POWERS */}
+                            {
+                                compiledData.powers && compiledData.powers.length > 0 && (
+                                    <div>
+                                        <h3 className="text-purple-500 font-bold text-xs uppercase border-b border-zinc-800 pb-2 mb-4 tracking-widest">Manifested Spells</h3>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            {compiledData.powers.map((power: any, idx: number) => (
+                                                <div key={idx} className="bg-purple-900/10 p-3 border border-purple-900/30">
+                                                    <div className="text-white font-bold text-xs uppercase">{power.name}</div>
+                                                    <div className="text-[9px] text-purple-600 mt-1 uppercase tracking-tighter">School: {power.school}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )
+                            }
+
+                            {/* EVOLUTIONS */}
                             <div>
-                                <h3 className="text-purple-500 font-bold text-xs uppercase border-b border-zinc-800 pb-2 mb-4 tracking-widest">Manifested Spells</h3>
-                                <div className="grid grid-cols-2 gap-3">
-                                    {compiledData.powers.map((power: any, idx: number) => (
-                                        <div key={idx} className="bg-purple-900/10 p-3 border border-purple-900/30">
-                                            <div className="text-white font-bold text-xs uppercase">{power.name}</div>
-                                            <div className="text-[9px] text-purple-600 mt-1 uppercase tracking-tighter">School: {power.school}</div>
+                                <h3 className="text-zinc-400 font-bold text-xs uppercase border-b border-zinc-800 pb-2 mb-4 tracking-widest">Biological Manifests</h3>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {compiledData.passives && compiledData.passives.map((p: any, idx: number) => (
+                                        <div key={idx} className="bg-zinc-950 p-2 border border-zinc-900 group hover:border-zinc-700 transition-colors shadow-sm">
+                                            <div className="text-zinc-200 font-bold text-[9px] uppercase group-hover:text-white transition-colors">{p.name}</div>
+                                            <div className="text-[9px] text-zinc-600 mt-1 leading-tight">{p.effect}</div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-                        )}
 
-                        {/* EVOLUTIONS */}
-                        <div>
-                            <h3 className="text-zinc-400 font-bold text-xs uppercase border-b border-zinc-800 pb-2 mb-4 tracking-widest">Biological Manifests</h3>
-                            <div className="grid grid-cols-2 gap-2">
-                                {compiledData.passives?.map((p: any, idx: number) => (
-                                    <div key={idx} className="bg-zinc-950 p-2 border border-zinc-900 group hover:border-zinc-700 transition-colors shadow-sm">
-                                        <div className="text-zinc-200 font-bold text-[9px] uppercase group-hover:text-white transition-colors">{p.name}</div>
-                                        <div className="text-[9px] text-zinc-600 mt-1 leading-tight">{p.effect}</div>
-                                    </div>
-                                ))}
+                            {/* INITIALIZE BUTTON */}
+                            <div className="mt-8 pt-4 border-t border-zinc-800 flex flex-col gap-4">
+                                <p className="text-[9px] text-zinc-600 italic text-center uppercase tracking-widest animate-pulse">Soul strands woven. Ready for materialization.</p>
+                                <button
+                                    onClick={() => {
+                                        useCharacterStore.getState().setCharacterSheet(compiledData);
+                                        // Direct transition to player view for seamless experience
+                                        useGameStore.getState().setScreen('PLAYER');
+                                    }}
+                                    className="w-full bg-white hover:bg-yellow-500 text-black font-black py-4 uppercase tracking-[0.4em] transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-[0.98] border-none text-xs"
+                                >
+                                    materialize in vtt
+                                </button>
                             </div>
+                        </div >
+                    ) : (
+                        <div className="h-full flex flex-col items-center justify-center text-zinc-800 space-y-4">
+                            <div className="w-16 h-16 border-4 border-zinc-900 border-t-yellow-950 rounded-full animate-spin grayscale opacity-30" />
+                            <p className="text-[10px] uppercase tracking-[0.5em] animate-pulse">Awaiting Soul Resonance</p>
                         </div>
-
-                        {/* INITIALIZE BUTTON */}
-                        <div className="mt-8 pt-4 border-t border-zinc-800 flex justify-end">
-                            <button
-                                onClick={() => {
-                                    useCharacterStore.getState().setCharacterSheet(compiledData);
-                                    // For now, exit back to main menu. The user can then enter the VTT.
-                                    useGameStore.getState().setScreen('MAIN_MENU');
-                                }}
-                                className="bg-yellow-600 hover:bg-yellow-500 text-black font-bold uppercase text-xs tracking-widest px-8 py-3 shadow-[0_0_15px_rgba(202,138,4,0.3)] transition-all hover:shadow-[0_0_25px_rgba(202,138,4,0.6)]"
-                            >
-                                Finalize & Exit
-                            </button>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="h-full flex flex-col items-center justify-center text-zinc-800">
-                        <div className="w-16 h-16 border-4 border-zinc-900 border-t-yellow-900 rounded-full animate-spin mb-4"></div>
-                        <p className="text-[10px] uppercase tracking-[0.5em] animate-pulse">Awaiting Soul Resonance</p>
-                    </div>
-                )}
-            </div>
-        </div>
+                    )}
+            </div >
+        </div >
     );
 };

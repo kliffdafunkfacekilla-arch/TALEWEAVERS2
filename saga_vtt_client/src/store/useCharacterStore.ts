@@ -47,6 +47,7 @@ export interface CharacterSheet {
         w: number;
         h: number;
     };
+    composite_sprite?: any;
 }
 
 interface CharacterState {
@@ -144,7 +145,7 @@ export const useCharacterStore = create<CharacterState>((set, get) => ({
     evolveAttribute: async (stat) => {
         const state = get();
         if (!state.characterSheet) return;
-        const res = await fetch(`${import.meta.env.VITE_SAGA_CHAR_ENGINE_URL || "http://localhost:8003"}/api/rules/character/evolve`, {
+        const res = await fetch(`${import.meta.env.VITE_SAGA_CHAR_ENGINE_URL || "http://localhost:8014"}/api/rules/character/evolve`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
