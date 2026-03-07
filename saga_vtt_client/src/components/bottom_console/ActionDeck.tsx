@@ -51,9 +51,7 @@ export function ActionDeck() {
     const clientLoadout = useGameStore((s) => s.clientLoadout);
 
     const vitals = useCharacterStore((s) => s.vitals);
-    const characterSheet = useCharacterStore((s) => s.characterSheet);
     const setPlayerVitals = useCharacterStore((s) => s.setPlayerVitals);
-    const addInjury = useCharacterStore((s) => s.addInjury);
 
     const activeEncounter = useCombatStore((s) => s.activeEncounter);
     const selectedTargetId = useCombatStore((s) => s.selectedTargetId);

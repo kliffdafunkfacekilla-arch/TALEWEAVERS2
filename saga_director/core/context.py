@@ -118,15 +118,19 @@ class ContextAssembler:
                 continue
             
             # Simple radial filter for now (within 3 hexes)
-            # In a real game we'd use hex distance, but we'll assume proximity for now
-            # TODO: Add proper hex distance check
-            
             ev_hex = ev.get("hex")
             if ev_hex:
                 # Static events like Bandit Camps
                 try:
                     ev_hex_id = int(ev_hex.replace("hex_", ""))
-                    if abs(ev_hex_id - hex_id) <= 3:
+                    # Since hex IDs are generated left-to-right, top-to-bottom on a 200x200 grid
+                    grid_width = 200
+                    ev_y, ev_x = divmod(ev_hex_id, grid_width)
+                    my_y, my_x = divmod(hex_id, grid_width)
+                    
+                    dist = max(abs(ev_x - my_x), abs(ev_y - my_y))
+                    
+                    if dist <= 3:
                         active.append({
                             "event_id": ev.get("id"),
                             "name": ev.get("npc_name"),
@@ -194,7 +198,7 @@ class ContextAssembler:
                 return [v for k, v in data.items() if v.get("hex") == f"hex_{hex_id}"]
         except: return []
 
-    def record_place(self, campaign_id: str, place_name: str, hex_id: int, place_type: str, notes: str):
+    def record_place(self, campaign_id: str, place_name: str, hex_id: int, place_type: str, notes: str, current_tick: int = 0):
         """Saves a new named place to persistence."""
         data = {}
         if self.place_persistence_file.exists():
@@ -207,7 +211,7 @@ class ContextAssembler:
             "hex": f"hex_{hex_id}",
             "type": place_type,
             "notes": notes,
-            "created_tick": 0 # TODO: Get real tick
+            "created_tick": current_tick 
         }
         
         with open(self.place_persistence_file, "w") as f:

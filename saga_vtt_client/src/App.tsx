@@ -8,7 +8,7 @@ import { InventoryPanel } from './components/right_panel/InventoryPanel';
 import { InjurySlots } from './components/right_panel/InjurySlots';
 import { QuestTracker } from './components/hud/QuestTracker';
 import { WorldArchitect } from './components/WorldArchitect';
-import { CharacterSheet } from './components/CharacterSheet';
+import { SoulweaveWizard } from './components/SoulweaveWizard';
 import { EncounterOverlay } from './components/hud/EncounterOverlay';
 import { ActionHUD } from './components/hud/ActionHUD';
 import { EvolutionUI } from './components/hud/EvolutionUI';
@@ -47,35 +47,39 @@ export default function App() {
     setIsStarting(true);
     try {
       const state = useGameStore.getState();
-
       let finalSheet = state.characterSheet;
 
+      // ── STEP 1: Build default character if none exists ──────────────────
       if (!finalSheet) {
-        const buildRequest = {
-          name: "Scavenger_01",
-          base_attributes: {
-            might: 3, endurance: 4, vitality: 5, fortitude: 3, reflexes: 4, finesse: 2,
-            knowledge: 2, logic: 2, charm: 1, willpower: 3, awareness: 4, intuition: 3
-          },
-          evolutions: {
-            species_base: "HUMAN",
-            head_slot: "Standard", body_slot: "Standard", arms_slot: "Standard",
-            legs_slot: "Standard", skin_slot: "Standard", special_slot: "None"
-          },
-          selected_powers: [],
-          equipped_loadout: { "main_hand": "wpn_rusted_cleaver", "consumable_1": "csm_ddust", "consumable_2": "csm_stamina_tea" },
-          tactical_skills: {}
-        };
-
-        const charRes = await fetch(`${import.meta.env.VITE_SAGA_CHAR_ENGINE_URL || "http://localhost:8014"}/api/rules/character/calculate`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(buildRequest)
-        });
-
-        if (charRes.ok) {
-          finalSheet = await charRes.json();
-          setCharacterSheet(finalSheet);
+        try {
+          const buildRequest = {
+            name: "Scavenger_01",
+            base_attributes: {
+              might: 3, endurance: 4, vitality: 5, fortitude: 3, reflexes: 4, finesse: 2,
+              knowledge: 2, logic: 2, charm: 1, willpower: 3, awareness: 4, intuition: 3
+            },
+            evolutions: {
+              species_base: "HUMAN",
+              head_slot: "Standard", body_slot: "Standard", arms_slot: "Standard",
+              legs_slot: "Standard", skin_slot: "Standard", special_slot: "None"
+            },
+            selected_powers: [],
+            equipped_loadout: { "main_hand": "wpn_rusted_cleaver", "consumable_1": "csm_ddust", "consumable_2": "csm_stamina_tea" },
+            tactical_skills: {}
+          };
+          const charRes = await fetch(`${import.meta.env.VITE_SAGA_CHAR_ENGINE_URL || "http://localhost:8014"}/api/rules/character/calculate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(buildRequest)
+          });
+          if (charRes.ok) {
+            finalSheet = await charRes.json();
+            setCharacterSheet(finalSheet);
+          } else {
+            console.warn(`[LAUNCH] Character Engine returned ${charRes.status} — using defaults.`);
+          }
+        } catch (charErr) {
+          console.warn("[LAUNCH] Character Engine unreachable — using defaults.", charErr);
         }
       }
 
@@ -84,54 +88,96 @@ export default function App() {
         setClientLoadout(dynamicLoadout);
       }
 
-      const campaignRes = await fetch(`${import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8050"}/api/campaign/start`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          world_id: 'W_001',
-          starting_hex_id: 200500, // TODO: Get from map click or config
-          player_id: 'PLAYER_001',
-          composite_sprite: useCharacterStore.getState().characterSheet?.composite_sprite,
-          ...settings
-        })
-      });
-
-      if (!campaignRes.ok) throw new Error("Saga Director API failed.");
-
-      const campData = await campaignRes.json();
-      setCampaignId(campData.campaign_id);
-
-      // ── SYNC INITIAL STATE (SESSION ONE) ──
-      const initial = campData.initial_state;
-      if (initial) {
-        // 1. Sync Combat Store (Tactical Map)
-        if (initial.active_encounter) {
-          useCombatStore.getState().setActiveEncounter(initial.active_encounter);
-        }
-
-        // 2. Sync World State
-        if (initial.weather) useGameStore.setState({ weather: initial.weather });
-        if (initial.tension !== undefined) useGameStore.setState({ tension: initial.tension });
-        if (initial.chaos_numbers) useGameStore.setState({ chaosNumbers: initial.chaos_numbers });
-        if (initial.pacing) useGameStore.setState({ pacingProgress: initial.pacing });
-
-        // 3. Add Arrival Narration
-        addChatMessage({
-          sender: 'AI_DIRECTOR',
-          text: campData.narration || initial.ai_narration || "You have arrived. The journey begins."
+      // ── STEP 2: Start the campaign ──────────────────────────────────────
+      const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || "http://localhost:8050";
+      let campaignRes: Response;
+      try {
+        campaignRes = await fetch(`${directorUrl}/api/campaign/start`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            world_id: 'W_001',
+            starting_hex_id: 200500,
+            player_id: 'PLAYER_001',
+            composite_sprite: useCharacterStore.getState().characterSheet?.composite_sprite ?? null,
+            ...settings
+          })
         });
+      } catch (networkErr: any) {
+        throw new Error(`[LAUNCH] Cannot reach Director at ${directorUrl}. Is saga_director running? (${networkErr.message})`);
       }
 
-      setScreen('PLAYER');
-      setVttTier(5); // Start at Tactical scale (5ft grid)
+      if (!campaignRes.ok) {
+        let detail = '';
+        try { detail = JSON.stringify(await campaignRes.json()); } catch { }
+        throw new Error(`[LAUNCH] Director returned ${campaignRes.status}: ${detail}`);
+      }
 
-    } catch (err) {
-      console.error(err);
-      alert("Failed to reach Saga Director Engine. Is your server running?");
+      // ── STEP 3: Parse and sync state ────────────────────────────────────
+      let campData: any;
+      try {
+        campData = await campaignRes.json();
+      } catch (parseErr: any) {
+        throw new Error(`[LAUNCH] Director response could not be parsed: ${parseErr.message}`);
+      }
+
+      setCampaignId(campData.campaign_id);
+
+      // ── STEP 4: Normalize and sync state ──────────────────────────────
+      // The Director response may have `initial_state` as a nested object
+      const initial = campData.initial_state ?? campData;
+
+      // 4a. Normalize active_encounter — add required `data` field if missing
+      const rawEncounter = initial.active_encounter ?? campData.active_encounter;
+      if (rawEncounter) {
+        const encounter = {
+          ...rawEncounter,
+          gridWidth: rawEncounter.gridWidth ?? (rawEncounter.grid && rawEncounter.grid.length > 0 ? rawEncounter.grid[0].length : 15),
+          gridHeight: rawEncounter.gridHeight ?? (rawEncounter.grid ? rawEncounter.grid.length : 10),
+          // EncounterOverlay requires a `data` object with `category`. Provide defaults.
+          data: rawEncounter.data ?? {
+            category: rawEncounter.metadata?.biome ?? 'AMBIENT',
+            title: rawEncounter.encounter_id ?? 'Arrival',
+            narrative_prompt: initial.narration ?? 'You have arrived.',
+            npcs: [],
+            enemies: [],
+          },
+          // Tokens require current_hp / max_hp
+          tokens: (rawEncounter.tokens ?? []).map((t: any) => ({
+            current_hp: t.hp ?? 10,
+            max_hp: t.hp ?? 10,
+            ...t,
+          })),
+          interactionHistory: rawEncounter.interactionHistory ?? [],
+        };
+        useCombatStore.getState().setActiveEncounter(encounter);
+      }
+
+      // 4b. World state — chaos_numbers may be a single int or an array
+      if (initial.weather) useGameStore.setState({ weather: initial.weather });
+      if (initial.tension !== undefined) useGameStore.setState({ tension: initial.tension });
+      const rawChaos = initial.chaos_numbers;
+      if (rawChaos !== undefined) {
+        useGameStore.setState({ chaosNumbers: Array.isArray(rawChaos) ? rawChaos : [rawChaos] });
+      }
+      if (initial.pacing) useGameStore.setState({ pacingProgress: initial.pacing });
+
+      // 4c. Narration
+      const narrationText = campData.narration || initial.narration || initial.ai_narration || "You have arrived. The journey begins.";
+      addChatMessage({ sender: 'AI_DIRECTOR', text: narrationText });
+
+
+      setScreen('PLAYER');
+      setVttTier(5);
+
+    } catch (err: any) {
+      console.error("[LAUNCH FAILURE]", err);
+      alert(`Campaign launch failed:\n\n${err.message || err}\n\nCheck browser console (F12) for details.`);
     } finally {
       setIsStarting(false);
     }
   };
+
 
   const renderVttContent = () => {
     // Priority: Tactical Combat takes precedence if activeEncounter exists
@@ -279,7 +325,7 @@ export default function App() {
   if (currentScreen === 'WORLD_BUILDER') return <WorldArchitect onBack={() => setScreen('MAIN_MENU')} />;
 
   // ─── CHARACTER BUILDER ──────────────────────────────────────────────
-  if (currentScreen === 'CHARACTER_BUILDER') return <div className="relative w-screen h-screen"><CharacterSheet /><button onClick={() => setScreen('MAIN_MENU')} className="absolute top-4 left-4 z-50 bg-black/50 border border-zinc-700 px-4 py-2 text-xs font-bold uppercase text-zinc-400 hover:text-white transition-all">← Exit Weaving</button></div>;
+  if (currentScreen === 'CHARACTER_BUILDER') return <SoulweaveWizard />;
 
   // ─── GAMEPLAY: 5-Panel VTT Interface ────────────────────────────────
   return (

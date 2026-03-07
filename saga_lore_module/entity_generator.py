@@ -118,7 +118,7 @@ class EntityParser:
         match = re.search(r"\{.*\}", text, re.DOTALL)
         if match:
             try: return json.loads(match.group(0))
-            except: pass
+            except Exception as e: print(f"  -> [Error] Regex JSON parsing failed: {e}")
         return {}
 
 if __name__ == "__main__":

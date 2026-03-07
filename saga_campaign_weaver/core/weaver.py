@@ -19,13 +19,70 @@ async def fetch_world_data() -> dict:
         try:
             with open(MAP_FILE, "r") as f:
                 return json.load(f)
-        except: pass
+        except Exception as e:
+            print(f"[Weaver Error] Failed to load MAP_FILE: {e}")
     return {"world_name": "Shatterlands", "regions": [], "macro_map": []}
 
+def normalize_framework_data(data: dict) -> dict:
+    # Handle top-level keys
+    if "hero_journey" not in data:
+        for k in ["journey", "stages", "beats", "arc"]:
+            if k in data:
+                data["hero_journey"] = data[k]
+                break
+
+    if "hero_journey" in data and isinstance(data["hero_journey"], list):
+        for stage in data["hero_journey"]:
+            # stage_name normalization
+            if "stage_name" not in stage:
+                for nk in ["stage", "name", "stage_title", "step"]:
+                    if nk in stage:
+                        stage["stage_name"] = stage[nk]
+                        break
+            # narrative_objective normalization
+            if "narrative_objective" not in stage:
+                for ok in ["objective", "goal", "task", "mission"]:
+                    if ok in stage:
+                        stage["narrative_objective"] = stage[ok]
+                        break
+            # plot_point normalization
+            if "plot_point" not in stage:
+                for pk in ["point", "event", "story_beat"]:
+                    if pk in stage:
+                        stage["plot_point"] = stage[pk]
+                        break
+            # foreshadowing_clue normalization
+            if "foreshadowing_clue" not in stage:
+                for fk in ["clue", "hint", "foreshadowing"]:
+                    if fk in stage:
+                        stage["foreshadowing_clue"] = stage[fk]
+                        break
+            if "pacing_milestones" not in stage: stage["pacing_milestones"] = 2
+    
+    # character_hooks normalization (Ollama often sends objects instead of strings)
+    if "character_hooks" in data and isinstance(data["character_hooks"], list):
+        normalized_hooks = []
+        for hook in data["character_hooks"]:
+            if isinstance(hook, dict):
+                # Flatten dict to string: "Name: Hook"
+                h_name = hook.get("name") or hook.get("character") or "Player"
+                h_text = hook.get("hook") or hook.get("description") or str(hook)
+                normalized_hooks.append(f"{h_name}: {h_text}")
+            else:
+                normalized_hooks.append(str(hook))
+        data["character_hooks"] = normalized_hooks
+        
+    return data
+
 def parse_json_garbage(text: str) -> dict:
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    if match:
-        try: return json.loads(match.group(0))
+    text = text.strip()
+    # Find the outermost { }
+    start = text.find('{')
+    end = text.rfind('}')
+    if start != -1 and end != -1:
+        json_str = text[start:end+1]
+        try:
+            return json.loads(json_str)
         except: pass
     return {}
 
@@ -33,44 +90,50 @@ async def generate_campaign_framework(characters: List[dict], world_state: dict,
     """Generates or adjusts a full 8-stage Hero's Journey arc."""
     llm = Ollama(model="llama3")
     
-    mode = "INITIAL GENERATION" if not history else "DYNAMIC ADJUSTMENT"
+    # LOAD FULL WORLD SIM DATA FOR LOGIC
+    full_world = await fetch_world_data()
+    # Filter to essential story-driving data
+    world_logic_context = {
+        "world_name": full_world.get("world_name"),
+        "active_factions": full_world.get("factions", []),
+        "recent_history": full_world.get("world_events", [])[:10],
+        "starting_hex_details": world_state.get("starting_hex")
+    }
     
     length_setting = settings.get("length", "SAGA")
     pacing_instruction = "between 2 to 3"
     if length_setting == "ONE_SHOT": pacing_instruction = "exactly 1"
     elif length_setting == "EPIC": pacing_instruction = "between 4 to 6"
-    
-    living_context = ""
-    if context_packet:
-        living_context = f"\nLIVING CONTEXT:\n{json.dumps(context_packet, indent=2)}"
 
     prompt = ChatPromptTemplate.from_messages([
-        ("system", f"You are the T.A.L.E.W.E.A.V.E.R. Campaign Weaver (Mode: {mode}). "
-                   "IMPORTANT: You MUST analyze the provided 'World State' and 'Living Context' JSON data. "
-                   "Identify factions that are expanding, starving, or at war. "
-                   "Generate an 8-stage 'Hero's Journey' campaign framework that actively intervenes in or revolves around these simulated, ongoing events. "
-                   "STAGES: Call to Adventure, Refusal of the Call, Crossing the Threshold, "
-                   "Tests/Allies/Enemies, Approach to the Inmost Cave, The Ordeal, The Reward, Road Back. "
-                   "Each stage needs a plot_point, narrative_objective, and a foreshadowing_clue. "
-                   f"IMPORTANT: Each stage must also have 'pacing_milestones' ({pacing_instruction}). "
-                   "Output ONLY raw JSON matching this schema: {{schema}}"),
-        ("user", "Characters: {characters}\nWorld State: {world_context}\nLiving Context: {living_context}\nSettings: {settings}\nRecent History: {history}")
+        ("system", "You are the T.A.L.E.W.E.A.V.E.R. Campaign Weaver (Mode: LOGIC-FIRST). "
+                   "1. LOGIC: Identify a specific conflict involving the Factions or History provided. "
+                   "2. FRAME: Create an 8-beat Hero's Journey that logically resolves or intervenes in that conflict. "
+                   "3. Output ONLY valid JSON. No metaphors. No 'whispers in the wind'."),
+        ("user", "WORLD SIM DATA: {world_logic}\nCHARACTERS: {characters}\nSETTINGS: {settings}\n\n"
+                 "REQUIRED JSON FIELDS: arc_name, theme, hero_journey (list of 8: stage_name, plot_point, narrative_objective, foreshadowing_clue), character_hooks\n"
+                 "Output raw JSON:")
     ])
     
-    schema_str = json.dumps(CampaignFramework.model_json_schema(), indent=2)
     chain = prompt | llm
     
     try:
         response = await chain.ainvoke({
-            "schema": schema_str,
+            "world_logic": json.dumps(world_logic_context),
             "characters": json.dumps(characters),
-            "world_context": json.dumps(world_state)[:2000],
-            "living_context": living_context,
-            "settings": json.dumps(settings),
-            "history": json.dumps(history or [])
+            "settings": json.dumps(settings)
         })
-        parsed = parse_json_garbage(response)
-        return CampaignFramework(**parsed)
+        raw_data = parse_json_garbage(response)
+        parsed = normalize_framework_data(raw_data)
+        
+        # Repair common omissions
+        if "hero_journey" in parsed:
+            if "arc_name" not in parsed: parsed["arc_name"] = "A Procedural Saga"
+            if "theme" not in parsed: parsed["theme"] = settings.get("style", "Survival")
+            if "character_hooks" not in parsed: parsed["character_hooks"] = []
+            return CampaignFramework(**parsed)
+        
+        raise ValueError("JSON missing hero_journey")
     except Exception as e:
         print(f"Framework generation failed: {e}")
         return CampaignFramework(arc_name="A Bound Destiny", theme="Survival", hero_journey=[StoryArcStage(stage_name="Placeholder", plot_point="N/A", narrative_objective="Continue", foreshadowing_clue="N/A", pacing_milestones=2) for _ in range(8)], character_hooks=[])
@@ -100,7 +163,9 @@ async def generate_regional_arc(saga_beat: dict, region_context: dict, context_p
         })
         parsed = parse_json_garbage(response)
         return [QuestNode(**q) for q in (parsed if isinstance(parsed, list) else [])]
-    except: return []
+    except Exception as e:
+        print(f"[Weaver Error] Regional Arc generation failed: {e}")
+        return []
 
 async def generate_local_sidequest(hex_context: dict, context_packet: Optional[dict] = None) -> QuestNode:
     """Tier 3: Generates a hex-specific side quest."""
@@ -159,7 +224,8 @@ async def generate_tactical_errand(location: str) -> QuestNode:
         parsed = parse_json_garbage(response)
         if "step_number" not in parsed: parsed["step_number"] = 1
         return QuestNode(**parsed)
-    except:
+    except Exception as e:
+        print(f"[Weaver Error] Tactical Errand generation failed: {e}")
         return QuestNode(
             step_number=1,
             narrative_objective=f"Secure the perimeter at {location}.",

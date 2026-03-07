@@ -138,6 +138,8 @@ class TacticalGenerator:
 
         return {
             "encounter_id": f"tactical_{hex_id}_{lx}_{ly}",
+            "gridWidth": width,
+            "gridHeight": height,
             "grid": grid_data,
             "tokens": tokens,
             "data": {

@@ -233,7 +233,7 @@ export const MapRenderer: React.FC = () => {
         }
 
         // --- TRADE CARAVANS ---
-        if (vttTier === 2) {
+        if ((vttTier as any) === 2) {
             const time = Date.now() * 0.001;
             loadedHexes.forEach(cell => {
                 if (cell.road_next_id !== -1 && cell.settlement_name) {
@@ -259,7 +259,7 @@ export const MapRenderer: React.FC = () => {
         const activePath = useWorldStore.getState().activePath;
         if (activePath && activePath.length > 1) {
             let cellSize = 5;
-            if (vttTier === 2) cellSize = 10;
+            if ((vttTier as any) === 2) cellSize = 10;
 
             mapGraphics.stroke({ width: 3, color: 0x3b82f6, alpha: 0.6 });
             mapGraphics.moveTo(activePath[0][0] * cellSize + cellSize / 2, activePath[0][1] * cellSize + cellSize / 2);
@@ -303,17 +303,18 @@ export const MapRenderer: React.FC = () => {
             const app = new PIXI.Application();
 
             try {
-                // Load Tier 2 Hex Textures
-                const forest = await PIXI.Assets.load('/assets/forest_hex.png');
-                const mountain = await PIXI.Assets.load('/assets/mountain_hex.png');
-                const desert = await PIXI.Assets.load('/assets/desert_hex.png');
+                const assetUrl = import.meta.env.VITE_SAGA_ASSET_FOUNDRY_URL || 'http://localhost:8012';
+                // Load Tier 2 Hex Textures Individually
+                const forest = await PIXI.Assets.load(`${assetUrl}/public/assets/forest_hex.png`);
+                const mountain = await PIXI.Assets.load(`${assetUrl}/public/assets/mountain_hex.png`);
+                const desert = await PIXI.Assets.load(`${assetUrl}/public/assets/desert_hex.png`);
                 textureCache.current = { forest, mountain, desert };
 
-                // Load Tile Textures for Local/Tactical
-                const grass = await Promise.all([0, 1, 2].map(i => PIXI.Assets.load(`/tiles/grass_${i}_new.png`)));
-                const sand = await Promise.all([1, 2, 3].map(i => PIXI.Assets.load(`/tiles/sand_${i}.png`)));
-                const swamp = await Promise.all([0, 1, 2].map(i => PIXI.Assets.load(`/tiles/swamp_${i}_new.png`)));
-                const dirt = await Promise.all([0, 1, 2].map(i => PIXI.Assets.load(`/tiles/dirt_${i}_new.png`)));
+                // Load Tile Textures for Local/Tactical Individually
+                const grass = await Promise.all([0, 1, 2].map(i => PIXI.Assets.load(`${assetUrl}/public/tiles/grass_${i}_new.png`)));
+                const sand = await Promise.all([1, 2, 3].map(i => PIXI.Assets.load(`${assetUrl}/public/tiles/sand_${i}.png`)));
+                const swamp = await Promise.all([0, 1, 2].map(i => PIXI.Assets.load(`${assetUrl}/public/tiles/swamp_${i}_new.png`)));
+                const dirt = await Promise.all([0, 1, 2].map(i => PIXI.Assets.load(`${assetUrl}/public/tiles/dirt_${i}_new.png`)));
                 tileCache.current = { grass, sand, swamp, dirt };
 
                 setTexturesLoaded(true);
@@ -369,14 +370,14 @@ export const MapRenderer: React.FC = () => {
                     if (state.vttTier === 1 && zoom > 2) {
                         setTier(2);
                         state.addChatMessage({ sender: 'SYSTEM', text: 'ZOOMING INTO REGIONAL MAP...' });
-                        worldStore.fetchRegionMap(currentHexId);
+                        if (currentHexId !== null) worldStore.fetchRegionMap(currentHexId);
                     } else if (state.vttTier === 2) {
                         if (zoom < 1.5) {
                             setTier(1);
                         } else if (zoom > 8) {
                             setTier(3);
                             state.addChatMessage({ sender: 'SYSTEM', text: 'FOCUSING ON LOCAL SECTOR...' });
-                            worldStore.fetchLocalGrid(currentHexId, 10, 10);
+                            if (currentHexId !== null) worldStore.fetchLocalGrid(currentHexId, 10, 10);
                         }
                     } else if (state.vttTier === 3) {
                         if (zoom < 5) {
@@ -384,7 +385,7 @@ export const MapRenderer: React.FC = () => {
                         } else if (zoom > 15) {
                             setTier(4);
                             state.addChatMessage({ sender: 'SYSTEM', text: 'DROPPING INTO TACTICAL ENGAGEMENT...' });
-                            worldStore.fetchTacticalGrid(currentHexId, 50, 50);
+                            if (currentHexId !== null) worldStore.fetchTacticalGrid(currentHexId, 50, 50);
                         }
                     } else if (state.vttTier === 4 && zoom < 8) {
                         setTier(3);
@@ -399,6 +400,7 @@ export const MapRenderer: React.FC = () => {
                     const gameState = useGameStore.getState();
                     const worldState = useWorldStore.getState();
                     const v = viewportRef.current;
+                    if (!v) return;
                     const localPos = v.toLocal(e.global);
 
                     if (gameState.vttTier === 2) {

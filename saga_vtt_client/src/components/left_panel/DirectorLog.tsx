@@ -49,8 +49,9 @@ export function DirectorLog() {
                 }
 
                 // 4. Print the AI narration (The Director)
-                if (data.narration) {
-                    addChatMessage({ sender: 'AI_DIRECTOR', text: data.narration });
+                const narrativeStr = data.narration || data.ai_narration;
+                if (narrativeStr) {
+                    addChatMessage({ sender: 'AI_DIRECTOR', text: narrativeStr });
                 }
 
                 // 5. Update vitals if the API returned them

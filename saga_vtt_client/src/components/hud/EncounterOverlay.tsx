@@ -16,6 +16,11 @@ export const EncounterOverlay: React.FC = () => {
     const { data } = activeEncounter;
     const category = data.category || 'Encounter';
 
+    // Clean up raw tactical headers if present
+    const cleanTitle = (data.title?.startsWith('tactical_'))
+        ? `${category.charAt(0) + category.slice(1).toLowerCase()} Engagement`
+        : (data.title || `${category} Deployment`);
+
     const renderSocial = () => (
         <div className="flex flex-col gap-4">
             {data.npcs?.map((npc, idx) => (
@@ -119,7 +124,7 @@ export const EncounterOverlay: React.FC = () => {
 
                 {/* Content */}
                 <div className="p-6">
-                    <h2 className="text-xl font-bold text-white mb-2 tracking-tight">{data.title}</h2>
+                    <h2 className="text-xl font-bold text-white mb-2 tracking-tight">{cleanTitle}</h2>
                     <p className="text-zinc-400 text-sm mb-6 leading-relaxed">
                         {data.narrative_prompt}
                     </p>

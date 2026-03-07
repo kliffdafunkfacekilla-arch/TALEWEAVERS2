@@ -1,5 +1,6 @@
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { Application, Graphics, Text, TextStyle, Container, Rectangle, Sprite, Texture, TilingSprite, Assets, Spritesheet } from 'pixi.js';
+import { Viewport } from 'pixi-viewport';
 import { useCombatStore } from '../../store/useCombatStore';
 
 const TILE_SIZE = 50;
@@ -7,26 +8,18 @@ const TILE_SIZE = 50;
 export function PixiBattlemap() {
     const containerRef = useRef<HTMLDivElement>(null);
     const appRef = useRef<Application | null>(null);
-    const cameraRef = useRef<Container | null>(null);
+    const cameraRef = useRef<Viewport | null>(null);
 
     const activeEncounter = useCombatStore((s) => s.activeEncounter);
     const selectedTargetId = useCombatStore((s) => s.selectedTargetId);
-    const [atlas, setAtlas] = useState<Spritesheet | null>(null);
-
-    // ── REMOVED: Redundant Direct Fetch ──
-    // Encounters are now managed by the Saga Director (Port 8000) 
-    // to ensure naration and mechanics are synced.
-    useEffect(() => {
-        // If we want a default empty map if no encounter is active, we can handle it here.
-        // But we don't fetch from Port 8009 directly anymore.
-    }, [activeEncounter]);
+    const atlasRef = useRef<Spritesheet | null>(null);
 
     const draw = useCallback(() => {
         const app = appRef.current;
         const camera = cameraRef.current;
+        const atlasSheet = atlasRef.current; // Always reads current atlas, no stale closure
         if (!app || !camera) return;
 
-        // Clear previous children
         while (camera.children.length > 0) {
             camera.removeChildAt(0);
         }
@@ -37,29 +30,26 @@ export function PixiBattlemap() {
         const GRID_H = activeEncounter.gridHeight ?? 10;
 
         // ── 0. Draw Seamless Biome Background Layer ──
-        const mainBiome = activeEncounter.data?.category === "COMBAT" ? (activeEncounter as any).biome || "FOREST" : "FOREST";
+        const mainBiome = (activeEncounter as any).metadata?.biome || activeEncounter.data?.category || "FOREST";
 
         let bgTexture: Texture | null = null;
-        if (atlas) {
+        if (atlasSheet) {
             const biomeKeyMap: Record<string, string> = {
-                "FOREST": "floor/grass_full_new",
-                "RUINS": "tiles/floor_stone",
-                "MOUNTAIN": "floor/floor_sand_rock_0",
-                "SWAMP": "floor/swamp_0_new",
-                "TUNDRA": "floor/ice_0_new",
-                "DESERT": "floor/sand_1",
-                "DUNGEON": "floor/crypt_10"
+                "FOREST": "floor/grass_full_new", "RUINS": "tiles/floor_stone",
+                "MOUNTAIN": "floor/floor_sand_rock_0", "SWAMP": "floor/swamp_0_new",
+                "TUNDRA": "floor/ice_0_new", "DESERT": "floor/sand_1",
+                "DUNGEON": "floor/crypt_10", "AMBIENT": "floor/grass_full_new",
+                "Wilderness": "floor/grass_full_new", "Forest": "floor/grass_full_new",
+                "Plains": "floor/grass_full_new", "Grassland": "floor/grass_full_new",
+                "Swamp": "floor/swamp_0_new", "Mountain": "floor/floor_sand_rock_0",
+                "Tundra": "floor/ice_0_new", "Desert": "floor/sand_1",
+                "Ruins": "tiles/floor_stone", "Dungeon": "floor/crypt_10",
             };
-            const key = biomeKeyMap[mainBiome] || "floor/grass_0_new";
-            bgTexture = atlas.textures[key];
+            const key = biomeKeyMap[mainBiome] || "floor/grass_full_new";
+            bgTexture = atlasSheet.textures[key];
         }
-
         if (bgTexture) {
-            const tilingBG = new TilingSprite({
-                texture: bgTexture,
-                width: GRID_W * TILE_SIZE,
-                height: GRID_H * TILE_SIZE,
-            });
+            const tilingBG = new TilingSprite({ texture: bgTexture, width: GRID_W * TILE_SIZE, height: GRID_H * TILE_SIZE });
             tilingBG.alpha = 0.4;
             camera.addChild(tilingBG);
         }
@@ -78,7 +68,7 @@ export function PixiBattlemap() {
                 gridGraphics.stroke({ width: 1, color: 0x2a2a2a, alpha: 0.5 });
 
                 // Render Obstacles & Interactive Objects
-                if (tileType !== "EMPTY" && atlas) {
+                if (tileType !== "EMPTY" && atlasSheet) {
                     const objectKeyMap: Record<string, string> = {
                         "TREE": "trees/tree_1_red",
                         "WALL": "tiles/wall_stone",
@@ -89,7 +79,7 @@ export function PixiBattlemap() {
                         "CHEST": "objects/chest"
                     };
 
-                    const tex = atlas.textures[objectKeyMap[tileType]];
+                    const tex = atlasSheet.textures[objectKeyMap[tileType]];
                     if (tex) {
                         const sprite = new Sprite(tex);
                         sprite.anchor.set(0.5);
@@ -173,7 +163,7 @@ export function PixiBattlemap() {
 
             if (token.composite_sprite?.layers && token.composite_sprite.layers.length > 0) {
                 // Render Layers from bottom to top
-                const assetUrl = import.meta.env.VITE_SAGA_ASSET_FOUNDRY_URL || 'http://localhost:8021';
+                const assetUrl = import.meta.env.VITE_SAGA_ASSET_FOUNDRY_URL || 'http://localhost:8012';
                 token.composite_sprite.layers.forEach((layer) => {
                     Assets.load(`${assetUrl}${layer.sheet_url}`).then((tex: Texture) => {
                         const spriteTex = new Texture({
@@ -192,7 +182,7 @@ export function PixiBattlemap() {
                 });
             } else if (token.avatar_sprite) {
                 const meta = token.avatar_sprite;
-                const assetUrl = import.meta.env.VITE_SAGA_ASSET_FOUNDRY_URL || 'http://localhost:8021';
+                const assetUrl = import.meta.env.VITE_SAGA_ASSET_FOUNDRY_URL || 'http://localhost:8012';
                 Assets.load(`${assetUrl}${meta.sheet_url}`).then((tex: Texture) => {
                     const spriteTex = new Texture({
                         source: tex.source,
@@ -327,10 +317,15 @@ export function PixiBattlemap() {
             camera.addChild(laserLine);
         }
 
-        // Center grid in view
-        camera.x = (app.screen.width - (GRID_W * TILE_SIZE)) / 2;
-        camera.y = (app.screen.height - (GRID_H * TILE_SIZE)) / 2;
-
+        // Center on player if present
+        const playerToken = activeEncounter.tokens?.find((t: any) => t.isPlayer);
+        if (playerToken) {
+            const px = playerToken.x * TILE_SIZE + TILE_SIZE / 2;
+            const py = playerToken.y * TILE_SIZE + TILE_SIZE / 2;
+            camera.moveCenter(px, py);
+        } else {
+            camera.moveCenter((GRID_W * TILE_SIZE) / 2, (GRID_H * TILE_SIZE) / 2);
+        }
     }, [activeEncounter, selectedTargetId]);
 
     useEffect(() => {
@@ -347,27 +342,58 @@ export function PixiBattlemap() {
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
         }).then(async () => {
-            if (cancelled) {
-                app.destroy(true);
-                return;
-            }
+            if (cancelled) { app.destroy(true); return; }
 
-            // Load Texture Atlas
-            try {
-                const sheet = await Assets.load('http://localhost:8021/assets/atlas.json');
-                if (!cancelled) setAtlas(sheet);
-            } catch (e) {
-                console.error("Failed to load texture atlas:", e);
-            }
-
+            // Set up canvas and viewport FIRST so draw() can fire at any time
             el.appendChild(app.canvas as HTMLCanvasElement);
             appRef.current = app;
 
-            const camera = new Container();
-            app.stage.addChild(camera);
-            cameraRef.current = camera;
+            const viewport = new Viewport({
+                screenWidth: el.clientWidth,
+                screenHeight: el.clientHeight,
+                worldWidth: 5000,
+                worldHeight: 5000,
+                events: app.renderer.events
+            });
+            app.stage.addChild(viewport);
+            viewport.drag().pinch().wheel().decelerate();
+            cameraRef.current = viewport;
 
+            // Draw immediately with whatever encounter data exists (grid without textures)
             draw();
+
+            // Load Individual Textures instead of Mega-Atlas (Bypasses decoding limits)
+            try {
+                const assetUrl = import.meta.env.VITE_SAGA_ASSET_FOUNDRY_URL || 'http://localhost:8012';
+
+                // Load common biome textures individually
+                const biomeKeys = ["floor/grass_full_new", "tiles/floor_stone", "floor/floor_sand_rock_0", "floor/swamp_0_new", "floor/ice_0_new", "floor/sand_1", "floor/crypt_10"];
+                const objectKeys = ["trees/tree_1_red", "tiles/wall_stone", "floor/pebble_brown_0_new", "objects/barrel", "objects/crate", "objects/table", "objects/chest"];
+
+                const texturePromises = [...biomeKeys, ...objectKeys].map(async (key) => {
+                    try {
+                        const tex = await Assets.load(`${assetUrl}/public/${key}.png`);
+                        return { key, tex };
+                    } catch (e) {
+                        console.warn(`[PixiBattlemap] Failed to load individual texture: ${key}`, e);
+                        return { key, tex: null };
+                    }
+                });
+
+                const results = await Promise.all(texturePromises);
+                const textures: Record<string, Texture> = {};
+                results.forEach(res => {
+                    if (res.tex) textures[res.key] = res.tex;
+                });
+
+                if (!cancelled) {
+                    // Create a mock spritesheet object for compatibility with drawing logic
+                    atlasRef.current = { textures } as any;
+                    draw();
+                }
+            } catch (e) {
+                console.warn("[PixiBattlemap] Failed to load individual textures.", e);
+            }
         });
 
         return () => {

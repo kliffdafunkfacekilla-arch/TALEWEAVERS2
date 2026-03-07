@@ -5,6 +5,7 @@ import asyncio
 import json
 import logging
 import random
+import traceback
 
 api_gateway = SAGA_API_Gateway()
 
@@ -338,93 +339,66 @@ async def director_node(state: GameState):
     if framework and state["current_stage"] < len(framework):
          pacing_goal = framework[state["current_stage"]].get("pacing_milestones", 2)
 
-    if state["current_stage_progress"] < pacing_goal and not state.get("active_local_quests") and random.random() < 0.3:
-        side_quest = await api_gateway.generate_local_sidequest({"hex_id": state["action_target"]}, context_packet)
-        if side_quest:
-            return {"tension": tension, "active_local_quests": [side_quest]}
+    if not director_override:
+        # Generate a mandatory 'Local Fork' for the Narrator if nothing else is active
+        forks = [
+            "A local faction courier intercepts you with a demand vs. A shadow-scout offering a bribe.",
+            "A technical malfunction in your gear requires a risky fix vs. Securing a local resource at the cost of time.",
+            "An environmental hazard blocks the main path vs. A dangerous shortcut through unstable territory.",
+            "Two local interests (Empire vs. Krewes) are clashing over the immediate objective."
+        ]
+        director_override = f"[LOCAL FORK] {random.choice(forks)}"
 
     return {"tension": tension, "director_override": director_override, "vtt_commands": vtt_commands, "active_encounter": active_encounter}
 
 async def narrator_node(state: GameState):
     history_str = ""
     if state.get("chat_history"):
-        for msg in state["chat_history"][-5:]:
-            role = "TRAVELER" if msg["role"] == "user" else "NARRATOR"
+        for msg in state["chat_history"][-3:]:
+            role = "TRAVELER" if msg["role"] == "user" else "GM"
             history_str += f"{role}: {msg['content']}\n"
     
     idx = state["current_stage"]
     saga = state["campaign_framework"][idx] if state.get("campaign_framework") else {"stage_name": "Prologue", "narrative_objective": "Survive"}
-    pacing_goal = saga.get('pacing_milestones', 2)
     
-    foresight_context = f"""
-    --- SAGA STAGE: {saga['stage_name']} ---
-    Global Goal: {saga.get('narrative_objective', 'None')}
-    [WEATHER]: {state.get('weather')}
-    [ACTIVE OBJECTIVES]:
-    - Arcs: {[a['narrative_objective'] for a in state.get('active_regional_arcs', [])]}
-    - Quests: {[l['narrative_objective'] for l in state.get('active_local_quests', [])]}
-    [PACING]: {state['current_stage_progress']}/{pacing_goal} objectives cleared.
-    [CHAOS STATUS]: {"STRIKE!" if state.get("chaos_strike") else "Stable"}
-    """
-
-    style = state.get("style", "GRITTY_SURVIVAL").replace("_", " ").title()
-    
-    # Enrich prompt with Living Context Layer
-    context = state.get("context_packet", {})
-    npcs = context.get("active_npcs", [])
-    npcs_str = "\n".join([f"- {n['name']} ({n['type']}): {n['description']} [Attitude: {n.get('attitude')}]" for n in npcs])
-    rumours = "\n".join([f"- {r}" for r in context.get("rumours", [])])
-    lore = "\n".join(context.get("lore_context", []))
-    
-    living_context_str = f"""
-    --- LIVING CONTEXT ---
-    [TIME OF DAY]: {state.get('day_phase')}
-    [LORE FRAGMENTS]:
-    {lore if lore else "No specific lore discovered here."}
-    
-    [ACTING NPCs NEARBY]:
-    {npcs_str if npcs_str else "You are alone in this immediate area."}
-    
-    [RUMOURS & NEWS]:
-    {rumours if rumours else "The world is quiet; no news has reached this hex yet."}
-    
-    [FACTION ATTITUDES]:
-    {json.dumps(context.get('faction_attitudes', {}))}
-    """
-
     prompt = f"""
-    You are the Director of T.A.L.E.W.E.A.V.E.R.
-    TONE DIRECTIVE: The tone of this adventure is {style}.
-    {history_str}
-    Location: Hex {state['current_location']}
-    Environment: {state.get('weather')}
-    {foresight_context}
-    {living_context_str}
-    System Result: {state['math_log']}
-    Action: '{state['raw_chat_text']}'
+    ROLE: Clinical Narrator. 
+    GM RULES: 40 WORDS MAX. NO SIMILES. NO META-COMMENTARY. 
     
-    Narrate outcome in 3 immersive sentences fitting the Tone Directive. 
-    {"IMPORTANT: This is the first turn of the campaign. Describe the character's arrival and the core reason they are here based on the story nudge." if state['action_type'] == "LANDING" else "IMPORTANT: Integrate the Living Context (NPCs, Rumours, Lore) naturally into your response."}
-    Mention the environment and tension if relevant.
+    ATMOSPHERE: {state.get('weather', 'Clear Skies')}
+    STAKES: {saga.get('narrative_objective', 'Explore and survive')}
+    FORK: {state.get('director_override', 'Identify local dilemma')}
+    
+    REQUIRED OUTPUT PATTERN:
+    1. CURRENT LOCAL WEATHER (1 clinical sentence).
+    2. THE OBJECTIVE (1 direct sentence).
+    3. THE CHOICE (1 sentence presenting two conflicting options).
+    
+    BANNED: "The stakes are...", "Like an...", "Mystery", "Whispers", "Dust".
+
+    {history_str}
+    Action: '{state['raw_chat_text']}'
     """
     
     no_fly = state.get("no_fly_list", [])
     if no_fly:
-        prompt += f"\nCRITICAL SAFETY RULE: Under no circumstances may your narration include or reference the following themes: {', '.join(no_fly)}.\n"
+        prompt += f"\nSAFETY: No {', '.join(no_fly)}.\n"
     
     if state.get("chaos_strike"):
-        prompt += f"\n\nFOLLOW THIS CHAOS EVENT: {state['chaos_narrative']}"
+        prompt += f"\nCHAOS: {state['chaos_narrative']}"
 
     if state.get("director_override"):
-        prompt += f"\n\nFOLLOW THIS: {state['director_override']}"
+        prompt += f"\nGUIDE: {state['director_override']}"
 
     if OLLAMA_AVAILABLE and local_llm:
         try:
             response = local_llm.invoke(prompt)
             narrative = response.strip()
-        except: narrative = f"The {state.get('weather', 'world')} weighing heavily on you, you press on. (Offline)"
+        except Exception as e:
+            print(f"[NARRATOR OLLAMA ERROR] {e}")
+            narrative = "The path is clear. You press on. (Sync Error)"
     else:
-        narrative = f"[AI]: {prompt}"
+        narrative = f"[GM]: {prompt}"
         
     return {"ai_narration": narrative}
 

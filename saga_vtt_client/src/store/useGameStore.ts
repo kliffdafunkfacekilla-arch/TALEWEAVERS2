@@ -232,13 +232,54 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
             // New World State Sync
             if (update.weather) set({ weather: update.weather });
             if (update.tension !== undefined) set({ tension: update.tension });
-            if (update.chaos_numbers) set({ chaosNumbers: update.chaos_numbers });
+
+            // Normalize chaos_numbers to array
+            if (update.chaos_numbers !== undefined && update.chaos_numbers !== null) {
+                if (Array.isArray(update.chaos_numbers)) {
+                    set({ chaosNumbers: update.chaos_numbers });
+                } else if (typeof update.chaos_numbers === 'number') {
+                    set({ chaosNumbers: [update.chaos_numbers] });
+                } else if (typeof update.chaos_numbers === 'string') {
+                    try {
+                        const parsed = JSON.parse(update.chaos_numbers);
+                        set({ chaosNumbers: Array.isArray(parsed) ? parsed : [parsed] });
+                    } catch {
+                        set({ chaosNumbers: [] });
+                    }
+                }
+            }
+
             if (update.saga_stage) set({ currentSagaStage: update.saga_stage });
             if (update.pacing) set({ pacingProgress: update.pacing });
             if (update.visual_assets) set({ visualAssets: update.visual_assets });
 
             if (update.active_encounter) {
-                useCombatStore.getState().setActiveEncounter(update.active_encounter);
+                // Determine biome for data injection
+                let encounterBiome = update.active_encounter.metadata?.biome
+                    || update.initial_state?.weather
+                    || get().weather;
+                if (!encounterBiome || encounterBiome === "Clear Skies") encounterBiome = "FOREST";
+
+                const normalizedEncounter = {
+                    ...update.active_encounter,
+                    gridWidth: update.active_encounter.gridWidth ?? (update.active_encounter.grid && update.active_encounter.grid.length > 0 ? update.active_encounter.grid[0].length : 15),
+                    gridHeight: update.active_encounter.gridHeight ?? (update.active_encounter.grid ? update.active_encounter.grid.length : 10),
+                    // Inject missing data structure if needed
+                    data: update.active_encounter.data || {
+                        category: update.active_encounter.encounter_id === "error_fallback" ? "AMBIENT" : (update.active_encounter.metadata?.type || "COMBAT"),
+                        status: "ACTIVE",
+                        participants: [],
+                        win_condition: "Survive",
+                        difficulty: "Standard"
+                    },
+                    // Ensure tokens have required fields
+                    tokens: (update.active_encounter.tokens || []).map((t: any) => ({
+                        ...t,
+                        current_hp: t.current_hp ?? 10,
+                        max_hp: t.max_hp ?? 10
+                    }))
+                };
+                useCombatStore.getState().setActiveEncounter(normalizedEncounter);
             } else {
                 const currentEncounter = useCombatStore.getState().activeEncounter;
                 if (currentEncounter) {
@@ -259,82 +300,19 @@ export const useGameStore = create<ClientGameState>((set, get) => ({
     executeAction: async (skillName, targetId) => {
         const state = get();
         if (state.ui_locked) return;
-        set({ ui_locked: true });
 
-        try {
-            const combatState = useCombatStore.getState();
-            const charState = useCharacterStore.getState();
+        const combatState = useCombatStore.getState();
+        const activeEncounter = combatState.activeEncounter;
+        const targetToken = activeEncounter?.tokens?.find((t: any) => t.id === targetId);
 
-            const activeEncounter = combatState.activeEncounter;
-            const targetToken = activeEncounter?.tokens?.find((t: any) => t.id === targetId);
+        const targetName = targetToken ? targetToken.name : 'Unknown Target';
 
-            let skillRank = 0;
-            if (charState.characterSheet?.tactical_skills) {
-                const skillData = charState.characterSheet.tactical_skills[skillName];
-                skillRank = typeof skillData === 'object' ? skillData.rank : (typeof skillData === 'number' ? skillData : 0);
-            }
+        // Translates HUD button clicks into Director actions
+        const actionText = `I use ${skillName} against ${targetName} (ID: ${targetId}).`;
 
-            const skillToStatMap: Record<string, string> = {
-                'Assault': 'might', 'Ballistics': 'reflexes', 'Fortify': 'fortitude',
-                'Mobility': 'finesse', 'Tactics': 'logic', 'Deceive': 'charm',
-                'Coercion': 'willpower', 'Basic Attack': 'might', 'Ranged Attack': 'reflexes'
-            };
-            const leadStat = skillToStatMap[skillName] || 'might';
-            const statMod = charState.attributes[leadStat] || 0;
-
-            const playerToken = activeEncounter?.tokens.find(t => t.isPlayer);
-            let hasAdvantage = false;
-
-            if (playerToken && targetToken) {
-                const isEngaged = (targetToken.engaged_with?.length || 0) > 0;
-                if (isEngaged && !targetToken.engaged_with?.includes(playerToken.id)) hasAdvantage = true;
-            }
-
-            const payload = {
-                campaign_id: state.activeCampaignId,
-                skill_name: skillName,
-                skill_rank: skillRank,
-                stat_mod: statMod,
-                has_advantage: hasAdvantage,
-                target: { id: targetId, name: targetToken?.name || 'Unknown', type: targetToken?.isPlayer ? 'Player' : 'Enemy' },
-                attacker_attributes: charState.attributes,
-                attacker_vitals: charState.vitals,
-                equipped_items: []
-            };
-
-            const directorUrl = import.meta.env.VITE_SAGA_DIRECTOR_URL || 'http://localhost:8050';
-            const res = await fetch(`${directorUrl}/api/player/action`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!res.ok) throw new Error("API Action failed.");
-            const result = await res.json();
-
-            // Update combat engagement
-            if (playerToken && activeEncounter) {
-                useCombatStore.getState().setActiveEncounter({
-                    ...activeEncounter,
-                    tokens: activeEncounter.tokens.map(t => {
-                        if (t.id === playerToken.id) return { ...t, engaged_with: [...(t.engaged_with || []), targetId] };
-                        if (t.id === targetId) return { ...t, engaged_with: [...(t.engaged_with || []), playerToken.id] };
-                        return t;
-                    })
-                });
-            }
-
-            get().addChatMessage({ sender: 'SYSTEM', text: `> ${skillName} vs ${targetToken?.name || 'Target'}: ${result.resolution_text}` });
-
-            if (result.vitals_update) charState.setPlayerVitals(result.vitals_update);
-            useCombatStore.getState().syncCombatState(result);
-
-        } catch (e) {
-            console.error(e);
-            get().addChatMessage({ sender: 'ERROR', text: 'Action failed.' });
-        } finally {
-            set({ ui_locked: false });
-        }
+        // Send it via the unified sendAction which routes to the Director
+        // We use 0 for burn right now, as the backend calculates it
+        get().sendAction(actionText, 0, targetId);
     },
 
     injectTierContext: async (tier) => {

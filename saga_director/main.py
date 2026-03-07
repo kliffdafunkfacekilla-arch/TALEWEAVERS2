@@ -129,10 +129,12 @@ async def start_campaign(request: StartCampaignRequest):
 
         if hero_journey:
             first_beat = hero_journey[0]
+            # Normalize stage name (check for stage_name or title)
+            s_name = first_beat.get("stage_name") or first_beat.get("title") or "Call to Adventure"
             new_quest = ActiveQuest(
                 id=str(uuid.uuid4()),
                 campaign_id=campaign_id,
-                title=first_beat.get("title", "Call to Adventure"),
+                title=s_name,
                 objectives=[{"objective": first_beat.get("narrative_objective", ""), "is_complete": False}]
             )
             db.add(new_quest)
@@ -193,11 +195,11 @@ async def process_chat_action_internal(data: dict, db: Session):
         "chaos_strike": False,
         "chaos_narrative": "",
         "visual_assets": {
-            "forest": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8021')}/public/floor/grass_full_new.png",
-            "ruins": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8021')}/public/tiles/floor_stone.png",
-            "mountain": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8021')}/public/floor/floor_sand_rock_0.png",
-            "swamp": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8021')}/public/floor/swamp_0_new.png",
-            "tundra": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8021')}/public/floor/ice_0_new.png"
+            "forest": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8012')}/public/floor/grass_full_new.png",
+            "ruins": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8012')}/public/tiles/floor_stone.png",
+            "mountain": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8012')}/public/floor/floor_sand_rock_0.png",
+            "swamp": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8012')}/public/floor/swamp_0_new.png",
+            "tundra": f"{os.getenv('ASSET_FOUNDRY_URL', 'http://localhost:8012')}/public/floor/ice_0_new.png"
         },
         "director_override": None,
         "vtt_commands": [],
