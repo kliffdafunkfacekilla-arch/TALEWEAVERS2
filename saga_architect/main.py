@@ -54,7 +54,7 @@ Base.metadata.create_all(bind=db_engine)
 # ── Config ────────────────────────────────────────────────────────────────────
 BASE_MAP_PATH    = os.getenv("SAGA_WORLD_MAP_PATH",  "../data/Saga_Master_World.json")
 EXPORT_PATH      = BASE_MAP_PATH
-LORE_MODULE_URL  = os.getenv("LORE_MODULE_URL",      "http://localhost:8001")
+LORE_MODULE_URL  = os.getenv("LORE_VAULT_URL",       "http://localhost:8011")
 
 # ── Singleton Chronos engine (shared across requests) ─────────────────────────
 _chronos: ChronosEngine | None = None
