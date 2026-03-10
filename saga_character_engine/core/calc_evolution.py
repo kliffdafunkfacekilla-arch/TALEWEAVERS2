@@ -1,4 +1,5 @@
 import json
+import functools
 from pathlib import Path
 from .schemas import CoreAttributes, BiologicalEvolutions
 from typing import List, Dict
@@ -7,8 +8,12 @@ from typing import List, Dict
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = BASE_DIR / "data"
 
+@functools.lru_cache(maxsize=1)
 def load_evolution_matrix() -> List[Dict]:
-    """Loads the real Evolution_Matrix.json from the master database."""
+    """
+    Loads the real Evolution_Matrix.json from the master database.
+    NOTE: The result is cached. Do NOT mutate the returned list or its contents.
+    """
     matrix_path = DATA_DIR / "Evolution_Matrix.json"
     if matrix_path.exists():
         with open(matrix_path, "r", encoding="utf-8") as f:
