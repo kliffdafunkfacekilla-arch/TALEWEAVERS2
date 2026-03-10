@@ -39,7 +39,8 @@ from core.simulator import apply_events_to_state, export_to_json
 app = FastAPI(title="Saga Architect – World Simulation Engine")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173", "http://localhost:5175"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -53,7 +54,7 @@ Base.metadata.create_all(bind=db_engine)
 # ── Config ────────────────────────────────────────────────────────────────────
 BASE_MAP_PATH    = os.getenv("SAGA_WORLD_MAP_PATH",  "../data/Saga_Master_World.json")
 EXPORT_PATH      = BASE_MAP_PATH
-LORE_MODULE_URL  = os.getenv("LORE_MODULE_URL",      "http://localhost:8005")
+LORE_MODULE_URL  = os.getenv("LORE_VAULT_URL",       "http://localhost:8011")
 
 # ── Singleton Chronos engine (shared across requests) ─────────────────────────
 _chronos: ChronosEngine | None = None

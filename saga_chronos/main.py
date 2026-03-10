@@ -9,7 +9,7 @@ app = FastAPI(title="S.A.G.A. Chronos Engine", description="Module 4: Time & Wea
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173", "http://localhost:5175"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
