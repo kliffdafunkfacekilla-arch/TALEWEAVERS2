@@ -23,7 +23,7 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 PLAYER_FILE = os.path.join(DATA_DIR, "player_state.json")
 MAP_FILE = os.path.join(DATA_DIR, "Saga_Master_World.json")
 CHRONICLE_FILE = os.path.join(DATA_DIR, "Chronicle_Log.json")
-WEAVER_URL = "http://localhost:8010/api/weaver/side_quest"
+WEAVER_URL = "http://localhost:8010/api/weaver/sidequest"
 
 # Define the State that LangGraph will pass between nodes
 class GameState(TypedDict):
@@ -121,8 +121,12 @@ async def generate_quest_beat(state: GameState):
     faction = state["current_hex"].get("faction_owner", "No Man's Land")
     
     quest_request = {
-        "seed": f"A tactical dilemma in the {biome} involving {faction}.",
-        "location": f"Hex_{state['current_hex'].get('id', 'unknown')}"
+        "hex_context": {
+            "biome": biome,
+            "faction_owner": faction,
+            "hex_id": state['current_hex'].get('id', 'unknown')
+        },
+        "context_packet": state.get("player_data")
     }
     
     try:
