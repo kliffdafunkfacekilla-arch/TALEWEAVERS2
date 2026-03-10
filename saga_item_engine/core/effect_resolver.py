@@ -14,6 +14,9 @@ def parse_dice(dice_str: str) -> int:
     num_dice = int(match.group(1))
     dice_sides = int(match.group(2))
     modifier = int(match.group(3)) if match.group(3) else 0
+
+    if dice_sides < 1:
+        return max(1, modifier)
     
     roll_total = sum(random.randint(1, dice_sides) for _ in range(num_dice))
     
