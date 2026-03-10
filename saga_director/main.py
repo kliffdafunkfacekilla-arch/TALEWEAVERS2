@@ -115,9 +115,13 @@ async def start_campaign(request: StartCampaignRequest):
             context = await assembler.assemble(campaign_id, request.starting_hex_id, "MORNING", 0)
             biome = context["location"]["biome"]
             # Fix: Correctly pass biome, hex_id, lx, ly, active_npcs, and player_sprite. 
-            # Defaulting to (50, 50) for initial landing coordinates.
             initial_encounter = TacticalGenerator.generate_ambient_encounter(
-                biome, request.starting_hex_id, 50, 50, 
+                biome,
+                request.starting_hex_id,
+                new_campaign.current_local_x,
+                new_campaign.current_local_y,
+                current_hour=PHASE_HOURS["MORNING"],
+                densities=new_campaign.hex_densities.get(str(request.starting_hex_id), {"bandit": 0.1}),
                 external_npcs=context.get("active_npcs", []),
                 player_sprite=request.composite_sprite
             )
