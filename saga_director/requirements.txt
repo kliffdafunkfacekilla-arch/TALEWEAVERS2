@@ -12,3 +12,5 @@ aiosqlite
 numpy
 shapely
 langchain-ollama
+langchain
+python-dotenv

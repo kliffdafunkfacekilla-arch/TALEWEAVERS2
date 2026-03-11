@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Request
-from pydantic import BaseModel
+from fastapi import FastAPI, Request, HTTPException
+from pydantic import BaseModel, Field
 from typing import Optional, List, Dict
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,6 +26,17 @@ from core.tactical_generator import TacticalGenerator
 from core.pathfinder import Pathfinder
 from core.world_manager import WorldManager
 from core.database import SessionLocal, engine
+
+# Imported from Weaver/Encounter Engines
+from core.weaver_schemas import CampaignRoadmap, QuestNode, CampaignFramework
+from core.weaver import (
+    generate_campaign_framework,
+    generate_regional_arc,
+    generate_local_sidequest,
+    generate_tactical_errand
+)
+from core.encounter_schemas import EncounterRequest, EncounterResponse
+from core.generator import generate_encounter
 
 api_gateway = SAGA_API_Gateway()
 # Initialize World Manager with a default seed (can be overridden by campaign)
@@ -55,6 +66,71 @@ class StartCampaignRequest(BaseModel):
     style: str = "GRITTY_SURVIVAL"
     length: str = "SAGA"
     no_fly_list: List[str] = []
+
+class FrameworkRequest(BaseModel):
+    characters: List[dict]
+    world_state: dict
+    settings: dict
+    history: Optional[List[dict]] = None
+    context_packet: Optional[dict] = None
+
+@app.post("/api/weaver/framework", response_model=CampaignFramework)
+async def create_campaign_framework(request: FrameworkRequest):
+    try:
+        framework = await generate_campaign_framework(
+            characters=request.characters,
+            world_state=request.world_state,
+            settings=request.settings,
+            history=request.history,
+            context_packet=request.context_packet
+        )
+        return framework
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/weaver/arc", response_model=List[QuestNode])
+async def create_regional_arc(saga_beat: dict, region_context: dict, context_packet: Optional[dict] = None):
+    try:
+        return await generate_regional_arc(saga_beat, region_context, context_packet)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/weaver/sidequest", response_model=QuestNode)
+async def create_sidequest(hex_context: dict, context_packet: Optional[dict] = None):
+    try:
+        return await generate_local_sidequest(hex_context, context_packet)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/weaver/errand", response_model=QuestNode)
+async def create_errand(location: str):
+    try:
+        return await generate_tactical_errand(location)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+class POIRequest(BaseModel):
+    quest_node: dict
+    grid_data: list
+
+@app.post("/api/weaver/place_poi")
+async def place_poi(request: POIRequest):
+    try:
+        from core.poi_placer import POIPlacer
+        placer = POIPlacer()
+        result = placer.place_node_on_grid(request.quest_node, request.grid_data)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/encounter/generate", response_model=EncounterResponse)
+async def api_generate_encounter(request: EncounterRequest):
+    try:
+        # The generator handles both random and prompted logic
+        result = generate_encounter(request)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/campaign/start")
 async def start_campaign(request: StartCampaignRequest):

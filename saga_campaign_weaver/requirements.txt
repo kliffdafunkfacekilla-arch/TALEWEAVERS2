@@ -1,9 +1,0 @@
-fastapi
-uvicorn
-pydantic
-langchain
-langchain-openai
-httpx
-python-dotenv
-langchain-community
-langchain-ollama

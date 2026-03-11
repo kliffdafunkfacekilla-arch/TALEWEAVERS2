@@ -144,8 +144,8 @@ export function ActionDeck() {
             // Normal Branch processing...
             if (card.type === 'CONSUMABLE') {
                 addChatMessage({ sender: 'PLAYER', text: `I use ${card.name}.` });
-                const itemFoundryUrl = import.meta.env.VITE_SAGA_ITEM_FOUNDRY_URL || 'http://localhost:8005';
-                const itemRes = await fetch(`${itemFoundryUrl}/items/resolve`, {
+                const rulesEngineUrl = import.meta.env.VITE_SAGA_RULES_ENGINE_URL || 'http://localhost:8014';
+                const itemRes = await fetch(`${rulesEngineUrl}/api/rules/items/resolve`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

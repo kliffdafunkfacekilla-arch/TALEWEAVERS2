@@ -5,16 +5,16 @@ export const CalendarEditor: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'months' | 'seasons'>('months');
 
     useEffect(() => {
-        const chronosUrl = import.meta.env.VITE_SAGA_CHRONOS_URL || 'http://localhost:9000';
-        fetch(`${chronosUrl}/api/config/calendar`)
+        const architectUrl = import.meta.env.VITE_SAGA_ARCHITECT_URL || 'http://localhost:8013';
+        fetch(`${architectUrl}/api/config/calendar`)
             .then(res => res.json())
             .then(data => setCalendar(data))
             .catch(() => console.error("Failed to load Calendar config. Is Port 9000 running?"));
     }, []);
 
     const saveConfig = () => {
-        const chronosUrl = import.meta.env.VITE_SAGA_CHRONOS_URL || 'http://localhost:9000';
-        fetch(`${chronosUrl}/api/config/calendar`, {
+        const architectUrl = import.meta.env.VITE_SAGA_ARCHITECT_URL || 'http://localhost:8013';
+        fetch(`${architectUrl}/api/config/calendar`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(calendar)
