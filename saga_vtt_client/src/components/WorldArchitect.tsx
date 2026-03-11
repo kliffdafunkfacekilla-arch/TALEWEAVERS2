@@ -17,9 +17,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const [activeTab, setActiveTab] = useState<'PAINTING' | 'LORE' | 'GEOGRAPHY' | 'CLIMATE' | 'BIOMES' | 'RESOURCES' | 'ECOSYSTEM' | 'FACTIONS'>('PAINTING');
     const [isGenerating, setIsGenerating] = useState(false);
 
-    // --- LORE VAULT STATE ---
+    // --- LORE VAULT STATE (PORT 8001) ---
     const [loreOnline, setLoreOnline] = useState(false);
-    const architectUrl = import.meta.env.VITE_SAGA_ARCHITECT_URL || 'http://localhost:8013';
     const [vaultPath, setVaultPath] = useState("../test_vault");
     const [loreQuery, setLoreQuery] = useState("Aggressive factions that use iron");
     const [loreResults, setLoreResults] = useState<{ title: string; category: string; content: string; distance: number }[]>([]);
@@ -87,7 +86,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
 
     const fetchLoreEntities = async () => {
         try {
-            const res = await fetch(`${architectUrl}/api/lore/entities`);
+            const loreUrl = import.meta.env.VITE_SAGA_LORE_VAULT_URL || "http://localhost:8011";
+            const res = await fetch(`${loreUrl}/api/lore/entities`);
             if (res.ok) {
                 const data = await res.json();
                 setLoreFactions(data.factions || []);
@@ -99,9 +99,10 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
         }
     };
 
-    // Check if Architect is running on mount
+    // Check if Port is running on mount
     useEffect(() => {
-        fetch(`${architectUrl}/health`)
+        const loreUrl = import.meta.env.VITE_SAGA_LORE_VAULT_URL || "http://localhost:8011";
+        fetch(`${loreUrl}/health`)
             .then(res => res.json())
             .then(() => {
                 setLoreOnline(true);
@@ -113,7 +114,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const handleIngestLore = async () => {
         setIsLoreProcessing(true);
         try {
-            const res = await fetch(`${architectUrl}/api/lore/ingest`, {
+            const loreUrl = import.meta.env.VITE_SAGA_LORE_VAULT_URL || "http://localhost:8011";
+            const res = await fetch(`${loreUrl}/api/lore/ingest`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ vault_path: vaultPath, force_rebuild: true })
@@ -122,7 +124,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             alert(`Lore Vault Ingested! Processed ${data.files_processed} Markdown files.`);
             fetchLoreEntities(); // Refresh the datalists with new vault output!
         } catch {
-            alert("Failed to reach Architect Module.");
+            alert("Failed to reach Lore Module.");
         } finally {
             setIsLoreProcessing(false);
         }
@@ -131,7 +133,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const handleSearchLore = async () => {
         setIsLoreProcessing(true);
         try {
-            const res = await fetch(`${architectUrl}/api/lore/search`, {
+            const loreUrl = import.meta.env.VITE_SAGA_LORE_VAULT_URL || "http://localhost:8011";
+            const res = await fetch(`${loreUrl}/api/lore/search`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ query: loreQuery, top_k: 3, filter_categories: [] })
@@ -139,7 +142,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             const data = await res.json();
             setLoreResults(data.results || []);
         } catch {
-            alert("Search failed. Is Architect Module running?");
+            alert("Search failed. Is Port 8001 running?");
         } finally {
             setIsLoreProcessing(false);
         }
@@ -185,7 +188,8 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
 
 
         try {
-            const response = await fetch("http://localhost:8002/api/world/generate", {
+            const architectUrl = import.meta.env.VITE_SAGA_ARCHITECT_URL || "http://localhost:8013";
+            const response = await fetch(`${architectUrl}/api/world/generate`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -196,7 +200,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             console.log("[VTT] God Engine Simulation Complete. Saved to Zustand.");
         } catch (err) {
             console.error("API Call failed:", err);
-            alert("Failed to reach Python Wrapper on Port 8012. Is saga_architect running?");
+            alert("Failed to reach Python Wrapper. Is saga_architect running?");
         } finally {
             setIsGenerating(false);
         }
@@ -279,7 +283,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                             <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
                                 <span className="font-bold uppercase tracking-widest text-zinc-400">Module 1: Lore DB</span>
                                 <span className={`text-[9px] uppercase tracking-widest font-bold ${loreOnline ? 'text-green-500' : 'text-red-500'}`}>
-                                    {loreOnline ? 'ARCHITECT ONLINE' : 'ARCHITECT OFFLINE'}
+                                    {loreOnline ? 'PORT 8001 ONLINE' : 'PORT 8001 OFFLINE'}
                                 </span>
                             </div>
 
