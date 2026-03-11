@@ -18,17 +18,9 @@ if os.path.exists(REGISTRY_FILE):
 # Map of service keys in registry to their folder names
 SERVICE_MAP = {
     "director": ("saga_director", 8050),
-    "lore_vault": ("saga_lore_module", 8001),
     "world_architect": ("saga_architect", 8002),
-    "char_engine": ("saga_character_engine", 8003),
-    "encounter_engine": ("saga_encounter_engine", 8004),
-    "item_foundry": ("saga_item_engine", 8005),
-    "skill_engine": ("saga_skill_engine", 8006),
-    "clash_engine": ("saga_clash_engine", 8007),
-    "dmag_engine": ("saga_dmag_engine", 8008),
-    "campaign_weaver": ("saga_campaign_weaver", 8010),
-    "asset_foundry": ("saga_asset_foundry", 8012),
-    "chronos": ("saga_chronos", 9000)
+    "rules_engine": ("saga_rules_engine", 8014),
+    "asset_foundry": ("saga_asset_foundry", 8012)
 }
 
 processes = []

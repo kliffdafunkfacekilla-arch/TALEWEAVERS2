@@ -17,9 +17,7 @@ Write-Host $logo -ForegroundColor Cyan
 Write-Host "[+] Initializing Smart Port Discovery..." -ForegroundColor Yellow
 
 $Services = @(
-    "director", "lore_vault", "world_architect", "char_engine", 
-    "encounter_engine", "item_foundry", "skill_engine", "clash_engine", 
-    "dmag_engine", "campaign_weaver", "asset_foundry", "chronos", "vtt"
+    "director", "world_architect", "rules_engine", "asset_foundry", "vtt"
 )
 
 $registryPath = Join-Path $PSScriptRoot "saga_registry.json"
@@ -72,13 +70,9 @@ Write-Host "[+] Dynamic Service Registry generated: $registryPath" -ForegroundCo
 $vttEnvPath = Join-Path $PSScriptRoot "saga_vtt_client\.env.local"
 $envContent = @(
     "VITE_SAGA_DIRECTOR_URL=http://localhost:$($Registry['director'])",
-    "VITE_SAGA_LORE_VAULT_URL=http://localhost:$($Registry['lore_vault'])",
     "VITE_SAGA_ARCHITECT_URL=http://localhost:$($Registry['world_architect'])",
-    "VITE_SAGA_CHAR_ENGINE_URL=http://localhost:$($Registry['char_engine'])",
-    "VITE_SAGA_ITEM_FOUNDRY_URL=http://localhost:$($Registry['item_foundry'])",
-    "VITE_SAGA_SKILL_ENGINE_URL=http://localhost:$($Registry['skill_engine'])",
-    "VITE_SAGA_ASSET_FOUNDRY_URL=http://localhost:$($Registry['asset_foundry'])",
-    "VITE_SAGA_CHRONOS_URL=http://localhost:$($Registry['chronos'])"
+    "VITE_SAGA_RULES_ENGINE_URL=http://localhost:$($Registry['rules_engine'])",
+    "VITE_SAGA_ASSET_FOUNDRY_URL=http://localhost:$($Registry['asset_foundry'])"
 )
 $envContent | Set-Content -Path $vttEnvPath
 Write-Host "[+] React Environment Config generated: $vttEnvPath" -ForegroundColor DarkGray

@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+sqlalchemy
+httpx
+pydantic
+chromadb
+sentence-transformers
+python-frontmatter

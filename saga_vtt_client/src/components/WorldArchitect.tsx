@@ -17,8 +17,9 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const [activeTab, setActiveTab] = useState<'PAINTING' | 'LORE' | 'GEOGRAPHY' | 'CLIMATE' | 'BIOMES' | 'RESOURCES' | 'ECOSYSTEM' | 'FACTIONS'>('PAINTING');
     const [isGenerating, setIsGenerating] = useState(false);
 
-    // --- LORE VAULT STATE (PORT 8001) ---
+    // --- LORE VAULT STATE ---
     const [loreOnline, setLoreOnline] = useState(false);
+    const architectUrl = import.meta.env.VITE_SAGA_ARCHITECT_URL || 'http://localhost:8013';
     const [vaultPath, setVaultPath] = useState("../test_vault");
     const [loreQuery, setLoreQuery] = useState("Aggressive factions that use iron");
     const [loreResults, setLoreResults] = useState<{ title: string; category: string; content: string; distance: number }[]>([]);
@@ -86,7 +87,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
 
     const fetchLoreEntities = async () => {
         try {
-            const res = await fetch("http://localhost:8001/api/lore/entities");
+            const res = await fetch(`${architectUrl}/api/lore/entities`);
             if (res.ok) {
                 const data = await res.json();
                 setLoreFactions(data.factions || []);
@@ -98,9 +99,9 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
         }
     };
 
-    // Check if Port 8001 is running on mount
+    // Check if Architect is running on mount
     useEffect(() => {
-        fetch("http://localhost:8001/health")
+        fetch(`${architectUrl}/health`)
             .then(res => res.json())
             .then(() => {
                 setLoreOnline(true);
@@ -112,7 +113,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const handleIngestLore = async () => {
         setIsLoreProcessing(true);
         try {
-            const res = await fetch("http://localhost:8001/api/lore/ingest", {
+            const res = await fetch(`${architectUrl}/api/lore/ingest`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ vault_path: vaultPath, force_rebuild: true })
@@ -121,7 +122,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             alert(`Lore Vault Ingested! Processed ${data.files_processed} Markdown files.`);
             fetchLoreEntities(); // Refresh the datalists with new vault output!
         } catch {
-            alert("Failed to reach Lore Module on Port 8001.");
+            alert("Failed to reach Architect Module.");
         } finally {
             setIsLoreProcessing(false);
         }
@@ -130,7 +131,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
     const handleSearchLore = async () => {
         setIsLoreProcessing(true);
         try {
-            const res = await fetch("http://localhost:8001/api/lore/search", {
+            const res = await fetch(`${architectUrl}/api/lore/search`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ query: loreQuery, top_k: 3, filter_categories: [] })
@@ -138,7 +139,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             const data = await res.json();
             setLoreResults(data.results || []);
         } catch {
-            alert("Search failed. Is Port 8001 running?");
+            alert("Search failed. Is Architect Module running?");
         } finally {
             setIsLoreProcessing(false);
         }
@@ -278,7 +279,7 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
                             <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
                                 <span className="font-bold uppercase tracking-widest text-zinc-400">Module 1: Lore DB</span>
                                 <span className={`text-[9px] uppercase tracking-widest font-bold ${loreOnline ? 'text-green-500' : 'text-red-500'}`}>
-                                    {loreOnline ? 'PORT 8001 ONLINE' : 'PORT 8001 OFFLINE'}
+                                    {loreOnline ? 'ARCHITECT ONLINE' : 'ARCHITECT OFFLINE'}
                                 </span>
                             </div>
 

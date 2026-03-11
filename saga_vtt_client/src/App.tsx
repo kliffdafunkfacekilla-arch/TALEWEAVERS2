@@ -226,11 +226,12 @@ export default function App() {
     const handleIngestion = async () => {
       setIsIngesting(true);
       try {
-        const res = await fetch("http://localhost:8001/api/lore/generate_entities", { method: "POST" });
+        const architectUrl = import.meta.env.VITE_SAGA_ARCHITECT_URL || 'http://localhost:8013';
+        const res = await fetch(`${architectUrl}/api/lore/generate_entities`, { method: "POST" });
         if (res.ok) {
           alert("Lore Engine Activated! Entity generation is running in the background terminal.");
         } else {
-          alert("Error: Could not reach Lore Module (Port 8001).");
+          alert("Error: Could not reach Architect Module.");
         }
       } catch (e) {
         alert("Failed to connect to Lore Vault API.");
@@ -243,7 +244,8 @@ export default function App() {
       if (!mapFilename) return;
       setIsImportingMap(true);
       try {
-        const res = await fetch("http://localhost:8001/api/lore/import_map", {
+        const architectUrl = import.meta.env.VITE_SAGA_ARCHITECT_URL || 'http://localhost:8013';
+        const res = await fetch(`${architectUrl}/api/lore/import_map`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ filename: mapFilename })

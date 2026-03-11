@@ -1,15 +1,7 @@
 {
-    "lore_vault":  8011,
-    "clash_engine":  8018,
     "vtt":  5175,
-    "item_foundry":  8016,
-    "campaign_weaver":  8020,
     "world_architect":  8013,
     "director":  8050,
-    "chronos":  9002,
-    "encounter_engine":  8015,
-    "dmag_engine":  8019,
-    "skill_engine":  8017,
-    "char_engine":  8014,
+    "rules_engine":  8014,
     "asset_foundry":  8012
 }
