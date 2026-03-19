@@ -60,7 +60,6 @@ export function PixiBattlemap() {
 
         for (let row = 0; row < GRID_H; row++) {
             for (let col = 0; col < GRID_W; col++) {
-                // const isLight = (row + col) % 2 === 0;
                 const tileType = (terrainGrid[row] ? terrainGrid[row][col] : "EMPTY") as string;
 
                 // Simple grid lines (textures are behind this)
