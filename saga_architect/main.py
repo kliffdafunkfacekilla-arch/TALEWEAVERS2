@@ -105,11 +105,21 @@ def _save_snapshot(db, snapshot: WorldSnapshot):
     ws.season        = snapshot.season
     ws.hex_overrides = snapshot.hex_overrides
 
+    # Optimization: Pre-fetch all existing FactionRecords to avoid N+1 queries
+    faction_ids = [fs.id for fs in snapshot.factions]
+    existing_factions = db.query(FactionRecord).filter(
+        FactionRecord.campaign_id == snapshot.campaign_id,
+        FactionRecord.id.in_(faction_ids)
+    ).all()
+
+    fr_map = {fr.id: fr for fr in existing_factions}
+
     for fs in snapshot.factions:
-        fr = db.query(FactionRecord).filter(FactionRecord.id == fs.id).first()
+        fr = fr_map.get(fs.id)
         if not fr:
             fr = FactionRecord(id=fs.id, campaign_id=snapshot.campaign_id)
             db.add(fr)
+
         fr.name              = fs.name
         fr.faction_type      = fs.faction_type
         fr.military_strength = fs.military_strength
@@ -120,6 +130,7 @@ def _save_snapshot(db, snapshot: WorldSnapshot):
         fr.is_starving       = int(fs.is_starving)
 
     db.commit()
+
 
 
 # ─────────────────────────────────────────────────────────────────────────────
