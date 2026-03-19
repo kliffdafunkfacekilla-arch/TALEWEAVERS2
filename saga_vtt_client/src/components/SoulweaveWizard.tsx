@@ -78,8 +78,6 @@ export const SoulweaveWizard: React.FC = () => {
             awareness: base.awareness || 10, intuition: base.intuition || 10
         };
 
-        const BODY_STATS = ["might", "endurance", "vitality", "fortitude", "reflexes", "finesse"];
-        const MIND_STATS = ["knowledge", "logic", "charm", "willpower", "awareness", "intuition"];
 
         // Mutation bonuses
         const chosenMutations = [...Object.values(evolutions), size, ancestry];
@@ -400,9 +398,6 @@ export const SoulweaveWizard: React.FC = () => {
 
     const renderFinal = () => {
         const catalyst = BackstoryPrompts.catalyst.options.find(o => o.id === catalystId);
-        const bodyLeads = Object.values(selectedSkills).filter(s => s.lead === "Body").length;
-        const mindLeads = Object.values(selectedSkills).length - bodyLeads;
-        const isValid = bodyLeads === 6 && mindLeads === 6;
 
         return (
             <div className="flex w-full h-full animate-in fade-in duration-1000">
