@@ -117,7 +117,6 @@ export function PixiBattlemap() {
                 const currentTarget = useCombatStore.getState().selectedTargetId;
                 // @ts-ignore
                 useCombatStore.getState().setSelectedTarget(clickedToken.id === currentTarget ? null : clickedToken.id);
-                console.log(`[VTT] Targeted: ${clickedToken.name} at [${gridX}, ${gridY}]`);
                 return;
             }
 
@@ -126,7 +125,6 @@ export function PixiBattlemap() {
             useCombatStore.getState().moveToken('PLAYER_001', gridX, gridY);
             // @ts-ignore
             useCombatStore.getState().setSelectedTarget(null);
-            console.log(`[VTT] Player moved to Grid [${gridX}, ${gridY}]`);
         });
 
         camera.addChild(gridGraphics);
