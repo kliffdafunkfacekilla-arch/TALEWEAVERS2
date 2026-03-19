@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional, List
-from core.schemas import CampaignRoadmap, QuestNode, CampaignFramework
+from core.schemas import QuestNode, CampaignFramework
 from core.weaver import (
     generate_campaign_framework, 
     generate_regional_arc, 
