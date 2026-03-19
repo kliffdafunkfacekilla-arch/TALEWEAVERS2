@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import List, Dict, Set
+from typing import List, Dict
 from .schemas import CoreAttributes
 
 # Safely point to the master data folder
