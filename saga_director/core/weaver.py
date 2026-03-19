@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import asyncio
 import httpx
 from typing import List, Optional
 from core.weaver_schemas import CampaignRoadmap, QuestNode, CampaignFramework, StoryArcStage
@@ -10,17 +11,27 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+# BASE_DIR should point to the project root
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 MAP_FILE = os.path.join(DATA_DIR, "Saga_Master_World.json")
 
 async def fetch_world_data() -> dict:
-    if os.path.exists(MAP_FILE):
-        try:
-            with open(MAP_FILE, "r") as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"[Weaver Error] Failed to load MAP_FILE: {e}")
+    """Fetches world data using non-blocking I/O by offloading to a thread."""
+    def _read_map_file():
+        if os.path.exists(MAP_FILE):
+            try:
+                with open(MAP_FILE, "r") as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"[Weaver Error] Failed to load MAP_FILE: {e}")
+        return None
+
+    # Offload blocking file I/O to a separate thread to keep the event loop free
+    result = await asyncio.to_thread(_read_map_file)
+    if result is not None:
+        return result
+
     return {"world_name": "Shatterlands", "regions": [], "macro_map": []}
 
 def normalize_framework_data(data: dict) -> dict:
