@@ -57,11 +57,11 @@ def start_services():
         vtt_port = registry.get("vtt", 5173)
         print(f"[BOOT] Launching VTT Frontend on Port {vtt_port}...")
         try:
-            # Note: Using shell=True for npm on Windows
+            npm_cmd = "npm.cmd" if sys.platform == "win32" else "npm"
             vtt_p = subprocess.Popen(
-                ["npm.cmd", "run", "dev", "--", "--port", str(vtt_port)],
+                [npm_cmd, "run", "dev", "--", "--port", str(vtt_port)],
                 cwd=vtt_folder,
-                shell=True,
+                shell=False,
                 env=peer_env
             )
             processes.append(vtt_p)
