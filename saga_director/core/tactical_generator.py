@@ -70,7 +70,7 @@ class TacticalGenerator:
         }
 
     @classmethod
-    def generate_ambient_encounter(cls, biome: str, hex_id: int, lx: int, ly: int, current_hour: float = 12.0, densities: Dict[str, float] = {}, external_npcs: List[Dict] = [], player_sprite: Dict = None) -> Dict[str, Any]:
+    def generate_ambient_encounter(cls, biome: str, hex_id: int, lx: int, ly: int, current_hour: float = 12.0, densities: Dict[str, float] = {}, active_npcs: List[Dict] = [], player_sprite: Dict = None) -> Dict[str, Any]:
         """Layer 4: 100x100 Tactical Grid with materialized buildings and scheduled NPCs."""
         width, height = 100, 100
         wm = cls.get_wm()
@@ -126,7 +126,7 @@ class TacticalGenerator:
                 })
 
         # 4. Tokens: External NPCs (from Context/Events)
-        for ext_npc in external_npcs:
+        for ext_npc in active_npcs:
             ex, ey = ext_npc.get("rx", rng.randint(0, 99)), ext_npc.get("ry", rng.randint(0, 99))
             tokens.append({
                 "id": ext_npc.get("event_id", f"EXT_{random.randint(0,999)}"),
