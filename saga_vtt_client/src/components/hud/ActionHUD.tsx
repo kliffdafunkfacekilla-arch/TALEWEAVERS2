@@ -16,7 +16,6 @@ export const ActionHUD: React.FC = () => {
 
     const handleSkillClick = async (skill: string, targetId: string) => {
         try {
-            console.log(`[ActionHUD] Requesting skill execution: ${skill} against ${targetId}`);
             await executeAction(skill, targetId);
         } catch (error: any) {
             console.error("[ActionHUD ERRROR] Fatality:", error);

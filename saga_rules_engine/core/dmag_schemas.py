@@ -1,12 +1,12 @@
 from pydantic import BaseModel
-from typing import Optional, Dict, List
+from typing import Optional
 
 class SpellCastRequest(BaseModel):
     spell_name: str
     school: str
     base_intensity: int
-    character_stats: Dict[str, int]
-    environment_context: Dict[str, str] # e.g., {"biome": "Jungle", "weather": "Rain"}
+    character_stats: dict[str, int]
+    environment_context: dict[str, str] # e.g., {"biome": "Jungle", "weather": "Rain"}
     dust_amount: int = 0
     chaos_level: int = 1
 

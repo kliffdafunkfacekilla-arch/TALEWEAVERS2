@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Dict, Optional
+from typing import Dict
 
 class CalendarState(BaseModel):
     year: int = 1024

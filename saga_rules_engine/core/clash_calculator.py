@@ -1,5 +1,5 @@
 import random
-from .clash_schemas import ClashRequest, ClashResolution, CombatantState
+from .clash_schemas import ClashRequest, ClashResolution
 
 
 def roll_d20() -> int:

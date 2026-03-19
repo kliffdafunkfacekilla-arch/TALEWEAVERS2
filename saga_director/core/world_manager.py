@@ -103,9 +103,18 @@ class WorldManager:
         """Natural clustering for building points in a 20x20 regional grid."""
         rng = random.Random(self.get_local_seed(hex_id, "buildings"))
         points = []
+        min_dist_sq = min_dist * min_dist
         for _ in range(50):
-            x, y = rng.randint(0, 19), rng.randint(0, 19)
-            if all(math.sqrt((x-px)**2 + (y-py)**2) >= min_dist for p in points for px, py in [(p['x'], p['y'])]):
+            x = rng.randint(0, 19)
+            y = rng.randint(0, 19)
+
+            valid = True
+            for p in points:
+                if (x - p['x'])**2 + (y - p['y'])**2 < min_dist_sq:
+                    valid = False
+                    break
+
+            if valid:
                 points.append({"x": x, "y": y, "type": rng.choice(["HOUSE", "SHOP", "TAVERN"])})
         return points
 
