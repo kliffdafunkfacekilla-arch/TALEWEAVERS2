@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
-from core.schemas import CharacterBuildRequest, CompiledCharacterSheet, DerivedVitals, CoreAttributes, CompiledSkill
+from core.schemas import CharacterBuildRequest, CompiledCharacterSheet, CoreAttributes
 from core.calc_vitals import calculate_pools
 from core.calc_evolution import apply_biology
 from core.calc_loadout import apply_holding_fees

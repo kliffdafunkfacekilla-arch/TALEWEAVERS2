@@ -60,7 +60,6 @@ export function PixiBattlemap() {
 
         for (let row = 0; row < GRID_H; row++) {
             for (let col = 0; col < GRID_W; col++) {
-                // const isLight = (row + col) % 2 === 0;
                 const tileType = (terrainGrid[row] ? terrainGrid[row][col] : "EMPTY") as string;
 
                 // Simple grid lines (textures are behind this)
@@ -118,7 +117,6 @@ export function PixiBattlemap() {
                 const currentTarget = useCombatStore.getState().selectedTargetId;
                 // @ts-ignore
                 useCombatStore.getState().setSelectedTarget(clickedToken.id === currentTarget ? null : clickedToken.id);
-                console.log(`[VTT] Targeted: ${clickedToken.name} at [${gridX}, ${gridY}]`);
                 return;
             }
 
@@ -127,7 +125,6 @@ export function PixiBattlemap() {
             useCombatStore.getState().moveToken('PLAYER_001', gridX, gridY);
             // @ts-ignore
             useCombatStore.getState().setSelectedTarget(null);
-            console.log(`[VTT] Player moved to Grid [${gridX}, ${gridY}]`);
         });
 
         camera.addChild(gridGraphics);

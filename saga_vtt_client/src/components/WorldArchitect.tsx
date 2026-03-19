@@ -197,7 +197,6 @@ export function WorldArchitect({ onBack }: WorldArchitectProps) {
             if (!response.ok) throw new Error("C++ Engine Error");
             const result = await response.json();
             setWorldData(result.world_data);
-            console.log("[VTT] God Engine Simulation Complete. Saved to Zustand.");
         } catch (err) {
             console.error("API Call failed:", err);
             alert("Failed to reach Python Wrapper. Is saga_architect running?");

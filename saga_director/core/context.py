@@ -48,7 +48,7 @@ class ContextAssembler:
         attitudes = rep.get_all_attitudes()
         
         # ── 3. Active NPCs & World Events ─────────────────────────────────
-        world_events = self._load_world_events()
+        world_events = await self._load_world_events()
         active_npcs = self._calculate_active_npcs(world_events, hex_id, day_phase, current_tick, attitudes)
         
         # ── 4. Rumours ───────────────────────────────────────────────────
@@ -63,8 +63,8 @@ class ContextAssembler:
         }
 
         # ── 6. Persistent Named Entities ────────────────────────────────
-        persistent_npcs = self._load_persistent_npcs(campaign_id, hex_id)
-        persistent_places = self._load_persistent_places(campaign_id, hex_id)
+        persistent_npcs = await self._load_persistent_npcs(campaign_id, hex_id)
+        persistent_places = await self._load_persistent_places(campaign_id, hex_id)
 
         # ── 7. Build Packet ─────────────────────────────────────────────
         packet = {
@@ -98,14 +98,16 @@ class ContextAssembler:
             logger.error(f"[CONTEXT] Lore query failed: {e}")
         return []
 
-    def _load_world_events(self) -> Dict[str, Any]:
+    async def _load_world_events(self) -> Dict[str, Any]:
         if not WORLD_EVENTS_FILE.exists():
             return {"events": []}
-        try:
-            with open(WORLD_EVENTS_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except:
-            return {"events": []}
+        def _read():
+            try:
+                with open(WORLD_EVENTS_FILE, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except:
+                return {"events": []}
+        return await asyncio.to_thread(_read)
 
     def _calculate_active_npcs(self, world_events: Dict[str, Any], hex_id: int, day_phase: str, current_tick: int, attitudes: dict) -> List[Dict]:
         """Filter and position NPCs based on time and location."""
@@ -181,22 +183,26 @@ class ContextAssembler:
         
         return list(set(rumours))[:3]
 
-    def _load_persistent_npcs(self, campaign_id: str, hex_id: int) -> List[Dict]:
+    async def _load_persistent_npcs(self, campaign_id: str, hex_id: int) -> List[Dict]:
         if not self.npc_persistence_file.exists(): return []
-        try:
-            with open(self.npc_persistence_file, "r") as f:
-                data = json.load(f).get(campaign_id, {})
-                # Filter NPCs near this hex
-                return [v for k, v in data.items() if v.get("last_seen_hex") == f"hex_{hex_id}"]
-        except: return []
+        def _read():
+            try:
+                with open(self.npc_persistence_file, "r") as f:
+                    data = json.load(f).get(campaign_id, {})
+                    # Filter NPCs near this hex
+                    return [v for k, v in data.items() if v.get("last_seen_hex") == f"hex_{hex_id}"]
+            except: return []
+        return await asyncio.to_thread(_read)
 
-    def _load_persistent_places(self, campaign_id: str, hex_id: int) -> List[Dict]:
+    async def _load_persistent_places(self, campaign_id: str, hex_id: int) -> List[Dict]:
         if not self.place_persistence_file.exists(): return []
-        try:
-            with open(self.place_persistence_file, "r") as f:
-                data = json.load(f).get(campaign_id, {})
-                return [v for k, v in data.items() if v.get("hex") == f"hex_{hex_id}"]
-        except: return []
+        def _read():
+            try:
+                with open(self.place_persistence_file, "r") as f:
+                    data = json.load(f).get(campaign_id, {})
+                    return [v for k, v in data.items() if v.get("hex") == f"hex_{hex_id}"]
+            except: return []
+        return await asyncio.to_thread(_read)
 
     def record_place(self, campaign_id: str, place_name: str, hex_id: int, place_type: str, notes: str, current_tick: int = 0):
         """Saves a new named place to persistence."""
