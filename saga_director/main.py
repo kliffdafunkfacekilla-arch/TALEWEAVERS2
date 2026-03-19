@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Request, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List, Dict
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from core.ai_narrator.graph import create_director_graph
 from core.ai_narrator.state import GameState
