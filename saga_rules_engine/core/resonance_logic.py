@@ -1,5 +1,3 @@
-from typing import Dict
-
 # Mapping of Schools to their favored and hindered environments
 # Schools: NEXUS, MASS, MOTUS, FLUX, VITA, LEX, RATIO, ORDO, LUX, OMEN, AURA, ANUMIS
 
