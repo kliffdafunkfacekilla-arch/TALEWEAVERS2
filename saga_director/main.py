@@ -197,8 +197,8 @@ async def start_campaign(request: StartCampaignRequest):
                 new_campaign.current_local_x,
                 new_campaign.current_local_y,
                 current_hour=PHASE_HOURS["MORNING"],
-                densities=new_campaign.hex_densities.get(str(request.starting_hex_id), {"bandit": 0.1}),
-                external_npcs=context.get("active_npcs", []),
+                densities=(new_campaign.hex_densities or {}).get(str(request.starting_hex_id), {"bandit": 0.1}),
+                active_npcs=context.get("active_npcs", []),
                 player_sprite=request.composite_sprite
             )
             new_campaign.active_encounter = initial_encounter
@@ -400,9 +400,25 @@ async def get_tactical_grid(hex_id: int, lx: int, ly: int, campaign_id: str = "D
         current_hour = PHASE_HOURS.get(phase, 12.0)
         
         # Pull densities for this hex
-        densities = state.hex_densities.get(str(hex_id), {"bandit": 0.2}) if state and state.hex_densities else {"bandit": 0.1}
+        densities = (state.hex_densities or {}).get(str(hex_id), {"bandit": 0.2}) if state else {"bandit": 0.1}
         
-        return TacticalGenerator.generate_ambient_encounter("Forest", hex_id, lx, ly, current_hour, densities)
+        assembler = ContextAssembler()
+        # Tick is not easily available here, defaulting to 0 or could be pulled from state if added later
+        context = await assembler.assemble(campaign_id, hex_id, phase, 0)
+        biome = context["location"]["biome"]
+        active_npcs = context.get("active_npcs", [])
+        player_sprite = state.player_sprite if state else None
+
+        return TacticalGenerator.generate_ambient_encounter(
+            biome,
+            hex_id,
+            lx,
+            ly,
+            current_hour=current_hour,
+            densities=densities,
+            active_npcs=active_npcs,
+            player_sprite=player_sprite
+        )
     finally:
         db.close()
 
