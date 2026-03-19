@@ -5,7 +5,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 
 from pydantic import BaseModel, Field
 from typing import List, Dict, Optional
-from saga_common.models.core import CoreAttributes, DerivedVitals, PipBank, ItemCategory, WealthState, SpriteMetadata
+from saga_common.models.core import CoreAttributes, DerivedVitals, PipBank, ItemCategory, SpriteMetadata
 
 class RollState(BaseModel):
     is_advantage: bool = False
