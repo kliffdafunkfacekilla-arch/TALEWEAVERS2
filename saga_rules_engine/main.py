@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from core.schemas import CharacterBuildRequest, CompiledCharacterSheet, CoreAttributes
@@ -40,10 +41,11 @@ class ResolveRequest(BaseModel):
     item_id: str
     target_vitals: Optional[Dict[str, Any]] = {}
 
+allowed_origins = [o.strip() for o in os.getenv("SAGA_ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:5175").split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5175"],
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_credentials="*" not in allowed_origins,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization"],
 )
