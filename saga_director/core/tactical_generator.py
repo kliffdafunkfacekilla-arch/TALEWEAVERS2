@@ -70,8 +70,12 @@ class TacticalGenerator:
         }
 
     @classmethod
-    def generate_ambient_encounter(cls, biome: str, hex_id: int, lx: int, ly: int, current_hour: float = 12.0, densities: Dict[str, float] = {}, active_npcs: List[Dict] = [], player_sprite: Dict = None) -> Dict[str, Any]:
+    def generate_ambient_encounter(cls, biome: str, hex_id: int, lx: int, ly: int, active_npcs: List[Dict], player_sprite: Dict, current_hour: float = 12.0, densities: Dict[str, float] = None) -> Dict[str, Any]:
+
         """Layer 4: 100x100 Tactical Grid with materialized buildings and scheduled NPCs."""
+        if densities is None:
+            densities = {}
+
         width, height = 100, 100
         wm = cls.get_wm()
         
