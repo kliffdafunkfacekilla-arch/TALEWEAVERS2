@@ -37,10 +37,11 @@ from core.simulator import apply_events_to_state, export_to_json
 
 # ── FastAPI app ───────────────────────────────────────────────────────────────
 app = FastAPI(title="Saga Architect – World Simulation Engine")
+allowed_origins = [o.strip() for o in os.getenv("SAGA_ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:5175").split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5175"],
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_credentials="*" not in allowed_origins,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization"],
 )
