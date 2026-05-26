@@ -195,10 +195,10 @@ async def start_campaign(request: StartCampaignRequest):
                 request.starting_hex_id,
                 new_campaign.current_local_x,
                 new_campaign.current_local_y,
+                context.get("active_npcs", []),
+                request.composite_sprite,
                 current_hour=PHASE_HOURS["MORNING"],
-                densities=(new_campaign.hex_densities or {}).get(str(request.starting_hex_id), {"bandit": 0.1}),
-                active_npcs=context.get("active_npcs", []),
-                player_sprite=request.composite_sprite
+                densities=(new_campaign.hex_densities or {}).get(str(request.starting_hex_id), {"bandit": 0.1})
             )
             new_campaign.active_encounter = initial_encounter
         except Exception as e:
@@ -413,10 +413,10 @@ async def get_tactical_grid(hex_id: int, lx: int, ly: int, campaign_id: str = "D
             hex_id,
             lx,
             ly,
+            active_npcs,
+            player_sprite,
             current_hour=current_hour,
-            densities=densities,
-            active_npcs=active_npcs,
-            player_sprite=player_sprite
+            densities=densities
         )
     finally:
         db.close()

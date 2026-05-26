@@ -97,8 +97,8 @@ class TestEncounterArgs(unittest.TestCase):
         args, kwargs = mock_gen_encounter.call_args
         self.assertEqual(args[0], "Tundra") # biome
         self.assertEqual(args[1], 402) # hex_id
-        self.assertEqual(kwargs["active_npcs"], [{"name": "Mock NPC"}])
-        self.assertEqual(kwargs["player_sprite"], {"head": "helmet"})
+        self.assertEqual(args[4], [{"name": "Mock NPC"}])
+        self.assertEqual(args[5], {"head": "helmet"})
 
     @patch("saga_director.main.SessionLocal")
     @patch("saga_director.main.ContextAssembler")
@@ -130,8 +130,8 @@ class TestEncounterArgs(unittest.TestCase):
         self.assertEqual(args[3], 20) # ly
         self.assertEqual(kwargs["current_hour"], 19.0) # EVENING
         self.assertEqual(kwargs["densities"], {"wolf": 0.5})
-        self.assertEqual(kwargs["active_npcs"], [{"name": "Swamp NPC"}])
-        self.assertEqual(kwargs["player_sprite"], {"body": "armor"})
+        self.assertEqual(args[4], [{"name": "Swamp NPC"}])
+        self.assertEqual(args[5], {"body": "armor"})
 
 if __name__ == "__main__":
     unittest.main()
