@@ -1,5 +1,4 @@
 import random
-from typing import Dict
 from .encounter_schemas import HazardEncounter, SpatialData
 
 # The 36 Tactical Triads are represented by combinations of Attribute Checks
