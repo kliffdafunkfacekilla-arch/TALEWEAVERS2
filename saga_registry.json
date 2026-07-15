@@ -1,7 +1,7 @@
 {
-    "vtt":  5175,
-    "world_architect":  8013,
     "director":  8050,
+    "world_architect":  8013,
+    "asset_foundry":  8012,
     "rules_engine":  8014,
-    "asset_foundry":  8012
+    "vtt":  5175
 }

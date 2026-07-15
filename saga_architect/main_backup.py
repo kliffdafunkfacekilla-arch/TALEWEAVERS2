@@ -1,6 +1,6 @@
 """
 Saga Architect — World Simulation Microservice
-Thin HTTP API adapter. All simulation logic lives in core/engine.py.
+Thin HTTP API adapter. All simulation logic lives in saga_chronos/engine.py.
 This service:
   1. On /api/world/init: fetches faction seeds from saga_lore_module, 
      seeds the Chronos engine state, triggers first tick.
@@ -20,7 +20,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # ── Import the Chronos engine directly ───────────────────────────────────────
-from core.engine import ChronosEngine
+CHRONOS_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "saga_chronos")
+)
+if CHRONOS_PATH not in sys.path:
+    sys.path.insert(0, CHRONOS_PATH)
+
+from engine import ChronosEngine  # noqa: E402
 
 from core.models import Base, WorldState, FactionRecord
 from core.schemas import (
