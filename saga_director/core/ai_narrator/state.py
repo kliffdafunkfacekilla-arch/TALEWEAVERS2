@@ -6,6 +6,7 @@ class GameState(TypedDict):
     player_id: str
     action_type: str            # e.g., "MOVE", "USE_ITEM", "ATTACK", "STUNT"
     action_target: str          # e.g., "[10, 15]", "ITEM_04", "NPC_99"
+    tactical_skill: Optional[str] # e.g., "Aggressive", "Predict"
     raw_chat_text: Optional[str]
     stamina_burned: int
     focus_burned: int

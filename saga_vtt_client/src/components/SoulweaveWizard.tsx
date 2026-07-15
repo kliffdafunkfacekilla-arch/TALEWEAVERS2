@@ -150,7 +150,8 @@ export const SoulweaveWizard: React.FC = () => {
                 if (skillData && skillData.stat_pair) {
                     const parts = skillData.stat_pair.split(' + ').map((s: string) => s.trim().toLowerCase().replace('reflex', 'reflexes'));
                     const leadStat = (currentStats as any)[parts[0]] >= (currentStats as any)[parts[1]] ? parts[0] : parts[1];
-                    finalSkills[skillName] = { lead: leadStat };
+                    const isBody = ['might', 'endurance', 'vitality', 'fortitude', 'reflexes', 'finesse'].includes(leadStat);
+                    finalSkills[skillName] = { lead: isBody ? 'Body' : 'Mind' };
                 }
             });
 

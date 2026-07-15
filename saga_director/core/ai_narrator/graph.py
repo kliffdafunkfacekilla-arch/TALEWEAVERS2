@@ -77,6 +77,51 @@ async def fetch_context_node(state: GameState):
         "current_tick": state.get("current_tick", 0)
     }
 
+async def intent_parser_node(state: GameState):
+    """Parses raw natural language into deterministic JSON intent using LLM."""
+    raw_text = state.get("raw_chat_text", "")
+    
+    # Skip parsing for system actions
+    if state.get("action_type") == "LANDING" or not raw_text:
+        return {}
+
+    if not OLLAMA_AVAILABLE or not local_llm:
+        # Fallback keyword logic
+        text = raw_text.lower()
+        atype = "CHAT"
+        if "move" in text: atype = "MOVE"
+        elif "attack" in text or "strike" in text: atype = "ATTACK"
+        elif "cast" in text: atype = "SPELLCAST"
+        elif "stunt" in text: atype = "STUNT"
+        return {"action_type": atype}
+
+    prompt = f"""
+    Parse the following player action into a strict JSON intent.
+    Possible action_types: MOVE, ATTACK, SPELLCAST, SURVIVAL, STUNT, CHAT
+    
+    Player Action: '{raw_text}'
+    
+    Respond ONLY with valid JSON. Example:
+    {{"action_type": "ATTACK", "action_target": "Goblin", "skill": "Aggressive"}}
+    """
+    
+    try:
+        response = local_llm.invoke(prompt)
+        # Extract JSON from response
+        import re
+        match = re.search(r'\{.*\}', response.replace('\n', ''))
+        if match:
+            intent = json.loads(match.group(0))
+            return {
+                "action_type": intent.get("action_type", "CHAT"),
+                "action_target": intent.get("action_target", state.get("action_target", "")),
+                "tactical_skill": intent.get("skill", "")
+            }
+    except Exception as e:
+        print(f"[INTENT PARSER ERROR] {e}")
+        
+    return {}
+
 async def resolve_mechanics_node(state: GameState):
     action = state["action_type"]
     target = state["action_target"]
@@ -449,13 +494,16 @@ async def check_narrative_shift_node(state: GameState):
 def create_director_graph():
     workflow = StateGraph(GameState)
     workflow.add_node("fetch_context", fetch_context_node)
+    workflow.add_node("intent_parser", intent_parser_node)
     workflow.add_node("resolve_mechanics", resolve_mechanics_node)
     workflow.add_node("chaos_check", chaos_check_node)
     workflow.add_node("director", director_node)
     workflow.add_node("narrator", narrator_node)
     workflow.add_node("narrative_shift", check_narrative_shift_node)
+    
     workflow.set_entry_point("fetch_context")
-    workflow.add_edge("fetch_context", "resolve_mechanics")
+    workflow.add_edge("fetch_context", "intent_parser")
+    workflow.add_edge("intent_parser", "resolve_mechanics")
     workflow.add_edge("resolve_mechanics", "chaos_check")
     workflow.add_edge("chaos_check", "director")
     workflow.add_edge("director", "narrator")
